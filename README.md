@@ -14,7 +14,7 @@ Example set up:
 - Move the file to ```osrm/data```
 - Go to ```osrm/``` edit the ```OSRM_FILE``` variable in the ```Dockerfile``` to
   ```italy-latest``` or the name of the file you downloaded (note the absence of file extensions)
-- Run the following command inside ```osrm/``` ```docker build . -t {dockerHubUsername}/{imageName}:{imageTag}``` the process will take several minutes
+- Run the following command inside ```osrm/```: ```docker build . -t {dockerHubUsername}/{imageName}:{imageTag}``` the process will take several minutes
 - Edit the ```docker-compose.yml``` file replace the ```image``` variable with the name you have given to your image
 - Run ```docker compose up``` inside ```osrm/```
 
