@@ -21,7 +21,7 @@ Example set for Sud Italy Map:
 - Given the following starting point ```START```: 14.2681,40.8518
 - Given the following arriving point ```FINISH```: 12.4964,41.9028
 - We can also add intermediary points
-- (Note )
+- The points must be in the same Geographical area of the map you are using
 
 http://0.0.0.0:5000/trip/v1/driving/{START};{FINISH} will generate a trip from start to finish
 specifically the response (JSON) will have a ```GEOMETRY``` field like:
