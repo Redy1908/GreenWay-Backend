@@ -1,0 +1,6 @@
+version: '3'
+services:
+  green-way-osrm:
+    image: redy1908/green-way-osrm
+    ports:
+      - "5000:5000"
