@@ -13,7 +13,7 @@ Example set for Sud Italy Map:
 - You will get a file named ```sud-latest.osm.pbf``` 
 - Move the file to ```osrm/data```
 - Run the following command inside ```osrm/```: ```docker build . -t {dockerHubUsername}/{imageName}:{imageTag}``` the process will take several minutes
-- Edit the ```docker-compose.yml``` file replace the ```image``` variable with the name you have given to your image
+- Edit the ```docker-compose.yml``` file, replace the ```image``` variable value with ```{dockerHubUsername}/{imageName}:{imageTag}```
 - Run ```docker compose up``` inside ```osrm/```
 
 > OSMR is now redy to be used at http://0.0.0.0:5000
