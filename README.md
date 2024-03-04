@@ -28,6 +28,6 @@ Example set up:
 http://0.0.0.0:5000/trip/v1/driving/{START};{FINISH} will generate a trip from start to finish
 specifically the response (JSON) will have a ```GEOMETRY``` field like:
 
-```wzixFqvavA{{AqoIq~b@h@cfFb~Eg|HvjOcoIjwH__DxeIo~RvcB}aOpkTynFveR{tDzhXo{Lhw_@uHvnNubBlgP_mErvLumClyA_tBjeIoyItqPgnJxoVmJnyLecEfsXipD~|HanVrnLncAtkNk_@|qGxdErlSucAplBju@s_C_vDuyRj_@{oGos@qtMt|UqeMtqD}|HdcEcsXdKi|LfnJ{oV~uIojPbwBskIdmCqxAllEktLjcBghP~IitNn{L}v_@jsDidXfqFqjRt_OogTx}RscBl|CcbI\`nImvHt\`IkpOzeFs}EhhQge@voKr}@plCvnGlsBde@```
+```wzixFqvavA{{AqoIq~b@h@cfFb~Eg|HvjOcoIjwH__DxeIo~RvcB}aOpkTynFveR{tDzhXo{Lhw_@uHvnNubBlgP_mErvLumClyA_tBjeIoyItqPgnJxoVmJnyLecEfsXipD~|HanVrnLncAtkNk_@|qGxdErlSucAplBju@s_C_vDuyRj_@{oGos@qtMt|UqeMtqD}|HdcEcsXdKi|LfnJ{oV~uIojPbwBskIdmCqxAllEktLjcBghP~IitNn{L}v_@jsDidXfqFqjRt_OogTx}RscBl|CcbI`nImvHt`IkpOzeFs}EhhQge@voKr}@plCvnGlsBde@```
 
 http://0.0.0.0:5000/route/v1/driving/polyline(GEOMETRY)?overview=false will return all the points of the trip
