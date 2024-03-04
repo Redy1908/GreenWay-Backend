@@ -2,7 +2,7 @@ FROM osrm/osrm-backend
 
 COPY ./data /data
 
-ENV OSRM_FILE=italy-latest
+ENV OSRM_FILE=sud-latest
 
 RUN osrm-extract -p /opt/car.lua /data/${OSRM_FILE}.osm.pbf && \
         osrm-partition /data/${OSRM_FILE}.osrm && \

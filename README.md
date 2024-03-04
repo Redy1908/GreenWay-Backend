@@ -7,13 +7,11 @@ Install [Docker](https://www.docker.com/)
 
 Download the necessary map data from [Geofabrik](https://www.geofabrik.de/)
 
-Example set up:
-- Download needed file: https://download.geofabrik.de/europe/italy-latest.osm.pbf (or preferred location)
+Example set for Sud Italy Map:
+- Download needed file: https://download.geofabrik.de/europe/italy/sud-latest.osm.pbf
 
-- You will get a file named ```italy-latest.osm.pbf``` (or a file relative to your preferred location)
+- You will get a file named ```sud-latest.osm.pbf``` 
 - Move the file to ```osrm/data```
-- Go to ```osrm/``` edit the ```OSRM_FILE``` variable in the ```Dockerfile``` to
-  ```italy-latest``` or the name of the file you downloaded (note the absence of file extensions)
 - Run the following command inside ```osrm/```: ```docker build . -t {dockerHubUsername}/{imageName}:{imageTag}``` the process will take several minutes
 - Edit the ```docker-compose.yml``` file replace the ```image``` variable with the name you have given to your image
 - Run ```docker compose up``` inside ```osrm/```
