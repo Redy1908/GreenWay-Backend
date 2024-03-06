@@ -28,7 +28,7 @@ with the value you have used in the step above ```{dockerHubUsername}/{imageName
   * Make the needed changes
   * Edit the ```pom.xml``` file replace ```redy1908``` with your dockerHub username at line ```94```
   * Run the following command ```./mvnw -DskipTests spring-boot:build-image ```
-  * Optional push the image to dockerHub ```docker push docker.io/{your-dockerHub-username}/green-way-backen:v1```
+  * Optional push the image to dockerHub ```docker push docker.io/{your-dockerHub-username}/green-way-backend:v1```
 
 - Docker-Compose
   - Go to the root folder
