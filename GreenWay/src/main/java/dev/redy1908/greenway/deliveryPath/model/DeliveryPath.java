@@ -24,8 +24,12 @@ public class DeliveryPath {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(columnDefinition = "geography")
     private Point startPoint;
+
+    @Column(columnDefinition = "geography")
     private Point endPoint;
+
     private Double distance;
     private Double duration;
     private String encodedPolyline;
@@ -33,9 +37,10 @@ public class DeliveryPath {
     @ManyToMany
     @JoinTable(name = "deliveryPath_chargingStations",
             joinColumns = @JoinColumn(name = "deliveryPath_id"),
-            inverseJoinColumns = @JoinColumn(name = "chargingStations_id"))
+            inverseJoinColumns = @JoinColumn(name = "chargingStation_id"))
     private Set<ChargingStation> chargingStations = new LinkedHashSet<>();
 
+    @Column(columnDefinition = "geography")
     private LineString path;
 
     public DeliveryPath(Point startPoint, Point endPoint, Double distance, Double duration, String encodedPolyline, LineString path) {

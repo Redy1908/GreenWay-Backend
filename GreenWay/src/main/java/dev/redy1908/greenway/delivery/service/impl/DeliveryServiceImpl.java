@@ -13,6 +13,7 @@ import dev.redy1908.greenway.deliveryMan.model.DeliveryMan;
 import dev.redy1908.greenway.deliveryPath.model.DeliveryPath;
 import lombok.RequiredArgsConstructor;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -23,6 +24,9 @@ import java.util.List;
 public class DeliveryServiceImpl implements IDeliveryService {
 
     private final RestTemplate restTemplate;
+
+    @Value("${osrm.base_path}")
+    private String OSRM_BASE_PATH;
 
     @Override
     public Delivery createDelivery(DeliveryCreationDto deliveryCreationDto) {
@@ -52,7 +56,7 @@ public class DeliveryServiceImpl implements IDeliveryService {
     }
 
     private String getRouting(Point start, Point end){
-        String url = "http://green-way-osrm:5000//route/v1/driving/" + start.getX() + "," + start.getY() + ";" + end.getX() + "," + end.getY();
+        String url = OSRM_BASE_PATH + "/route/v1/driving/" + start.getX() + "," + start.getY() + ";" + end.getX() + "," + end.getY();
         return restTemplate.getForEntity(url, String.class).getBody();
     }
 

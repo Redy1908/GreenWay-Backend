@@ -21,7 +21,7 @@ public class Delivery {
     @JoinColumn(name = "delivery_man")
     private DeliveryMan deliveryMan;
 
-    @OneToOne(orphanRemoval = true)
+    @OneToOne
     @JoinColumn(name = "delivery_path_id")
     private DeliveryPath deliveryPath;
 

@@ -20,12 +20,13 @@ public class ChargingStation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(columnDefinition = "geography")
     private Point location;
 
     @ManyToMany
-    @JoinTable(name = "ChargingStation_chargingPorts",
+    @JoinTable(name = "chargingStation_chargingPorts",
             joinColumns = @JoinColumn(name = "chargingStation_id"),
-            inverseJoinColumns = @JoinColumn(name = "chargingPorts_id"))
+            inverseJoinColumns = @JoinColumn(name = "chargingPort_id"))
     private Set<ChargingPort> chargingPorts = new LinkedHashSet<>();
 
     @Override

@@ -14,10 +14,8 @@ public class DeliveryMan {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(orphanRemoval = true)
+    @OneToOne
     @JoinColumn(name = "vehicle_id")
     private Vehicle vehicle;
-
-
 
 }

@@ -1,0 +1,26 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/postgis
+    username: postgis
+    password: postgis
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.spatial.dialect.postgis.PostgisPG10Dialect
+    show-sql: true
+    database: postgresql
+    properties:
+      hibernate:
+        jdbc:
+          lob:
+            non_contextual_creation: true
+logging:
+  level:
+    org.hibernate.type.descriptor.sql: trace
+
+osrm:
+  base_path: http://localhost:5000/
