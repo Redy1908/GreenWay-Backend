@@ -32,7 +32,8 @@ with the value you have used in the step above ```{dockerHubUsername}/{imageName
 
 - Docker-Compose
   - Go to the root folder
-  - Edit the ```docker-compose``` file at line ```4``` edit the ```image``` value with the name of your image
+  - Edit the ```docker-compose``` file at line ```4``` edit the ```image``` value with the name of your image (see line 94 in the pom.xml)
+  - Edit the ```docker-compose``` file at line ```25``` edit the ```image``` value with the name of your image (see the last step of OSMR)
 
 ## Run the Project
 
