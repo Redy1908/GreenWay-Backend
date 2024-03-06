@@ -18,7 +18,7 @@ Backend of the multiplatform App GreenWay a Routhing Service for EV
   * Run the following command ```./mvnw -DskipTests spring-boot:build-image ```
   * Optional push the image to dockerHub ```docker push docker.io/{your-dockerHub-username}/green-way-backend:v1```
 
-- Docker-Compose (Optional)
+- Docker-Compose (Mandatory if you have done any of the previous steps)
   - Go to the root folder
   - Edit the ```docker-compose``` file at line ```4``` edit the ```image``` value with the name of your image (see line 94 in the pom.xml)
   - Edit the ```docker-compose``` file at line ```25``` edit the ```image``` value with the name of your image (see the last step of OSMR)
