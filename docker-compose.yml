@@ -1,0 +1,34 @@
+version: '3.1'
+services:
+  backend:
+    image: redy1908/green-way-backend:v1
+    ports:
+      - "8080:8080"
+    networks:
+      - greenway
+    depends_on:
+      - postgis
+      - green-way-osrm
+  postgis:
+    image: postgis/postgis
+    environment:
+      POSTGRES_PASSWORD: postgis
+      POSTGRES_DB: postgis
+      POSTGRES_USER: postgis
+    ports:
+      - "5432:5432"
+    networks:
+      - greenway
+    volumes:
+      - postgis_data:/var/lib/postgresql/data
+  green-way-osrm:
+    image: redy1908/green-way-osrm
+    networks:
+      - greenway
+
+volumes:
+  postgis_data:
+
+networks:
+  greenway:
+    driver: bridge
