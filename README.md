@@ -1,7 +1,7 @@
 # GreenWay-Backend
 Backend of the multiplatform App GreenWay a Routhing Service for EV
 
-## Customize the Set-up
+## Customize the Set-up (Optional)
 
 - OSMR (Optional)
   - By default, OSMR will be set with the southern italy map following the next steps you can set up a different location
