@@ -20,8 +20,8 @@ Backend of the multiplatform App GreenWay a Routhing Service for EV
 
 - Docker-Compose (Mandatory if you have done any of the previous steps)
   - Go to the root folder
-  - Edit the ```docker-compose``` file at line ```4``` edit the ```image``` value with the name of your image (see line 94 in the pom.xml)
-  - Edit the ```docker-compose``` file at line ```25``` edit the ```image``` value with the name of your image (see the last step of OSMR)
+  - Edit the ```docker-compose``` file at line ```4``` edit the ```image``` value with the name of your image (see line 94 in the pom.xml) only if you have done the previous step ```Spring Boot``` 
+  - Edit the ```docker-compose``` file at line ```25``` edit the ```image``` value with the name of your image (see the last step of OSMR) only if you have done the previous step ```OSMR```
 
 ## Run the Project
 
