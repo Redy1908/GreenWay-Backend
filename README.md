@@ -26,4 +26,9 @@ Backend of the multiplatform App GreenWay a Routhing Service for EV
 ## Run the Project
 
 - Make sure to have [Docker](https://www.docker.com/) installed and running
-- Run the ```docker compose up``` in the root directory the REST API will be available at http://localhost:8080
+- Run the ```docker compose up -d``` in the root directory the REST API will be available at http://localhost:8080
+
+If you want to make changes to the Spring Boot REST API end immediately run it without creating a custom image see(Customize the Set-up) do the following:
+  * Enable the Spring Boot profile ```local```
+  * Run ```docker compose up -d``` in ```osrm/```
+  * Run ```docker-compose up -d postgis``` in the root folder
