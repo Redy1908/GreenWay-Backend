@@ -1,0 +1,80 @@
+{
+	"info": {
+		"_postman_id": "a8cab992-d548-4ebb-b7c7-eaed4e079967",
+		"name": "GreenWay",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27276004"
+	},
+	"item": [
+		{
+			"name": "Vehicle",
+			"item": [
+				{
+					"name": "Create Vehicle",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"model\": \"Tesla Model 3\",\r\n    \"batteryNominalCapacity\": \"60.0\",\r\n    \"vehicleConsumption\": \"139.0\",\r\n    \"chargePortType\": \"Type 2\",\r\n    \"chargingPower\": \"11\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/vehicles",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"vehicles"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Delivery",
+			"item": [
+				{
+					"name": "Create Delivery",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"deliveryMan\": 123,\r\n    \"startPoint\": {\r\n        \"type\": \"Point\",\r\n        \"coordinates\": [14.2681,40.8518]\r\n    },\r\n    \"endPoint\": {\r\n        \"type\": \"Point\",\r\n        \"coordinates\": [12.4964,41.9028]\r\n    }\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/deliveries",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"deliveries"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
