@@ -1,6 +1,6 @@
 version: '3.1'
 services:
-  backend:
+  spring-boot-backend:
     image: redy1908/green-way-backend:v1
     ports:
       - "8080:8080"
@@ -9,18 +9,55 @@ services:
     depends_on:
       - postgis
       - green-way-osrm
+      - keycloak
+      - keycloak-db
+  keycloak:
+    image: quay.io/keycloak/keycloak:23.0.7
+    command: start-dev
+    environment:
+      KC_DB: postgres
+      KC_DB_URL_HOST: keycloak-db
+      KC_DB_URL_DATABASE: postgres
+      KC_DB_PASSWORD: postgres
+      KC_DB_USERNAME: postgres
+      KC_DB_SCHEMA: public
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+    ports:
+      - "8090:8080"
+    depends_on:
+      keycloak-db:
+        condition: service_healthy
+    networks:
+      - greenway
+  keycloak-db:
+    image: postgres:16.2
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+    healthcheck:
+      test: "exit 0"
+    ports:
+      - "5432:5432"
+    networks:
+      - greenway
+    volumes:
+      - keycloak_data:/var/lib/postgresql/keycloak/data
   postgis:
     image: postgis/postgis
     environment:
       POSTGRES_PASSWORD: postgis
       POSTGRES_DB: postgis
       POSTGRES_USER: postgis
+    healthcheck:
+      test: "exit 0"
     ports:
-      - "5432:5432"
+      - "5433:5432"
     networks:
       - greenway
     volumes:
-      - postgis_data:/var/lib/postgresql/data
+      - postgis_data:/var/lib/postgresql/postgis/data
   green-way-osrm:
     image: redy1908/green-way-osrm
     networks:
@@ -28,6 +65,7 @@ services:
 
 volumes:
   postgis_data:
+  keycloak_data:
 
 networks:
   greenway:

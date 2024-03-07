@@ -45,8 +45,7 @@ public class DeliveryServiceImpl implements IDeliveryService {
                 deliveryCreationDto.endPoint(),
                 distance,
                 duration,
-                encodedPolyline,
-                decodedPolyline
+                encodedPolyline
         );
 
         return new Delivery(

@@ -2,6 +2,11 @@ server:
   port: 8080
 
 spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://keycloak:8080/realms/GreenWay/protocol/openid-connect/certs
   datasource:
     driverClassName: org.postgresql.Driver
     url: jdbc:postgresql://postgis:5432/postgis
@@ -9,7 +14,7 @@ spring:
     password: postgis
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create-drop
     database-platform: org.hibernate.spatial.dialect.postgis.PostgisPG10Dialect
     show-sql: true
     database: postgresql

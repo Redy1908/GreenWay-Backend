@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import com.vividsolutions.jts.geom.LineString;
 import com.vividsolutions.jts.geom.Point;
 
 
@@ -40,15 +39,11 @@ public class DeliveryPath {
             inverseJoinColumns = @JoinColumn(name = "chargingStation_id"))
     private Set<ChargingStation> chargingStations = new LinkedHashSet<>();
 
-    @Column(columnDefinition = "geography")
-    private LineString path;
-
-    public DeliveryPath(Point startPoint, Point endPoint, Double distance, Double duration, String encodedPolyline, LineString path) {
+    public DeliveryPath(Point startPoint, Point endPoint, Double distance, Double duration, String encodedPolyline) {
         this.startPoint = startPoint;
         this.endPoint = endPoint;
         this.distance = distance;
         this.duration = duration;
         this.encodedPolyline = encodedPolyline;
-        this.path = path;
     }
 }
