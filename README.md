@@ -59,7 +59,6 @@ By default, OSMR is configured with the map of Southern Italy. To set up a diffe
 
 
 ### 2. Spring Boot
-To make changes to the Spring Boot REST API and run it immediately without creating a custom image, follow these steps:
 
 1. Navigate to ```GreenWay/``` and make the necessary changes.
 2. Edit the ```pom.xml``` file replace ```redy1908``` with your dockerHub username at line ```106```.
