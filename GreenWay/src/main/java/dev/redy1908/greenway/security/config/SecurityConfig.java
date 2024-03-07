@@ -17,7 +17,7 @@ public class SecurityConfig {
 
         http.authorizeHttpRequests((auth) -> auth
                         .requestMatchers("/api/v1/vehicles/**").hasRole("GREEN_WAY_ADMIN")
-                        .requestMatchers("/api/v1/deliveries/**").hasAnyRole("GREEN_WAY_ADMIN", "GREE_WAY_DELIVERY_MAN")
+                        .requestMatchers("/api/v1/deliveries/**").hasAnyRole("GREEN_WAY_ADMIN", "GREEN_WAY_DELIVERY_MAN")
                         .anyRequest().authenticated()
                 )
                 .cors(AbstractHttpConfigurer::disable)
