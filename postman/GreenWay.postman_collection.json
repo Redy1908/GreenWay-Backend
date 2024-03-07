@@ -12,6 +12,66 @@
 				{
 					"name": "Create Vehicle",
 					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "accessTokenUrl",
+									"value": "http://localhost:8090/realms/GreenWay/protocol/openid-connect/token",
+									"type": "string"
+								},
+								{
+									"key": "authUrl",
+									"value": "http://localhost:8090/realms/GreenWay/protocol/openid-connect/auth",
+									"type": "string"
+								},
+								{
+									"key": "clientId",
+									"value": "GreenWay",
+									"type": "string"
+								},
+								{
+									"key": "clientSecret",
+									"value": "jyTj9K8qcn3AoZjElhNCT15klfdiBH0K",
+									"type": "string"
+								},
+								{
+									"key": "state",
+									"value": "ew34er-344fgfg-5gfgfg",
+									"type": "string"
+								},
+								{
+									"key": "useBrowser",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "grant_type",
+									"value": "authorization_code",
+									"type": "string"
+								},
+								{
+									"key": "tokenName",
+									"value": "authcode_accesstoken",
+									"type": "string"
+								},
+								{
+									"key": "client_authentication",
+									"value": "body",
+									"type": "string"
+								},
+								{
+									"key": "scope",
+									"value": "openid email profile",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -47,6 +107,66 @@
 				{
 					"name": "Create Delivery",
 					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "accessTokenUrl",
+									"value": "http://localhost:8090/realms/GreenWay/protocol/openid-connect/token",
+									"type": "string"
+								},
+								{
+									"key": "authUrl",
+									"value": "http://localhost:8090/realms/GreenWay/protocol/openid-connect/auth",
+									"type": "string"
+								},
+								{
+									"key": "clientId",
+									"value": "GreenWay",
+									"type": "string"
+								},
+								{
+									"key": "clientSecret",
+									"value": "jyTj9K8qcn3AoZjElhNCT15klfdiBH0K",
+									"type": "string"
+								},
+								{
+									"key": "state",
+									"value": "ew34er-344fgfg-5gfgfg",
+									"type": "string"
+								},
+								{
+									"key": "useBrowser",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "grant_type",
+									"value": "authorization_code",
+									"type": "string"
+								},
+								{
+									"key": "tokenName",
+									"value": "authcode_accesstoken",
+									"type": "string"
+								},
+								{
+									"key": "client_authentication",
+									"value": "body",
+									"type": "string"
+								},
+								{
+									"key": "scope",
+									"value": "openid email profile",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
