@@ -47,7 +47,7 @@ Execute ```docker compose up -d``` iin the root directory. The REST API will be 
 
 ## Customizing the Setup (Optional)
 
-## 1. OpenStreetMap Routing (OSMR)
+### 1. OpenStreetMap Routing (OSMR)
 
 By default, OSMR is configured with the map of Southern Italy. To set up a different location, follow these steps:
 
@@ -58,7 +58,7 @@ By default, OSMR is configured with the map of Southern Italy. To set up a diffe
 5. Run the following command inside ```osrm/```: ```docker build . -t {dockerHubUsername}/{imageName}:{imageTag}```
 
 
-## 2. Spring Boot
+### 2. Spring Boot
 To make changes to the Spring Boot REST API and run it immediately without creating a custom image, follow these steps:
 
 1. Navigate to ```GreenWay/``` and make the necessary changes.
@@ -74,7 +74,7 @@ do the following:
 3. Run ```docker-compose up -d postgis``` in the root folder
 4. Run the Spring Boot Application the REST API will be available at http://localhost:8080
 
-## 3. Docker-Compose 
+### 3. Docker-Compose 
 If you have performed any of the previous steps, you must edit the ```docker-compose``` file in the root folder:
    1. On line 4, replace the `image`  value with the name of your image (use the value at line 106 in the ```pom.xml```) if you have performed the previous ```Spring Boot``` step.
    2. On line 25, replace the `image` value with the name of your image (use the value used in the last step of OSMR) if you have performed the previous ```OSMR``` step.
