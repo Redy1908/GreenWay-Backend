@@ -11,10 +11,12 @@ A pre-configured realm and two users are provided.
 Follow the steps below to import this configuration into the KeyCloak container:
 
 - Navigate to the root folder and execute ```docker compose up keycloak -d```.
-- Execute ```docker ps``` and note the ```CONTAINEIR-ID``` associated with the image ```quay.io/keycloak/keycloak:23.0.7``` save it
+- Execute ```docker ps``` and note the ```CONTAINEIR-ID``` associated with the image ```quay.io/keycloak/keycloak:23.0.7``` save it.
 - Navigate to the ```KeyCloak/``` directory.
-- Execute  ```docker cp GreenWay-realm.json <CONTAINEIR-ID>:/tmp/```.
-- Execute  ```docker exec -it <CONTAINEIR-ID> /opt/keycloak/bin/kc.sh import --file tmp/GreenWay-realm.json```. 
+- Execute: 
+  ```dokcerfile 
+  docker cp GreenWay-realm.json <CONTAINEIR-ID>:/tmp/ && docker exec -it <CONTAINEIR-ID> /opt/keycloak/bin/kc.sh import --file tmp/GreenWay-realm.json
+  ```
 
 If the setup is successful, 
 accessing http://localhost:8090/realms/GreenWay/protocol/openid-connect/certs should yield a response. 
@@ -43,7 +45,7 @@ This will create the file ```GreenWay-realm.json``` in the current directory.
 
 ## Running the Project
 
-Execute ```docker compose up -d``` iin the root directory. The REST API will be available at http://localhost:8080.
+Execute ```docker compose up -d``` in the root directory. The REST API will be available at http://localhost:8080.
 
 ## Customizing the Setup (Optional)
 
