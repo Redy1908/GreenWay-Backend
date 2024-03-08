@@ -10,10 +10,10 @@ This project uses [KeyCloak](https://www.keycloak.org/) as its Identity and Acce
 A pre-configured realm and two users are provided. 
 Follow the steps below to import this configuration into the KeyCloak container:
 
-- Navigate to the root folder and execute ```docker compose up keycloak -d```.
-- Execute ```docker ps``` and note the ```CONTAINEIR-ID``` associated with the image ```quay.io/keycloak/keycloak:23.0.7``` save it.
-- Navigate to the ```KeyCloak/``` directory.
-- Execute: 
+1. Navigate to the root folder and execute ```docker compose up keycloak -d```.
+2. Execute ```docker ps``` and note the ```CONTAINEIR-ID``` associated with the image ```quay.io/keycloak/keycloak:23.0.7``` save it.
+3. Navigate to the ```KeyCloak/``` directory.
+4. Execute the following command: 
   ```dokcerfile 
   docker cp GreenWay-realm.json <CONTAINEIR-ID>:/tmp/ && docker exec -it <CONTAINEIR-ID> /opt/keycloak/bin/kc.sh import --file tmp/GreenWay-realm.json
   ```
