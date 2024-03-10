@@ -1,5 +1,6 @@
 package dev.redy1908.greenway.vehicle.model;
 
+import dev.redy1908.greenway.deliveryMan.model.DeliveryMan;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -27,4 +28,10 @@ public class Vehicle {
     private String chargePortType;
     private Double chargingPower;
     private Double currentBatteryCharge;
+    private Boolean isFree;
+
+    @OneToOne(orphanRemoval = true)
+    @JoinColumn(name = "delivery_man_id")
+    private DeliveryMan deliveryMan;
+
 }

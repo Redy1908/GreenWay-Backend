@@ -38,17 +38,6 @@ public class VehicleServiceImpl implements IVehicleService {
     }
 
     @Override
-    public void updateVehicle(VehicleDto vehicleDto) {
-        Vehicle vehicle = vehicleRepository.findByModel(vehicleDto.model()).orElseThrow(
-                () -> new VehicleNotFoundException(vehicleDto.model())
-        );
-
-        //TODO update
-
-        vehicleRepository.save(vehicle);
-    }
-
-    @Override
     public void deleteVehicle(String vehicleModel) {
         Vehicle vehicle = vehicleRepository.findByModel(vehicleModel).orElseThrow(
                 () -> new VehicleNotFoundException(vehicleModel)

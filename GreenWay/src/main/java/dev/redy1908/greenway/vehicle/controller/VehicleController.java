@@ -40,12 +40,6 @@ public class VehicleController {
         return ResponseEntity.ok(vehicleDto);
     }
 
-    @PutMapping
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateVehicle(@Valid @RequestBody VehicleDto vehicleDto){
-        vehicleService.updateVehicle(vehicleDto);
-    }
-
     @DeleteMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteVehicle(String vehicleModel){

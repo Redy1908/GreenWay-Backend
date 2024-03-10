@@ -8,7 +8,5 @@ public interface IVehicleService {
 
     VehicleDto getVehicle(String vehicleModel);
 
-    void updateVehicle(VehicleDto vehicleDto);
-
     void deleteVehicle(String vehicleModel);
 }
