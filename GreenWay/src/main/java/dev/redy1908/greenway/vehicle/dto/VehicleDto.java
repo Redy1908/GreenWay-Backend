@@ -16,6 +16,9 @@ public record VehicleDto(
         String chargePortType,
 
         @NotNull
-        Double chargingPower
+        Double chargingPower,
+
+        @NotNull
+        Double currentBatteryCharge
 ) {
 }

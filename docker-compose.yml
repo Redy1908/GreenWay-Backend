@@ -60,6 +60,8 @@ services:
       - postgis_data:/var/lib/postgresql/postgis/data
   green-way-osrm:
     image: redy1908/green-way-osrm
+    ports:
+      - "5000:5000"
     networks:
       - greenway
 

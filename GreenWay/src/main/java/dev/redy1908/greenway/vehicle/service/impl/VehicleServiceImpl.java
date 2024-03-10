@@ -20,6 +20,7 @@ public class VehicleServiceImpl implements IVehicleService {
     @Override
     public void saveVehicle(VehicleDto vehicleDto) {
         Vehicle vehicle = vehicleMapper.toEntity(vehicleDto);
+        vehicle.setIsFree(true);
 
         if(vehicleRepository.findByModel(vehicle.getModel()).isPresent()){
             throw new VehicleAlreadyExistsException(vehicle.getModel());

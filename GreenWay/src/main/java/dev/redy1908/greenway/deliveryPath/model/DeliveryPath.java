@@ -6,7 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import com.vividsolutions.jts.geom.Point;
+import org.locationtech.jts.geom.LineString;
+import org.locationtech.jts.geom.Point;
 
 
 import java.util.LinkedHashSet;
@@ -31,7 +32,12 @@ public class DeliveryPath {
 
     private Double distance;
     private Double duration;
+
+    @Column(columnDefinition = "TEXT")
     private String encodedPolyline;
+
+    @Column(columnDefinition = "geometry")
+    private LineString polyline;
 
     @ManyToMany
     @JoinTable(name = "deliveryPath_chargingStations",

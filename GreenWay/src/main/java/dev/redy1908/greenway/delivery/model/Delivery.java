@@ -1,5 +1,6 @@
 package dev.redy1908.greenway.delivery.model;
 
+import dev.redy1908.greenway.app.common.model.BaseEntity;
 import dev.redy1908.greenway.deliveryMan.model.DeliveryMan;
 import dev.redy1908.greenway.deliveryPath.model.DeliveryPath;
 import jakarta.persistence.*;
@@ -11,14 +12,10 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Delivery {
+public class Delivery extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @ManyToOne
-    @JoinColumn(name = "delivery_man")
+    @OneToOne(orphanRemoval = true)
+    @JoinColumn(name = "delivery_man_id")
     private DeliveryMan deliveryMan;
 
     @OneToOne

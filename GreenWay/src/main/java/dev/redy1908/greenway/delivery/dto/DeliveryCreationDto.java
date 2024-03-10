@@ -1,11 +1,11 @@
 package dev.redy1908.greenway.delivery.dto;
 
-import com.vividsolutions.jts.geom.Point;
+import dev.redy1908.greenway.point.Point;
 import jakarta.validation.constraints.NotNull;
 
 public record DeliveryCreationDto(
         @NotNull
-        Long deliveryMan,
+        String deliveryManUsername,
         @NotNull
         Point startPoint,
         @NotNull

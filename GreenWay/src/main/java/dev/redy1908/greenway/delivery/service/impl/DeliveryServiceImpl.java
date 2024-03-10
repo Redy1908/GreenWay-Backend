@@ -2,17 +2,22 @@ package dev.redy1908.greenway.delivery.service.impl;
 
 import com.google.maps.internal.PolylineEncoding;
 import com.google.maps.model.LatLng;
-import com.vividsolutions.jts.geom.Coordinate;
-import com.vividsolutions.jts.geom.GeometryFactory;
-import com.vividsolutions.jts.geom.LineString;
-import com.vividsolutions.jts.geom.Point;
 import dev.redy1908.greenway.delivery.dto.DeliveryCreationDto;
+import dev.redy1908.greenway.delivery.dto.DeliveryDto;
+import dev.redy1908.greenway.delivery.mapper.DeliveryMapper;
 import dev.redy1908.greenway.delivery.model.Delivery;
+import dev.redy1908.greenway.delivery.repository.DeliveryRepository;
 import dev.redy1908.greenway.delivery.service.IDeliveryService;
 import dev.redy1908.greenway.deliveryMan.model.DeliveryMan;
+import dev.redy1908.greenway.deliveryMan.service.impl.DeliveryManService;
 import dev.redy1908.greenway.deliveryPath.model.DeliveryPath;
+import dev.redy1908.greenway.deliveryPath.repository.DeliveryPathRepository;
 import lombok.RequiredArgsConstructor;
 import org.json.JSONObject;
+import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.GeometryFactory;
+import org.locationtech.jts.geom.LineString;
+import org.locationtech.jts.geom.Point;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -23,16 +28,24 @@ import java.util.List;
 @RequiredArgsConstructor
 public class DeliveryServiceImpl implements IDeliveryService {
 
+    private final DeliveryRepository deliveryRepository;
+    private final DeliveryMapper deliveryMapper;
+
+    private final DeliveryManService deliveryManService;
+    private final DeliveryPathRepository deliveryPathRepository;
+
     private final RestTemplate restTemplate;
 
     @Value("${osrm.base_path}")
     private String OSRM_BASE_PATH;
 
     @Override
-    public Delivery createDelivery(DeliveryCreationDto deliveryCreationDto) {
+    public DeliveryDto createDelivery(DeliveryCreationDto deliveryCreationDto) {
 
-        Point start = deliveryCreationDto.startPoint();
-        Point end = deliveryCreationDto.endPoint();
+        GeometryFactory geometryFactory = new GeometryFactory();
+
+        Point start = geometryFactory.createPoint(new Coordinate(deliveryCreationDto.startPoint().latitude(), deliveryCreationDto.startPoint().longitude()));
+        Point end = geometryFactory.createPoint(new Coordinate(deliveryCreationDto.endPoint().latitude(), deliveryCreationDto.endPoint().longitude()));
 
         String osrmResponse = getRouting(start, end);
         String encodedPolyline = extractEncodedPolyline(osrmResponse);
@@ -41,17 +54,24 @@ public class DeliveryServiceImpl implements IDeliveryService {
         Double duration = extractDuration(osrmResponse);
 
         DeliveryPath deliveryPath = new DeliveryPath(
-                deliveryCreationDto.startPoint(),
-                deliveryCreationDto.endPoint(),
+                start,
+                end,
                 distance,
                 duration,
                 encodedPolyline
         );
 
-        return new Delivery(
-                new DeliveryMan(),
+        deliveryPathRepository.save(deliveryPath);
+        DeliveryMan deliveryMan = deliveryManService.findByUsername(deliveryCreationDto.deliveryManUsername());
+
+        Delivery delivery = new Delivery(
+                deliveryMan,
                 deliveryPath
         );
+
+        Delivery savedDelivery = deliveryRepository.save(delivery);
+
+        return deliveryMapper.toDto(savedDelivery);
     }
 
     private String getRouting(Point start, Point end){
@@ -79,7 +99,6 @@ public class DeliveryServiceImpl implements IDeliveryService {
 
     private LineString decodePolylineToLineString(String encodedPolyline){
         List<LatLng> latLngs = PolylineEncoding.decode(encodedPolyline);
-
 
        Coordinate[] coordinates = latLngs.stream()
                 .map(latlng -> new Coordinate(latlng.lng, latlng.lat))

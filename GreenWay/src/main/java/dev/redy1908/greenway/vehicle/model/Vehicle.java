@@ -1,5 +1,6 @@
 package dev.redy1908.greenway.vehicle.model;
 
+import dev.redy1908.greenway.app.common.model.BaseEntity;
 import dev.redy1908.greenway.deliveryMan.model.DeliveryMan;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -14,11 +15,7 @@ import lombok.Setter;
  * @param chargePortType the type of the charging port fot compatibility check
  * @param chargingPower the power of charging kW (AT THE MOMENT FAST CHARGING IS NOT TAKE INTO ACCOUNT)
  */
-public class Vehicle {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Vehicle extends BaseEntity {
 
     @Column(unique = true, updatable = false)
     private String model;

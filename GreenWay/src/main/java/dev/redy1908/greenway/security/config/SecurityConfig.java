@@ -1,6 +1,8 @@
 package dev.redy1908.greenway.security.config;
 
 import dev.redy1908.greenway.security.KeyCloakRoleConverter;
+import dev.redy1908.greenway.security.filter.DeliveryManFilter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -8,9 +10,13 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 @Configuration
+@RequiredArgsConstructor
 public class SecurityConfig {
+
+    private final DeliveryManFilter deliveryManFilter;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -20,6 +26,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/v1/deliveries/**").hasAnyRole("GREEN_WAY_ADMIN", "GREEN_WAY_DELIVERY_MAN")
                         .anyRequest().authenticated()
                 )
+                .addFilterAfter(deliveryManFilter, BasicAuthenticationFilter.class)
                 .cors(AbstractHttpConfigurer::disable)
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
