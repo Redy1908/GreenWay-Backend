@@ -58,6 +58,7 @@ By default, OSMR is configured with the map of Southern Italy. To set up a diffe
 3. Move the file to ```osrm/data```
 4. Go to ```osrm/``` edit the ```Dockerfile``` at line ```5``` set ```OSRM_FILE``` value to ```your-location```
 5. Run the following command inside ```osrm/```: ```docker build . -t {dockerHubUsername}/{imageName}:{imageTag}```
+6. Edit the ```docker-compose.yml``` file in the root directory, on line 25, replace the `image` value with the name of your image (use the value used in the step above).
 
 
 ### 2. Spring Boot
@@ -65,7 +66,8 @@ By default, OSMR is configured with the map of Southern Italy. To set up a diffe
 1. Navigate to ```GreenWay/``` and make the necessary changes.
 2. Edit the ```pom.xml``` file replace ```redy1908``` with your dockerHub username at line ```106```.
 3. Execute ```./mvnw -DskipTests spring-boot:build-image ```.
-4. Optionally, push the image to DockerHub with ```docker push docker.io/{your-dockerHub-username}/green-way-backend:v1```.
+4. Edit the ```docker-compose.yml``` file in the root directory, on line 4, replace the `image`  value with the name of your image (use the value at line 106 in the ```pom.xml```)
+5. Optionally, push the image to DockerHub with ```docker push docker.io/{your-dockerHub-username}/green-way-backend:v1```.
 
 If you want to make changes to the Spring Boot REST API and run it immediately without creating a custom image, 
 do the following:
@@ -74,8 +76,3 @@ do the following:
 2. Run ```docker compose up -d``` in ```osrm/```
 3. Run ```docker-compose up -d postgis``` in the root folder
 4. Run the Spring Boot Application the REST API will be available at http://localhost:8080
-
-### 3. Docker-Compose 
-If you have performed any of the previous steps, you must edit the ```docker-compose``` file in the root folder:
-   1. On line 4, replace the `image`  value with the name of your image (use the value at line 106 in the ```pom.xml```) if you have performed the previous ```Spring Boot``` step.
-   2. On line 25, replace the `image` value with the name of your image (use the value used in the last step of OSMR) if you have performed the previous ```OSMR``` step.
