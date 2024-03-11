@@ -43,7 +43,7 @@ docker exec -it <CONTAINEIR-ID> /opt/keycloak/bin/kc.sh export --dir /tmp --user
 
 This will create the file ```GreenWay-realm.json``` in the current directory.
 
-> :warning: This set up is only for development/prototyping, <u> DO NOT </u> use it in production :warning:
+> :warning: This set up is only for development/prototyping <u>DO NOT</u> use it in production :warning:
 
 ## Running the Project
 
