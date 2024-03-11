@@ -65,10 +65,11 @@ By default, OSMR is configured with the map of Southern Italy. To set up a diffe
 
 1. Navigate to ```GreenWay/``` and make the necessary changes.
 2. Edit the ```pom.xml``` file replace ```redy1908``` with your dockerHub username at line ```106```.
-3. Execute ```./mvnw -DskipTests spring-boot:build-image ```.
+3. Execute ```./mvnw -DskipTests spring-boot:build-image```.
 4. Edit the ```docker-compose.yml``` file in the root directory, on line 4, replace the `image`  value with the name of your image (use the value at line 106 in the ```pom.xml```)
+5. Optionally, push the image to DockerHub with ```docker push docker.io/{your-dockerHub-username}/green-way-backend:v1```
 
-If you want to make changes to the Spring Boot REST API and run it immediately without creating a custom image, 
+6. If you want to make changes to the Spring Boot REST API and run it immediately without creating a custom image, 
 do the following:
     
 1. Enable the Spring Boot profile ```local```
