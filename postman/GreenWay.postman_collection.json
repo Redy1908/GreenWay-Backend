@@ -16,6 +16,11 @@
 							"type": "oauth2",
 							"oauth2": [
 								{
+									"key": "clientSecret",
+									"value": "jyTj9K8qcn3AoZjElhNCT15klfdiBH0K",
+									"type": "string"
+								},
+								{
 									"key": "accessTokenUrl",
 									"value": "http://localhost:8090/realms/GreenWay/protocol/openid-connect/token",
 									"type": "string"
@@ -28,11 +33,6 @@
 								{
 									"key": "clientId",
 									"value": "GreenWay",
-									"type": "string"
-								},
-								{
-									"key": "clientSecret",
-									"value": "jyTj9K8qcn3AoZjElhNCT15klfdiBH0K",
 									"type": "string"
 								},
 								{
@@ -169,7 +169,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"model\": \"Tesla Model 3\",\r\n    \"batteryNominalCapacity\": \"60.0\",\r\n    \"vehicleConsumption\": \"139.0\",\r\n    \"chargePortType\": \"Type 2\",\r\n    \"chargingPower\": \"11\",\r\n    \"currentBatteryCharge\": \"100\"\r\n}",
+							"raw": "",
 							"options": {
 								"raw": {
 									"language": "json"
