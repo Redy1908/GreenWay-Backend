@@ -17,9 +17,7 @@ import lombok.Setter;
  */
 public class Vehicle extends BaseEntity {
 
-    @Column(unique = true, updatable = false)
     private String model;
-
     private Double batteryNominalCapacity;
     private Double vehicleConsumption;
     private String chargePortType;
