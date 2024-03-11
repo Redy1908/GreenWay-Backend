@@ -1,6 +1,6 @@
 version: '3.1'
 services:
-  spring-boot-backend:
+  green-way-backend:
     image: redy1908/green-way-backend:v1
     ports:
       - "8080:8080"
