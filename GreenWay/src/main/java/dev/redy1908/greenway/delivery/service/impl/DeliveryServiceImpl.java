@@ -98,8 +98,6 @@ public class DeliveryServiceImpl implements IDeliveryService {
         List<Delivery> listDeliveries = deliveries.getContent();
         List<DeliveryDto> content =  listDeliveries.stream().map(deliveryMapper::toDto).toList();
 
-        System.out.println(listDeliveries);
-
         DeliveryPageResponseDTO deliveryPageResponseDTO = new DeliveryPageResponseDTO();
         deliveryPageResponseDTO.setContent(content);
         deliveryPageResponseDTO.setPageNo(deliveries.getNumber());
