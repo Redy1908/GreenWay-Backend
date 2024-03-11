@@ -1,12 +1,15 @@
 package dev.redy1908.greenway.vehicle.service;
 
 import dev.redy1908.greenway.vehicle.dto.VehicleDto;
+import dev.redy1908.greenway.vehicle.dto.VehiclePageResponseDTO;
 
 public interface IVehicleService {
 
     void saveVehicle(VehicleDto vehicleDto);
 
-    VehicleDto getVehicle(String vehicleModel);
+    VehicleDto getVehicleById(Long vehicleId);
 
-    void deleteVehicle(String vehicleModel);
+    VehiclePageResponseDTO getFreeVehicles(int pageNo, int pageSize);
+
+    VehiclePageResponseDTO getAllVehicles(int pageNo, int pageSize);
 }

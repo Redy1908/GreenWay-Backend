@@ -8,6 +8,7 @@ import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Component;
@@ -25,14 +26,20 @@ public class DeliveryManFilter extends GenericFilterBean {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException, ServletException {
 
         HttpServletRequest httpRequest = (HttpServletRequest) request;
-        Jwt owner = (Jwt) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        if (httpRequest.isUserInRole("GREEN_WAY_DELIVERY_MAN")) {
-            String username = owner.getClaim("preferred_username").toString();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-            if(deliveryManRepository.findByUsername(username).isEmpty()){
-                DeliveryMan deliveryMan = new DeliveryMan(username);
-                deliveryManRepository.save(deliveryMan);
+        if(authentication != null) {
+
+            Jwt owner = (Jwt) authentication.getPrincipal();
+
+            if (httpRequest.isUserInRole("GREEN_WAY_DELIVERY_MAN")) {
+                String username = owner.getClaim("preferred_username").toString();
+
+                if (deliveryManRepository.findByUsername(username).isEmpty()) {
+                    DeliveryMan deliveryMan = new DeliveryMan(username);
+                    deliveryManRepository.save(deliveryMan);
+                }
             }
         }
 

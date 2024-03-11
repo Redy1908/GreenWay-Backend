@@ -1,7 +1,7 @@
 package dev.redy1908.greenway.exceptions;
 
+import dev.redy1908.greenway.delivery.exceptions.DeliveryNotFoundException;
 import dev.redy1908.greenway.deliveryMan.exceptions.DeliveryManNotFoundException;
-import dev.redy1908.greenway.vehicle.exceptions.VehicleAlreadyExistsException;
 import dev.redy1908.greenway.vehicle.exceptions.VehicleNotFoundException;
 import dev.redy1908.greenway.web.model.ErrorResponseDto;
 import lombok.NonNull;
@@ -41,8 +41,7 @@ public class GlobalExceptionsHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(validationErrors, HttpStatus.BAD_REQUEST);
     }
 
-
-    @ExceptionHandler(Exception.class)
+    /*@ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponseDto> handleGlobalException(Exception exception,
                                                                   WebRequest webRequest) {
         ErrorResponseDto errorResponseDTO = new ErrorResponseDto(
@@ -53,11 +52,24 @@ public class GlobalExceptionsHandler extends ResponseEntityExceptionHandler {
                 LocalDateTime.now()
         );
         return new ResponseEntity<>(errorResponseDTO, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
+    }*/
 
     @ExceptionHandler(DeliveryManNotFoundException.class)
     public ResponseEntity<ErrorResponseDto> handleDeliveryManNotFoundException(DeliveryManNotFoundException exception,
                                                                                  WebRequest webRequest){
+        ErrorResponseDto errorResponseDTO = new ErrorResponseDto(
+                webRequest.getDescription(false),
+                HttpStatus.NOT_FOUND.value(),
+                HttpStatus.NOT_FOUND,
+                exception.getMessage(),
+                LocalDateTime.now()
+        );
+        return new ResponseEntity<>(errorResponseDTO, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(DeliveryNotFoundException.class)
+    public ResponseEntity<ErrorResponseDto> handleDeliveryNotFoundException(DeliveryNotFoundException exception,
+                                                                               WebRequest webRequest){
         ErrorResponseDto errorResponseDTO = new ErrorResponseDto(
                 webRequest.getDescription(false),
                 HttpStatus.NOT_FOUND.value(),
@@ -79,18 +91,5 @@ public class GlobalExceptionsHandler extends ResponseEntityExceptionHandler {
                 LocalDateTime.now()
         );
         return new ResponseEntity<>(errorResponseDTO, HttpStatus.NOT_FOUND);
-    }
-
-    @ExceptionHandler(VehicleAlreadyExistsException.class)
-    public ResponseEntity<ErrorResponseDto> handleCustomerAlreadyExistsException(VehicleAlreadyExistsException exception,
-                                                                                 WebRequest webRequest){
-        ErrorResponseDto errorResponseDTO = new ErrorResponseDto(
-                webRequest.getDescription(false),
-                HttpStatus.BAD_REQUEST.value(),
-                HttpStatus.BAD_REQUEST,
-                exception.getMessage(),
-                LocalDateTime.now()
-        );
-        return new ResponseEntity<>(errorResponseDTO, HttpStatus.BAD_REQUEST);
     }
 }

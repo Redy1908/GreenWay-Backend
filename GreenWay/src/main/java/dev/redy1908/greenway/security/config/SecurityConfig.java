@@ -5,6 +5,8 @@ import dev.redy1908.greenway.security.filter.DeliveryManFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -14,6 +16,7 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 
 @Configuration
 @RequiredArgsConstructor
+@EnableMethodSecurity
 public class SecurityConfig {
 
     private final DeliveryManFilter deliveryManFilter;
@@ -22,8 +25,10 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         http.authorizeHttpRequests((auth) -> auth
-                        .requestMatchers("/api/v1/vehicles/**").hasRole("GREEN_WAY_ADMIN")
-                        .requestMatchers("/api/v1/deliveries/**").hasAnyRole("GREEN_WAY_ADMIN", "GREEN_WAY_DELIVERY_MAN")
+                        .requestMatchers(HttpMethod.POST,"/api/v1/vehicles/**").hasRole("GREEN_WAY_ADMIN")
+                        .requestMatchers(HttpMethod.GET,"/api/v1/vehicles/**").hasAnyRole("GREEN_WAY_ADMIN", "GREEN_WAY_DELIVERY_MAN")
+                        .requestMatchers(HttpMethod.POST, "/api/v1/deliveries/**").hasRole("GREEN_WAY_ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/api/v1/deliveries/**").hasAnyRole("GREEN_WAY_ADMIN", "GREEN_WAY_DELIVERY_MAN")
                         .anyRequest().authenticated()
                 )
                 .addFilterAfter(deliveryManFilter, BasicAuthenticationFilter.class)

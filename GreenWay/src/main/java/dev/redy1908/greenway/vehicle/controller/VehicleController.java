@@ -1,6 +1,7 @@
 package dev.redy1908.greenway.vehicle.controller;
 
 import dev.redy1908.greenway.vehicle.dto.VehicleDto;
+import dev.redy1908.greenway.vehicle.dto.VehiclePageResponseDTO;
 import dev.redy1908.greenway.vehicle.service.IVehicleService;
 import dev.redy1908.greenway.web.model.ResponseDto;
 import jakarta.validation.Valid;
@@ -34,16 +35,32 @@ public class VehicleController {
                 .body(new ResponseDto(HttpStatus.CREATED.value(), HttpStatus.CREATED, "Vehicle created"));
     }
 
-    @GetMapping("/{vehicleModel}")
-    public ResponseEntity<VehicleDto> getVehicle(@PathVariable String vehicleModel){
-        VehicleDto vehicleDto = vehicleService.getVehicle(vehicleModel);
+    @GetMapping("/{vehicleId}")
+    public ResponseEntity<VehicleDto> getVehicle(@PathVariable Long vehicleId){
+        VehicleDto vehicleDto = vehicleService.getVehicleById(vehicleId);
         return ResponseEntity.ok(vehicleDto);
     }
 
-    @DeleteMapping
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteVehicle(String vehicleModel){
-        vehicleService.deleteVehicle(vehicleModel);
+    @GetMapping
+    public ResponseEntity<VehiclePageResponseDTO> getAllVehicles(
+            @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
+            @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize
+    ){
+
+        VehiclePageResponseDTO vehiclePageResponseDTO = vehicleService.getAllVehicles(pageNo, pageSize);
+
+        return ResponseEntity.ok().body(vehiclePageResponseDTO);
+    }
+
+    @GetMapping("/free")
+    public ResponseEntity<VehiclePageResponseDTO> getFreeVehicles(
+            @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
+            @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize
+    ){
+
+        VehiclePageResponseDTO vehiclePageResponseDTO = vehicleService.getFreeVehicles(pageNo, pageSize);
+
+        return ResponseEntity.ok().body(vehiclePageResponseDTO);
     }
 
 }
