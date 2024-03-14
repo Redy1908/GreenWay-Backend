@@ -23,8 +23,13 @@ services:
       KC_DB_SCHEMA: public
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: admin
+      KC_HTTPS_CERTIFICATE_FILE: /opt/keycloak/certs/localhostcert.pem
+      KC_HTTPS_CERTIFICATE_KEY_FILE: /opt/keycloak/certs/localhostkey.pem
+    volumes:
+      - ./certs:/opt/keycloak/certs
     ports:
       - "8090:8080"
+      - "8443:8443"
     depends_on:
       keycloak-db:
         condition: service_healthy
