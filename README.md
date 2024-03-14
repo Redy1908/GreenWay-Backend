@@ -35,7 +35,9 @@ with GREEN_WAY_DELIVERY_MAN privileges
 
 ## Running the Project
 
-Execute ```docker compose up -d``` in the root directory. The REST API will be available at http://localhost:8080.
+Execute ```docker compose up -d``` in the root directory. 
+- The REST API will be available at http://localhost:8080.
+- KeyCloak dashboard http://localhost:8090/
 
 ## Customizing the Setup (Optional)
 
