@@ -4,25 +4,22 @@ GreenWay, an Electric Vehicle (EV) routing service.
 
 ## Set-up
 
+> :warning: This set up is only for development/prototyping <u>DO NOT</u> use it in production :warning:
+
 Ensure that [Docker](https://www.docker.com/) is installed and running on your system.
 
 This project uses [KeyCloak](https://www.keycloak.org/) as its Identity and Access Management (IAM) system. 
-A pre-configured realm and two users are provided. 
-Follow the steps below to import this configuration into the KeyCloak container:
+A pre-configured realm and two users are provided in ```KeyCloak/GreenWay-realm.json```. 
 
-1. Navigate to the root folder and execute ```docker compose up keycloak -d```.
-2. Execute ```docker ps``` and note the ```CONTAINEIR-ID``` associated with the image ```quay.io/keycloak/keycloak:23.0.7``` save it.
-3. Navigate to the ```KeyCloak/``` directory.
-4. Execute the following command: 
-  ```dokcerfile 
-  docker cp GreenWay-realm.json <CONTAINEIR-ID>:/tmp/ && docker exec -it <CONTAINEIR-ID> /opt/keycloak/bin/kc.sh import --file tmp/GreenWay-realm.json
-  ```
+Also, KeyCloak will be configured with self-signed certificates (find them in ```certs/```) to enable https endpoints.
 
-If the setup is successful, 
-accessing http://localhost:8090/realms/GreenWay/protocol/openid-connect/certs should yield a response. 
-If not, restart the container with ```docker restart <CONTAINEIR-ID>```
+KeyCloak will have the following three users configured:
 
-Upon successful setup, KeyCloak will have the following two users configured:
+```
+Username: admin
+Password: admin
+KeyCloak default admin
+```
 
 ```
 Username: GREEN_WAY_ADMIN
@@ -35,15 +32,6 @@ Username: deliveryMan1
 Password: 12345
 with GREEN_WAY_DELIVERY_MAN privileges
 ```
-
-To export new users or modified KeyCloak configurations, use the following command:
-```dockerfile 
-docker exec -it <CONTAINEIR-ID> /opt/keycloak/bin/kc.sh export --dir /tmp --users realm_file && docker cp <CONTAINEIR-ID>:/tmp/GreenWay-realm.json .
-```
-
-This will create the file ```GreenWay-realm.json``` in the current directory.
-
-> :warning: This set up is only for development/prototyping <u>DO NOT</u> use it in production :warning:
 
 ## Running the Project
 

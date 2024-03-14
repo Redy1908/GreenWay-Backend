@@ -13,7 +13,7 @@ services:
       - keycloak-db
   keycloak:
     image: quay.io/keycloak/keycloak:23.0.7
-    command: start-dev
+    command: start-dev --import-realm
     environment:
       KC_DB: postgres
       KC_DB_URL_HOST: keycloak-db
@@ -23,10 +23,11 @@ services:
       KC_DB_SCHEMA: public
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: admin
-      KC_HTTPS_CERTIFICATE_FILE: /opt/keycloak/certs/localhostcert.pem
-      KC_HTTPS_CERTIFICATE_KEY_FILE: /opt/keycloak/certs/localhostkey.pem
+      KC_HTTPS_CERTIFICATE_FILE: /opt/keycloak/greenWay/certs/localhostcert.pem
+      KC_HTTPS_CERTIFICATE_KEY_FILE: /opt/keycloak/greenWay/certs/localhostkey.pem
     volumes:
-      - ./certs:/opt/keycloak/certs
+      - ./certs:/opt/keycloak/greenWay/certs
+      - ./KeyCloak:/opt/keycloak/data/import
     ports:
       - "8090:8080"
       - "8443:8443"
