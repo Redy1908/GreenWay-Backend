@@ -6,8 +6,6 @@ GreenWay, an Electric Vehicle (EV) routing service.
 
 > :warning: This set up is only for development/prototyping <u>DO NOT</u> use it in production :warning:
 
-Ensure that [Docker](https://www.docker.com/) is installed and running on your system.
-
 This project uses [KeyCloak](https://www.keycloak.org/) as its Identity and Access Management (IAM) system. 
 A pre-configured realm and the following users are already configured:
 
@@ -32,6 +30,8 @@ with GREEN_WAY_DELIVERY_MAN privileges
 If you want to edit the KeyCloak configuration or add new users, access the dashboard at - KeyCloak dashboard http://localhost:8090/
 
 ## Running the Project
+
+Ensure that [Docker](https://www.docker.com/) is installed and running on your system.
 
 Execute ```docker compose up -d``` in the root directory. 
 - The REST API will be available at http://localhost:8080.
