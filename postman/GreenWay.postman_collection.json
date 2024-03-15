@@ -474,7 +474,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"deliveryManUsername\": \"deliveryman1\",\r\n    \"startPoint\": {\r\n        \"latitude\": \"14.2681\",\r\n        \"longitude\": \"40.8518\"\r\n    },\r\n    \"endPoint\": {\r\n        \"latitude\": \"12.4964\",\r\n        \"longitude\": \"41.9028\"\r\n    }\r\n}\r\n",
+							"raw": "{\r\n    \"startPoint\": {\r\n        \"latitude\": \"14.2681\",\r\n        \"longitude\": \"40.8518\"\r\n    },\r\n    \"endPoint\": {\r\n        \"latitude\": \"12.4964\",\r\n        \"longitude\": \"41.9028\"\r\n    }\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -661,7 +661,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"deliveryManUsername\": \"deliveryman1\",\r\n    \"startPoint\": {\r\n        \"latitude\": \"14.2681\",\r\n        \"longitude\": \"40.8518\"\r\n    },\r\n    \"endPoint\": {\r\n        \"latitude\": \"12.4964\",\r\n        \"longitude\": \"41.9028\"\r\n    }\r\n}\r\n",
+							"raw": "",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -669,7 +669,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/v1/deliveries/1",
+							"raw": "http://localhost:8080/api/v1/deliveries?pageNo=0&pageSize=5",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -678,8 +678,17 @@
 							"path": [
 								"api",
 								"v1",
-								"deliveries",
-								"1"
+								"deliveries"
+							],
+							"query": [
+								{
+									"key": "pageNo",
+									"value": "0"
+								},
+								{
+									"key": "pageSize",
+									"value": "5"
+								}
 							]
 						}
 					},
@@ -755,7 +764,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"deliveryManUsername\": \"deliveryman1\",\r\n    \"startPoint\": {\r\n        \"latitude\": \"14.2681\",\r\n        \"longitude\": \"40.8518\"\r\n    },\r\n    \"endPoint\": {\r\n        \"latitude\": \"12.4964\",\r\n        \"longitude\": \"41.9028\"\r\n    }\r\n}\r\n",
+							"raw": "",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -763,7 +772,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/v1/deliveries?deliveryMan=deliveryman1&pageNo=0&pageSize=5",
+							"raw": "http://localhost:8080/api/v1/deliveries/deliveryMan/deliveryman1?pageNo=0&pageSize=5",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -772,22 +781,20 @@
 							"path": [
 								"api",
 								"v1",
-								"deliveries"
+								"deliveries",
+								"deliveryMan",
+								"deliveryman1"
 							],
 							"query": [
 								{
-									"key": "deliveryMan",
-									"value": "deliveryman1"
-								},
-								{
 									"key": "pageNo",
 									"value": "0",
-									"description": "Page number (OPTIONAL default = 0)"
+									"description": "OPTIONAL default = 0"
 								},
 								{
 									"key": "pageSize",
 									"value": "5",
-									"description": "Page size (OPTIONAL default = 10)"
+									"description": "OPTIONAL default = 10"
 								}
 							]
 						}
@@ -861,7 +868,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"deliveryManUsername\": \"deliveryman1\",\r\n    \"startPoint\": {\r\n        \"latitude\": \"14.2681\",\r\n        \"longitude\": \"40.8518\"\r\n    },\r\n    \"endPoint\": {\r\n        \"latitude\": \"12.4964\",\r\n        \"longitude\": \"41.9028\"\r\n    }\r\n}\r\n",
+							"raw": "",
 							"options": {
 								"raw": {
 									"language": "json"
