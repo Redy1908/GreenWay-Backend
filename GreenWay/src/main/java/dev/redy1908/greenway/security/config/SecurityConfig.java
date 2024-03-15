@@ -29,6 +29,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET,"/api/v1/vehicles/**").hasAnyRole("GREEN_WAY_ADMIN", "GREEN_WAY_DELIVERY_MAN")
                         .requestMatchers(HttpMethod.POST, "/api/v1/deliveries/**").hasRole("GREEN_WAY_ADMIN")
                         .requestMatchers(HttpMethod.GET, "/api/v1/deliveries/**").hasAnyRole("GREEN_WAY_ADMIN", "GREEN_WAY_DELIVERY_MAN")
+                        .requestMatchers(HttpMethod.PUT, "/api/v1/deliveries/**").hasAnyRole("GREEN_WAY_ADMIN", "GREEN_WAY_DELIVERY_MAN")
                         .anyRequest().authenticated()
                 )
                 .addFilterAfter(deliveryManFilter, BasicAuthenticationFilter.class)

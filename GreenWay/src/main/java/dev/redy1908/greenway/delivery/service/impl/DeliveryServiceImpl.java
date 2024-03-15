@@ -87,6 +87,25 @@ public class DeliveryServiceImpl implements IDeliveryService {
     }
 
     @Override
+    public DeliveryPageResponseDTO getAllDeliveries(int pageNo, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNo, pageSize);
+        Page<Delivery> deliveries = deliveryRepository.findAll(pageable);
+        List<Delivery> listDeliveries = deliveries.getContent();
+        List<DeliveryDto> content =  listDeliveries.stream().map(deliveryMapper::toDto).toList();
+
+        DeliveryPageResponseDTO deliveryPageResponseDTO = new DeliveryPageResponseDTO();
+        deliveryPageResponseDTO.setContent(content);
+        deliveryPageResponseDTO.setPageNo(deliveries.getNumber());
+        deliveryPageResponseDTO.setPageSize(deliveries.getSize());
+        deliveryPageResponseDTO.setTotalElements(deliveries.getTotalElements());
+        deliveryPageResponseDTO.setTotalPages(deliveries.getTotalPages());
+        deliveryPageResponseDTO.setLast(deliveries.isLast());
+
+        return deliveryPageResponseDTO;
+    }
+
+
+    @Override
     public DeliveryPageResponseDTO getDeliveriesByDeliveryMan(String deliveryManUsername, int pageNo, int pageSize) {
 
         Pageable pageable = PageRequest.of(pageNo, pageSize);

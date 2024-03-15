@@ -41,15 +41,26 @@ public class DeliveryController {
         );
     }
 
-    @GetMapping("/{deliveryId}")
+    @GetMapping("/id/{deliveryId}")
     @PreAuthorize("hasRole('GREEN_WAY_ADMIN') || @deliveryServiceImpl.isDeliveryOwner(#deliveryId, authentication.principal.claims['preferred_username'])")
     public ResponseEntity<DeliveryDto> getDeliveryById(@PathVariable Long deliveryId){
         return ResponseEntity.ok(deliveryService.getDeliveryById(deliveryId));
     }
 
     @GetMapping
+    public ResponseEntity<DeliveryPageResponseDTO> getAllDeliveries(
+            @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
+            @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize
+    ){
+
+        DeliveryPageResponseDTO deliveryPageResponseDTO = deliveryService.getAllDeliveries(pageNo, pageSize);
+
+        return ResponseEntity.ok().body(deliveryPageResponseDTO);
+    }
+
+    @GetMapping("deliveryMan/{deliveryManUsername}")
     public ResponseEntity<DeliveryPageResponseDTO> getDeliveriesByDeliveryMan(
-            @RequestParam(value = "deliveryMan") String deliveryManUsername,
+            @PathVariable String deliveryManUsername,
             @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
             @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize
     ){

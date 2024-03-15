@@ -10,6 +10,8 @@ public interface IDeliveryService {
 
     DeliveryDto getDeliveryById(Long deliveryId);
 
+    DeliveryPageResponseDTO getAllDeliveries(int pageNo, int pageSize);
+
     DeliveryPageResponseDTO getDeliveriesByDeliveryMan(String deliveryManUsername, int pageNo, int pageSize);
 
     boolean isDeliveryOwner(Long deliveryId, String deliveryManUsername);
