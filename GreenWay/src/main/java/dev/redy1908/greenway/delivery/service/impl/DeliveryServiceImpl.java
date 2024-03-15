@@ -69,12 +69,8 @@ public class DeliveryServiceImpl implements IDeliveryService {
         );
 
         deliveryPathRepository.save(deliveryPath);
-        DeliveryMan deliveryMan = deliveryManService.findByUsername(deliveryCreationDto.deliveryManUsername());
 
-        Delivery delivery = new Delivery(
-                deliveryMan,
-                deliveryPath
-        );
+        Delivery delivery = new Delivery(deliveryPath);
 
         Delivery savedDelivery = deliveryRepository.save(delivery);
 
@@ -112,6 +108,17 @@ public class DeliveryServiceImpl implements IDeliveryService {
     @Override
     public boolean isDeliveryOwner(Long deliveryId, String deliveryManUsername) {
         return deliveryRepository.getDeliveryByIdAndDeliveryMan_Username(deliveryId, deliveryManUsername).isPresent();
+    }
+
+    @Override
+    @Transactional
+    public void selectDelivery(Long deliveryID, String deliveryManUsername) {
+        DeliveryMan deliveryMan = deliveryManService.findByUsername(deliveryManUsername);
+        Delivery delivery = deliveryRepository.findById(deliveryID).orElseThrow(
+                () -> new DeliveryNotFoundException(deliveryID)
+        );
+
+        delivery.setDeliveryMan(deliveryMan);
     }
 
     private String getRouting(Point start, Point end){

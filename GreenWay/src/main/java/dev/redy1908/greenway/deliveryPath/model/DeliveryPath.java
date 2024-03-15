@@ -1,6 +1,5 @@
 package dev.redy1908.greenway.deliveryPath.model;
 
-import dev.redy1908.greenway.chargingStations.model.ChargingStation;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,10 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.locationtech.jts.geom.LineString;
 import org.locationtech.jts.geom.Point;
-
-
-import java.util.LinkedHashSet;
-import java.util.Set;
 
 @Entity
 @Getter
@@ -38,12 +33,6 @@ public class DeliveryPath {
 
     @Column(columnDefinition = "geometry")
     private LineString polyline;
-
-    @ManyToMany
-    @JoinTable(name = "deliveryPath_chargingStations",
-            joinColumns = @JoinColumn(name = "deliveryPath_id"),
-            inverseJoinColumns = @JoinColumn(name = "chargingStation_id"))
-    private Set<ChargingStation> chargingStations = new LinkedHashSet<>();
 
     public DeliveryPath(Point startPoint, Point endPoint, Double distance, Double duration, String encodedPolyline) {
         this.startPoint = startPoint;

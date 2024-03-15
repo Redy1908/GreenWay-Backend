@@ -25,8 +25,7 @@ public class Delivery extends BaseEntity {
     @JoinColumn(name = "delivery_man_id")
     private DeliveryMan deliveryMan;
 
-    public Delivery(DeliveryMan deliveryMan, DeliveryPath deliveryPath) {
-        this.deliveryMan = deliveryMan;
+    public Delivery(DeliveryPath deliveryPath) {
         this.deliveryPath = deliveryPath;
     }
 

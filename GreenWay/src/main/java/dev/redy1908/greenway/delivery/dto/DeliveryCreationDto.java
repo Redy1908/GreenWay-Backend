@@ -5,8 +5,6 @@ import jakarta.validation.constraints.NotNull;
 
 public record DeliveryCreationDto(
         @NotNull
-        String deliveryManUsername,
-        @NotNull
         Point startPoint,
         @NotNull
         Point endPoint

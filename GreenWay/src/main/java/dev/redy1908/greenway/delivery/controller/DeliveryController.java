@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -36,7 +37,7 @@ public class DeliveryController {
         return ResponseEntity.created(location).body(
                 new ResponseDto(
                         HttpStatus.OK.value(),
-                        HttpStatus.OK, "New delivery assigned to: " + deliveryCreationDto.deliveryManUsername())
+                        HttpStatus.OK, "New delivery created")
         );
     }
 
@@ -56,5 +57,16 @@ public class DeliveryController {
         DeliveryPageResponseDTO deliveryPageResponseDTO = deliveryService.getDeliveriesByDeliveryMan(deliveryManUsername, pageNo, pageSize);
 
         return ResponseEntity.ok().body(deliveryPageResponseDTO);
+    }
+
+    @PutMapping("/select/{deliveryId}")
+    @Transactional
+    public ResponseEntity<ResponseDto> selectDelivery(@PathVariable Long deliveryId, @RequestParam String deliveryMan){
+        deliveryService.selectDelivery(deliveryId, deliveryMan);
+
+        return ResponseEntity.ok().body(
+                new ResponseDto(
+                        HttpStatus.OK.value(),
+                        HttpStatus.OK, "Delivery assigned"));
     }
 }

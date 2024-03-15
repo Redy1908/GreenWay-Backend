@@ -34,8 +34,7 @@ public class DeliveryMapper {
                 delivery.getId(),
                 startPoint,
                 endPoint,
-                deliveryPath.getEncodedPolyline(),
-                deliveryPath.getChargingStations()
+                deliveryPath.getEncodedPolyline()
         );
 
     }
