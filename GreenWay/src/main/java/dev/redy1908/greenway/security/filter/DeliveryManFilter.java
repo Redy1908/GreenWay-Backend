@@ -33,7 +33,7 @@ public class DeliveryManFilter extends GenericFilterBean {
 
             Jwt owner = (Jwt) authentication.getPrincipal();
 
-            if (httpRequest.isUserInRole("GREEN_WAY_DELIVERY_MAN")) {
+            if (httpRequest.isUserInRole("GREEN_WAY_DELIVERY_MAN") && !httpRequest.isUserInRole("GREEN_WAY_ADMIN")) {
                 String username = owner.getClaim("preferred_username").toString();
 
                 if (deliveryManRepository.findByUsername(username).isEmpty()) {

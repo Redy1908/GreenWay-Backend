@@ -1,5 +1,6 @@
 package dev.redy1908.greenway.vehicle.dto;
 
+import dev.redy1908.greenway.vehicle.model.Vehicle;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,5 +18,5 @@ public class VehiclePageResponseDTO {
     private long totalElements;
     private int totalPages;
     private boolean last;
-    private List<VehicleDto> content;
+    private List<Vehicle> content;
 }

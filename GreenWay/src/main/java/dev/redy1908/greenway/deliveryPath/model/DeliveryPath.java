@@ -5,8 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.locationtech.jts.geom.LineString;
-import org.locationtech.jts.geom.Point;
 
 @Entity
 @Getter
@@ -19,26 +17,15 @@ public class DeliveryPath {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(columnDefinition = "geography")
-    private Point startPoint;
-
-    @Column(columnDefinition = "geography")
-    private Point endPoint;
-
-    private Double distance;
-    private Double duration;
+    private Double distanceInMeters;
+    private Double durationInSeconds;
 
     @Column(columnDefinition = "TEXT")
     private String encodedPolyline;
 
-    @Column(columnDefinition = "geometry")
-    private LineString polyline;
-
-    public DeliveryPath(Point startPoint, Point endPoint, Double distance, Double duration, String encodedPolyline) {
-        this.startPoint = startPoint;
-        this.endPoint = endPoint;
-        this.distance = distance;
-        this.duration = duration;
-        this.encodedPolyline = encodedPolyline;
+    public DeliveryPath(Double distanceInMeters, Double durationInSeconds, String polyline) {
+        this.distanceInMeters = distanceInMeters;
+        this.durationInSeconds = durationInSeconds;
+        this.encodedPolyline = polyline;
     }
 }

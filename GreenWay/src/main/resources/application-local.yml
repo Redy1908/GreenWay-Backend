@@ -28,4 +28,4 @@ logging:
     org.hibernate.type.descriptor.sql: trace
 
 osrm:
-  base_path: http://localhost:5000/
+  driving_path: http://localhost:5000/route/v1/driving/

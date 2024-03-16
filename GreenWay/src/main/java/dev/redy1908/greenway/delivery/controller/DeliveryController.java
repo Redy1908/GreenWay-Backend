@@ -1,8 +1,8 @@
 package dev.redy1908.greenway.delivery.controller;
 
 import dev.redy1908.greenway.delivery.dto.DeliveryCreationDto;
-import dev.redy1908.greenway.delivery.dto.DeliveryDto;
 import dev.redy1908.greenway.delivery.dto.DeliveryPageResponseDTO;
+import dev.redy1908.greenway.delivery.model.Delivery;
 import dev.redy1908.greenway.delivery.service.IDeliveryService;
 import dev.redy1908.greenway.web.model.ResponseDto;
 import jakarta.validation.Valid;
@@ -10,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -26,12 +25,12 @@ public class DeliveryController {
     @PostMapping
     public ResponseEntity<ResponseDto> crateDelivery(@Valid @RequestBody DeliveryCreationDto deliveryCreationDto){
 
-        DeliveryDto delivery = deliveryService.createDelivery(deliveryCreationDto);
+        Delivery delivery = deliveryService.createDelivery(deliveryCreationDto);
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentContextPath()
                 .path("/api/v1/deliveries/{deliveryId}")
-                .buildAndExpand(delivery.id())
+                .buildAndExpand(delivery.getId())
                 .toUri();
 
         return ResponseEntity.created(location).body(
@@ -43,7 +42,7 @@ public class DeliveryController {
 
     @GetMapping("/id/{deliveryId}")
     @PreAuthorize("hasRole('GREEN_WAY_ADMIN') || @deliveryServiceImpl.isDeliveryOwner(#deliveryId, authentication.principal.claims['preferred_username'])")
-    public ResponseEntity<DeliveryDto> getDeliveryById(@PathVariable Long deliveryId){
+    public ResponseEntity<Delivery> getDeliveryById(@PathVariable Long deliveryId){
         return ResponseEntity.ok(deliveryService.getDeliveryById(deliveryId));
     }
 
@@ -71,7 +70,6 @@ public class DeliveryController {
     }
 
     @PutMapping("/select/{deliveryId}")
-    @Transactional
     public ResponseEntity<ResponseDto> selectDelivery(@PathVariable Long deliveryId, @RequestParam String deliveryMan){
         deliveryService.selectDelivery(deliveryId, deliveryMan);
 

@@ -1,11 +1,21 @@
 package dev.redy1908.greenway.delivery.dto;
 
+import dev.redy1908.greenway.deliveryPackage.dto.DeliveryPackageDTO;
 import dev.redy1908.greenway.point.Point;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
+import java.util.Set;
+
 public record DeliveryCreationDto(
+
         @NotNull
         Point startPoint,
+
         @NotNull
-        Point endPoint
+        Long vehicleId,
+
+        @NotNull
+        @NotEmpty
+        Set<DeliveryPackageDTO> packages
 ) {}

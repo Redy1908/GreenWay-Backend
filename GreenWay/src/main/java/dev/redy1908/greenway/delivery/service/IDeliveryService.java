@@ -1,14 +1,14 @@
 package dev.redy1908.greenway.delivery.service;
 
 import dev.redy1908.greenway.delivery.dto.DeliveryCreationDto;
-import dev.redy1908.greenway.delivery.dto.DeliveryDto;
 import dev.redy1908.greenway.delivery.dto.DeliveryPageResponseDTO;
+import dev.redy1908.greenway.delivery.model.Delivery;
 
 public interface IDeliveryService {
 
-    DeliveryDto createDelivery(DeliveryCreationDto deliveryCreationDto);
+    Delivery createDelivery(DeliveryCreationDto deliveryCreationDto);
 
-    DeliveryDto getDeliveryById(Long deliveryId);
+    Delivery getDeliveryById(Long deliveryId);
 
     DeliveryPageResponseDTO getAllDeliveries(int pageNo, int pageSize);
 
@@ -17,5 +17,4 @@ public interface IDeliveryService {
     boolean isDeliveryOwner(Long deliveryId, String deliveryManUsername);
 
     void selectDelivery(Long deliveryID, String deliveryManUsername);
-
 }

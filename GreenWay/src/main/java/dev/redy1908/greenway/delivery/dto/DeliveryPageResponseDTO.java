@@ -1,5 +1,6 @@
 package dev.redy1908.greenway.delivery.dto;
 
+import dev.redy1908.greenway.delivery.model.Delivery;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,5 +18,5 @@ public class DeliveryPageResponseDTO {
     private long totalElements;
     private int totalPages;
     private boolean last;
-    private List<DeliveryDto> content;
+    private List<Delivery> content;
 }

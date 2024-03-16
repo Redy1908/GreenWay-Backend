@@ -1,14 +1,12 @@
 package dev.redy1908.greenway.deliveryMan.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import dev.redy1908.greenway.delivery.model.Delivery;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.util.LinkedHashSet;
-import java.util.Set;
 
 @Entity
 @Getter
@@ -24,8 +22,9 @@ public class DeliveryMan {
     @Column(unique = true, nullable = false)
     private String username;
 
-    @OneToMany(mappedBy = "deliveryMan", orphanRemoval = true)
-    private Set<Delivery> deliveries = new LinkedHashSet<>();
+    @JsonBackReference
+    @OneToOne(mappedBy = "deliveryMan")
+    private Delivery delivery;
 
     public DeliveryMan(String username) {
         this.username = username;

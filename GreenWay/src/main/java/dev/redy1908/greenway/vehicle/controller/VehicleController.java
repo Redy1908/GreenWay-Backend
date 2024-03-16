@@ -1,7 +1,8 @@
 package dev.redy1908.greenway.vehicle.controller;
 
-import dev.redy1908.greenway.vehicle.dto.VehicleDto;
+import dev.redy1908.greenway.vehicle.dto.VehicleCreationDTO;
 import dev.redy1908.greenway.vehicle.dto.VehiclePageResponseDTO;
+import dev.redy1908.greenway.vehicle.model.Vehicle;
 import dev.redy1908.greenway.vehicle.service.IVehicleService;
 import dev.redy1908.greenway.web.model.ResponseDto;
 import jakarta.validation.Valid;
@@ -21,13 +22,13 @@ public class VehicleController {
     private final IVehicleService vehicleService;
 
     @PostMapping
-    public ResponseEntity<ResponseDto> saveVehicle(@Valid @RequestBody VehicleDto vehicleDto){
-        vehicleService.saveVehicle(vehicleDto);
+    public ResponseEntity<ResponseDto> saveVehicle(@Valid @RequestBody VehicleCreationDTO vehicleCreationDTO){
+        Vehicle savedVehicle = vehicleService.saveVehicle(vehicleCreationDTO);
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentContextPath()
                 .path("/api/v1/vehicles/{vehicleId}")
-                .buildAndExpand(vehicleDto.model())
+                .buildAndExpand(savedVehicle.getId())
                 .toUri();
 
         return ResponseEntity
@@ -36,9 +37,8 @@ public class VehicleController {
     }
 
     @GetMapping("/{vehicleId}")
-    public ResponseEntity<VehicleDto> getVehicle(@PathVariable Long vehicleId){
-        VehicleDto vehicleDto = vehicleService.getVehicleById(vehicleId);
-        return ResponseEntity.ok(vehicleDto);
+    public ResponseEntity<Vehicle> getVehicle(@PathVariable Long vehicleId){
+        return ResponseEntity.ok(vehicleService.getVehicleById(vehicleId));
     }
 
     @GetMapping
@@ -48,17 +48,6 @@ public class VehicleController {
     ){
 
         VehiclePageResponseDTO vehiclePageResponseDTO = vehicleService.getAllVehicles(pageNo, pageSize);
-
-        return ResponseEntity.ok().body(vehiclePageResponseDTO);
-    }
-
-    @GetMapping("/free")
-    public ResponseEntity<VehiclePageResponseDTO> getFreeVehicles(
-            @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
-            @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize
-    ){
-
-        VehiclePageResponseDTO vehiclePageResponseDTO = vehicleService.getFreeVehicles(pageNo, pageSize);
 
         return ResponseEntity.ok().body(vehiclePageResponseDTO);
     }
