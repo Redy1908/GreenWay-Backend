@@ -73,6 +73,7 @@ public class DeliveryServiceImpl implements IDeliveryService {
         Pageable pageable = PageRequest.of(pageNo, pageSize);
         Page<Delivery> deliveries = deliveryRepository.findAll(pageable);
         List<Delivery> listDeliveries = deliveries.getContent();
+        //List<DeliveryDTO> content = listDeliveries.stream().map(deliveryMapper::toDto).collect(Collectors.toList());
 
         DeliveryPageResponseDTO deliveryPageResponseDTO = new DeliveryPageResponseDTO();
         deliveryPageResponseDTO.setContent(listDeliveries);
@@ -92,6 +93,7 @@ public class DeliveryServiceImpl implements IDeliveryService {
         Pageable pageable = PageRequest.of(pageNo, pageSize);
         Page<Delivery> deliveries = deliveryRepository.findAllByDeliveryMan_Username(deliveryManUsername, pageable);
         List<Delivery> listDeliveries = deliveries.getContent();
+        //List<DeliveryDTO> content = listDeliveries.stream().map(deliveryMapper::toDto).collect(Collectors.toList());
 
         DeliveryPageResponseDTO deliveryPageResponseDTO = new DeliveryPageResponseDTO();
         deliveryPageResponseDTO.setContent(listDeliveries);
