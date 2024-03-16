@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface IDeliveryPackageService {
 
-    List<DeliveryPackage> saveAll(List<DeliveryPackage> deliveryPackages);
+    void saveAll(List<DeliveryPackage> deliveryPackages);
 }

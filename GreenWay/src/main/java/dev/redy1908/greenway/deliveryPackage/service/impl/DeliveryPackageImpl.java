@@ -15,7 +15,7 @@ public class DeliveryPackageImpl implements IDeliveryPackageService {
     private final DeliveryPackageRepository deliveryPackageRepository;
 
     @Override
-    public List<DeliveryPackage> saveAll(List<DeliveryPackage> deliveryPackages) {
-       return deliveryPackageRepository.saveAll(deliveryPackages);
+    public void saveAll(List<DeliveryPackage> deliveryPackages) {
+        deliveryPackageRepository.saveAll(deliveryPackages);
     }
 }
