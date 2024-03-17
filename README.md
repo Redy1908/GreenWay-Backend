@@ -1,5 +1,5 @@
 # GreenWay-Backend
-This repository contains the backend for the multiplatform application,
+This repository contains the backend for the multiplatform application (IOS and Android),
 GreenWay, an Electric Vehicle (EV) routing service.
 
 ## Set-up
