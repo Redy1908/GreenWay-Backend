@@ -2,10 +2,10 @@ package dev.redy1908.greenway.vehicle.controller;
 
 import dev.redy1908.greenway.vehicle.dto.VehicleCreationDTO;
 import dev.redy1908.greenway.vehicle.dto.VehicleDTO;
-import dev.redy1908.greenway.vehicle.dto.VehiclePageResponseDTO;
 import dev.redy1908.greenway.vehicle.model.Vehicle;
 import dev.redy1908.greenway.vehicle.service.IVehicleService;
-import dev.redy1908.greenway.web.model.ResponseDto;
+import dev.redy1908.greenway.web.model.PageResponseDTO;
+import dev.redy1908.greenway.web.model.ResponseDTO;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -23,7 +23,7 @@ public class VehicleController {
     private final IVehicleService vehicleService;
 
     @PostMapping
-    public ResponseEntity<ResponseDto> saveVehicle(@Valid @RequestBody VehicleCreationDTO vehicleCreationDTO){
+    public ResponseEntity<ResponseDTO> saveVehicle(@Valid @RequestBody VehicleCreationDTO vehicleCreationDTO){
         Vehicle savedVehicle = vehicleService.saveVehicle(vehicleCreationDTO);
 
         URI location = ServletUriComponentsBuilder
@@ -34,7 +34,7 @@ public class VehicleController {
 
         return ResponseEntity
                 .created(location)
-                .body(new ResponseDto(HttpStatus.CREATED.value(), HttpStatus.CREATED, "Vehicle created"));
+                .body(new ResponseDTO(HttpStatus.CREATED.value(), HttpStatus.CREATED, "Vehicle created"));
     }
 
     @GetMapping("/{vehicleId}")
@@ -43,12 +43,12 @@ public class VehicleController {
     }
 
     @GetMapping
-    public ResponseEntity<VehiclePageResponseDTO> getAllVehicles(
+    public ResponseEntity<PageResponseDTO<VehicleDTO>> getAllVehicles(
             @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
             @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize
     ){
 
-        VehiclePageResponseDTO vehiclePageResponseDTO = vehicleService.getAllVehicles(pageNo, pageSize);
+        PageResponseDTO<VehicleDTO> vehiclePageResponseDTO = vehicleService.getAllVehicles(pageNo, pageSize);
 
         return ResponseEntity.ok().body(vehiclePageResponseDTO);
     }

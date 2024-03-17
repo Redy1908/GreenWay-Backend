@@ -1,24 +1,21 @@
 package dev.redy1908.greenway.vehicle.service.impl;
 
+import dev.redy1908.greenway.app.common.service.PagingService;
 import dev.redy1908.greenway.vehicle.dto.VehicleCreationDTO;
 import dev.redy1908.greenway.vehicle.dto.VehicleDTO;
-import dev.redy1908.greenway.vehicle.dto.VehiclePageResponseDTO;
 import dev.redy1908.greenway.vehicle.exceptions.VehicleNotFoundException;
 import dev.redy1908.greenway.vehicle.mapper.VehicleMapper;
 import dev.redy1908.greenway.vehicle.model.Vehicle;
 import dev.redy1908.greenway.vehicle.repository.VehicleRepository;
 import dev.redy1908.greenway.vehicle.service.IVehicleService;
+import dev.redy1908.greenway.web.model.PageResponseDTO;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class VehicleServiceImpl implements IVehicleService {
+public class VehicleServiceImpl extends PagingService<Vehicle, VehicleDTO> implements IVehicleService {
 
     private final VehicleRepository vehicleRepository;
     private final VehicleMapper vehicleMapper;
@@ -46,20 +43,15 @@ public class VehicleServiceImpl implements IVehicleService {
     }
 
     @Override
-    public VehiclePageResponseDTO getAllVehicles(int pageNo, int pageSize) {
-        Pageable pageable = PageRequest.of(pageNo, pageSize);
-        Page<Vehicle> vehicles = vehicleRepository.findAll(pageable);
-        List<Vehicle> listVehicles = vehicles.getContent();
-        List<VehicleDTO> content = listVehicles.stream().map(vehicleMapper::toDto).toList();
+    public PageResponseDTO<VehicleDTO> getAllVehicles(int pageNo, int pageSize) {
 
-        VehiclePageResponseDTO vehiclePageResponseDTO = new VehiclePageResponseDTO();
-        vehiclePageResponseDTO.setContent(content);
-        vehiclePageResponseDTO.setPageNo(vehicles.getNumber());
-        vehiclePageResponseDTO.setPageSize(vehicles.getSize());
-        vehiclePageResponseDTO.setTotalElements(vehicles.getTotalElements());
-        vehiclePageResponseDTO.setTotalPages(vehicles.getTotalPages());
-        vehiclePageResponseDTO.setLast(vehicles.isLast());
+        return createPageResponse(
+                () -> vehicleRepository.findAll(PageRequest.of(pageNo, pageSize))
+        );
+    }
 
-        return vehiclePageResponseDTO;
+    @Override
+    protected VehicleDTO mapToDto(Vehicle entity) {
+        return vehicleMapper.toDto(entity);
     }
 }

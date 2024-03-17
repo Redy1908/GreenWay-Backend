@@ -1,4 +1,4 @@
-package dev.redy1908.greenway.delivery.dto;
+package dev.redy1908.greenway.web.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,11 +11,11 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class DeliveryPageResponseDTO {
+public class PageResponseDTO<T> {
     private int pageNo;
     private int pageSize;
     private long totalElements;
     private int totalPages;
     private boolean last;
-    private List<DeliveryDTO> content;
+    private List<T> content;
 }

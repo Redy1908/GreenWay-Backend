@@ -2,10 +2,10 @@ package dev.redy1908.greenway.delivery.controller;
 
 import dev.redy1908.greenway.delivery.dto.DeliveryCreationDto;
 import dev.redy1908.greenway.delivery.dto.DeliveryDTO;
-import dev.redy1908.greenway.delivery.dto.DeliveryPageResponseDTO;
 import dev.redy1908.greenway.delivery.model.Delivery;
 import dev.redy1908.greenway.delivery.service.IDeliveryService;
-import dev.redy1908.greenway.web.model.ResponseDto;
+import dev.redy1908.greenway.web.model.PageResponseDTO;
+import dev.redy1908.greenway.web.model.ResponseDTO;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -24,7 +24,7 @@ public class DeliveryController {
     private final IDeliveryService deliveryService;
 
     @PostMapping
-    public ResponseEntity<ResponseDto> crateDelivery(@Valid @RequestBody DeliveryCreationDto deliveryCreationDto){
+    public ResponseEntity<ResponseDTO> crateDelivery(@Valid @RequestBody DeliveryCreationDto deliveryCreationDto){
 
         Delivery delivery = deliveryService.createDelivery(deliveryCreationDto);
 
@@ -35,7 +35,7 @@ public class DeliveryController {
                 .toUri();
 
         return ResponseEntity.created(location).body(
-                new ResponseDto(
+                new ResponseDTO(
                         HttpStatus.OK.value(),
                         HttpStatus.OK, "New delivery created")
         );
@@ -48,34 +48,34 @@ public class DeliveryController {
     }
 
     @GetMapping
-    public ResponseEntity<DeliveryPageResponseDTO> getAllDeliveries(
+    public ResponseEntity<PageResponseDTO<DeliveryDTO>> getAllDeliveries(
             @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
             @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize
     ){
 
-        DeliveryPageResponseDTO deliveryPageResponseDTO = deliveryService.getAllDeliveries(pageNo, pageSize);
+        PageResponseDTO<DeliveryDTO> deliveryPageResponseDTO = deliveryService.getAllDeliveries(pageNo, pageSize);
 
         return ResponseEntity.ok().body(deliveryPageResponseDTO);
     }
 
     @GetMapping("deliveryMan/{deliveryManUsername}")
-    public ResponseEntity<DeliveryPageResponseDTO> getDeliveriesByDeliveryMan(
+    public ResponseEntity<PageResponseDTO<DeliveryDTO>> getDeliveriesByDeliveryMan(
             @PathVariable String deliveryManUsername,
             @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
             @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize
     ){
 
-        DeliveryPageResponseDTO deliveryPageResponseDTO = deliveryService.getDeliveriesByDeliveryMan(deliveryManUsername, pageNo, pageSize);
+        PageResponseDTO<DeliveryDTO> deliveryPageResponseDTO = deliveryService.getDeliveriesByDeliveryMan(deliveryManUsername, pageNo, pageSize);
 
         return ResponseEntity.ok().body(deliveryPageResponseDTO);
     }
 
     @PutMapping("/select/{deliveryId}")
-    public ResponseEntity<ResponseDto> selectDelivery(@PathVariable Long deliveryId, @RequestParam String deliveryMan){
+    public ResponseEntity<ResponseDTO> selectDelivery(@PathVariable Long deliveryId, @RequestParam String deliveryMan){
         deliveryService.selectDelivery(deliveryId, deliveryMan);
 
         return ResponseEntity.ok().body(
-                new ResponseDto(
+                new ResponseDTO(
                         HttpStatus.OK.value(),
                         HttpStatus.OK, "Delivery assigned"));
     }

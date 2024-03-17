@@ -3,7 +3,7 @@ package dev.redy1908.greenway.exceptions;
 import dev.redy1908.greenway.delivery.exceptions.DeliveryNotFoundException;
 import dev.redy1908.greenway.deliveryMan.exceptions.DeliveryManNotFoundException;
 import dev.redy1908.greenway.vehicle.exceptions.VehicleNotFoundException;
-import dev.redy1908.greenway.web.model.ErrorResponseDto;
+import dev.redy1908.greenway.web.model.ErrorResponseDTO;
 import lombok.NonNull;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -55,9 +55,9 @@ public class GlobalExceptionsHandler extends ResponseEntityExceptionHandler {
     }*/
 
     @ExceptionHandler(DeliveryManNotFoundException.class)
-    public ResponseEntity<ErrorResponseDto> handleDeliveryManNotFoundException(DeliveryManNotFoundException exception,
-                                                                                 WebRequest webRequest){
-        ErrorResponseDto errorResponseDTO = new ErrorResponseDto(
+    public ResponseEntity<ErrorResponseDTO> handleDeliveryManNotFoundException(DeliveryManNotFoundException exception,
+                                                                               WebRequest webRequest){
+        ErrorResponseDTO errorResponseDTO = new ErrorResponseDTO(
                 webRequest.getDescription(false),
                 HttpStatus.NOT_FOUND.value(),
                 HttpStatus.NOT_FOUND,
@@ -68,9 +68,9 @@ public class GlobalExceptionsHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(DeliveryNotFoundException.class)
-    public ResponseEntity<ErrorResponseDto> handleDeliveryNotFoundException(DeliveryNotFoundException exception,
-                                                                               WebRequest webRequest){
-        ErrorResponseDto errorResponseDTO = new ErrorResponseDto(
+    public ResponseEntity<ErrorResponseDTO> handleDeliveryNotFoundException(DeliveryNotFoundException exception,
+                                                                            WebRequest webRequest){
+        ErrorResponseDTO errorResponseDTO = new ErrorResponseDTO(
                 webRequest.getDescription(false),
                 HttpStatus.NOT_FOUND.value(),
                 HttpStatus.NOT_FOUND,
@@ -81,9 +81,9 @@ public class GlobalExceptionsHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(VehicleNotFoundException.class)
-    public ResponseEntity<ErrorResponseDto> handleCustomerAlreadyExistsException(VehicleNotFoundException exception,
+    public ResponseEntity<ErrorResponseDTO> handleCustomerAlreadyExistsException(VehicleNotFoundException exception,
                                                                                  WebRequest webRequest){
-        ErrorResponseDto errorResponseDTO = new ErrorResponseDto(
+        ErrorResponseDTO errorResponseDTO = new ErrorResponseDTO(
                 webRequest.getDescription(false),
                 HttpStatus.NOT_FOUND.value(),
                 HttpStatus.NOT_FOUND,

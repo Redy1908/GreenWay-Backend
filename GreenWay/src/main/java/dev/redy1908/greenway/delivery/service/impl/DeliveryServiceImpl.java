@@ -1,8 +1,8 @@
 package dev.redy1908.greenway.delivery.service.impl;
 
+import dev.redy1908.greenway.app.common.service.PagingService;
 import dev.redy1908.greenway.delivery.dto.DeliveryCreationDto;
 import dev.redy1908.greenway.delivery.dto.DeliveryDTO;
-import dev.redy1908.greenway.delivery.dto.DeliveryPageResponseDTO;
 import dev.redy1908.greenway.delivery.exceptions.DeliveryNotFoundException;
 import dev.redy1908.greenway.delivery.mapper.DeliveryMapper;
 import dev.redy1908.greenway.delivery.model.Delivery;
@@ -19,10 +19,9 @@ import dev.redy1908.greenway.point.Point;
 import dev.redy1908.greenway.vehicle.mapper.VehicleMapper;
 import dev.redy1908.greenway.vehicle.model.Vehicle;
 import dev.redy1908.greenway.vehicle.service.IVehicleService;
+import dev.redy1908.greenway.web.model.PageResponseDTO;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,7 +30,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class DeliveryServiceImpl implements IDeliveryService {
+public class DeliveryServiceImpl extends PagingService<Delivery, DeliveryDTO> implements IDeliveryService {
 
     private final DeliveryRepository deliveryRepository;
     private final IDeliveryPathService deliveryPathService;
@@ -76,41 +75,20 @@ public class DeliveryServiceImpl implements IDeliveryService {
     }
 
     @Override
-    public DeliveryPageResponseDTO getAllDeliveries(int pageNo, int pageSize) {
-        Pageable pageable = PageRequest.of(pageNo, pageSize);
-        Page<Delivery> deliveries = deliveryRepository.findAll(pageable);
-        List<Delivery> listDeliveries = deliveries.getContent();
-        List<DeliveryDTO> content = listDeliveries.stream().map(deliveryMapper::toDto).collect(Collectors.toList());
+    public PageResponseDTO<DeliveryDTO> getAllDeliveries(int pageNo, int pageSize) {
 
-        DeliveryPageResponseDTO deliveryPageResponseDTO = new DeliveryPageResponseDTO();
-        deliveryPageResponseDTO.setContent(content);
-        deliveryPageResponseDTO.setPageNo(deliveries.getNumber());
-        deliveryPageResponseDTO.setPageSize(deliveries.getSize());
-        deliveryPageResponseDTO.setTotalElements(deliveries.getTotalElements());
-        deliveryPageResponseDTO.setTotalPages(deliveries.getTotalPages());
-        deliveryPageResponseDTO.setLast(deliveries.isLast());
-
-        return deliveryPageResponseDTO;
+        return createPageResponse(
+                () -> deliveryRepository.findAll(PageRequest.of(pageNo, pageSize))
+        );
     }
 
 
     @Override
-    public DeliveryPageResponseDTO getDeliveriesByDeliveryMan(String deliveryManUsername, int pageNo, int pageSize) {
+    public PageResponseDTO<DeliveryDTO> getDeliveriesByDeliveryMan(String deliveryManUsername, int pageNo, int pageSize) {
 
-        Pageable pageable = PageRequest.of(pageNo, pageSize);
-        Page<Delivery> deliveries = deliveryRepository.findAllByDeliveryMan_Username(deliveryManUsername, pageable);
-        List<Delivery> listDeliveries = deliveries.getContent();
-        List<DeliveryDTO> content = listDeliveries.stream().map(deliveryMapper::toDto).collect(Collectors.toList());
-
-        DeliveryPageResponseDTO deliveryPageResponseDTO = new DeliveryPageResponseDTO();
-        deliveryPageResponseDTO.setContent(content);
-        deliveryPageResponseDTO.setPageNo(deliveries.getNumber());
-        deliveryPageResponseDTO.setPageSize(deliveries.getSize());
-        deliveryPageResponseDTO.setTotalElements(deliveries.getTotalElements());
-        deliveryPageResponseDTO.setTotalPages(deliveries.getTotalPages());
-        deliveryPageResponseDTO.setLast(deliveries.isLast());
-
-        return deliveryPageResponseDTO;
+        return createPageResponse(
+                () -> deliveryRepository.findAllByDeliveryMan_Username(deliveryManUsername, PageRequest.of(pageNo, pageSize))
+        );
     }
 
     @Override
@@ -127,5 +105,10 @@ public class DeliveryServiceImpl implements IDeliveryService {
         );
 
         delivery.setDeliveryMan(deliveryMan);
+    }
+
+    @Override
+    protected DeliveryDTO mapToDto(Delivery delivery) {
+        return deliveryMapper.toDto(delivery);
     }
 }
