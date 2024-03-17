@@ -5,6 +5,8 @@ public record VehicleDTO(
         String model,
         Double batteryNominalCapacity,
         Double vehicleConsumption,
-        Double currentBatteryCharge
+        Double currentBatteryCharge,
+
+        Double maxCapacity
 ) {
 }

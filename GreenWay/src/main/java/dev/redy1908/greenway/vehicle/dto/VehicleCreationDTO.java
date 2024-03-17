@@ -15,6 +15,9 @@ public record VehicleCreationDTO (
         Double vehicleConsumption,
 
         @NotNull
-        Double currentBatteryCharge
+        Double currentBatteryCharge,
+
+        @NotNull
+        Double maxCapacity
 ){
 }

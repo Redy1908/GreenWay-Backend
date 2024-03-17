@@ -27,7 +27,8 @@ public class VehicleServiceImpl extends PagingService<Vehicle, VehicleDTO> imple
                 vehicleDto.model(),
                 vehicleDto.batteryNominalCapacity(),
                 vehicleDto.vehicleConsumption(),
-                vehicleDto.currentBatteryCharge()
+                vehicleDto.currentBatteryCharge(),
+                vehicleDto.maxCapacity()
         );
 
         return vehicleRepository.save(vehicle);

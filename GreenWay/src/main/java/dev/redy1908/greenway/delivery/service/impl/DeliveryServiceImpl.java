@@ -4,6 +4,7 @@ import dev.redy1908.greenway.app.common.service.PagingService;
 import dev.redy1908.greenway.delivery.dto.DeliveryCreationDto;
 import dev.redy1908.greenway.delivery.dto.DeliveryDTO;
 import dev.redy1908.greenway.delivery.exceptions.DeliveryNotFoundException;
+import dev.redy1908.greenway.delivery.exceptions.VehicleCapacityExceeded;
 import dev.redy1908.greenway.delivery.mapper.DeliveryMapper;
 import dev.redy1908.greenway.delivery.model.Delivery;
 import dev.redy1908.greenway.delivery.repository.DeliveryRepository;
@@ -33,10 +34,12 @@ import java.util.stream.Collectors;
 public class DeliveryServiceImpl extends PagingService<Delivery, DeliveryDTO> implements IDeliveryService {
 
     private final DeliveryRepository deliveryRepository;
+
     private final IDeliveryPathService deliveryPathService;
     private final IVehicleService vehicleService;
     private final IDeliveryManService deliveryManService;
     private final IDeliveryPackageService deliveryPackageService;
+
     private final DeliveryPackageMapper deliveryPackageMapper;
     private final DeliveryMapper deliveryMapper;
     private final VehicleMapper vehicleMapper;
@@ -44,24 +47,17 @@ public class DeliveryServiceImpl extends PagingService<Delivery, DeliveryDTO> im
     @Override
     @Transactional
     public Delivery createDelivery(DeliveryCreationDto deliveryCreationDto) {
-
-        DeliveryPath deliveryPath = deliveryPathService.createDeliveryPath(
-                deliveryCreationDto.startPoint(),
-                deliveryCreationDto.packages().stream().map(
-                        deliveryPackage -> new Point(
-                                deliveryPackage.destination().latitude(),
-                                deliveryPackage.destination().longitude())).collect(Collectors.toList()));
-
-        Vehicle vehicle = vehicleMapper.toEntity(vehicleService.getVehicleById(deliveryCreationDto.vehicleId()));
-
+        DeliveryPath deliveryPath = createDeliveryPath(deliveryCreationDto);
+        Vehicle vehicle = getVehicle(deliveryCreationDto);
         Delivery delivery = new Delivery(deliveryPath, vehicle);
+        List<DeliveryPackage> deliveryPackages = createDeliveryPackages(deliveryCreationDto, delivery);
+        double deliveryTotalWeight = getDeliveryTotalWeight(deliveryPackages);
 
-        List<DeliveryPackage> deliveryPackages = deliveryCreationDto.packages().stream().map(deliveryPackageMapper::toEntity).toList();
-        deliveryPackages.forEach(deliveryPackage -> deliveryPackage.setDelivery(delivery));
-        deliveryPackageService.saveAll(deliveryPackages);
+        if(!vehicleCanCarryAll(vehicle, deliveryTotalWeight)){
+            throw new VehicleCapacityExceeded(vehicle.getMaxCapacity(), deliveryTotalWeight);
+        }
 
         delivery.setDeliveryPackages(deliveryPackages);
-
         return deliveryRepository.save(delivery);
     }
 
@@ -110,5 +106,35 @@ public class DeliveryServiceImpl extends PagingService<Delivery, DeliveryDTO> im
     @Override
     protected DeliveryDTO mapToDto(Delivery delivery) {
         return deliveryMapper.toDto(delivery);
+    }
+
+    private double getDeliveryTotalWeight(List<DeliveryPackage> deliveryPackages){
+        return deliveryPackages.stream()
+                .mapToDouble(DeliveryPackage::getWeight)
+                .sum();
+    }
+
+    private boolean vehicleCanCarryAll(Vehicle vehicle, double deliveryTotalWeight) {
+        return vehicle.getMaxCapacity() >= deliveryTotalWeight;
+    }
+
+    private DeliveryPath createDeliveryPath(DeliveryCreationDto deliveryCreationDto) {
+        List<Point> points = deliveryCreationDto.packages().stream()
+                .map(deliveryPackage -> new Point(deliveryPackage.destination().latitude(), deliveryPackage.destination().longitude()))
+                .collect(Collectors.toList());
+        return deliveryPathService.createDeliveryPath(deliveryCreationDto.startPoint(), points);
+    }
+
+    private Vehicle getVehicle(DeliveryCreationDto deliveryCreationDto) {
+        return vehicleMapper.toEntity(vehicleService.getVehicleById(deliveryCreationDto.vehicleId()));
+    }
+
+    private List<DeliveryPackage> createDeliveryPackages(DeliveryCreationDto deliveryCreationDto, Delivery delivery) {
+        List<DeliveryPackage> deliveryPackages = deliveryCreationDto.packages().stream()
+                .map(deliveryPackageMapper::toEntity)
+                .toList();
+        deliveryPackages.forEach(deliveryPackage -> deliveryPackage.setDelivery(delivery));
+        deliveryPackageService.saveAll(deliveryPackages);
+        return deliveryPackages;
     }
 }

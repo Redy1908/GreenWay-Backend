@@ -18,4 +18,5 @@ public interface IDeliveryService {
     boolean isDeliveryOwner(Long deliveryId, String deliveryManUsername);
 
     void selectDelivery(Long deliveryID, String deliveryManUsername);
+
 }

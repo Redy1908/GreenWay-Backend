@@ -22,5 +22,6 @@ public class Vehicle extends BaseEntity {
     private Double batteryNominalCapacity;
     private Double vehicleConsumption;
     private Double currentBatteryCharge;
+    private Double maxCapacity;
 
 }
