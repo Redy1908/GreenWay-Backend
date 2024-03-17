@@ -22,15 +22,11 @@ public class OsrmServiceImpl implements IosrmService {
     @Override
     public String getRouting(Point startPoint, List<Point> destinations) {
 
-        System.out.println(destinations.toString());
-
         String url = OSRM_DRIVING_PATH + startPoint.longitude() + "," + startPoint.latitude() + ";";
 
         url += destinations.stream().map(
                 point -> point.longitude() + "," + point.latitude())
                 .collect(Collectors.joining(";"));
-
-        System.out.println(url);
 
         return restTemplate.getForEntity(url, String.class).getBody();
     }
