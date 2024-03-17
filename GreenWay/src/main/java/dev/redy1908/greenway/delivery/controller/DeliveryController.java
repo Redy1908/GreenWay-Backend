@@ -1,6 +1,7 @@
 package dev.redy1908.greenway.delivery.controller;
 
 import dev.redy1908.greenway.delivery.dto.DeliveryCreationDto;
+import dev.redy1908.greenway.delivery.dto.DeliveryDTO;
 import dev.redy1908.greenway.delivery.dto.DeliveryPageResponseDTO;
 import dev.redy1908.greenway.delivery.model.Delivery;
 import dev.redy1908.greenway.delivery.service.IDeliveryService;
@@ -42,7 +43,7 @@ public class DeliveryController {
 
     @GetMapping("/id/{deliveryId}")
     @PreAuthorize("hasRole('GREEN_WAY_ADMIN') || @deliveryServiceImpl.isDeliveryOwner(#deliveryId, authentication.principal.claims['preferred_username'])")
-    public ResponseEntity<Delivery> getDeliveryById(@PathVariable Long deliveryId){
+    public ResponseEntity<DeliveryDTO> getDeliveryById(@PathVariable Long deliveryId){
         return ResponseEntity.ok(deliveryService.getDeliveryById(deliveryId));
     }
 

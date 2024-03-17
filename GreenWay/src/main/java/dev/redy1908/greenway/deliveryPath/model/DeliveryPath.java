@@ -21,11 +21,11 @@ public class DeliveryPath {
     private Double durationInSeconds;
 
     @Column(columnDefinition = "TEXT")
-    private String encodedPolyline;
+    private String polyline;
 
     public DeliveryPath(Double distanceInMeters, Double durationInSeconds, String polyline) {
         this.distanceInMeters = distanceInMeters;
         this.durationInSeconds = durationInSeconds;
-        this.encodedPolyline = polyline;
+        this.polyline = polyline;
     }
 }

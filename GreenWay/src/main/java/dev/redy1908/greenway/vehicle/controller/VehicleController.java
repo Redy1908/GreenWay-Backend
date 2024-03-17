@@ -1,6 +1,7 @@
 package dev.redy1908.greenway.vehicle.controller;
 
 import dev.redy1908.greenway.vehicle.dto.VehicleCreationDTO;
+import dev.redy1908.greenway.vehicle.dto.VehicleDTO;
 import dev.redy1908.greenway.vehicle.dto.VehiclePageResponseDTO;
 import dev.redy1908.greenway.vehicle.model.Vehicle;
 import dev.redy1908.greenway.vehicle.service.IVehicleService;
@@ -37,7 +38,7 @@ public class VehicleController {
     }
 
     @GetMapping("/{vehicleId}")
-    public ResponseEntity<Vehicle> getVehicle(@PathVariable Long vehicleId){
+    public ResponseEntity<VehicleDTO> getVehicle(@PathVariable Long vehicleId){
         return ResponseEntity.ok(vehicleService.getVehicleById(vehicleId));
     }
 

@@ -1,8 +1,10 @@
 package dev.redy1908.greenway.delivery.service.impl;
 
 import dev.redy1908.greenway.delivery.dto.DeliveryCreationDto;
+import dev.redy1908.greenway.delivery.dto.DeliveryDTO;
 import dev.redy1908.greenway.delivery.dto.DeliveryPageResponseDTO;
 import dev.redy1908.greenway.delivery.exceptions.DeliveryNotFoundException;
+import dev.redy1908.greenway.delivery.mapper.DeliveryMapper;
 import dev.redy1908.greenway.delivery.model.Delivery;
 import dev.redy1908.greenway.delivery.repository.DeliveryRepository;
 import dev.redy1908.greenway.delivery.service.IDeliveryService;
@@ -14,6 +16,7 @@ import dev.redy1908.greenway.deliveryPackage.service.IDeliveryPackageService;
 import dev.redy1908.greenway.deliveryPath.model.DeliveryPath;
 import dev.redy1908.greenway.deliveryPath.service.IDeliveryPathService;
 import dev.redy1908.greenway.point.Point;
+import dev.redy1908.greenway.vehicle.mapper.VehicleMapper;
 import dev.redy1908.greenway.vehicle.model.Vehicle;
 import dev.redy1908.greenway.vehicle.service.IVehicleService;
 import lombok.RequiredArgsConstructor;
@@ -36,6 +39,8 @@ public class DeliveryServiceImpl implements IDeliveryService {
     private final IDeliveryManService deliveryManService;
     private final IDeliveryPackageService deliveryPackageService;
     private final DeliveryPackageMapper deliveryPackageMapper;
+    private final DeliveryMapper deliveryMapper;
+    private final VehicleMapper vehicleMapper;
 
     @Override
     @Transactional
@@ -48,7 +53,7 @@ public class DeliveryServiceImpl implements IDeliveryService {
                                 deliveryPackage.destination().latitude(),
                                 deliveryPackage.destination().longitude())).collect(Collectors.toList()));
 
-        Vehicle vehicle = vehicleService.getVehicleById(deliveryCreationDto.vehicleId());
+        Vehicle vehicle = vehicleMapper.toEntity(vehicleService.getVehicleById(deliveryCreationDto.vehicleId()));
 
         Delivery delivery = new Delivery(deliveryPath, vehicle);
 
@@ -62,10 +67,12 @@ public class DeliveryServiceImpl implements IDeliveryService {
     }
 
     @Override
-    public Delivery getDeliveryById(Long deliveryId) {
-        return deliveryRepository.findById(deliveryId).orElseThrow(
+    public DeliveryDTO getDeliveryById(Long deliveryId) {
+        Delivery delivery =  deliveryRepository.findById(deliveryId).orElseThrow(
                 () -> new DeliveryNotFoundException(deliveryId)
         );
+
+        return deliveryMapper.toDto(delivery);
     }
 
     @Override
@@ -73,10 +80,10 @@ public class DeliveryServiceImpl implements IDeliveryService {
         Pageable pageable = PageRequest.of(pageNo, pageSize);
         Page<Delivery> deliveries = deliveryRepository.findAll(pageable);
         List<Delivery> listDeliveries = deliveries.getContent();
-        //List<DeliveryDTO> content = listDeliveries.stream().map(deliveryMapper::toDto).collect(Collectors.toList());
+        List<DeliveryDTO> content = listDeliveries.stream().map(deliveryMapper::toDto).collect(Collectors.toList());
 
         DeliveryPageResponseDTO deliveryPageResponseDTO = new DeliveryPageResponseDTO();
-        deliveryPageResponseDTO.setContent(listDeliveries);
+        deliveryPageResponseDTO.setContent(content);
         deliveryPageResponseDTO.setPageNo(deliveries.getNumber());
         deliveryPageResponseDTO.setPageSize(deliveries.getSize());
         deliveryPageResponseDTO.setTotalElements(deliveries.getTotalElements());
@@ -93,10 +100,10 @@ public class DeliveryServiceImpl implements IDeliveryService {
         Pageable pageable = PageRequest.of(pageNo, pageSize);
         Page<Delivery> deliveries = deliveryRepository.findAllByDeliveryMan_Username(deliveryManUsername, pageable);
         List<Delivery> listDeliveries = deliveries.getContent();
-        //List<DeliveryDTO> content = listDeliveries.stream().map(deliveryMapper::toDto).collect(Collectors.toList());
+        List<DeliveryDTO> content = listDeliveries.stream().map(deliveryMapper::toDto).collect(Collectors.toList());
 
         DeliveryPageResponseDTO deliveryPageResponseDTO = new DeliveryPageResponseDTO();
-        deliveryPageResponseDTO.setContent(listDeliveries);
+        deliveryPageResponseDTO.setContent(content);
         deliveryPageResponseDTO.setPageNo(deliveries.getNumber());
         deliveryPageResponseDTO.setPageSize(deliveries.getSize());
         deliveryPageResponseDTO.setTotalElements(deliveries.getTotalElements());

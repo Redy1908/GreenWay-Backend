@@ -14,14 +14,20 @@ import org.springframework.stereotype.Component;
 @Mapper
 public interface DeliveryPackageMapper {
 
+    @Mapping(target = "destination", source = "destination", qualifiedByName = "mapToGreenWayPoint")
     DeliveryPackageDTO toDto(DeliveryPackage deliveryPackage);
 
-    @Mapping(target = "destination", source = "destination", qualifiedByName = "mapPoint")
+    @Mapping(target = "destination", source = "destination", qualifiedByName = "mapToGeometryPoint")
     DeliveryPackage toEntity(DeliveryPackageDTO deliveryPackageDTO);
 
-    @Named("mapPoint")
-    default org.locationtech.jts.geom.Point mapPoint(Point point) {
+    @Named("mapToGeometryPoint")
+    default org.locationtech.jts.geom.Point mapToGeometryPoint(Point point) {
         GeometryFactory geometryFactory = new GeometryFactory();
         return geometryFactory.createPoint(new Coordinate(point.latitude(), point.longitude()));
+    }
+
+    @Named("mapToGreenWayPoint")
+    default Point mapToGreenWayPoint(org.locationtech.jts.geom.Point point) {
+        return new Point(point.getX(), point.getY());
     }
 }

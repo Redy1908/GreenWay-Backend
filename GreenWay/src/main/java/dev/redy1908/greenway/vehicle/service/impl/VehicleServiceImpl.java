@@ -1,8 +1,10 @@
 package dev.redy1908.greenway.vehicle.service.impl;
 
 import dev.redy1908.greenway.vehicle.dto.VehicleCreationDTO;
+import dev.redy1908.greenway.vehicle.dto.VehicleDTO;
 import dev.redy1908.greenway.vehicle.dto.VehiclePageResponseDTO;
 import dev.redy1908.greenway.vehicle.exceptions.VehicleNotFoundException;
+import dev.redy1908.greenway.vehicle.mapper.VehicleMapper;
 import dev.redy1908.greenway.vehicle.model.Vehicle;
 import dev.redy1908.greenway.vehicle.repository.VehicleRepository;
 import dev.redy1908.greenway.vehicle.service.IVehicleService;
@@ -19,6 +21,7 @@ import java.util.List;
 public class VehicleServiceImpl implements IVehicleService {
 
     private final VehicleRepository vehicleRepository;
+    private final VehicleMapper vehicleMapper;
 
     @Override
     public Vehicle saveVehicle(VehicleCreationDTO vehicleDto) {
@@ -34,10 +37,12 @@ public class VehicleServiceImpl implements IVehicleService {
     }
 
     @Override
-    public Vehicle getVehicleById(Long vehicleId) {
-        return vehicleRepository.findById(vehicleId).orElseThrow(
+    public VehicleDTO getVehicleById(Long vehicleId) {
+        Vehicle vehicle =  vehicleRepository.findById(vehicleId).orElseThrow(
                 () -> new VehicleNotFoundException(vehicleId)
         );
+
+        return vehicleMapper.toDto(vehicle);
     }
 
     @Override
@@ -45,9 +50,10 @@ public class VehicleServiceImpl implements IVehicleService {
         Pageable pageable = PageRequest.of(pageNo, pageSize);
         Page<Vehicle> vehicles = vehicleRepository.findAll(pageable);
         List<Vehicle> listVehicles = vehicles.getContent();
+        List<VehicleDTO> content = listVehicles.stream().map(vehicleMapper::toDto).toList();
 
         VehiclePageResponseDTO vehiclePageResponseDTO = new VehiclePageResponseDTO();
-        vehiclePageResponseDTO.setContent(listVehicles);
+        vehiclePageResponseDTO.setContent(content);
         vehiclePageResponseDTO.setPageNo(vehicles.getNumber());
         vehiclePageResponseDTO.setPageSize(vehicles.getSize());
         vehiclePageResponseDTO.setTotalElements(vehicles.getTotalElements());
