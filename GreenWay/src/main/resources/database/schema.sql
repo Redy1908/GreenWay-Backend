@@ -1,61 +1,50 @@
+create table delivery_man
+(
+    id       bigserial primary key,
+    username varchar(255) not null unique
+);
+
 create table vehicle
 (
     battery_nominal_capacity double precision,
-    charging_power           double precision,
     current_battery_charge   double precision,
     vehicle_consumption      double precision,
+    created_at               timestamp(6),
     id                       bigserial primary key,
-    charge_port_type         varchar(255),
-    model                    varchar(255) unique
-);
-
-create table delivery_path_charging_stations
-(
-    charging_station_id bigint not null constraint fkd2ntlvttjds2io5gol9f021vb references charging_station,
-    delivery_path_id    bigint not null constraint fk171e39d3ue1wu5nua5pkotqjw references delivery_path,
-    primary key (charging_station_id, delivery_path_id)
-);
-
-create table delivery_path
-(
-    distance         double precision,
-    duration         double precision,
-    id               bigserial primary key,
-    encoded_polyline varchar(255),
-    end_point        bytea,
-    path             bytea,
-    start_point      bytea
-);
-
-create table delivery_man
-(
-    id bigserial primary key,
-    vehicle_id bigint unique constraint fkido13ara2m0u5p5bj654cqc2w references vehicle
+    updated_at               timestamp(6),
+    created_by               varchar(255),
+    model                    varchar(255),
+    updated_by               varchar(255)
 );
 
 create table delivery
 (
-    delivery_man     bigint constraint fk7eav2b9pe8f748ef7d9c72hjh references delivery_man,
+    created_at       timestamp(6),
+    delivery_man_id  bigint unique constraint fk6pnmflviqbuwdahnt235e3aqi references delivery_man,
     delivery_path_id bigint unique constraint fk9y3eml7rtca5to5sxyp81nyb1 references delivery_path,
-    id               bigserial primary key
+    id               bigserial primary key,
+    updated_at       timestamp(6),
+    vehicle_id       bigint unique constraint fkr85isw6qn62sn3flu0ycx3dav references vehicle,
+    created_by       varchar(255),
+    updated_by       varchar(255)
 );
 
-create table charging_station_charging_ports
+create table delivery_path
 (
-    charging_port_id    bigint not null constraint fk377uv9jatcmfebvf58922fo90 references charging_port,
-    charging_station_id bigint not null constraint fkigehudulkcci5tq7mh9k1xh1l references charging_station,
-    primary key (charging_port_id, charging_station_id)
+    distance_in_meters  double precision,
+    duration_in_seconds double precision,
+    id                  bigserial primary key,
+    encoded_polyline    text
 );
 
-create table charging_station
+create table delivery_package
 (
-    id       bigserial primary key,
-    location bytea
-);
-
-create table charging_port
-(
-    charging_power double precision,
-    id             bigserial primary key,
-    type           varchar(255)
+    weight      double precision,
+    created_at  timestamp(6),
+    delivery_id bigint constraint fkf7jb0pxgy1qrxk2m5iv3y7vtb references delivery,
+    id          bigserial primary key,
+    updated_at  timestamp(6),
+    created_by  varchar(255),
+    updated_by  varchar(255),
+    destination geography
 );
