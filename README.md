@@ -65,3 +65,11 @@ do the following:
 2. Run ```docker compose up -d``` in ```osrm/```
 3. Run ```docker-compose up -d postgis``` in the root folder
 4. Run the Spring Boot Application the REST API will be available at http://localhost:8080
+
+---
+
+| Useful commands                                           |
+|-----------------------------------------------------------|
+| ```./mvnw -DskipTests clean install```                    |
+| ```./mvnw -DskipTests spring-boot:build-image```          |
+| ```docker push docker.io/redy1908/green-way-backend:v1``` |
