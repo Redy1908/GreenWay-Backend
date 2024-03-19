@@ -13,7 +13,7 @@ public interface IDeliveryService {
 
     PageResponseDTO<DeliveryDTO> getAllDeliveries(int pageNo, int pageSize);
 
-    PageResponseDTO<DeliveryDTO> getDeliveriesByDeliveryMan(String deliveryManUsername, int pageNo, int pageSize);
+    PageResponseDTO<DeliveryDTO> getAllUnassignedDeliveries(int pageNo, int pageSize);
 
     boolean isDeliveryOwner(Long deliveryId, String deliveryManUsername);
 

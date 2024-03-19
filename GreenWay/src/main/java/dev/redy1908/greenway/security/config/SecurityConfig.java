@@ -41,10 +41,10 @@ public class SecurityConfig {
     private static final String[] GET_ADMIN_DELIVERY_MAN_LIST_URL = {
             "/api/v1/vehicles/?",
             "/api/v1/deliveries/id/?",
-            "/api/v1/deliveries/deliveryMan/?"
+            "/api/v1/deliveries/unassigned"
     };
 
-    private static final String[] PUT_ADMIN_DELIVERY_MAN_LIST_URL = {
+    private static final String[] PUT_DELIVERY_MAN_LIST_URL = {
             "/api/v1/deliveries/select/?"
     };
 
@@ -57,7 +57,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, POST_ADMIN_LIST_URL).hasRole(ADMIN_ROLE)
                         .requestMatchers(HttpMethod.GET, GET_ADMIN_LIST_URL).hasRole(ADMIN_ROLE)
                         .requestMatchers(HttpMethod.GET, GET_ADMIN_DELIVERY_MAN_LIST_URL).hasAnyRole(ADMIN_ROLE, DELIVERY_MAN_ROLE)
-                        .requestMatchers(HttpMethod.PUT, PUT_ADMIN_DELIVERY_MAN_LIST_URL).hasAnyRole(ADMIN_ROLE, DELIVERY_MAN_ROLE)
+                        .requestMatchers(HttpMethod.PUT, PUT_DELIVERY_MAN_LIST_URL).hasRole(DELIVERY_MAN_ROLE)
                         .anyRequest().authenticated()
                 )
                 .addFilterAfter(deliveryManFilter, BasicAuthenticationFilter.class)

@@ -578,11 +578,13 @@
 							"query": [
 								{
 									"key": "pageNo",
-									"value": "0"
+									"value": "0",
+									"description": "OPTIONAL default = 0"
 								},
 								{
 									"key": "pageSize",
-									"value": "5"
+									"value": "5",
+									"description": "OPTIONAL default = 10"
 								}
 							]
 						}
@@ -590,7 +592,7 @@
 					"response": []
 				},
 				{
-					"name": "Get Deliveries by Delivery Man",
+					"name": "Get All Unassigned Deliveries",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},

@@ -58,14 +58,13 @@ public class DeliveryController {
         return ResponseEntity.ok().body(deliveryPageResponseDTO);
     }
 
-    @GetMapping("deliveryMan/{deliveryManUsername}")
-    public ResponseEntity<PageResponseDTO<DeliveryDTO>> getDeliveriesByDeliveryMan(
-            @PathVariable String deliveryManUsername,
+    @GetMapping("/unassigned")
+    public ResponseEntity<PageResponseDTO<DeliveryDTO>> getAllUnassignedDeliveries(
             @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
             @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize
     ){
 
-        PageResponseDTO<DeliveryDTO> deliveryPageResponseDTO = deliveryService.getDeliveriesByDeliveryMan(deliveryManUsername, pageNo, pageSize);
+        PageResponseDTO<DeliveryDTO> deliveryPageResponseDTO = deliveryService.getAllUnassignedDeliveries(pageNo, pageSize);
 
         return ResponseEntity.ok().body(deliveryPageResponseDTO);
     }

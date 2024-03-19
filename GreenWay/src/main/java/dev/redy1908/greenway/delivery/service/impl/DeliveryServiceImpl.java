@@ -79,10 +79,10 @@ public class DeliveryServiceImpl extends PagingService<Delivery, DeliveryDTO> im
 
 
     @Override
-    public PageResponseDTO<DeliveryDTO> getDeliveriesByDeliveryMan(String deliveryManUsername, int pageNo, int pageSize) {
+    public PageResponseDTO<DeliveryDTO> getAllUnassignedDeliveries(int pageNo, int pageSize) {
 
         return createPageResponse(
-                () -> deliveryRepository.findAllByDeliveryMan_Username(deliveryManUsername, PageRequest.of(pageNo, pageSize))
+                () -> deliveryRepository.findAllByDeliveryManIsNull(PageRequest.of(pageNo, pageSize))
         );
     }
 

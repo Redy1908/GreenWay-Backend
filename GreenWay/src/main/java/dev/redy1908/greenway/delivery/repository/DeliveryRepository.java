@@ -11,7 +11,7 @@ import java.util.Optional;
 @Repository
 public interface DeliveryRepository extends JpaRepository<Delivery, Long> {
 
-    Page<Delivery> findAllByDeliveryMan_Username(String deliveryManUsername, Pageable pageable);
+    Page<Delivery> findAllByDeliveryManIsNull(Pageable pageable);
 
     Optional<Delivery> getDeliveryByIdAndDeliveryMan_Username(Long deliveryId, String deliveryManUsername);
 }
