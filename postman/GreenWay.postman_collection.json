@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "a8cab992-d548-4ebb-b7c7-eaed4e079967",
+		"_postman_id": "b0be3416-151a-418b-a068-97550934d1b1",
 		"name": "GreenWay",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "27276004"
@@ -76,7 +76,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"model\": \"Tesla Model 3\",\r\n    \"batteryNominalCapacity\": \"60.0\",\r\n    \"vehicleConsumption\": \"139.0\",\r\n    \"currentBatteryCharge\": \"100\"\r\n}",
+							"raw": "{\r\n    \"model\": \"Tesla Model 3\",\r\n    \"batteryNominalCapacity\": \"60.0\",\r\n    \"vehicleConsumption\": \"139.0\",\r\n    \"currentBatteryCharge\": \"100\",\r\n    \"maxCapacity\": \"100\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -669,7 +669,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/v1/deliveries/deliveryMan/deliveryman1?pageNo=0&pageSize=5",
+							"raw": "http://localhost:8080/api/v1/deliveries/unassigned?pageNo=0&pageSize=5",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -679,8 +679,7 @@
 								"api",
 								"v1",
 								"deliveries",
-								"deliveryMan",
-								"deliveryman1"
+								"unassigned"
 							],
 							"query": [
 								{
