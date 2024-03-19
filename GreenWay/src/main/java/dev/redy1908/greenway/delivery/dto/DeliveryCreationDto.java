@@ -1,6 +1,6 @@
 package dev.redy1908.greenway.delivery.dto;
 
-import dev.redy1908.greenway.deliveryPackage.dto.DeliveryPackageDTO;
+import dev.redy1908.greenway.delivery_package.dto.DeliveryPackageDTO;
 import dev.redy1908.greenway.point.Point;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;

@@ -2,7 +2,7 @@ package dev.redy1908.greenway.exceptions;
 
 import dev.redy1908.greenway.delivery.exceptions.DeliveryNotFoundException;
 import dev.redy1908.greenway.delivery.exceptions.VehicleCapacityExceeded;
-import dev.redy1908.greenway.deliveryMan.exceptions.DeliveryManNotFoundException;
+import dev.redy1908.greenway.delivery_man.exceptions.DeliveryManNotFoundException;
 import dev.redy1908.greenway.vehicle.exceptions.VehicleNotFoundException;
 import dev.redy1908.greenway.web.model.ErrorResponseDTO;
 import lombok.NonNull;
@@ -34,7 +34,7 @@ public class GlobalExceptionsHandler extends ResponseEntityExceptionHandler {
         Map<String, String> validationErrors = new HashMap<>();
         List<ObjectError> validationErrorList = ex.getBindingResult().getAllErrors();
 
-        validationErrorList.forEach((error) -> {
+        validationErrorList.forEach(error -> {
             String fieldName = ((FieldError) error).getField();
             String validationMsg = error.getDefaultMessage();
             validationErrors.put(fieldName, validationMsg);

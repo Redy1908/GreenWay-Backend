@@ -1,7 +1,7 @@
 package dev.redy1908.greenway.delivery.dto;
 
-import dev.redy1908.greenway.deliveryPackage.dto.DeliveryPackageDTO;
-import dev.redy1908.greenway.deliveryPath.dto.DeliveryPathDTO;
+import dev.redy1908.greenway.delivery_package.dto.DeliveryPackageDTO;
+import dev.redy1908.greenway.delivery_path.dto.DeliveryPathDTO;
 
 import java.util.List;
 

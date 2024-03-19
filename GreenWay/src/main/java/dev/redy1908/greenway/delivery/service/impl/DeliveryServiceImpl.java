@@ -9,13 +9,13 @@ import dev.redy1908.greenway.delivery.mapper.DeliveryMapper;
 import dev.redy1908.greenway.delivery.model.Delivery;
 import dev.redy1908.greenway.delivery.repository.DeliveryRepository;
 import dev.redy1908.greenway.delivery.service.IDeliveryService;
-import dev.redy1908.greenway.deliveryMan.model.DeliveryMan;
-import dev.redy1908.greenway.deliveryMan.service.IDeliveryManService;
-import dev.redy1908.greenway.deliveryPackage.mapper.DeliveryPackageMapper;
-import dev.redy1908.greenway.deliveryPackage.model.DeliveryPackage;
-import dev.redy1908.greenway.deliveryPackage.service.IDeliveryPackageService;
-import dev.redy1908.greenway.deliveryPath.model.DeliveryPath;
-import dev.redy1908.greenway.deliveryPath.service.IDeliveryPathService;
+import dev.redy1908.greenway.delivery_man.model.DeliveryMan;
+import dev.redy1908.greenway.delivery_man.service.IDeliveryManService;
+import dev.redy1908.greenway.delivery_package.mapper.DeliveryPackageMapper;
+import dev.redy1908.greenway.delivery_package.model.DeliveryPackage;
+import dev.redy1908.greenway.delivery_package.service.IDeliveryPackageService;
+import dev.redy1908.greenway.delivery_path.model.DeliveryPath;
+import dev.redy1908.greenway.delivery_path.service.IDeliveryPathService;
 import dev.redy1908.greenway.point.Point;
 import dev.redy1908.greenway.vehicle.mapper.VehicleMapper;
 import dev.redy1908.greenway.vehicle.model.Vehicle;
@@ -27,7 +27,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -121,7 +120,7 @@ public class DeliveryServiceImpl extends PagingService<Delivery, DeliveryDTO> im
     private DeliveryPath createDeliveryPath(DeliveryCreationDto deliveryCreationDto) {
         List<Point> points = deliveryCreationDto.packages().stream()
                 .map(deliveryPackage -> new Point(deliveryPackage.destination().latitude(), deliveryPackage.destination().longitude()))
-                .collect(Collectors.toList());
+                .toList();
         return deliveryPathService.createDeliveryPath(deliveryCreationDto.startPoint(), points);
     }
 

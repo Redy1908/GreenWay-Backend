@@ -21,15 +21,43 @@ public class SecurityConfig {
 
     private final DeliveryManFilter deliveryManFilter;
 
+    private static final String ADMIN_ROLE = "GREEN_WAY_ADMIN";
+    private static final String DELIVERY_MAN_ROLE = "GREEN_WAY_DELIVERY_MAN";
+
+    private static final String[] WHITE_LIST_URL = {
+
+    };
+
+    private static final String[] POST_ADMIN_LIST_URL = {
+            "/api/v1/vehicles",
+            "/api/v1/deliveries"
+    };
+
+    private static final String[] GET_ADMIN_LIST_URL = {
+            "/api/v1/vehicles",
+            "/api/v1/deliveries"
+    };
+
+    private static final String[] GET_ADMIN_DELIVERY_MAN_LIST_URL = {
+            "/api/v1/vehicles/?",
+            "/api/v1/deliveries/id/?",
+            "/api/v1/deliveries/deliveryMan/?"
+    };
+
+    private static final String[] PUT_ADMIN_DELIVERY_MAN_LIST_URL = {
+            "/api/v1/deliveries/select/?"
+    };
+
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-        http.authorizeHttpRequests((auth) -> auth
-                        .requestMatchers(HttpMethod.POST,"/api/v1/vehicles/**").hasRole("GREEN_WAY_ADMIN")
-                        .requestMatchers(HttpMethod.GET,"/api/v1/vehicles/**").hasAnyRole("GREEN_WAY_ADMIN", "GREEN_WAY_DELIVERY_MAN")
-                        .requestMatchers(HttpMethod.POST, "/api/v1/deliveries/**").hasRole("GREEN_WAY_ADMIN")
-                        .requestMatchers(HttpMethod.GET, "/api/v1/deliveries/**").hasAnyRole("GREEN_WAY_ADMIN", "GREEN_WAY_DELIVERY_MAN")
-                        .requestMatchers(HttpMethod.PUT, "/api/v1/deliveries/**").hasAnyRole("GREEN_WAY_ADMIN", "GREEN_WAY_DELIVERY_MAN")
+        http.authorizeHttpRequests(auth -> auth
+                        .requestMatchers(WHITE_LIST_URL).permitAll()
+                        .requestMatchers(HttpMethod.POST, POST_ADMIN_LIST_URL).hasRole(ADMIN_ROLE)
+                        .requestMatchers(HttpMethod.GET, GET_ADMIN_LIST_URL).hasRole(ADMIN_ROLE)
+                        .requestMatchers(HttpMethod.GET, GET_ADMIN_DELIVERY_MAN_LIST_URL).hasAnyRole(ADMIN_ROLE, DELIVERY_MAN_ROLE)
+                        .requestMatchers(HttpMethod.PUT, PUT_ADMIN_DELIVERY_MAN_LIST_URL).hasAnyRole(ADMIN_ROLE, DELIVERY_MAN_ROLE)
                         .anyRequest().authenticated()
                 )
                 .addFilterAfter(deliveryManFilter, BasicAuthenticationFilter.class)
@@ -42,10 +70,8 @@ public class SecurityConfig {
     }
 
     public JwtAuthenticationConverter jwtAuthenticationConverter(){
-        JwtAuthenticationConverter jwtAuthenticationConverter =
-                new JwtAuthenticationConverter();
-        jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter
-                (new KeyCloakRoleConverter());
+        JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();
+        jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(new KeyCloakRoleConverter());
 
         return jwtAuthenticationConverter;
     }

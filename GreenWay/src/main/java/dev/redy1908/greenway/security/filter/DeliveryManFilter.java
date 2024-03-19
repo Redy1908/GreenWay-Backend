@@ -1,7 +1,7 @@
 package dev.redy1908.greenway.security.filter;
 
-import dev.redy1908.greenway.deliveryMan.model.DeliveryMan;
-import dev.redy1908.greenway.deliveryMan.repository.DeliveryManRepository;
+import dev.redy1908.greenway.delivery_man.model.DeliveryMan;
+import dev.redy1908.greenway.delivery_man.repository.DeliveryManRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
@@ -23,7 +23,7 @@ public class DeliveryManFilter extends GenericFilterBean {
     private final DeliveryManRepository deliveryManRepository;
 
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException, ServletException {
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 
         HttpServletRequest httpRequest = (HttpServletRequest) request;
 

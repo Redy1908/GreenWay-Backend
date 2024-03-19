@@ -2,9 +2,9 @@ package dev.redy1908.greenway.delivery.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import dev.redy1908.greenway.app.common.model.BaseEntity;
-import dev.redy1908.greenway.deliveryMan.model.DeliveryMan;
-import dev.redy1908.greenway.deliveryPackage.model.DeliveryPackage;
-import dev.redy1908.greenway.deliveryPath.model.DeliveryPath;
+import dev.redy1908.greenway.delivery_man.model.DeliveryMan;
+import dev.redy1908.greenway.delivery_package.model.DeliveryPackage;
+import dev.redy1908.greenway.delivery_path.model.DeliveryPath;
 import dev.redy1908.greenway.vehicle.model.Vehicle;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -29,7 +29,7 @@ public class Delivery extends BaseEntity {
     private Vehicle vehicle;
 
     @JsonManagedReference
-    @OneToOne(orphanRemoval = false)
+    @OneToOne
     @JoinColumn(name = "delivery_man_id")
     private DeliveryMan deliveryMan;
 
