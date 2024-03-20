@@ -24,7 +24,7 @@ public class DeliveryController {
     private final IDeliveryService deliveryService;
 
     @PostMapping
-    public ResponseEntity<ResponseDTO> crateDelivery(@Valid @RequestBody DeliveryCreationDto deliveryCreationDto){
+    public ResponseEntity<ResponseDTO> createDelivery(@Valid @RequestBody DeliveryCreationDto deliveryCreationDto) {
 
         Delivery delivery = deliveryService.createDelivery(deliveryCreationDto);
 
@@ -37,21 +37,19 @@ public class DeliveryController {
         return ResponseEntity.created(location).body(
                 new ResponseDTO(
                         HttpStatus.OK.value(),
-                        HttpStatus.OK, "New delivery created")
-        );
+                        HttpStatus.OK, "New delivery created"));
     }
 
     @GetMapping("/id/{deliveryId}")
     @PreAuthorize("hasRole('GREEN_WAY_ADMIN') || @deliveryServiceImpl.isDeliveryOwner(#deliveryId, authentication.principal.claims['preferred_username'])")
-    public ResponseEntity<DeliveryDTO> getDeliveryById(@PathVariable Long deliveryId){
+    public ResponseEntity<DeliveryDTO> getDeliveryById(@PathVariable Long deliveryId) {
         return ResponseEntity.ok(deliveryService.getDeliveryById(deliveryId));
     }
 
     @GetMapping
     public ResponseEntity<PageResponseDTO<DeliveryDTO>> getAllDeliveries(
             @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
-            @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize
-    ){
+            @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize) {
 
         PageResponseDTO<DeliveryDTO> deliveryPageResponseDTO = deliveryService.getAllDeliveries(pageNo, pageSize);
 
@@ -61,16 +59,16 @@ public class DeliveryController {
     @GetMapping("/unassigned")
     public ResponseEntity<PageResponseDTO<DeliveryDTO>> getAllUnassignedDeliveries(
             @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
-            @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize
-    ){
+            @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize) {
 
-        PageResponseDTO<DeliveryDTO> deliveryPageResponseDTO = deliveryService.getAllUnassignedDeliveries(pageNo, pageSize);
+        PageResponseDTO<DeliveryDTO> deliveryPageResponseDTO = deliveryService.getAllUnassignedDeliveries(pageNo,
+                pageSize);
 
         return ResponseEntity.ok().body(deliveryPageResponseDTO);
     }
 
     @PutMapping("/select/{deliveryId}")
-    public ResponseEntity<ResponseDTO> selectDelivery(@PathVariable Long deliveryId, @RequestParam String deliveryMan){
+    public ResponseEntity<ResponseDTO> selectDelivery(@PathVariable Long deliveryId, @RequestParam String deliveryMan) {
         deliveryService.selectDelivery(deliveryId, deliveryMan);
 
         return ResponseEntity.ok().body(
