@@ -3,3 +3,5 @@ osrm/data/
 !osrm/data/.gitkeep
 
 .idea/
+
+.vscode/
