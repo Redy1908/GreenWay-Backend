@@ -4,3 +4,7 @@ services:
     image: redy1908/green-way-osrm
     ports:
       - "5000:5000"
+  osrm-frontend:
+    image: osrm/osrm-frontend
+    ports:
+      - "9966:9966"
