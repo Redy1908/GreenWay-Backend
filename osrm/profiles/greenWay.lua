@@ -340,9 +340,8 @@ function setup()
 end
 
 function process_segment(profile, segment)
-  local sourcedata = raster:query(profile.raster_source, segment.source.lon, segment.source.lat)
-  local targetdata = raster:query(profile.raster_source, segment.target.lon, segment.target.lat)
-  io.write("evaluating segment: " .. sourcedata.datum .. " " .. targetdata.datum .. "\n")
+  local sourcedata = raster:interpolate(profile.raster_source, segment.source.lon, segment.source.lat)
+  local targetdata = raster:interpolate(profile.raster_source, segment.target.lon, segment.target.lat)
   local invalid = sourcedata.invalid_data()
   local scaled_weight = segment.weight
   local scaled_duration = segment.duration
@@ -351,18 +350,8 @@ function process_segment(profile, segment)
     local slope = (targetdata.datum - sourcedata.datum) / segment.distance
 
     if slope > 0 then
-      scaled_weight = scaled_weight * (1.0 + (slope * 5.0))
-      scaled_duration = scaled_duration * (1.0 + (slope * 5.0))
-    elseif slope < 0 then
-      scaled_weight = scaled_weight / (1.0 - (slope * 5.0))
-      scaled_duration = scaled_duration / (1.0 - (slope * 5.0))
+      scaled_weight = scaled_weight * (1.0 + (slope * 200.0))
     end
-
-    io.write("   slope: " .. slope .. "\n")
-    io.write("   was weight: " .. segment.weight .. "\n")
-    io.write("   new weight: " .. scaled_weight .. "\n")
-    io.write("   was duration: " .. segment.duration .. "\n")
-    io.write("   new duration: " .. scaled_duration .. "\n")
   end
 
   segment.weight = scaled_weight
