@@ -1,7 +1,7 @@
 version: "3"
 services:
   green-way-osrm:
-    image: redy1908/green-way-osrm
+    image: redy1908/green-way-osrm:v1
     ports:
       - "5000:5000"
   osrm-frontend:
