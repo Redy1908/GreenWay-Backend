@@ -57,7 +57,7 @@ By default, OSMR is configured with the map of Southern Italy and the relative e
 2. You will get a file named ```your-location.osm.pbf```
 3. Move the file to ```osrm/data```
 4. Go to ```osrm/``` edit the ```Dockerfile``` at line ```6``` set ```OSRM_FILE``` value to ```your-location```
-5. Download the needed elevation data from [here](https://srtm.csi.cgiar.org/srtmdata/)
+5. Download the needed elevation data from [here](https://srtm.csi.cgiar.org/srtmdata/), select ```Esri ASCII```
 6. You will get a file with extension ```.asc``` move that file to ```osrm/data```
 7. Open the file e note the content of the first ```6``` lines
 8. Go to ```osrm/``` edit the ```Dockerfile``` from line ```7``` to ```13``` with the content from the  ```.asc``` file (step 7)
