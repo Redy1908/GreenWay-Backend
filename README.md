@@ -50,8 +50,9 @@ By default, OSMR is configured with the map of Southern Italy and the relative e
 6. You will get a file with extension ```.asc``` move that file to ```osrm/data```
 7. Open the file e note the content of the first ```6``` lines
 8. Go to ```osrm/``` edit the ```Dockerfile``` from line ```7``` to ```13``` with the content from the  ```.asc``` file (step 7)
-9. Run the following command inside ```osrm/```: ```docker build . -t {dockerHubUsername}/{imageName}:{imageTag}```
-6. Edit the ```docker-compose.yml``` file in the root directory, on line 64, replace the `image` value with the name of your image (use the value used in the step above).
+9. Remove the first ```6``` lines from the  ```.asc``` file, save the changes
+10. Run the following command inside ```osrm/```: ```docker build . -t {dockerHubUsername}/{imageName}:{imageTag}```
+11. Edit the ```docker-compose.yml``` file in the root directory, on line 64, replace the `image` value with the name of your image (use the value used in the step above).
 
 
 ### 2. Spring Boot
