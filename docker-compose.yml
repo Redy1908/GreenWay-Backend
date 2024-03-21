@@ -61,7 +61,7 @@ services:
     volumes:
       - postgis_data:/var/lib/postgresql/postgis/data
   green-way-osrm:
-    image: redy1908/green-way-osrm
+    image: redy1908/green-way-osrm:v1
     ports:
       - "5000:5000"
     networks:
@@ -70,6 +70,7 @@ services:
 volumes:
   postgis_data:
   keycloak_data:
+
 
 networks:
   greenway:
