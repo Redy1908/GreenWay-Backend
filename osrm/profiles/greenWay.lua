@@ -340,39 +340,33 @@ function setup()
 end
 
 function process_segment(profile, segment)
-  local out_of_bounds = false
-  if segment.source.lon < LON_MIN or segment.source.lon > LON_MAX or
-      segment.source.lat < LAT_MIN or segment.source.lat > LAT_MAX or
-      segment.target.lon < LON_MIN or segment.target.lon > LON_MAX or
-      segment.target.lat < LAT_MIN or segment.target.lat > LAT_MAX then
-    out_of_bounds = true
-  end
+  local sourcedata = raster:query(profile.raster_source, segment.source.lon, segment.source.lat)
+  local targetdata = raster:query(profile.raster_source, segment.target.lon, segment.target.lat)
+  io.write("evaluating segment: " .. sourcedata.datum .. " " .. targetdata.datum .. "\n")
+  local invalid = sourcedata.invalid_data()
+  local scaled_weight = segment.weight
+  local scaled_duration = segment.duration
 
-  if out_of_bounds == false then
-    local sourceData = raster:interpolate(profile.raster_source, segment.source.lon, segment.source.lat)
-    local targetData = raster:interpolate(profile.raster_source, segment.target.lon, segment.target.lat)
-    local elev_delta = targetData.datum - sourceData.datum
+  if sourcedata.datum ~= invalid and targetdata.datum ~= invalid then
+    local slope = (targetdata.datum - sourcedata.datum) / segment.distance
 
-    local slope = 0
-    local penalize = 0
-
-    if segment.distance ~= 0 and targetData.datum > 0 and sourceData.datum > 0 then
-      slope = elev_delta / segment.distance
-    end
-
-    -- Penalize uphill segments, reward downhill segments
     if slope > 0 then
-      penalize = 0.6
+      scaled_weight = scaled_weight * (1.0 + (slope * 5.0))
+      scaled_duration = scaled_duration * (1.0 + (slope * 5.0))
     elseif slope < 0 then
-      penalize = -0.3
+      scaled_weight = scaled_weight / (1.0 - (slope * 5.0))
+      scaled_duration = scaled_duration / (1.0 - (slope * 5.0))
     end
 
-    if slope ~= 0 then
-      segment.weight = segment.weight * (1 + penalize)
-      -- a very rough estimate of duration of the edge so that the time estimate is more accurate
-      segment.duration = segment.duration * (1 + slope)
-    end
+    io.write("   slope: " .. slope .. "\n")
+    io.write("   was weight: " .. segment.weight .. "\n")
+    io.write("   new weight: " .. scaled_weight .. "\n")
+    io.write("   was duration: " .. segment.duration .. "\n")
+    io.write("   new duration: " .. scaled_duration .. "\n")
   end
+
+  segment.weight = scaled_weight
+  segment.duration = scaled_duration
 end
 
 function process_node(profile, node, result, relations)
