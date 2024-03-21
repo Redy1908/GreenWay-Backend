@@ -36,6 +36,17 @@ Ensure that [Docker](https://www.docker.com/) is installed and running on your s
 Execute ```docker compose up -d``` in the root directory. 
 - The REST API will be available at http://localhost:8080.
 
+## Running only OSRM
+
+Ensure that [Docker](https://www.docker.com/) is installed and running on your system.
+
+Execute ```docker compose up -d``` in ```osrm/```.
+
+- OSRM backend will be available at http://localhost:5000
+- OSRM frontend will be available at http://localhost:9966
+
+
+
 ## Customizing the Setup (Optional)
 
 ### 1. OpenStreetMap Routing (OSMR)
@@ -52,7 +63,7 @@ By default, OSMR is configured with the map of Southern Italy and the relative e
 8. Go to ```osrm/``` edit the ```Dockerfile``` from line ```7``` to ```13``` with the content from the  ```.asc``` file (step 7)
 9. Remove the first ```6``` lines from the  ```.asc``` file, save the changes
 10. Run the following command inside ```osrm/```: ```docker build . -t {dockerHubUsername}/{imageName}:{imageTag}```
-11. Edit the ```docker-compose.yml``` file in the root directory, on line 64, replace the `image` value with the name of your image (use the value used in the step above).
+11. Edit the ```docker-compose.yml``` file in the root directory, on line 64, replace the `image` value with the name of your image (use the value used in the step above)
 
 
 ### 2. Spring Boot
