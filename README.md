@@ -40,14 +40,18 @@ Execute ```docker compose up -d``` in the root directory.
 
 ### 1. OpenStreetMap Routing (OSMR)
 
-By default, OSMR is configured with the map of Southern Italy. To set up a different location, follow these steps:
+By default, OSMR is configured with the map of Southern Italy and the relative elevation data. To set up a different location, follow these steps:
 
 1. Download the needed map data from [Geofabrik](https://www.geofabrik.de/)
 2. You will get a file named ```your-location.osm.pbf```
 3. Move the file to ```osrm/data```
-4. Go to ```osrm/``` edit the ```Dockerfile``` at line ```5``` set ```OSRM_FILE``` value to ```your-location```
-5. Run the following command inside ```osrm/```: ```docker build . -t {dockerHubUsername}/{imageName}:{imageTag}```
-6. Edit the ```docker-compose.yml``` file in the root directory, on line 25, replace the `image` value with the name of your image (use the value used in the step above).
+4. Go to ```osrm/``` edit the ```Dockerfile``` at line ```6``` set ```OSRM_FILE``` value to ```your-location```
+5. Download the needed elevation data from [here](https://srtm.csi.cgiar.org/srtmdata/)
+6. You will get a file with extension ```.asc``` move that file to ```osrm/data```
+7. Open the file e note the content of the first ```6``` lines
+8. Go to ```osrm/``` edit the ```Dockerfile``` from line ```7``` to ```13``` with the content from the  ```.asc``` file (step 7)
+9. Run the following command inside ```osrm/```: ```docker build . -t {dockerHubUsername}/{imageName}:{imageTag}```
+6. Edit the ```docker-compose.yml``` file in the root directory, on line 64, replace the `image` value with the name of your image (use the value used in the step above).
 
 
 ### 2. Spring Boot
