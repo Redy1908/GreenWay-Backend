@@ -1,9 +1,9 @@
 -- Car profile
 
-local LON_MIN = 10
-local LON_MAX = 15
-local LAT_MIN = 40
-local LAT_MAX = 45
+local LON_MIN = tonumber(os.getenv("LON_MIN"))
+local LON_MAX = tonumber(os.getenv("LON_MAX"))
+local LAT_MIN = tonumber(os.getenv("LAT_MIN"))
+local LAT_MAX = tonumber(os.getenv("LAT_MAX"))
 
 api_version = 4
 
@@ -43,8 +43,8 @@ function setup()
       LON_MAX,
       LAT_MIN,
       LAT_MAX,
-      6000, -- nrows
-      6000  -- ncols
+      tonumber(os.getenv("NROWS")),
+      tonumber(os.getenv("NCOLS"))
     ),
 
     default_mode                 = mode.driving,
