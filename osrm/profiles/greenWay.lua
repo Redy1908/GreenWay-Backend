@@ -340,22 +340,32 @@ function setup()
 end
 
 function process_segment(profile, segment)
-  local sourcedata = raster:interpolate(profile.raster_source, segment.source.lon, segment.source.lat)
-  local targetdata = raster:interpolate(profile.raster_source, segment.target.lon, segment.target.lat)
-  local invalid = sourcedata.invalid_data()
-  local scaled_weight = segment.weight
-  local scaled_duration = segment.duration
+  local sourceData = raster:interpolate(profile.raster_source, segment.source.lon, segment.source.lat)
+  local targetData = raster:interpolate(profile.raster_source, segment.target.lon, segment.target.lat)
+  local invalid = sourceData.invalid_data()
 
-  if sourcedata.datum ~= invalid and targetdata.datum ~= invalid then
-    local slope = (targetdata.datum - sourcedata.datum) / segment.distance
+  if sourceData.datum ~= invalid and targetData.datum ~= invalid then
+    local elev_data = targetData.datum - sourceData.datum
+    local penalize = 0
 
-    if slope > 0 then
-      scaled_weight = scaled_weight * (1.0 + (slope * 200.0))
+    local slope = math.abs(elev_data / segment.distance)
+
+    if elev_data < 0 then
+      slope = 0
     end
-  end
 
-  segment.weight = scaled_weight
-  segment.duration = scaled_duration
+    if slope < 0.05 then
+      penalize = 0
+    elseif slope < 0.1 then
+      penalize = 25
+    elseif slope < 0.15 then
+      penalize = 50
+    else
+      penalize = 75
+    end
+
+    segment.weight = segment.weight * (1 + penalize)
+  end
 end
 
 function process_node(profile, node, result, relations)
