@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "b0be3416-151a-418b-a068-97550934d1b1",
+		"_postman_id": "bd0e9b99-6563-4835-a920-d744e2e7eab7",
 		"name": "GreenWay",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "27276004"
@@ -368,7 +368,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"startPoint\": {\r\n        \"latitude\": \"14.2681\",\r\n        \"longitude\": \"40.8518\"\r\n    },\r\n    \"vehicleId\": \"1\",\r\n    \"packages\":[\r\n        {\r\n            \"destination\": {\r\n                \"latitude\": \"40.923149\",\r\n                \"longitude\": \"14.783757\"\r\n            },\r\n            \"weight\": \"1.5\"\r\n        },\r\n        {\r\n            \"destination\": {\r\n                \"latitude\": \"40.913170\",\r\n                \"longitude\": \"14.790774\"\r\n            },\r\n           \"weight\": \"2.3\"\r\n        },\r\n        {\r\n            \"destination\": {\r\n                \"latitude\": \"40.916810\",\r\n                \"longitude\": \"14.803202\"\r\n            },\r\n           \"weight\": \"3.0\" \r\n        }\r\n    ]\r\n}\r\n",
+							"raw": "{\r\n    \"startPoint\": {\r\n        \"latitude\": \"40.840825\",\r\n        \"longitude\": \"14.220771\"\r\n    },\r\n    \"vehicleId\": \"1\",\r\n    \"packages\":[\r\n        {\r\n            \"destination\": {\r\n                \"latitude\": \"40.845681\",\r\n                \"longitude\": \"14.246178\"\r\n            },\r\n            \"weight\": \"1.5\"\r\n        },\r\n        {\r\n            \"destination\": {\r\n                \"latitude\": \"40.852579\",\r\n                \"longitude\": \"14.227509\"\r\n            },\r\n            \"weight\": \"2.3\"\r\n        }\r\n    ]\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
