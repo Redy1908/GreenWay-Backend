@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.maps.internal.PolylineEncoding;
 import com.google.maps.model.LatLng;
 
@@ -25,8 +24,6 @@ public class OsrmServiceImpl implements IOsrmService {
 
     @Value("${osrm.driving_path}")
     private String OSRM_DRIVING_PATH;
-
-    private final ObjectMapper objectMapper;
 
     private final RestTemplate restTemplate;
 
