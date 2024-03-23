@@ -1,6 +1,5 @@
 package dev.redy1908.greenway.app.web.exceptions;
 
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,11 +12,8 @@ import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-
-import dev.redy1908.greenway.app.web.models.ErrorResponseDTO;
 
 import lombok.NonNull;
 
@@ -37,19 +33,6 @@ public class GlobalExceptionsHandler extends ResponseEntityExceptionHandler {
             validationErrors.put(fieldName, validationMsg);
         });
         return new ResponseEntity<>(validationErrors, HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorResponseDTO> handleGlobalException(Exception exception,
-            WebRequest webRequest) {
-        ErrorResponseDTO errorResponseDTO = new ErrorResponseDTO(
-                webRequest.getDescription(false),
-                HttpStatus.INTERNAL_SERVER_ERROR.value(),
-                HttpStatus.INTERNAL_SERVER_ERROR,
-                exception.getMessage(),
-                LocalDateTime.now());
-        return new ResponseEntity<>(errorResponseDTO,
-                HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
 }
