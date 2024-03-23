@@ -38,9 +38,8 @@ class OsrmServiceImpl implements IOsrmService {
 
         String osrmResponse = restTemplate.getForObject(url, String.class);
 
-        List<String> polylineList = extractPolylines(osrmResponse);
         return new OsrmParsedData(extractDistance(osrmResponse), extractDuration(osrmResponse),
-                joinPolylines(polylineList));
+                generateSinglePolyline(osrmResponse));
 
     }
 
@@ -56,36 +55,27 @@ class OsrmServiceImpl implements IOsrmService {
         return route.getDouble("distance");
     }
 
-    private List<String> extractPolylines(String osrmResponse) {
+    private String generateSinglePolyline(String osrmResponse) {
         JSONObject responseJson = new JSONObject(osrmResponse);
-        List<String> polylineList = new ArrayList<>();
         JSONArray routes = responseJson.getJSONArray("routes");
 
-        for (int i = 0; i < routes.length(); i++) {
-            JSONObject route = routes.getJSONObject(i);
-            JSONArray legs = route.getJSONArray("legs");
-
-            for (int j = 0; j < legs.length(); j++) {
-                JSONObject leg = legs.getJSONObject(j);
-                JSONArray steps = leg.getJSONArray("steps");
-
-                for (int k = 0; k < steps.length(); k++) {
-                    JSONObject step = steps.getJSONObject(k);
-                    String polyline = step.getString("geometry");
-                    polylineList.add(polyline);
-                }
-            }
-        }
-
-        return polylineList;
-    }
-
-    private String joinPolylines(List<String> polylineList) {
         List<LatLng> allPoints = new ArrayList<>();
 
-        for (String polyline : polylineList) {
-            List<LatLng> deoded = PolylineEncoding.decode(polyline);
-            allPoints.addAll(deoded);
+        for (Object r : routes) {
+            JSONObject route = (JSONObject) r;
+            JSONArray legs = route.getJSONArray("legs");
+
+            for (Object l : legs) {
+                JSONObject leg = (JSONObject) l;
+                JSONArray steps = leg.getJSONArray("steps");
+
+                for (Object s : steps) {
+                    JSONObject step = (JSONObject) s;
+                    String geometry = step.getString("geometry");
+                    List<LatLng> decodedPath = PolylineEncoding.decode(geometry);
+                    allPoints.addAll(decodedPath);
+                }
+            }
         }
 
         return PolylineEncoding.encode(allPoints);
