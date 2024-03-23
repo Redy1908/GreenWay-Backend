@@ -6,6 +6,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(HttpStatus.NOT_FOUND)
 public class DeliveryManNotFoundException extends RuntimeException {
     public DeliveryManNotFoundException(String username) {
-        super(String.format("DeliveryMan with username: '%s' not found", username));
+        super(String.format("DeliveryMan with username: '%s' not found, has he logged in at least 1 time?", username));
     }
 }
