@@ -23,9 +23,5 @@ spring:
         jdbc:
           lob:
             non_contextual_creation: true
-logging:
-  level:
-    org.hibernate.type.descriptor.sql: trace
-
 osrm:
   driving_path: http://localhost:5000/route/v1/driving/
