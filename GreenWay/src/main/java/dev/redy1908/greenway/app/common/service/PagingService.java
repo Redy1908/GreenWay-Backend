@@ -1,7 +1,8 @@
 package dev.redy1908.greenway.app.common.service;
 
-import dev.redy1908.greenway.web.model.PageResponseDTO;
 import org.springframework.data.domain.Page;
+
+import dev.redy1908.greenway.app.web.models.PageResponseDTO;
 
 import java.util.List;
 import java.util.function.Supplier;
@@ -10,7 +11,7 @@ public abstract class PagingService<T, D> {
 
     protected abstract D mapToDto(T entity);
 
-    public PageResponseDTO<D> createPageResponse(Supplier<Page<T>> pageSupplier){
+    public PageResponseDTO<D> createPageResponse(Supplier<Page<T>> pageSupplier) {
         Page<T> elements = pageSupplier.get();
         List<T> listElements = elements.getContent();
         List<D> content = listElements.stream().map(this::mapToDto).toList();
