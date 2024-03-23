@@ -1,12 +1,13 @@
 package dev.redy1908.greenway.delivery_path.domain;
 
-import dev.redy1908.greenway.osrm.domain.IOsrmService;
-import dev.redy1908.greenway.osrm.domain.OsrmParsedData;
-import dev.redy1908.greenway.point.Point;
-import lombok.RequiredArgsConstructor;
+import java.util.List;
+
+import org.locationtech.jts.geom.Point;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import dev.redy1908.greenway.osrm.domain.IOsrmService;
+import dev.redy1908.greenway.osrm.domain.OsrmParsedData;
+import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor

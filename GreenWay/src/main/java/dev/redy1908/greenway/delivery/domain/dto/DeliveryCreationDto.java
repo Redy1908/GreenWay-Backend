@@ -1,11 +1,12 @@
 package dev.redy1908.greenway.delivery.domain.dto;
 
+import java.util.Set;
+
+import org.locationtech.jts.geom.Point;
+
 import dev.redy1908.greenway.delivery_package.domain.dto.DeliveryPackageDTO;
-import dev.redy1908.greenway.point.Point;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-
-import java.util.Set;
 
 public record DeliveryCreationDto(
 

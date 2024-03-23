@@ -1,6 +1,6 @@
 package dev.redy1908.greenway.delivery_package.domain.dto;
 
-import dev.redy1908.greenway.point.Point;
+import org.locationtech.jts.geom.Point;
 
 public record DeliveryPackageDTO(
                 Point destination,

@@ -1,8 +1,8 @@
 package dev.redy1908.greenway.delivery_path.domain;
 
-import dev.redy1908.greenway.point.Point;
-
 import java.util.List;
+
+import org.locationtech.jts.geom.Point;
 
 public interface IDeliveryPathService {
 

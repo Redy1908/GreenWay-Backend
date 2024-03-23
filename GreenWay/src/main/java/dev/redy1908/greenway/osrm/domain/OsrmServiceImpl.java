@@ -13,7 +13,7 @@ import org.springframework.web.client.RestTemplate;
 import com.google.maps.internal.PolylineEncoding;
 import com.google.maps.model.LatLng;
 
-import dev.redy1908.greenway.point.Point;
+import org.locationtech.jts.geom.Point;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -28,10 +28,10 @@ class OsrmServiceImpl implements IOsrmService {
     @Override
     public OsrmParsedData getParsedData(Point startPoint, List<Point> destinations) {
 
-        String url = OSRM_DRIVING_PATH + startPoint.longitude() + "," + startPoint.latitude() + ";";
+        String url = OSRM_DRIVING_PATH + startPoint.getX() + "," + startPoint.getY() + ";";
 
         url += destinations.stream().map(
-                point -> point.longitude() + "," + point.latitude())
+                point -> point.getX() + "," + point.getY())
                 .collect(Collectors.joining(";"));
 
         url += "?overview=false&steps=true";

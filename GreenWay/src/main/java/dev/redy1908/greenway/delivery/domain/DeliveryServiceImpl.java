@@ -3,6 +3,7 @@ package dev.redy1908.greenway.delivery.domain;
 import java.util.List;
 import java.util.Set;
 
+import org.locationtech.jts.geom.Point;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,7 +19,6 @@ import dev.redy1908.greenway.delivery_package.domain.DeliveryPackage;
 import dev.redy1908.greenway.delivery_package.domain.IDeliveryPackageService;
 import dev.redy1908.greenway.delivery_path.domain.DeliveryPath;
 import dev.redy1908.greenway.delivery_path.domain.IDeliveryPathService;
-import dev.redy1908.greenway.point.Point;
 import dev.redy1908.greenway.vehicle.domain.IVehicleService;
 import dev.redy1908.greenway.vehicle.domain.Vehicle;
 import dev.redy1908.greenway.vehicle.domain.VehicleMapper;
@@ -105,8 +105,7 @@ class DeliveryServiceImpl extends PagingService<Delivery, DeliveryDTO> implement
 
     private DeliveryPath createDeliveryPath(DeliveryCreationDto deliveryCreationDto) {
         List<Point> points = deliveryCreationDto.packages().stream()
-                .map(deliveryPackage -> new Point(deliveryPackage.destination().latitude(),
-                        deliveryPackage.destination().longitude()))
+                .map(deliveryPackage -> deliveryPackage.destination())
                 .toList();
         return deliveryPathService.createDeliveryPath(deliveryCreationDto.startPoint(), points);
     }
