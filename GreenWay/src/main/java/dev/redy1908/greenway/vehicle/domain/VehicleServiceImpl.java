@@ -8,8 +8,10 @@ import dev.redy1908.greenway.vehicle.domain.exceptions.models.VehicleNotFoundExc
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 class VehicleServiceImpl extends PagingService<Vehicle, VehicleDTO> implements IVehicleService {
 

@@ -2,6 +2,7 @@ package dev.redy1908.greenway.delivery_package.domain;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import dev.redy1908.greenway.delivery.domain.Delivery;
 import dev.redy1908.greenway.delivery_package.domain.dto.DeliveryPackageDTO;
@@ -11,6 +12,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 class DeliveryPackageServiceImpl implements IDeliveryPackageService {
 

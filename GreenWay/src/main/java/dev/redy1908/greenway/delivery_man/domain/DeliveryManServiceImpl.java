@@ -2,12 +2,14 @@ package dev.redy1908.greenway.delivery_man.domain;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import dev.redy1908.greenway.delivery_man.domain.exceptions.models.DeliveryManNotFoundException;
 
 import java.util.Optional;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 class DeliveryManServiceImpl implements IDeliveryManService {
 
