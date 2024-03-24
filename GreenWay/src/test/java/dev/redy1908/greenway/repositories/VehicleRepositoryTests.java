@@ -4,7 +4,6 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import dev.redy1908.greenway.util.BaseTest;
@@ -16,7 +15,6 @@ public class VehicleRepositoryTests extends BaseTest {
     @Autowired
     private VehicleRepository vehicleRepository;
 
-    @InjectMocks
     private Vehicle vehicle;
 
     @BeforeEach
