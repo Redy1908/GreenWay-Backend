@@ -1,4 +1,4 @@
-package dev.redy1908.greenway.app.common.service;
+package dev.redy1908.greenway.util.services;
 
 import org.springframework.data.domain.Page;
 

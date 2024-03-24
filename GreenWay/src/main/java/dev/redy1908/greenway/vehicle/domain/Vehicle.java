@@ -1,6 +1,6 @@
 package dev.redy1908.greenway.vehicle.domain;
 
-import dev.redy1908.greenway.app.common.model.BaseEntity;
+import dev.redy1908.greenway.base_entity.domain.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

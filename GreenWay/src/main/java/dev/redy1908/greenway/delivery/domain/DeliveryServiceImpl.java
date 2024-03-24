@@ -8,7 +8,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import dev.redy1908.greenway.app.common.service.PagingService;
 import dev.redy1908.greenway.app.web.models.PageResponseDTO;
 import dev.redy1908.greenway.delivery.domain.dto.DeliveryCreationDto;
 import dev.redy1908.greenway.delivery.domain.dto.DeliveryDTO;
@@ -19,6 +18,7 @@ import dev.redy1908.greenway.delivery_package.domain.DeliveryPackage;
 import dev.redy1908.greenway.delivery_package.domain.IDeliveryPackageService;
 import dev.redy1908.greenway.delivery_path.domain.DeliveryPath;
 import dev.redy1908.greenway.delivery_path.domain.IDeliveryPathService;
+import dev.redy1908.greenway.util.services.PagingService;
 import dev.redy1908.greenway.vehicle.domain.IVehicleService;
 import dev.redy1908.greenway.vehicle.domain.Vehicle;
 import dev.redy1908.greenway.vehicle.domain.VehicleMapper;

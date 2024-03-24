@@ -1,7 +1,7 @@
 package dev.redy1908.greenway.vehicle.domain;
 
-import dev.redy1908.greenway.app.common.service.PagingService;
 import dev.redy1908.greenway.app.web.models.PageResponseDTO;
+import dev.redy1908.greenway.util.services.PagingService;
 import dev.redy1908.greenway.vehicle.domain.dto.VehicleCreationDTO;
 import dev.redy1908.greenway.vehicle.domain.dto.VehicleDTO;
 import dev.redy1908.greenway.vehicle.domain.exceptions.models.VehicleNotFoundException;

@@ -1,4 +1,4 @@
-package dev.redy1908.greenway.app.security;
+package dev.redy1908.greenway.security;
 
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.core.GrantedAuthority;

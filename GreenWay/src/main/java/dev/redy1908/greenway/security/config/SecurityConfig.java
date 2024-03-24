@@ -1,4 +1,4 @@
-package dev.redy1908.greenway.app.security.config;
+package dev.redy1908.greenway.security.config;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -12,8 +12,8 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
-import dev.redy1908.greenway.app.security.KeyCloakRoleConverter;
-import dev.redy1908.greenway.app.security.filter.DeliveryManFilter;
+import dev.redy1908.greenway.security.DeliveryManFilter;
+import dev.redy1908.greenway.security.KeyCloakRoleConverter;
 
 @Configuration
 @RequiredArgsConstructor

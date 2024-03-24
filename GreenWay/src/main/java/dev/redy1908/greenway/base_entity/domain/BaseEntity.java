@@ -1,4 +1,4 @@
-package dev.redy1908.greenway.app.common.model;
+package dev.redy1908.greenway.base_entity.domain;
 
 import jakarta.persistence.*;
 import lombok.Getter;

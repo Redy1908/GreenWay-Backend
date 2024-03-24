@@ -1,4 +1,4 @@
-package dev.redy1908.greenway.app.security.filter;
+package dev.redy1908.greenway.security;
 
 import dev.redy1908.greenway.delivery_man.domain.IDeliveryManService;
 import jakarta.servlet.FilterChain;

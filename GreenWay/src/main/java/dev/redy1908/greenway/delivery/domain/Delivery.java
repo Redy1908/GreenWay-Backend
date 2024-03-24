@@ -1,7 +1,8 @@
 package dev.redy1908.greenway.delivery.domain;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import dev.redy1908.greenway.app.common.model.BaseEntity;
+
+import dev.redy1908.greenway.base_entity.domain.BaseEntity;
 import dev.redy1908.greenway.delivery_man.domain.DeliveryMan;
 import dev.redy1908.greenway.delivery_package.domain.DeliveryPackage;
 import dev.redy1908.greenway.delivery_path.domain.DeliveryPath;
