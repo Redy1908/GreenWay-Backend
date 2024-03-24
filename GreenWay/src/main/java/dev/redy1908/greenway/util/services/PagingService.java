@@ -11,7 +11,7 @@ public abstract class PagingService<T, D> {
 
     protected abstract D mapToDto(T entity);
 
-    public PageResponseDTO<D> createPageResponse(Supplier<Page<T>> pageSupplier) {
+    protected PageResponseDTO<D> createPageResponse(Supplier<Page<T>> pageSupplier) {
         Page<T> elements = pageSupplier.get();
         List<T> listElements = elements.getContent();
         List<D> content = listElements.stream().map(this::mapToDto).toList();
