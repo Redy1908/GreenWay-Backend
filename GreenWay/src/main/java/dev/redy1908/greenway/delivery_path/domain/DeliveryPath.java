@@ -11,16 +11,20 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name = "delivery_paths")
 public class DeliveryPath {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private Double distanceInMeters;
+
+    @Column(nullable = false)
     private Double durationInSeconds;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String polyline;
 
     public DeliveryPath(Double distanceInMeters, Double durationInSeconds, String polyline) {

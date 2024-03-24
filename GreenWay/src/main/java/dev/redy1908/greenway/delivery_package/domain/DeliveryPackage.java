@@ -2,10 +2,7 @@ package dev.redy1908.greenway.delivery_package.domain;
 
 import dev.redy1908.greenway.base_entity.domain.BaseEntity;
 import dev.redy1908.greenway.delivery.domain.Delivery;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.proxy.HibernateProxy;
@@ -16,6 +13,7 @@ import java.util.Objects;
 @Entity
 @Getter
 @Setter
+@Table(name = "delivery_packages")
 public class DeliveryPackage extends BaseEntity {
 
     @Column(columnDefinition = "geography")

@@ -16,12 +16,22 @@ import lombok.Setter;
  */
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name = "vehicles")
 public class Vehicle extends BaseEntity {
 
+    @Column(nullable = false)
     private String model;
+
+    @Column(nullable = false)
     private Double batteryNominalCapacity;
+
+    @Column(nullable = false)
     private Double vehicleConsumption;
+
+    @Column(nullable = false)
     private Double currentBatteryCharge;
+
+    @Column(nullable = false)
     private Double maxCapacity;
 
 }

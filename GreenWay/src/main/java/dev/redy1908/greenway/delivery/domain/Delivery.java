@@ -19,19 +19,20 @@ import java.util.*;
 @Getter
 @Setter
 @NoArgsConstructor
+@Table(name = "deliveries")
 public class Delivery extends BaseEntity {
 
-    @OneToOne
-    @JoinColumn(name = "delivery_path_id")
+    @OneToOne(optional = false)
+    @JoinColumn(name = "delivery_path_id", nullable = false)
     private DeliveryPath deliveryPath;
 
-    @OneToOne(orphanRemoval = true)
-    @JoinColumn(name = "vehicle_id")
+    @OneToOne(optional = false)
+    @JoinColumn(name = "vehicle_id", nullable = false)
     private Vehicle vehicle;
 
     @JsonManagedReference
-    @OneToOne
-    @JoinColumn(name = "delivery_man_id")
+    @OneToOne(optional = false)
+    @JoinColumn(name = "delivery_man_id", nullable = false)
     private DeliveryMan deliveryMan;
 
     @OneToMany(mappedBy = "delivery")
