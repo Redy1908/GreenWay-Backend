@@ -44,7 +44,7 @@ public class BaseTest {
     }
 
     @Test
-    public void is_db_connected() {
+    void is_db_connected() {
         assertThat(postgres.isCreated()).isTrue();
         assertThat(postgres.isRunning()).isTrue();
     }
