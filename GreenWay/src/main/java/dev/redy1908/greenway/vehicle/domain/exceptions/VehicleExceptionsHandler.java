@@ -2,6 +2,7 @@ package dev.redy1908.greenway.vehicle.domain.exceptions;
 
 import java.time.LocalDateTime;
 
+import dev.redy1908.greenway.vehicle.domain.exceptions.models.VehicleAlreadyAssignedException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -29,7 +30,7 @@ public class VehicleExceptionsHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(VehicleNotFoundException.class)
-    public ResponseEntity<ErrorResponseDTO> handleCustomerAlreadyExistsException(VehicleNotFoundException exception,
+    public ResponseEntity<ErrorResponseDTO> handleVehicleNotFoundException(VehicleNotFoundException exception,
             WebRequest webRequest) {
         ErrorResponseDTO errorResponseDTO = new ErrorResponseDTO(
                 webRequest.getDescription(false),
@@ -38,6 +39,18 @@ public class VehicleExceptionsHandler extends ResponseEntityExceptionHandler {
                 exception.getMessage(),
                 LocalDateTime.now());
         return new ResponseEntity<>(errorResponseDTO, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(VehicleAlreadyAssignedException.class)
+    public ResponseEntity<ErrorResponseDTO> handleVehicleAlreadyAssignedException(VehicleAlreadyAssignedException exception,
+                                                                                 WebRequest webRequest) {
+        ErrorResponseDTO errorResponseDTO = new ErrorResponseDTO(
+                webRequest.getDescription(false),
+                HttpStatus.NOT_ACCEPTABLE.value(),
+                HttpStatus.NOT_ACCEPTABLE,
+                exception.getMessage(),
+                LocalDateTime.now());
+        return new ResponseEntity<>(errorResponseDTO,   HttpStatus.NOT_ACCEPTABLE);
     }
 
 }

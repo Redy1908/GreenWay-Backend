@@ -3,6 +3,8 @@ package dev.redy1908.greenway.delivery.domain;
 import java.util.List;
 import java.util.Set;
 
+import dev.redy1908.greenway.delivery_package.domain.dto.DeliveryPackageDTO;
+import dev.redy1908.greenway.vehicle.domain.exceptions.models.VehicleAlreadyAssignedException;
 import org.locationtech.jts.geom.Point;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -42,6 +44,11 @@ class DeliveryServiceImpl extends PagingService<Delivery, DeliveryDTO> implement
 
     @Override
     public Delivery createDelivery(DeliveryCreationDto deliveryCreationDto) {
+
+        if(deliveryRepository.existsByVehicle_Id(deliveryCreationDto.vehicleId())){
+            throw new VehicleAlreadyAssignedException();
+        }
+
         DeliveryPath deliveryPath = createDeliveryPath(deliveryCreationDto);
         Vehicle vehicle = getVehicle(deliveryCreationDto);
         Delivery delivery = new Delivery(deliveryPath, vehicle);
@@ -105,7 +112,7 @@ class DeliveryServiceImpl extends PagingService<Delivery, DeliveryDTO> implement
 
     private DeliveryPath createDeliveryPath(DeliveryCreationDto deliveryCreationDto) {
         List<Point> points = deliveryCreationDto.packages().stream()
-                .map(deliveryPackage -> deliveryPackage.destination())
+                .map(DeliveryPackageDTO::destination)
                 .toList();
         return deliveryPathService.createDeliveryPath(deliveryCreationDto.startPoint(), points);
     }
