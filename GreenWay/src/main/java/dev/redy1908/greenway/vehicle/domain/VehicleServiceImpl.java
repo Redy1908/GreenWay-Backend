@@ -2,7 +2,6 @@ package dev.redy1908.greenway.vehicle.domain;
 
 import dev.redy1908.greenway.app.web.models.PageResponseDTO;
 import dev.redy1908.greenway.util.services.PagingService;
-import dev.redy1908.greenway.vehicle.domain.dto.VehicleCreationDTO;
 import dev.redy1908.greenway.vehicle.domain.dto.VehicleDTO;
 import dev.redy1908.greenway.vehicle.domain.exceptions.models.VehicleNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -19,16 +18,8 @@ public class VehicleServiceImpl extends PagingService<Vehicle, VehicleDTO> imple
     private final VehicleMapper vehicleMapper;
 
     @Override
-    public Vehicle saveVehicle(VehicleCreationDTO vehicleDto) {
-
-        Vehicle vehicle = new Vehicle(
-                vehicleDto.model(),
-                vehicleDto.batteryNominalCapacity(),
-                vehicleDto.vehicleConsumption(),
-                vehicleDto.currentBatteryCharge(),
-                vehicleDto.maxCapacity());
-
-        return vehicleRepository.save(vehicle);
+    public Vehicle saveVehicle(VehicleDTO vehicleDto) {
+        return vehicleRepository.save(vehicleMapper.toEntity(vehicleDto));
     }
 
     @Override

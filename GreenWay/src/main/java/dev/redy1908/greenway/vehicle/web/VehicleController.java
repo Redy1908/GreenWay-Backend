@@ -4,7 +4,6 @@ import dev.redy1908.greenway.app.web.models.PageResponseDTO;
 import dev.redy1908.greenway.app.web.models.ResponseDTO;
 import dev.redy1908.greenway.vehicle.domain.IVehicleService;
 import dev.redy1908.greenway.vehicle.domain.Vehicle;
-import dev.redy1908.greenway.vehicle.domain.dto.VehicleCreationDTO;
 import dev.redy1908.greenway.vehicle.domain.dto.VehicleDTO;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -23,8 +22,8 @@ public class VehicleController {
     private final IVehicleService vehicleService;
 
     @PostMapping
-    public ResponseEntity<ResponseDTO> saveVehicle(@Valid @RequestBody VehicleCreationDTO vehicleCreationDTO) {
-        Vehicle savedVehicle = vehicleService.saveVehicle(vehicleCreationDTO);
+    public ResponseEntity<ResponseDTO> saveVehicle(@RequestBody @Valid VehicleDTO vehicleDTO) {
+        Vehicle savedVehicle = vehicleService.saveVehicle(vehicleDTO);
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentContextPath()
