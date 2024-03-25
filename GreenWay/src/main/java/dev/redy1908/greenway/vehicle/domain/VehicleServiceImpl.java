@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 @RequiredArgsConstructor
-class VehicleServiceImpl extends PagingService<Vehicle, VehicleDTO> implements IVehicleService {
+public class VehicleServiceImpl extends PagingService<Vehicle, VehicleDTO> implements IVehicleService {
 
     private final VehicleRepository vehicleRepository;
     private final VehicleMapper vehicleMapper;
