@@ -31,8 +31,8 @@ public class Delivery extends BaseEntity {
     private Vehicle vehicle;
 
     @JsonManagedReference
-    @OneToOne(optional = false)
-    @JoinColumn(name = "delivery_man_id", nullable = false)
+    @OneToOne
+    @JoinColumn(name = "delivery_man_id")
     private DeliveryMan deliveryMan;
 
     @OneToMany(mappedBy = "delivery")
