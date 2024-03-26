@@ -348,8 +348,8 @@ function process_segment(profile, segment)
     local elev_data = targetData.datum - sourceData.datum
     local penalize = 0
 
-    local slope = math.abs(elev_data / segment.distance)
-
+    local slope = elev_data / segment.distance
+    
     if elev_data < 0 then
       slope = 0
     end
