@@ -7,7 +7,9 @@ public interface IVehicleService {
 
     Vehicle saveVehicle(VehicleDTO vehicleDTO);
 
-    VehicleDTO getVehicleById(Long vehicleId);
+    VehicleDTO findVehicleDTOById(Long vehicleId);
+
+    Vehicle findVehicleById(Long vehicleId);
 
     PageResponseDTO<VehicleDTO> getAllVehicles(int pageNo, int pageSize);
 }

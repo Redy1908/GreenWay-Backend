@@ -23,7 +23,6 @@ import dev.redy1908.greenway.delivery_path.domain.IDeliveryPathService;
 import dev.redy1908.greenway.util.services.PagingService;
 import dev.redy1908.greenway.vehicle.domain.IVehicleService;
 import dev.redy1908.greenway.vehicle.domain.Vehicle;
-import dev.redy1908.greenway.vehicle.domain.VehicleMapper;
 import dev.redy1908.greenway.vehicle.domain.exceptions.models.VehicleCapacityExceeded;
 import lombok.RequiredArgsConstructor;
 
@@ -40,17 +39,16 @@ class DeliveryServiceImpl extends PagingService<Delivery, DeliveryDTO> implement
     private final IDeliveryPackageService deliveryPackageService;
 
     private final DeliveryMapper deliveryMapper;
-    private final VehicleMapper vehicleMapper;
 
     @Override
     public Delivery createDelivery(DeliveryCreationDto deliveryCreationDto) {
 
-        if(deliveryRepository.existsByVehicle_Id(deliveryCreationDto.vehicleId())){
+        if (deliveryRepository.existsByVehicle_Id(deliveryCreationDto.vehicleId())) {
             throw new VehicleAlreadyAssignedException();
         }
 
         DeliveryPath deliveryPath = createDeliveryPath(deliveryCreationDto);
-        Vehicle vehicle = getVehicle(deliveryCreationDto);
+        Vehicle vehicle = vehicleService.findVehicleById(deliveryCreationDto.vehicleId());
         Delivery delivery = new Delivery(deliveryPath, vehicle);
 
         Set<DeliveryPackage> deliveryPackages = deliveryPackageService
@@ -115,9 +113,5 @@ class DeliveryServiceImpl extends PagingService<Delivery, DeliveryDTO> implement
                 .map(DeliveryPackageDTO::destination)
                 .toList();
         return deliveryPathService.createDeliveryPath(deliveryCreationDto.startPoint(), points);
-    }
-
-    private Vehicle getVehicle(DeliveryCreationDto deliveryCreationDto) {
-        return vehicleMapper.toEntity(vehicleService.getVehicleById(deliveryCreationDto.vehicleId()));
     }
 }

@@ -43,9 +43,9 @@ class VehicleControllerTests {
         when(vehicleService.saveVehicle(vehicleDTO)).thenReturn(vehicle);
 
         ResultActions resultActions = mockMvc.perform(post("/api/v1/vehicles")
-                        .with(jwt().authorities(new SimpleGrantedAuthority("GREEN_WAY_ADMIN")))
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(new ObjectMapper().writeValueAsString(vehicleDTO)));
+                .with(jwt().authorities(new SimpleGrantedAuthority("GREEN_WAY_ADMIN")))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(new ObjectMapper().writeValueAsString(vehicleDTO)));
 
         resultActions
                 .andExpect(status().isCreated())
@@ -53,11 +53,11 @@ class VehicleControllerTests {
     }
 
     @Test
-    void it_should_get_vehicle_status_200_OK() throws Exception {
+    void it_should_find_vehicle_DTO_status_200_OK() throws Exception {
 
         VehicleDTO vehicleDTO = new VehicleDTO("Model", 100.0, 10.0, 50.0, 200.0);
 
-        when(vehicleService.getVehicleById(1L)).thenReturn(vehicleDTO);
+        when(vehicleService.findVehicleDTOById(1L)).thenReturn(vehicleDTO);
 
         ResultActions resultActions = mockMvc.perform(get("/api/v1/vehicles/1")
                 .with(jwt().authorities(new SimpleGrantedAuthority("GREEN_WAY_ADMIN"))));

@@ -38,7 +38,7 @@ public class VehicleController {
 
     @GetMapping("/{vehicleId}")
     public ResponseEntity<VehicleDTO> getVehicle(@PathVariable Long vehicleId) {
-        return ResponseEntity.ok(vehicleService.getVehicleById(vehicleId));
+        return ResponseEntity.ok(vehicleService.findVehicleDTOById(vehicleId));
     }
 
     @GetMapping

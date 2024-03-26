@@ -23,11 +23,17 @@ public class VehicleServiceImpl extends PagingService<Vehicle, VehicleDTO> imple
     }
 
     @Override
-    public VehicleDTO getVehicleById(Long vehicleId) {
+    public VehicleDTO findVehicleDTOById(Long vehicleId) {
         Vehicle vehicle = vehicleRepository.findById(vehicleId).orElseThrow(
                 () -> new VehicleNotFoundException(vehicleId));
 
         return vehicleMapper.toDto(vehicle);
+    }
+
+    @Override
+    public Vehicle findVehicleById(Long vehicleId) {
+        return vehicleRepository.findById(vehicleId).orElseThrow(
+                () -> new VehicleNotFoundException(vehicleId));
     }
 
     @Override
