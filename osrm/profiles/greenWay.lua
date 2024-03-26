@@ -357,11 +357,11 @@ function process_segment(profile, segment)
     if slope < 0.05 then
       penalize = 0
     elseif slope < 0.1 then
-      penalize = 25
+      penalize = 20
     elseif slope < 0.15 then
-      penalize = 50
+      penalize = 40
     else
-      penalize = 75
+      penalize = 55
     end
 
     segment.weight = segment.weight * (1 + penalize)
