@@ -350,21 +350,20 @@ function process_segment(profile, segment)
 
     local slope = elev_data / segment.distance
     
-    if elev_data < 0 then
-      slope = 0
-    end
+    if slope > 0 then
 
-    if slope < 0.05 then
-      penalize = 0
-    elseif slope < 0.1 then
-      penalize = 20
-    elseif slope < 0.15 then
-      penalize = 40
-    else
-      penalize = 55
-    end
+      if slope < 0.05 then
+        penalize = 0
+      elseif slope < 0.1 then
+        penalize = 10
+      elseif slope < 0.15 then
+        penalize = 20
+      else
+        penalize = 30
+      end
 
-    segment.weight = segment.weight * (1 + penalize)
+      segment.weight = segment.weight * (1 + penalize)
+    end
   end
 end
 
