@@ -368,7 +368,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"startPoint\": {\r\n        \"type\": \"Point\",\r\n        \"coordinates\": [14.220771, 40.840825]\r\n    },\r\n    \"vehicleId\": \"1\",\r\n    \"packages\":[\r\n        {\r\n            \"destination\": {\r\n                \"type\": \"Point\",\r\n                \"coordinates\":[14.246178, 40.845681]\r\n            },\r\n            \"weight\": \"1.5\"\r\n        },\r\n        {\r\n            \"destination\": {\r\n                \"type\": \"Point\",\r\n                \"coordinates\": [14.227509, 40.852579]\r\n            },\r\n            \"weight\": \"2.3\"\r\n        }\r\n    ]\r\n}\r\n",
+							"raw": "{\r\n    \"startingPoint\": {\r\n        \"type\": \"Point\",\r\n        \"coordinates\": [14.220771, 40.840825]\r\n    },\r\n    \"polyline\": \"gkfgh\",\r\n    \"vehicleId\": \"1\",\r\n    \"packages\":[\r\n        {\r\n            \"destination\": {\r\n                \"type\": \"Point\",\r\n                \"coordinates\":[14.246178, 40.845681]\r\n            },\r\n            \"weight\": \"1.5\"\r\n        },\r\n        {\r\n            \"destination\": {\r\n                \"type\": \"Point\",\r\n                \"coordinates\": [14.227509, 40.852579]\r\n            },\r\n            \"weight\": \"2.3\"\r\n        }\r\n    ]\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
