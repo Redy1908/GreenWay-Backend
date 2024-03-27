@@ -10,9 +10,11 @@ import jakarta.validation.constraints.NotNull;
 
 public record DeliveryCreationDto(
 
-                @NotNull Point startPoint,
+                @NotNull Point startingPoint,
 
                 @NotNull Long vehicleId,
+
+                @NotNull String polyline,
 
                 @NotNull @NotEmpty Set<DeliveryPackageDTO> packages) {
 }

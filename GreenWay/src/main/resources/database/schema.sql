@@ -21,20 +21,11 @@ create table delivery
 (
     created_at       timestamp(6),
     delivery_man_id  bigint unique constraint fk6pnmflviqbuwdahnt235e3aqi references delivery_man,
-    delivery_path_id bigint unique constraint fk9y3eml7rtca5to5sxyp81nyb1 references delivery_path,
     id               bigserial primary key,
     updated_at       timestamp(6),
     vehicle_id       bigint unique constraint fkr85isw6qn62sn3flu0ycx3dav references vehicle,
     created_by       varchar(255),
     updated_by       varchar(255)
-);
-
-create table delivery_path
-(
-    distance_in_meters  double precision,
-    duration_in_seconds double precision,
-    id                  bigserial primary key,
-    encoded_polyline    text
 );
 
 create table delivery_package
