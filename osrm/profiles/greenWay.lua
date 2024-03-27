@@ -356,7 +356,9 @@ function process_segment(profile, segment)
     local angle_radiant = math.acos((squared_hypotenuse + squared_distance - squared_delta_elevation) / (2 * hypotenuse * segment.distance))
     local angle_deg = angle_radiant * (180 / math.pi)
 
-    segment.weight = segment.weight * (1 + angle_deg)
+    if delta_elevation > 0 then
+        segment.weight = segment.weight * (1 + angle_deg)
+    end
   end
 end
 
