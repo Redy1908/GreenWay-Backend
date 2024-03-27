@@ -345,25 +345,18 @@ function process_segment(profile, segment)
   local invalid = sourceData.invalid_data()
 
   if sourceData.datum ~= invalid and targetData.datum ~= invalid then
-    local elev_data = targetData.datum - sourceData.datum
-    local penalize = 0
 
-    local slope = elev_data / segment.distance
-    
-    if slope > 0 then
+    local delta_elevation = targetData.datum - sourceData.datum
+    local squared_delta_elevation = delta_elevation * delta_elevation
+    local squared_distance = segment.distance * segment.distance
 
-      if slope < 0.05 then
-        penalize = 0
-      elseif slope < 0.1 then
-        penalize = 10
-      elseif slope < 0.15 then
-        penalize = 20
-      else
-        penalize = 30
-      end
+    local hypotenuse = math.sqrt(squared_delta_elevation + squared_distance)
+    local squared_hypotenuse = hypotenuse * hypotenuse
 
-      segment.weight = segment.weight * (1 + penalize)
-    end
+    local angle_radiant = math.acos((squared_hypotenuse + squared_distance - squared_delta_elevation) / (2 * hypotenuse * segment.distance))
+    local angle_deg = angle_radiant * (180 / math.pi)
+
+    segment.weight = segment.weight * (1 + angle_deg)
   end
 end
 
