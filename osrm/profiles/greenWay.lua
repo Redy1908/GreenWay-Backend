@@ -340,24 +340,33 @@ function setup()
 end
 
 function process_segment(profile, segment)
-  local sourceData = raster:interpolate(profile.raster_source, segment.source.lon, segment.source.lat)
-  local targetData = raster:interpolate(profile.raster_source, segment.target.lon, segment.target.lat)
-  local invalid = sourceData.invalid_data()
 
-  if sourceData.datum ~= invalid and targetData.datum ~= invalid then
+  local out_of_bounds = false
+  if segment.source.lon < LON_MIN or segment.source.lon > LON_MAX or
+     segment.source.lat < LAT_MIN or segment.source.lat > LAT_MAX or
+     segment.target.lon < LON_MIN or segment.target.lon > LON_MAX or
+     segment.target.lat < LAT_MIN or segment.target.lat > LAT_MAX then
+        out_of_bounds = true
+  end
 
-    local delta_elevation = targetData.datum - sourceData.datum
-    local squared_delta_elevation = delta_elevation * delta_elevation
-    local squared_distance = segment.distance * segment.distance
+  if out_of_bounds == false then
+    local sourceData = raster:interpolate(raster_source, segment.source.lon, segment.source.lat)
+    local targetData = raster:interpolate(raster_source, segment.target.lon, segment.target.lat)
 
-    local hypotenuse = math.sqrt(squared_delta_elevation + squared_distance)
-    local squared_hypotenuse = hypotenuse * hypotenuse
+    if segment.distance ~= 0 and targetData.datum > 0 and sourceData.datum > 0 then
+      local delta_elevation = targetData.datum - sourceData.datum
+      local squared_delta_elevation = delta_elevation * delta_elevation
+      local squared_distance = segment.distance * segment.distance
 
-    local angle_radiant = math.acos((squared_hypotenuse + squared_distance - squared_delta_elevation) / (2 * hypotenuse * segment.distance))
-    local angle_deg = angle_radiant * (180 / math.pi)
+      local hypotenuse = math.sqrt(squared_delta_elevation + squared_distance)
+      local squared_hypotenuse = hypotenuse * hypotenuse
 
-    if delta_elevation > 0 then
+      local angle_radiant = math.acos((squared_hypotenuse + squared_distance - squared_delta_elevation) / (2 * hypotenuse * segment.distance))
+      local angle_deg = angle_radiant * (180 / math.pi)
+
+      if delta_elevation > 0 then
         segment.weight = segment.weight * (1 + angle_deg)
+      end
     end
   end
 end
