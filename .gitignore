@@ -2,8 +2,6 @@ osrm/data/
 
 !osrm/data/.gitkeep
 
-opentopodata/
-
 HELP.md
 target/
 !.mvn/wrapper/maven-wrapper.jar
