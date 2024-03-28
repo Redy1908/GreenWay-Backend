@@ -65,6 +65,18 @@ By default, OSMR is configured with the map of Southern Italy and the relative e
 10. Run the following command inside ```osrm/```: ```docker build . -t {dockerHubUsername}/{imageName}:{imageTag}```
 11. Edit the ```docker-compose.yml``` file in the root directory, on line 64, replace the `image` value with the name of your image (use the value used in the step above)
 
+### 2. Opentopodata
+
+Opentopodata needs to be configured with the same elevation data usend in OSRM
+
+> The following setup is for windows for more check Opentopodata docs [docks](https://www.opentopodata.org/server/)
+
+1. Download the same file downloaded in step 5 above, from [here](https://srtm.csi.cgiar.org/srtmdata/), this time select ```Geo TIFF```
+2. Go to ```oepntopodata/data``` create a new folder ```yourDatasetFolder/``` move the downloaded ```.tif``` file inside this folder
+3. Edit the file ```oepntopodata/config.yml``` set the ```name``` end ```path``` to your dataset
+4. Run  ```docker build -t {dockerHubUsername}/{imageName}:{imageTag} --file docker/Dockerfile .``` in ```oepntopodata```
+5. Run ```docker run --rm -it --volume C:/path/to/opentopodata/data:/app/data:ro -p 5001:5000 -e N_UWSGI_THREADS={#THREADS} {dockerHubUsername}/{imageName}:{imageTag} sh -c "/usr/bin/supervisord -c /app/docker/supervisord.conf"```
+6. Now you can make request to ```localhost:5001/v1/yourDataSetName```
 
 ### 2. Spring Boot
 
