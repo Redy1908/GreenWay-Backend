@@ -1,17 +1,15 @@
 package dev.redy1908.greenway.delivery.domain.dto;
 
 import dev.redy1908.greenway.delivery_package.domain.dto.DeliveryPackageDTO;
-import org.locationtech.jts.geom.Point;
+import dev.redy1908.greenway.delivery_path.domain.dto.DeliveryPathDTO;
 
 import java.util.List;
 
 public record DeliveryDTO(
 
-        Long vehicleId,
+                Long vehicleId,
 
-        String polyline,
+                DeliveryPathDTO deliveryPath,
 
-        Point startingPoint,
-
-        List<DeliveryPackageDTO> deliveryPackages) {
+                List<DeliveryPackageDTO> deliveryPackages) {
 }
