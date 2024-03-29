@@ -1,7 +1,6 @@
 package dev.redy1908.greenway.delivery_man.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-
 import dev.redy1908.greenway.delivery.domain.Delivery;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

@@ -1,30 +1,31 @@
 package dev.redy1908.greenway.delivery.domain;
 
-import java.util.List;
-import java.util.Set;
-
+import dev.redy1908.greenway.app.web.models.PageResponseDTO;
+import dev.redy1908.greenway.delivery.domain.dto.DeliveryDTO;
+import dev.redy1908.greenway.delivery.domain.dto.DeliveryWithNavigationDTO;
+import dev.redy1908.greenway.delivery.domain.exceptions.models.DeliveryNotFoundException;
+import dev.redy1908.greenway.delivery_man.domain.DeliveryMan;
+import dev.redy1908.greenway.delivery_man.domain.IDeliveryManService;
+import dev.redy1908.greenway.delivery_package.domain.DeliveryPackage;
+import dev.redy1908.greenway.delivery_package.domain.DeliveryPackageMapper;
+import dev.redy1908.greenway.delivery_package.domain.IDeliveryPackageService;
 import dev.redy1908.greenway.delivery_package.domain.dto.DeliveryPackageDTO;
+import dev.redy1908.greenway.osrm.domain.IOsrmService;
+import dev.redy1908.greenway.osrm.domain.NavigationData;
+import dev.redy1908.greenway.util.services.PagingService;
+import dev.redy1908.greenway.vehicle.domain.IVehicleService;
+import dev.redy1908.greenway.vehicle.domain.Vehicle;
 import dev.redy1908.greenway.vehicle.domain.exceptions.models.VehicleAlreadyAssignedException;
+import dev.redy1908.greenway.vehicle.domain.exceptions.models.VehicleCapacityExceeded;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.locationtech.jts.geom.Point;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import dev.redy1908.greenway.app.web.models.PageResponseDTO;
-import dev.redy1908.greenway.delivery.domain.dto.DeliveryCreationDto;
-import dev.redy1908.greenway.delivery.domain.dto.DeliveryDTO;
-import dev.redy1908.greenway.delivery.domain.exceptions.models.DeliveryNotFoundException;
-import dev.redy1908.greenway.delivery_man.domain.DeliveryMan;
-import dev.redy1908.greenway.delivery_man.domain.IDeliveryManService;
-import dev.redy1908.greenway.delivery_package.domain.DeliveryPackage;
-import dev.redy1908.greenway.delivery_package.domain.IDeliveryPackageService;
-import dev.redy1908.greenway.delivery_path.domain.DeliveryPath;
-import dev.redy1908.greenway.delivery_path.domain.IDeliveryPathService;
-import dev.redy1908.greenway.util.services.PagingService;
-import dev.redy1908.greenway.vehicle.domain.IVehicleService;
-import dev.redy1908.greenway.vehicle.domain.Vehicle;
-import dev.redy1908.greenway.vehicle.domain.exceptions.models.VehicleCapacityExceeded;
-import lombok.RequiredArgsConstructor;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -33,43 +34,46 @@ class DeliveryServiceImpl extends PagingService<Delivery, DeliveryDTO> implement
 
     private final DeliveryRepository deliveryRepository;
 
-    private final IDeliveryPathService deliveryPathService;
     private final IVehicleService vehicleService;
+
     private final IDeliveryManService deliveryManService;
+
     private final IDeliveryPackageService deliveryPackageService;
+
+    private final IOsrmService osrmService;
 
     private final DeliveryMapper deliveryMapper;
 
-    @Override
-    public Delivery createDelivery(DeliveryCreationDto deliveryCreationDto) {
+    private final DeliveryPackageMapper deliveryPackageMapper;
 
-        if (deliveryRepository.existsByVehicle_Id(deliveryCreationDto.vehicleId())) {
+    @Override
+    public Delivery createDelivery(@Valid DeliveryDTO deliveryCreationDTO) {
+
+        if (deliveryRepository.existsByVehicle_Id(deliveryCreationDTO.vehicleId())) {
             throw new VehicleAlreadyAssignedException();
         }
 
-        DeliveryPath deliveryPath = createDeliveryPath(deliveryCreationDto);
-        Vehicle vehicle = vehicleService.findVehicleById(deliveryCreationDto.vehicleId());
-        Delivery delivery = new Delivery(deliveryPath, vehicle);
+        Delivery delivery = new Delivery();
+        delivery.setStartingPoint(deliveryCreationDTO.startingPoint());
+        assignDeliveryPackages(delivery, deliveryCreationDTO.deliveryPackages());
+        assignVehicle(delivery, deliveryCreationDTO.vehicleId());
+        assignDeliveryMan(delivery, deliveryCreationDTO.deliveryManUsername());
 
-        Set<DeliveryPackage> deliveryPackages = deliveryPackageService
-                .setPackagesDelivery(deliveryCreationDto.packages(), delivery);
-
-        double deliveryTotalWeight = deliveryPackageService.calculatePackagesWeight(deliveryPackages);
-
-        if (!vehicleCanCarryAll(vehicle, deliveryTotalWeight)) {
-            throw new VehicleCapacityExceeded(vehicle.getMaxCapacity(), deliveryTotalWeight);
-        }
-
-        delivery.setDeliveryPackages(deliveryPackages);
+        deliveryPackageService.saveAll(delivery.getDeliveryPackages());
         return deliveryRepository.save(delivery);
     }
 
     @Override
-    public DeliveryDTO getDeliveryById(Long deliveryId) {
+    public DeliveryWithNavigationDTO getDeliveryById(Long deliveryId) {
         Delivery delivery = deliveryRepository.findById(deliveryId).orElseThrow(
                 () -> new DeliveryNotFoundException(deliveryId));
 
-        return deliveryMapper.toDto(delivery);
+        DeliveryDTO deliveryDTO = deliveryMapper.toDto(delivery);
+
+        Set<Point> wayPoints = extractWaypoints(deliveryDTO.deliveryPackages());
+        NavigationData navigationData = osrmService.getNavigationData(deliveryDTO.startingPoint(), wayPoints);
+
+        return new DeliveryWithNavigationDTO(deliveryDTO, navigationData);
     }
 
     @Override
@@ -80,24 +84,8 @@ class DeliveryServiceImpl extends PagingService<Delivery, DeliveryDTO> implement
     }
 
     @Override
-    public PageResponseDTO<DeliveryDTO> getAllUnassignedDeliveries(int pageNo, int pageSize) {
-
-        return createPageResponse(
-                () -> deliveryRepository.findAllByDeliveryManIsNull(PageRequest.of(pageNo, pageSize)));
-    }
-
-    @Override
     public boolean isDeliveryOwner(Long deliveryId, String deliveryManUsername) {
         return deliveryRepository.getDeliveryByIdAndDeliveryMan_Username(deliveryId, deliveryManUsername).isPresent();
-    }
-
-    @Override
-    public void selectDelivery(Long deliveryID, String deliveryManUsername) {
-        DeliveryMan deliveryMan = deliveryManService.findByUsername(deliveryManUsername);
-        Delivery delivery = deliveryRepository.findById(deliveryID).orElseThrow(
-                () -> new DeliveryNotFoundException(deliveryID));
-
-        delivery.setDeliveryMan(deliveryMan);
     }
 
     protected DeliveryDTO mapToDto(Delivery delivery) {
@@ -108,10 +96,49 @@ class DeliveryServiceImpl extends PagingService<Delivery, DeliveryDTO> implement
         return vehicle.getMaxCapacity() >= deliveryTotalWeight;
     }
 
-    private DeliveryPath createDeliveryPath(DeliveryCreationDto deliveryCreationDto) {
-        List<Point> points = deliveryCreationDto.packages().stream()
+    private Set<Point> extractWaypoints(Set<DeliveryPackageDTO> deliveryPackageDTOS) {
+        return deliveryPackageDTOS.stream()
                 .map(DeliveryPackageDTO::destination)
-                .toList();
-        return deliveryPathService.createDeliveryPath(deliveryCreationDto.startPoint(), points);
+                .collect(Collectors.toSet());
+    }
+
+    private void assignVehicle(Delivery delivery, Long vehicleId) {
+        if (deliveryRepository.existsByVehicle_Id(vehicleId)) {
+            throw new VehicleAlreadyAssignedException();
+        }
+
+        Vehicle vehicle = vehicleService.findVehicleById(vehicleId);
+
+        double deliveryTotalWeight = deliveryPackageService.calculatePackagesWeight(delivery.getDeliveryPackages());
+
+        if (!vehicleCanCarryAll(vehicle, deliveryTotalWeight)) {
+            throw new VehicleCapacityExceeded(vehicle.getMaxCapacity(), deliveryTotalWeight);
+        }
+
+        delivery.setVehicle(vehicle);
+    }
+
+    public void assignDeliveryPackages(Delivery delivery, Set<DeliveryPackageDTO> packages) {
+        Set<DeliveryPackage> deliveryPackages = packages.stream()
+                .map(deliveryPackageMapper::toEntity)
+                .collect(Collectors.toSet());
+
+        deliveryPackages.forEach(deliveryPackage -> deliveryPackage.setDelivery(delivery));
+
+        delivery.setDeliveryPackages(deliveryPackages);
+    }
+
+    public void assignDeliveryMan(Delivery delivery, String deliveryManUsername) {
+
+        DeliveryMan deliveryMan;
+
+        if (deliveryManUsername == null) {
+            deliveryMan = deliveryManService.findFirstByDeliveryIsNull();
+        } else {
+            deliveryMan = deliveryManService.findByUsername(deliveryManUsername);
+        }
+
+        delivery.setDeliveryMan(deliveryMan);
+
     }
 }

@@ -1,10 +1,10 @@
 package dev.redy1908.greenway.delivery_man.domain;
 
+import dev.redy1908.greenway.delivery_man.domain.exceptions.models.DeliveryManNotFoundException;
+import dev.redy1908.greenway.delivery_man.domain.exceptions.models.NoFreeDeliveryManFound;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import dev.redy1908.greenway.delivery_man.domain.exceptions.models.DeliveryManNotFoundException;
 
 import java.util.Optional;
 
@@ -31,6 +31,13 @@ class DeliveryManServiceImpl implements IDeliveryManService {
         }
 
         throw new DeliveryManNotFoundException(username);
+    }
+
+    @Override
+    public DeliveryMan findFirstByDeliveryIsNull() {
+        return deliveryManRepository.findFirstByDeliveryIsNull().orElseThrow(
+                NoFreeDeliveryManFound::new
+        );
     }
 
 }

@@ -1,20 +1,20 @@
 package dev.redy1908.greenway.osrm.domain;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
+import com.google.maps.internal.PolylineEncoding;
+import com.google.maps.model.LatLng;
+import lombok.RequiredArgsConstructor;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.locationtech.jts.geom.Point;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import com.google.maps.internal.PolylineEncoding;
-import com.google.maps.model.LatLng;
-
-import org.locationtech.jts.geom.Point;
-import lombok.RequiredArgsConstructor;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -26,20 +26,19 @@ class OsrmServiceImpl implements IOsrmService {
     private final RestTemplate restTemplate;
 
     @Override
-    public OsrmParsedData getParsedData(Point startPoint, List<Point> destinations) {
+    public NavigationData getNavigationData(Point startPoint, Set<Point> destinations) {
 
         String url = OSRM_DRIVING_PATH + startPoint.getX() + "," + startPoint.getY() + ";";
 
         url += destinations.stream().map(
-                point -> point.getX() + "," + point.getY())
+                        point -> point.getX() + "," + point.getY())
                 .collect(Collectors.joining(";"));
 
         url += "?overview=false&steps=true";
 
-        String osrmResponse = restTemplate.getForObject(url, String.class);
+        Map<String, Object> osrmResponse = restTemplate.getForObject(url, Map.class);
 
-        return new OsrmParsedData(extractDistance(osrmResponse), extractDuration(osrmResponse),
-                generateSinglePolyline(osrmResponse));
+        return new NavigationData(osrmResponse);
 
     }
 

@@ -1,15 +1,19 @@
 package dev.redy1908.greenway.delivery.domain.dto;
 
 import dev.redy1908.greenway.delivery_package.domain.dto.DeliveryPackageDTO;
-import dev.redy1908.greenway.delivery_path.domain.dto.DeliveryPathDTO;
+import jakarta.validation.constraints.NotNull;
+import org.locationtech.jts.geom.Point;
 
-import java.util.List;
+import javax.annotation.Nullable;
+import java.util.Set;
 
 public record DeliveryDTO(
 
-                Long vehicleId,
+        @NotNull Long vehicleId,
 
-                DeliveryPathDTO deliveryPath,
+        @NotNull Point startingPoint,
 
-                List<DeliveryPackageDTO> deliveryPackages) {
+        @Nullable String deliveryManUsername,
+
+        @NotNull Set<DeliveryPackageDTO> deliveryPackages) {
 }

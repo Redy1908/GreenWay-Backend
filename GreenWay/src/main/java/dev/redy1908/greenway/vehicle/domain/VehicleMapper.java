@@ -1,7 +1,6 @@
 package dev.redy1908.greenway.vehicle.domain;
 
 import dev.redy1908.greenway.vehicle.domain.dto.VehicleDTO;
-
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 import org.springframework.stereotype.Component;

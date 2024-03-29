@@ -6,4 +6,6 @@ public interface IDeliveryManService {
 
     DeliveryMan findByUsername(String username);
 
+    DeliveryMan findFirstByDeliveryIsNull();
+
 }

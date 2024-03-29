@@ -7,4 +7,6 @@ import java.util.Optional;
 interface DeliveryManRepository extends JpaRepository<DeliveryMan, Long> {
 
     Optional<DeliveryMan> findByUsername(String username);
+
+    Optional<DeliveryMan> findFirstByDeliveryIsNull();
 }
