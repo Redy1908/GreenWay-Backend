@@ -24,6 +24,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -97,9 +98,10 @@ class DeliveryServiceImpl extends PagingService<Delivery, DeliveryDTO> implement
     }
 
     private Set<Point> extractWaypoints(Set<DeliveryPackageDTO> deliveryPackageDTOS) {
+
         return deliveryPackageDTOS.stream()
                 .map(DeliveryPackageDTO::destination)
-                .collect(Collectors.toSet());
+                .collect(Collectors.toCollection(LinkedHashSet::new));
     }
 
     private void assignVehicle(Delivery delivery, Long vehicleId) {
