@@ -24,4 +24,6 @@ spring:
           lob:
             non_contextual_creation: true
 osrm:
-  driving_path: http://localhost:5000/route/v1/driving/
+  url: http://localhost:5000/route/v1/driving/
+opentopodata:
+  url: http://localhost:5001/v1/greenway?locations=
