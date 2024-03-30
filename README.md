@@ -74,8 +74,7 @@ Opentopodata needs to be configured with the same elevation data usend in OSRM
 1. Download the same file downloaded in step 5 above, from [here](https://srtm.csi.cgiar.org/srtmdata/), this time select ```Geo TIFF```
 2. Go to ```oepntopodata/data``` create a new folder ```yourDatasetFolder/``` move the downloaded ```.tif``` file inside this folder
 3. Edit the file ```oepntopodata/config.yml``` set the ```name``` end ```path``` to your dataset
-4. Run  ```docker build -t {dockerHubUsername}/{imageName}:{imageTag} --file docker/Dockerfile .``` in ```oepntopodata```
-5. Edit the ```docker-compose.yml``` in the root directory: line ```71``` replace the ```image``` value with ```{dockerHubUsername}/{imageName}:{imageTag}``` and  line ```78``` with the number of threads you want to use
+4. Edit the ```docker-compose.yml``` in the root directory: line ```78``` with the number of threads you want to use
 
 ### 2. Spring Boot
 
