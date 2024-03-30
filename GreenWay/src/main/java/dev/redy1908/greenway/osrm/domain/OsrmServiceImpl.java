@@ -1,13 +1,15 @@
 package dev.redy1908.greenway.osrm.domain;
 
-import com.google.maps.internal.PolylineEncoding;
-import com.google.maps.model.LatLng;
+import dev.redy1908.greenway.osrm.domain.exceptions.models.InvalidOsrmResponseException;
 import lombok.RequiredArgsConstructor;
 import org.locationtech.jts.geom.Point;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -15,6 +17,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@SuppressWarnings("unchecked")
 class OsrmServiceImpl implements IOsrmService {
 
     @Value("${osrm.url}")
@@ -37,33 +40,35 @@ class OsrmServiceImpl implements IOsrmService {
         url += "?steps=true";
 
         Map<String, Object> osrmResponse = restTemplate.getForObject(url, Map.class);
-        Map<String, Object> opentopodataResponse = getElevationData(extractOverviewPoints(osrmResponse));
+
+        if(osrmResponse == null){
+            throw new InvalidOsrmResponseException();
+        }
+
+        Map<String, Object> opentopodataResponse = getElevationData(extractPolyline(osrmResponse));
 
         return new NavigationData(opentopodataResponse, osrmResponse);
 
     }
 
-    private List<LatLng> extractOverviewPoints(Map<String, Object> osrmResponse) {
+    private String extractPolyline(Map<String, Object> osrmResponse) {
 
         if (osrmResponse.containsKey("routes")) {
             List<Object> routes = (List<Object>) osrmResponse.get("routes");
             if (!routes.isEmpty()) {
                 Map<String, Object> firstRoute = (Map<String, Object>) routes.getFirst();
                 if (firstRoute.containsKey("geometry")) {
-                    String geometry = (String) firstRoute.get("geometry");
-                    return PolylineEncoding.decode(geometry);
+                    return (String) firstRoute.get("geometry");
                 }
             }
         }
 
-        return null;
+        throw new InvalidOsrmResponseException();
     }
 
-    private Map<String, Object> getElevationData(List<LatLng> points) {
-        String url = OPENTOPODATA_URL + points.stream().map(
-                        point -> point.lat + "," + point.lng)
-                .collect(Collectors.joining("|"));
+    private Map<String, Object> getElevationData(String polyline) {
 
-        return restTemplate.getForObject(url, Map.class);
+        String urlEncodedPolyline = URLEncoder.encode(polyline, StandardCharsets.UTF_8);
+        return restTemplate.getForObject(OPENTOPODATA_URL + urlEncodedPolyline, Map.class);
     }
 }

@@ -26,4 +26,4 @@ spring:
 osrm:
   url: http://green-way-osrm:5000/route/v1/driving/
 opentopodata:
-  url: http://green-way-opentopodata:5001/v1/greenway?locations=
+  url: http://green-way-opentopodata:5000/v1/greenway?locations=
