@@ -1,11 +1,109 @@
 {
 	"info": {
-		"_postman_id": "6fd40b9c-9318-427f-b97a-7385f59647ac",
+		"_postman_id": "82219444-fbe1-4a52-925c-7c765f1c7515",
 		"name": "GreenWay",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "27276004"
 	},
 	"item": [
+		{
+			"name": "DeliveryMan",
+			"item": [
+				{
+					"name": "Create DeliveryMan",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "accessTokenUrl",
+									"value": "http://localhost:8090/realms/GreenWay/protocol/openid-connect/token",
+									"type": "string"
+								},
+								{
+									"key": "authUrl",
+									"value": "http://localhost:8090/realms/GreenWay/protocol/openid-connect/auth",
+									"type": "string"
+								},
+								{
+									"key": "clientId",
+									"value": "GreenWay",
+									"type": "string"
+								},
+								{
+									"key": "clientSecret",
+									"value": "jyTj9K8qcn3AoZjElhNCT15klfdiBH0K",
+									"type": "string"
+								},
+								{
+									"key": "state",
+									"value": "ew34er-344fgfg-5gfgfg",
+									"type": "string"
+								},
+								{
+									"key": "useBrowser",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "grant_type",
+									"value": "authorization_code",
+									"type": "string"
+								},
+								{
+									"key": "tokenName",
+									"value": "authcode_accesstoken",
+									"type": "string"
+								},
+								{
+									"key": "client_authentication",
+									"value": "body",
+									"type": "string"
+								},
+								{
+									"key": "scope",
+									"value": "openid email profile",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/deliveryMen",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"deliveryMen"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
 		{
 			"name": "Vehicle",
 			"item": [
@@ -368,7 +466,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"vehicleId\": \"1\",\r\n    \"startingPoint\": {\r\n        \"type\": \"Point\",\r\n        \"coordinates\": [14.220771, 40.840825]\r\n    },\r\n    \"deliveryPackages\":[\r\n        {\r\n            \"destination\": {\r\n                \"type\": \"Point\",\r\n                \"coordinates\":[14.246178, 40.845681]\r\n            },\r\n            \"weight\": \"1.5\"\r\n        },\r\n        {\r\n            \"destination\": {\r\n                \"type\": \"Point\",\r\n                \"coordinates\": [14.227509, 40.852579]\r\n            },\r\n            \"weight\": \"2.3\"\r\n        }\r\n    ]\r\n}\r\n",
+							"raw": "{\r\n    \"vehicleId\": \"1\",\r\n    \"startingPoint\": {\r\n        \"type\": \"Point\",\r\n        \"coordinates\": [14.220771, 40.840825]\r\n    },\r\n    \"deliveryPackages\":[\r\n        {\r\n            \"destination\": {\r\n                \"type\": \"Point\",\r\n                \"coordinates\":[14.245491, 40.855890]\r\n            },\r\n            \"weight\": \"1.5\"\r\n        },\r\n        {\r\n            \"destination\": {\r\n                \"type\": \"Point\",\r\n                \"coordinates\": [14.275188, 40.860434]\r\n            },\r\n            \"weight\": \"2.3\"\r\n        }\r\n    ]\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -458,7 +556,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"deliveryManUsername\": \"deliveryman1\",\r\n    \"vehicleId\": \"1\",\r\n    \"startingPoint\": {\r\n        \"type\": \"Point\",\r\n        \"coordinates\": [14.220771, 40.840825]\r\n    },\r\n    \"deliveryPackages\":[\r\n        {\r\n            \"destination\": {\r\n                \"type\": \"Point\",\r\n                \"coordinates\":[14.246178, 40.845681]\r\n            },\r\n            \"weight\": \"1.5\"\r\n        },\r\n        {\r\n            \"destination\": {\r\n                \"type\": \"Point\",\r\n                \"coordinates\": [14.227509, 40.852579]\r\n            },\r\n            \"weight\": \"2.3\"\r\n        }\r\n    ]\r\n}\r\n",
+							"raw": "{\r\n    \"deliveryManUsername\": \"deliveryman1\",\r\n    \"vehicleId\": \"1\",\r\n    \"startingPoint\": {\r\n        \"type\": \"Point\",\r\n        \"coordinates\": [14.220771, 40.840825]\r\n    },\r\n    \"deliveryPackages\":[\r\n        {\r\n            \"destination\": {\r\n                \"type\": \"Point\",\r\n                \"coordinates\":[14.245491, 40.855890]\r\n            },\r\n            \"weight\": \"1.5\"\r\n        },\r\n        {\r\n            \"destination\": {\r\n                \"type\": \"Point\",\r\n                 \"coordinates\": [14.275188, 40.860434]\r\n            },\r\n            \"weight\": \"2.3\"\r\n        }\r\n    ]\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -676,104 +774,6 @@
 									"value": "5",
 									"description": "OPTIONAL default = 10"
 								}
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "DeliveryMan",
-			"item": [
-				{
-					"name": "Create DeliveryMan",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"auth": {
-							"type": "oauth2",
-							"oauth2": [
-								{
-									"key": "accessTokenUrl",
-									"value": "http://localhost:8090/realms/GreenWay/protocol/openid-connect/token",
-									"type": "string"
-								},
-								{
-									"key": "authUrl",
-									"value": "http://localhost:8090/realms/GreenWay/protocol/openid-connect/auth",
-									"type": "string"
-								},
-								{
-									"key": "clientId",
-									"value": "GreenWay",
-									"type": "string"
-								},
-								{
-									"key": "clientSecret",
-									"value": "jyTj9K8qcn3AoZjElhNCT15klfdiBH0K",
-									"type": "string"
-								},
-								{
-									"key": "state",
-									"value": "ew34er-344fgfg-5gfgfg",
-									"type": "string"
-								},
-								{
-									"key": "useBrowser",
-									"value": true,
-									"type": "boolean"
-								},
-								{
-									"key": "grant_type",
-									"value": "authorization_code",
-									"type": "string"
-								},
-								{
-									"key": "tokenName",
-									"value": "authcode_accesstoken",
-									"type": "string"
-								},
-								{
-									"key": "client_authentication",
-									"value": "body",
-									"type": "string"
-								},
-								{
-									"key": "scope",
-									"value": "openid email profile",
-									"type": "string"
-								},
-								{
-									"key": "addTokenTo",
-									"value": "header",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/api/v1/deliveryMen",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"v1",
-								"deliveryMen"
 							]
 						}
 					},
