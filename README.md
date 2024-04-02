@@ -4,30 +4,39 @@ GreenWay, an Electric Vehicle (EV) routing service.
 
 ## Set-up
 
-> :warning: This set up is only for development/prototyping <u>DO NOT</u> use it in production :warning:
+1. This project uses [KeyCloak](https://www.keycloak.org/) as its Identity and Access Management (IAM) system. 
+   A pre-configured realm and the following users are already configured:
+   
+   > :warning: This set up is only for development/prototyping <u>DO NOT</u> use it in production :warning:
 
-This project uses [KeyCloak](https://www.keycloak.org/) as its Identity and Access Management (IAM) system. 
-A pre-configured realm and the following users are already configured:
+    ```
+    Username: admin
+    Password: admin
+    KeyCloak default admin
+    ```
 
-```
-Username: admin
-Password: admin
-KeyCloak default admin
-```
+    ```
+    Username: GREEN_WAY_ADMIN
+    Password: 12345
+    with GREEN_WAY_ADMIN privileges
+    ```
+    
+    ```
+    Username: deliveryMan1
+    Password: 12345
+    with GREEN_WAY_DELIVERY_MAN privileges
+    ```
 
-```
-Username: GREEN_WAY_ADMIN
-Password: 12345
-with GREEN_WAY_ADMIN privileges
-```
+    If you want to edit the KeyCloak configuration or add new users, access the 
+    KeyCloak dashboard http://localhost:8090/ using the default admin profile
 
-```
-Username: deliveryMan1
-Password: 12345
-with GREEN_WAY_DELIVERY_MAN privileges
-```
+2. This project use [Project OSRM](https://project-osrm.org/) for its routing capabilities. OSRM has been configured
+   with map and elevation data for Southern Italy. You will need to configure [Opentopodata](https://www.opentopodata.org/) with the same 
+   elevation data used in OSRM. Navigate to```oepntopodata/data``` create a new folder named```greenWay``` 
+   download this [Archive](https://srtm.csi.cgiar.org/wp-content/uploads/files/srtm_5x5/TIFF/srtm_39_04.zip) extract the file ```srtm_39_04.tif```,
+   rename it as ```greeway.tif``` and move it in ```oepntopodata/datagreenWay/```.
 
-If you want to edit the KeyCloak configuration or add new users, access the dashboard at - KeyCloak dashboard http://localhost:8090/
+   If you wish to use a different configuration, please continue reading.
 
 ## Running the Project
 
