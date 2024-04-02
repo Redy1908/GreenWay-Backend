@@ -4,10 +4,10 @@ GreenWay, an Electric Vehicle (EV) routing service.
 
 ## Set-up
 
-1. This project uses [KeyCloak](https://www.keycloak.org/) as its Identity and Access Management (IAM) system. 
+1. > :warning: This set up is only for development/prototyping <u>DO NOT</u> use it in production :warning:
+
+   This project uses [KeyCloak](https://www.keycloak.org/) as its Identity and Access Management (IAM) system. 
    A pre-configured realm and the following users are already configured:
-   
-   > :warning: This set up is only for development/prototyping <u>DO NOT</u> use it in production :warning:
 
     ```
     Username: admin
@@ -32,7 +32,7 @@ GreenWay, an Electric Vehicle (EV) routing service.
 
 2. This project use [Project OSRM](https://project-osrm.org/) for its routing capabilities. OSRM has been configured
    with map and elevation data for Southern Italy. You will need to configure [Opentopodata](https://www.opentopodata.org/) with the same 
-   elevation data used in OSRM. Navigate to```oepntopodata/data``` create a new folder named```greenWay``` 
+   elevation data used in OSRM. Navigate to```oepntopodata/data``` create a new folder named ```greenWay``` 
    download this [Archive](https://srtm.csi.cgiar.org/wp-content/uploads/files/srtm_5x5/TIFF/srtm_39_04.zip) extract the file ```srtm_39_04.tif```,
    rename it as ```greeway.tif``` and move it in ```oepntopodata/datagreenWay/```.
 
@@ -44,17 +44,6 @@ Ensure that [Docker](https://www.docker.com/) is installed and running on your s
 
 Execute ```docker compose up -d``` in the root directory. 
 - The REST API will be available at http://localhost:8080.
-
-## Running only OSRM
-
-Ensure that [Docker](https://www.docker.com/) is installed and running on your system.
-
-Execute ```docker compose up -d``` in ```osrm/```.
-
-- OSRM backend will be available at http://localhost:5000
-- OSRM frontend will be available at http://localhost:9966
-
-
 
 ## Customizing the Setup (Optional)
 
