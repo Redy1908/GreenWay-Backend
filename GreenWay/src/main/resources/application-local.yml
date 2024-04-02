@@ -24,6 +24,13 @@ spring:
           lob:
             non_contextual_creation: true
 osrm:
-  url: http://localhost:5000/route/v1/driving/
+  distance:
+    url: http://localhost:5000/route/v1/driving/
+  duration:
+    url: http://localhost:5001/route/v1/driving/
+  elevation:
+    url: http://localhost:5002/route/v1/driving/
+  standard:
+    url: http://localhost:5003/route/v1/driving/
 opentopodata:
-  url: http://localhost:5001/v1/greenway?locations=
+  url: http://localhost:5004/v1/greenway?locations=

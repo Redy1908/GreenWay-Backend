@@ -65,14 +65,56 @@ class DeliveryServiceImpl extends PagingService<Delivery, DeliveryDTO> implement
     }
 
     @Override
-    public DeliveryWithNavigationDTO getDeliveryById(Long deliveryId) {
+    public DeliveryWithNavigationDTO getDeliveryByIdNavigationDistance(Long deliveryId) {
         Delivery delivery = deliveryRepository.findById(deliveryId).orElseThrow(
                 () -> new DeliveryNotFoundException(deliveryId));
 
         DeliveryDTO deliveryDTO = deliveryMapper.toDto(delivery);
 
         Set<Point> wayPoints = extractWaypoints(deliveryDTO.deliveryPackages());
-        NavigationData navigationData = osrmService.getNavigationData(deliveryDTO.startingPoint(), wayPoints);
+        NavigationData navigationData = osrmService.getNavigationDataDistance(deliveryDTO.startingPoint(), wayPoints);
+
+        return new DeliveryWithNavigationDTO(deliveryDTO, navigationData);
+    }
+
+
+    @Override
+    public DeliveryWithNavigationDTO getDeliveryByIdNavigationDuration(Long deliveryId) {
+        Delivery delivery = deliveryRepository.findById(deliveryId).orElseThrow(
+                () -> new DeliveryNotFoundException(deliveryId));
+
+        DeliveryDTO deliveryDTO = deliveryMapper.toDto(delivery);
+
+        Set<Point> wayPoints = extractWaypoints(deliveryDTO.deliveryPackages());
+        NavigationData navigationData = osrmService.getNavigationDataDuration(deliveryDTO.startingPoint(), wayPoints);
+
+        return new DeliveryWithNavigationDTO(deliveryDTO, navigationData);
+    }
+
+
+    @Override
+    public DeliveryWithNavigationDTO getDeliveryByIdNavigationElevation(Long deliveryId) {
+        Delivery delivery = deliveryRepository.findById(deliveryId).orElseThrow(
+                () -> new DeliveryNotFoundException(deliveryId));
+
+        DeliveryDTO deliveryDTO = deliveryMapper.toDto(delivery);
+
+        Set<Point> wayPoints = extractWaypoints(deliveryDTO.deliveryPackages());
+        NavigationData navigationData = osrmService.getNavigationDataElevation(deliveryDTO.startingPoint(), wayPoints);
+
+        return new DeliveryWithNavigationDTO(deliveryDTO, navigationData);
+    }
+
+
+    @Override
+    public DeliveryWithNavigationDTO getDeliveryByIdNavigationStandard(Long deliveryId) {
+        Delivery delivery = deliveryRepository.findById(deliveryId).orElseThrow(
+                () -> new DeliveryNotFoundException(deliveryId));
+
+        DeliveryDTO deliveryDTO = deliveryMapper.toDto(delivery);
+
+        Set<Point> wayPoints = extractWaypoints(deliveryDTO.deliveryPackages());
+        NavigationData navigationData = osrmService.getNavigationDataStandard(deliveryDTO.startingPoint(), wayPoints);
 
         return new DeliveryWithNavigationDTO(deliveryDTO, navigationData);
     }
@@ -82,6 +124,13 @@ class DeliveryServiceImpl extends PagingService<Delivery, DeliveryDTO> implement
 
         return createPageResponse(
                 () -> deliveryRepository.findAll(PageRequest.of(pageNo, pageSize)));
+    }
+
+    @Override
+    public PageResponseDTO<DeliveryDTO> getAllDeliveriesByDeliveryMan(String deliveryManUsername, int pageNo, int pageSize) {
+
+        return createPageResponse(
+                () -> deliveryRepository.findAllByDeliveryMan_Username(deliveryManUsername, PageRequest.of(pageNo, pageSize)));
     }
 
     @Override
@@ -120,7 +169,7 @@ class DeliveryServiceImpl extends PagingService<Delivery, DeliveryDTO> implement
         delivery.setVehicle(vehicle);
     }
 
-    public void assignDeliveryPackages(Delivery delivery, Set<DeliveryPackageDTO> packages) {
+    private void assignDeliveryPackages(Delivery delivery, Set<DeliveryPackageDTO> packages) {
         Set<DeliveryPackage> deliveryPackages = packages.stream()
                 .map(deliveryPackageMapper::toEntity)
                 .collect(Collectors.toSet());
@@ -130,7 +179,7 @@ class DeliveryServiceImpl extends PagingService<Delivery, DeliveryDTO> implement
         delivery.setDeliveryPackages(deliveryPackages);
     }
 
-    public void assignDeliveryMan(Delivery delivery, String deliveryManUsername) {
+    private void assignDeliveryMan(Delivery delivery, String deliveryManUsername) {
 
         DeliveryMan deliveryMan;
 

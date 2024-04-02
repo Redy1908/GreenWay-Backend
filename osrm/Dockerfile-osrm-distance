@@ -1,0 +1,15 @@
+FROM osrm/osrm-backend:latest
+
+COPY ./data /data
+COPY profiles/car-distance.lua /opt
+
+
+ENV OSRM_FILE=sud-latest
+
+RUN osrm-extract -p /opt/car-distance.lua /data/${OSRM_FILE}.osm.pbf && \
+        osrm-partition /data/${OSRM_FILE}.osrm && \
+        osrm-customize /data/${OSRM_FILE}.osrm;
+
+EXPOSE 5000
+
+CMD osrm-routed --algorithm mld /data/${OSRM_FILE}.osrm

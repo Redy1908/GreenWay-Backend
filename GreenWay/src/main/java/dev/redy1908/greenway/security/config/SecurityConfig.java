@@ -24,10 +24,6 @@ public class SecurityConfig {
     private static final String ADMIN_ROLE = "GREEN_WAY_ADMIN";
     private static final String DELIVERY_MAN_ROLE = "GREEN_WAY_DELIVERY_MAN";
 
-    private static final String[] WHITE_LIST_URL = {
-
-    };
-
     private static final String[] POST_ADMIN_LIST_URL = {
             "/api/v1/vehicles",
             "/api/v1/deliveries"
@@ -40,7 +36,8 @@ public class SecurityConfig {
 
     private static final String[] GET_ADMIN_DELIVERY_MAN_LIST_URL = {
             "/api/v1/vehicles/?",
-            "/api/v1/deliveries/id/?"
+            "/api/v1/deliveries/id/?",
+            "/api/v1/deliveries/?"
     };
 
     private static final String[] GET_DELIVERY_MAN_LIST_URL = {
@@ -51,7 +48,6 @@ public class SecurityConfig {
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         http.authorizeHttpRequests(auth -> auth
-                        .requestMatchers(WHITE_LIST_URL).permitAll()
                         .requestMatchers(HttpMethod.POST, POST_ADMIN_LIST_URL).hasRole(ADMIN_ROLE)
                         .requestMatchers(HttpMethod.GET, GET_ADMIN_LIST_URL).hasRole(ADMIN_ROLE)
                         .requestMatchers(HttpMethod.GET, GET_ADMIN_DELIVERY_MAN_LIST_URL).hasAnyRole(ADMIN_ROLE, DELIVERY_MAN_ROLE)

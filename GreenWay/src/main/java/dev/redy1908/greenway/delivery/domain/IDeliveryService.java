@@ -9,9 +9,14 @@ public interface IDeliveryService {
 
     Delivery createDelivery(@Valid DeliveryDTO deliveryCreationDTO);
 
-    DeliveryWithNavigationDTO getDeliveryById(Long deliveryId);
+    DeliveryWithNavigationDTO getDeliveryByIdNavigationDistance(Long deliveryId);
+    DeliveryWithNavigationDTO getDeliveryByIdNavigationDuration(Long deliveryId);
+    DeliveryWithNavigationDTO getDeliveryByIdNavigationElevation(Long deliveryId);
+    DeliveryWithNavigationDTO getDeliveryByIdNavigationStandard(Long deliveryId);
 
     PageResponseDTO<DeliveryDTO> getAllDeliveries(int pageNo, int pageSize);
+
+    PageResponseDTO<DeliveryDTO> getAllDeliveriesByDeliveryMan(String deliveryManUsername, int pageNo, int pageSize);
 
     boolean isDeliveryOwner(Long deliveryId, String deliveryManUsername);
 }

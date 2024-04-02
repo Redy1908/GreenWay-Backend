@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
@@ -20,8 +19,17 @@ import java.util.stream.Collectors;
 @SuppressWarnings("unchecked")
 class OsrmServiceImpl implements IOsrmService {
 
-    @Value("${osrm.url}")
-    private String OSRM_URL;
+    @Value("${osrm.distance.url}")
+    private String OSRM_DISTANCE_URL;
+
+    @Value("${osrm.duration.url}")
+    private String OSRM_DURATION_URL;
+
+    @Value("${osrm.elevation.url}")
+    private String OSRM_ELEVATION_URL;
+
+    @Value("${osrm.standard.url}")
+    private String OSRM_STANDARD_URL;
 
     @Value("${opentopodata.url}")
     private String OPENTOPODATA_URL;
@@ -29,26 +37,51 @@ class OsrmServiceImpl implements IOsrmService {
     private final RestTemplate restTemplate;
 
     @Override
-    public NavigationData getNavigationData(Point startPoint, Set<Point> destinations) {
+    public NavigationData getNavigationDataDistance(Point startPoint, Set<Point> pointList) {
 
-        String url = OSRM_URL + startPoint.getX() + "," + startPoint.getY() + ";";
+        String url = buildUrl(OSRM_DISTANCE_URL, startPoint, pointList);
+        return getNavigationData(url);
+    }
 
-        url += destinations.stream().map(
-                        point -> point.getX() + "," + point.getY())
-                .collect(Collectors.joining(";"));
+    @Override
+    public NavigationData getNavigationDataDuration(Point startPoint, Set<Point> pointList) {
+        String url = buildUrl(OSRM_DURATION_URL, startPoint, pointList);
+        return getNavigationData(url);
+    }
 
-        url += "?steps=true";
+    @Override
+    public NavigationData getNavigationDataElevation(Point startPoint, Set<Point> pointList) {
+        String url = buildUrl(OSRM_ELEVATION_URL, startPoint, pointList);
+        return getNavigationData(url);
+    }
 
+    @Override
+    public NavigationData getNavigationDataStandard(Point startPoint, Set<Point> pointList) {
+        String url = buildUrl(OSRM_STANDARD_URL, startPoint, pointList);
+        return getNavigationData(url);
+    }
+
+    @Override
+    public NavigationData getNavigationData(String url) {
         Map<String, Object> osrmResponse = restTemplate.getForObject(url, Map.class);
 
-        if(osrmResponse == null){
+        if (osrmResponse == null) {
             throw new InvalidOsrmResponseException();
         }
 
         Map<String, Object> opentopodataResponse = getElevationData(extractPolyline(osrmResponse));
 
         return new NavigationData(opentopodataResponse, osrmResponse);
+    }
 
+    private String buildUrl(String basePath, Point startingPoint, Set<Point> wayPoints) {
+        return basePath + startingPoint.getX() + "," + startingPoint.getY() + ";"
+
+                + wayPoints.stream().map(
+                        point -> point.getX() + "," + point.getY())
+                .collect(Collectors.joining(";"))
+
+                + "?steps=true";
     }
 
     private String extractPolyline(Map<String, Object> osrmResponse) {
