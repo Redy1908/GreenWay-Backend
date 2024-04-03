@@ -34,7 +34,7 @@ GreenWay, an Electric Vehicle (EV) routing service.
    with map and elevation data for Southern Italy. You will need to configure [Opentopodata](https://www.opentopodata.org/) with the same 
    elevation data used in OSRM. Navigate to ```oepntopodata/data``` create a new folder named ```greenWay``` 
    download this [Archive](https://srtm.csi.cgiar.org/wp-content/uploads/files/srtm_5x5/TIFF/srtm_39_04.zip) extract the file ```srtm_39_04.tif```,
-   rename it as ```greeway.tif``` and move it in ```oepntopodata/datagreenWay/```.
+   rename it as ```greenway.tif``` and move it in ```oepntopodata/data/greenWay/```.
 
    If you wish to use a different configuration, please continue reading.
 
