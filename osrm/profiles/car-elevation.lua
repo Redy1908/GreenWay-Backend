@@ -1,5 +1,11 @@
 -- Car profile
 
+local RASTER_PATH = os.getenv('OSRM_RASTER_SOURCE') or "../data/srtm_39_04.asc"
+local LON_MIN = tonumber(os.getenv("LON_MIN"))
+local LON_MAX = tonumber(os.getenv("LON_MAX"))
+local LAT_MIN = tonumber(os.getenv("LAT_MIN"))
+local LAT_MAX = tonumber(os.getenv("LAT_MAX"))
+
 api_version = 4
 
 Set = require('lib/set')
@@ -29,6 +35,16 @@ function setup()
       left_hand_driving              = false,
       traffic_light_penalty          = 2,
     },
+
+    raster_source                = raster:load(
+      RASTER_PATH,
+      LON_MIN,
+      LON_MAX,
+      LAT_MIN,
+      LAT_MAX,
+      tonumber(os.getenv("NROWS")),
+      tonumber(os.getenv("NCOLS"))
+    ),
 
     default_mode              = mode.driving,
     default_speed             = 10,
@@ -328,38 +344,6 @@ function setup()
   }
 end
 
-function process_segment(profile, segment)
-
-  local out_of_bounds = false
-  if segment.source.lon < LON_MIN or segment.source.lon > LON_MAX or
-     segment.source.lat < LAT_MIN or segment.source.lat > LAT_MAX or
-     segment.target.lon < LON_MIN or segment.target.lon > LON_MAX or
-     segment.target.lat < LAT_MIN or segment.target.lat > LAT_MAX then
-        out_of_bounds = true
-  end
-
-  if out_of_bounds == false then
-    local sourceData = raster:interpolate(raster_source, segment.source.lon, segment.source.lat)
-    local targetData = raster:interpolate(raster_source, segment.target.lon, segment.target.lat)
-
-    if segment.distance ~= 0 and targetData.datum > 0 and sourceData.datum > 0 then
-      local delta_elevation = targetData.datum - sourceData.datum
-      local squared_delta_elevation = delta_elevation * delta_elevation
-      local squared_distance = segment.distance * segment.distance
-
-      local hypotenuse = math.sqrt(squared_delta_elevation + squared_distance)
-      local squared_hypotenuse = hypotenuse * hypotenuse
-
-      local angle_radiant = math.acos((squared_hypotenuse + squared_distance - squared_delta_elevation) / (2 * hypotenuse * segment.distance))
-      local angle_deg = angle_radiant * (180 / math.pi)
-
-      if delta_elevation > 0 then
-        segment.weight = segment.weight * (1 + angle_deg)
-      end
-    end
-  end
-end
-
 function process_node(profile, node, result, relations)
   -- parse access and barrier tags
   local access = find_access_tag(node, profile.access_tags_hierarchy)
@@ -498,6 +482,37 @@ function process_way(profile, way, result, relations)
 
   if profile.cardinal_directions then
       Relations.process_way_refs(way, relations, result)
+  end
+end
+
+function process_segment(profile, segment)
+  local out_of_bounds = false
+  if segment.source.lon < LON_MIN or segment.source.lon > LON_MAX or
+     segment.source.lat < LAT_MIN or segment.source.lat > LAT_MAX or
+     segment.target.lon < LON_MIN or segment.target.lon > LON_MAX or
+     segment.target.lat < LAT_MIN or segment.target.lat > LAT_MAX then
+        out_of_bounds = true
+  end
+
+  if out_of_bounds == false then
+    local sourceData = raster:interpolate(raster_source, segment.source.lon, segment.source.lat)
+    local targetData = raster:interpolate(raster_source, segment.target.lon, segment.target.lat)
+
+    if segment.distance ~= 0 and targetData.datum > 0 and sourceData.datum > 0 then
+      local delta_elevation = targetData.datum - sourceData.datum
+      local squared_delta_elevation = delta_elevation * delta_elevation
+      local squared_distance = segment.distance * segment.distance
+
+      local hypotenuse = math.sqrt(squared_delta_elevation + squared_distance)
+      local squared_hypotenuse = hypotenuse * hypotenuse
+
+      local angle_radiant = math.acos((squared_hypotenuse + squared_distance - squared_delta_elevation) / (2 * hypotenuse * segment.distance))
+      local angle_deg = angle_radiant * (180 / math.pi)
+
+      if delta_elevation > 0 then
+        segment.weight = segment.weight * (1 + angle_deg)
+      end
+    end
   end
 end
 
