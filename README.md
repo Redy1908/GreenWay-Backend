@@ -79,22 +79,6 @@ Opentopodata needs to be configured with the same elevation data usend in OSRM
 3. Edit the file ```oepntopodata/config.yml``` set the ```name``` end ```path``` to your dataset
 4. Edit the ```docker-compose.yml``` in the root directory: line ```78``` with the number of threads you want to use
 
-### 2. Spring Boot
-
-1. Navigate to ```GreenWay/``` and make the necessary changes.
-2. Edit the ```pom.xml``` file replace ```redy1908``` with your dockerHub username at line ```106```.
-3. Execute ```./mvnw -DskipTests spring-boot:build-image```.
-4. Edit the ```docker-compose.yml``` file in the root directory, on line 4, replace the `image`  value with the name of your image (use the value at line 106 in the ```pom.xml```)
-5. Optionally, push the image to DockerHub with ```docker push docker.io/{your-dockerHub-username}/green-way-backend:v1```
-
-If you want to make changes to the Spring Boot REST API and run it immediately without creating a custom image, 
-do the following:
-    
-1. Enable the Spring Boot profile ```local```
-2. Run ```docker compose up -d``` in ```osrm/```
-3. Run ```docker-compose up -d postgis``` in the root folder
-4. Run the Spring Boot Application the REST API will be available at http://localhost:8080
-
 ---
 
 | Useful commands                                           |
