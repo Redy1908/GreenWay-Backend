@@ -62,9 +62,9 @@ By default, OSMR is configured with the map of Southern Italy and the relative e
 9. Remove the first ```6``` lines from the  ```.asc``` file, save the changes
 10. Run the following commands inside ```osrm/```:
     - ```docker build -t {dockerHubUsername}/{imageName}:{imageTag} -f Dockerfile-osrm-distance .```
-    - ```docker build -t redy1908/green-way-osrm-duration:v1 -f Dockerfile-osrm-duration .```
+    - ```docker build -t {dockerHubUsername}/{imageName}:{imageTag} -f Dockerfile-osrm-duration .```
     - ```docker build -t {dockerHubUsername}/{imageName}:{imageTag} -f Dockerfile-osrm-elevation .```
-    - ```docker build -t redy1908/green-way-osrm-standard:v1 -f Dockerfile-osrm-standard .```
+    - ```docker build -t {dockerHubUsername}/{imageName}:{imageTag} -f Dockerfile-osrm-standard .```
 11. Edit the ```docker-compose.yml``` file in the root directory, lines 74-82-86-92, replace the `image` value with the name of your image
 
 ### 2. Opentopodata
