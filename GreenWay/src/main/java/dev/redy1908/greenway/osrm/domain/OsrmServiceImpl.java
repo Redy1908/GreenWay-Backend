@@ -1,5 +1,6 @@
 package dev.redy1908.greenway.osrm.domain;
 
+import dev.redy1908.greenway.osrm.domain.exceptions.models.InvalidNavigationMode;
 import dev.redy1908.greenway.osrm.domain.exceptions.models.InvalidOsrmResponseException;
 import lombok.RequiredArgsConstructor;
 import org.locationtech.jts.geom.Point;
@@ -37,32 +38,8 @@ class OsrmServiceImpl implements IOsrmService {
     private final RestTemplate restTemplate;
 
     @Override
-    public NavigationData getNavigationDataDistance(Point startPoint, Set<Point> pointList) {
-
-        String url = buildUrl(OSRM_DISTANCE_URL, startPoint, pointList);
-        return getNavigationData(url);
-    }
-
-    @Override
-    public NavigationData getNavigationDataDuration(Point startPoint, Set<Point> pointList) {
-        String url = buildUrl(OSRM_DURATION_URL, startPoint, pointList);
-        return getNavigationData(url);
-    }
-
-    @Override
-    public NavigationData getNavigationDataElevation(Point startPoint, Set<Point> pointList) {
-        String url = buildUrl(OSRM_ELEVATION_URL, startPoint, pointList);
-        return getNavigationData(url);
-    }
-
-    @Override
-    public NavigationData getNavigationDataStandard(Point startPoint, Set<Point> pointList) {
-        String url = buildUrl(OSRM_STANDARD_URL, startPoint, pointList);
-        return getNavigationData(url);
-    }
-
-    @Override
-    public NavigationData getNavigationData(String url) {
+    public NavigationData getNavigationData(Point startingPoint, Set<Point> wayPoints, String navigationType) {
+        String url = buildUrl(startingPoint, wayPoints, navigationType);
         Map<String, Object> osrmResponse = restTemplate.getForObject(url, Map.class);
 
         if (osrmResponse == null) {
@@ -74,7 +51,18 @@ class OsrmServiceImpl implements IOsrmService {
         return new NavigationData(opentopodataResponse, osrmResponse);
     }
 
-    private String buildUrl(String basePath, Point startingPoint, Set<Point> wayPoints) {
+    private String buildUrl(Point startingPoint, Set<Point> wayPoints, String navigationType) {
+
+        String basePath;
+
+        switch (navigationType) {
+            case "distance" -> basePath = OSRM_DISTANCE_URL;
+            case "duration" -> basePath = OSRM_DURATION_URL;
+            case "elevation" -> basePath = OSRM_ELEVATION_URL;
+            case "standard" -> basePath = OSRM_STANDARD_URL;
+            default -> throw new InvalidNavigationMode();
+        }
+
         return basePath + startingPoint.getX() + "," + startingPoint.getY() + ";"
 
                 + wayPoints.stream().map(

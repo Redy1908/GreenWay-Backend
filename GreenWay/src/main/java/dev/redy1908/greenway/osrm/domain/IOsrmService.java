@@ -6,12 +6,6 @@ import java.util.Set;
 
 public interface IOsrmService {
 
-    NavigationData getNavigationDataDistance(Point startingPoint, Set<Point> wayPoints);
-    NavigationData getNavigationDataDuration(Point startingPoint, Set<Point> wayPoints);
-    NavigationData getNavigationDataElevation(Point startingPoint, Set<Point> wayPoints);
-    NavigationData getNavigationDataStandard(Point startingPoint, Set<Point> wayPoints);
-
-    NavigationData getNavigationData(String url);
-
+    NavigationData getNavigationData(Point startingPoint, Set<Point> wayPoints, String navigationType);
 
 }

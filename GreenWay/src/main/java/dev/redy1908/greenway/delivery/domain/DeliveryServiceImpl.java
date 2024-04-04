@@ -12,7 +12,6 @@ import dev.redy1908.greenway.delivery_package.domain.IDeliveryPackageService;
 import dev.redy1908.greenway.delivery_package.domain.dto.DeliveryPackageDTO;
 import dev.redy1908.greenway.osrm.domain.IOsrmService;
 import dev.redy1908.greenway.osrm.domain.NavigationData;
-import dev.redy1908.greenway.osrm.domain.exceptions.models.InvalidNavigationMode;
 import dev.redy1908.greenway.util.services.PagingService;
 import dev.redy1908.greenway.vehicle.domain.IVehicleService;
 import dev.redy1908.greenway.vehicle.domain.Vehicle;
@@ -73,15 +72,7 @@ class DeliveryServiceImpl extends PagingService<Delivery, DeliveryDTO> implement
         DeliveryDTO deliveryDTO = deliveryMapper.toDto(delivery);
 
         Set<Point> wayPoints = extractWaypoints(deliveryDTO.deliveryPackages());
-        NavigationData navigationData;
-
-        switch (navigationType) {
-            case "distance" -> navigationData = osrmService.getNavigationDataDistance(deliveryDTO.startingPoint(), wayPoints);
-            case "duration" -> navigationData = osrmService.getNavigationDataDuration(deliveryDTO.startingPoint(), wayPoints);
-            case "elevation" -> navigationData = osrmService.getNavigationDataElevation(deliveryDTO.startingPoint(), wayPoints);
-            case "standard" -> navigationData = osrmService.getNavigationDataStandard(deliveryDTO.startingPoint(), wayPoints);
-            default -> throw new InvalidNavigationMode();
-        }
+        NavigationData navigationData = osrmService.getNavigationData(deliveryDTO.startingPoint(), wayPoints, navigationType);
 
         return new DeliveryWithNavigationDTO(deliveryDTO, navigationData);
     }
