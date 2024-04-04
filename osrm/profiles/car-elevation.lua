@@ -1,10 +1,12 @@
 -- Car profile
 
 local RASTER_PATH = os.getenv('OSRM_RASTER_SOURCE') or "../data/srtm_39_04.asc"
-local LON_MIN = tonumber(os.getenv("LON_MIN"))
-local LON_MAX = tonumber(os.getenv("LON_MAX"))
-local LAT_MIN = tonumber(os.getenv("LAT_MIN"))
-local LAT_MAX = tonumber(os.getenv("LAT_MAX"))
+local LON_MIN = tonumber(os.getenv("LON_MIN")) or 10
+local LON_MAX = tonumber(os.getenv("LON_MAX")) or 15
+local LAT_MIN = tonumber(os.getenv("LAT_MIN")) or 40
+local LAT_MAX = tonumber(os.getenv("LAT_MAX")) or 45
+local N_ROWS  = tonumber(os.getenv("NROWS")) or 6000
+local N_COLS  = tonumber(os.getenv("NCOLS")) or 6000
 
 api_version = 4
 
@@ -43,8 +45,8 @@ function setup()
       LON_MAX,
       LAT_MIN,
       LAT_MAX,
-      tonumber(os.getenv("NROWS")),
-      tonumber(os.getenv("NCOLS"))
+      N_ROWS,
+      N_COLS
     ),
 
     default_mode              = mode.driving,
