@@ -63,12 +63,9 @@ class OsrmServiceImpl implements IOsrmService {
             default -> throw new InvalidNavigationMode();
         }
 
-        return basePath + startingPoint.getX() + "," + startingPoint.getY() + ";"
-
-                + wayPoints.stream().map(
-                        point -> point.getX() + "," + point.getY())
+        return basePath + startingPoint.getX() + "," + startingPoint.getY() + ";" + wayPoints.stream()
+                .map(point -> point.getX() + "," + point.getY())
                 .collect(Collectors.joining(";"))
-
                 + "?steps=true";
     }
 
