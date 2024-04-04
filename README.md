@@ -47,7 +47,7 @@ Execute ```docker compose up -d``` in the root directory.
 
 ## Customizing the Setup (Optional)
 
-### 1. OpenStreetMap Routing (OSMR)
+### 1. Open Source Routing Machine (OSMR)
 
 By default, the Open Source Routing Machine (OSRM) is instantiated in four distinct configurations, each optimized for a 
 different routing parameter: distance, duration, elevation, and the standard OSRM configuration. Each instance 
