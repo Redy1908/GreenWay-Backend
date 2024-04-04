@@ -6,7 +6,6 @@ import dev.redy1908.greenway.delivery.domain.Delivery;
 import dev.redy1908.greenway.delivery.domain.IDeliveryService;
 import dev.redy1908.greenway.delivery.domain.dto.DeliveryDTO;
 import dev.redy1908.greenway.delivery.domain.dto.DeliveryWithNavigationDTO;
-import dev.redy1908.greenway.osrm.domain.exceptions.models.InvalidNavigationMode;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -45,13 +44,7 @@ class DeliveryController {
     @PreAuthorize("hasRole('GREEN_WAY_ADMIN') || @deliveryServiceImpl.isDeliveryOwner(#deliveryId, authentication.principal.claims['preferred_username'])")
     public ResponseEntity<DeliveryWithNavigationDTO> getDeliveryById(@PathVariable Long deliveryId, @RequestParam String navigationType) {
 
-        DeliveryWithNavigationDTO deliveryWithNavigationDTO = switch (navigationType) {
-            case "distance" -> deliveryService.getDeliveryByIdNavigationDistance(deliveryId);
-            case "duration" -> deliveryService.getDeliveryByIdNavigationDuration(deliveryId);
-            case "elevation" -> deliveryService.getDeliveryByIdNavigationElevation(deliveryId);
-            case "standard" -> deliveryService.getDeliveryByIdNavigationStandard(deliveryId);
-            default -> throw new InvalidNavigationMode();
-        };
+        DeliveryWithNavigationDTO deliveryWithNavigationDTO = deliveryService.getDeliveryByIdWithNavigation(deliveryId, navigationType);
 
         return ResponseEntity.ok(deliveryWithNavigationDTO);
     }

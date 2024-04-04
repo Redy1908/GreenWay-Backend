@@ -9,10 +9,7 @@ public interface IDeliveryService {
 
     Delivery createDelivery(@Valid DeliveryDTO deliveryCreationDTO);
 
-    DeliveryWithNavigationDTO getDeliveryByIdNavigationDistance(Long deliveryId);
-    DeliveryWithNavigationDTO getDeliveryByIdNavigationDuration(Long deliveryId);
-    DeliveryWithNavigationDTO getDeliveryByIdNavigationElevation(Long deliveryId);
-    DeliveryWithNavigationDTO getDeliveryByIdNavigationStandard(Long deliveryId);
+    DeliveryWithNavigationDTO getDeliveryByIdWithNavigation(Long deliveryId, String navigationType);
 
     PageResponseDTO<DeliveryDTO> getAllDeliveries(int pageNo, int pageSize);
 
