@@ -52,7 +52,7 @@ Execute ```docker compose up -d``` in the root directory.
 By default, the Open Source Routing Machine (OSRM) is instantiated in four distinct configurations, each optimized for a 
 different routing parameter: distance, duration, elevation, and the standard OSRM configuration. Each instance 
 is pre-configured with the map of Southern Italy, the elevation instance is also configured with the corresponding elevation data. 
-To configure a different geographical location, please follow to the following steps:
+To configure a different geographical location, please follow the following steps:
 
 1. Download the needed map data from [Geofabrik](https://www.geofabrik.de/)
 2. You will get a file named ```your-location.osm.pbf```
