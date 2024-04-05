@@ -11,11 +11,11 @@ public record DeliveryDTO(
 
         @Nullable Long deliveryId,
 
+        @Nullable String deliveryManUsername,
+
         @NotNull Long vehicleId,
 
         @NotNull Point startingPoint,
-
-        @Nullable String deliveryManUsername,
 
         @NotNull Set<DeliveryPackageDTO> deliveryPackages) {
 }
