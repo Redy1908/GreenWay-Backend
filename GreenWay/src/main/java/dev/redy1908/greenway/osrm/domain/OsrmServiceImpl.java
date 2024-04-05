@@ -2,6 +2,7 @@ package dev.redy1908.greenway.osrm.domain;
 
 import dev.redy1908.greenway.osrm.domain.exceptions.models.InvalidNavigationMode;
 import dev.redy1908.greenway.osrm.domain.exceptions.models.InvalidOsrmResponseException;
+import dev.redy1908.greenway.osrm.domain.exceptions.models.PointOutOfBoundsException;
 import lombok.RequiredArgsConstructor;
 import org.locationtech.jts.geom.Point;
 import org.springframework.beans.factory.annotation.Value;
@@ -35,6 +36,18 @@ class OsrmServiceImpl implements IOsrmService {
     @Value("${opentopodata.url}")
     private String OPENTOPODATA_URL;
 
+    @Value("${osrm.lon-min}")
+    private double lonMin;
+
+    @Value("${osrm.lon-max}")
+    private double lonMax;
+
+    @Value("${osrm.lat-min}")
+    private double latMin;
+
+    @Value("${osrm.lat-max}")
+    private double latMax;
+
     private final RestTemplate restTemplate;
 
     @Override
@@ -49,6 +62,13 @@ class OsrmServiceImpl implements IOsrmService {
         Map<String, Object> opentopodataResponse = getElevationData(extractPolyline(osrmResponse));
 
         return new NavigationData(opentopodataResponse, osrmResponse);
+    }
+
+    @Override
+    public void checkPointBounds(Point point) {
+        if (point.getX() < lonMin || point.getX() > lonMax || point.getY() < latMin || point.getY() > latMax) {
+            throw new PointOutOfBoundsException(point, lonMin, lonMax, latMin, latMax);
+        }
     }
 
     private String buildUrl(Point startingPoint, Set<Point> wayPoints, String navigationType) {

@@ -55,6 +55,7 @@ class DeliveryServiceImpl extends PagingService<Delivery, DeliveryDTO> implement
         }
 
         Delivery delivery = new Delivery();
+        osrmService.checkPointBounds(deliveryCreationDTO.startingPoint());
         delivery.setStartingPoint(deliveryCreationDTO.startingPoint());
         assignDeliveryPackages(delivery, deliveryCreationDTO.deliveryPackages());
         assignVehicle(delivery, deliveryCreationDTO.vehicleId());
@@ -130,6 +131,7 @@ class DeliveryServiceImpl extends PagingService<Delivery, DeliveryDTO> implement
     private void assignDeliveryPackages(Delivery delivery, Set<DeliveryPackageDTO> packages) {
         Set<DeliveryPackage> deliveryPackages = packages.stream()
                 .map(deliveryPackageMapper::toEntity)
+                .peek(dP -> osrmService.checkPointBounds(dP.getDestination()))
                 .collect(Collectors.toSet());
 
         deliveryPackages.forEach(deliveryPackage -> deliveryPackage.setDelivery(delivery));

@@ -3,6 +3,7 @@ package dev.redy1908.greenway.osrm.domain.exceptions;
 import dev.redy1908.greenway.app.web.models.ErrorResponseDTO;
 import dev.redy1908.greenway.osrm.domain.exceptions.models.InvalidNavigationMode;
 import dev.redy1908.greenway.osrm.domain.exceptions.models.InvalidOsrmResponseException;
+import dev.redy1908.greenway.osrm.domain.exceptions.models.PointOutOfBoundsException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -30,6 +31,19 @@ public class OsrmExceptionsHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(InvalidNavigationMode.class)
     public ResponseEntity<ErrorResponseDTO> handleInvalidNavigationModeException(InvalidNavigationMode exception,
                                                                                WebRequest webRequest) {
+        ErrorResponseDTO errorResponseDTO = new ErrorResponseDTO(
+                webRequest.getDescription(false),
+                HttpStatus.NOT_ACCEPTABLE.value(),
+                HttpStatus.NOT_ACCEPTABLE,
+                exception.getMessage(),
+                LocalDateTime.now());
+        return new ResponseEntity<>(errorResponseDTO, HttpStatus.NOT_ACCEPTABLE);
+    }
+
+
+    @ExceptionHandler(PointOutOfBoundsException.class)
+    public ResponseEntity<ErrorResponseDTO> handlePointOutOfBoundsException(PointOutOfBoundsException exception,
+                                                                                 WebRequest webRequest) {
         ErrorResponseDTO errorResponseDTO = new ErrorResponseDTO(
                 webRequest.getDescription(false),
                 HttpStatus.NOT_ACCEPTABLE.value(),

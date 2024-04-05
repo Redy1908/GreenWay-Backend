@@ -7,5 +7,5 @@ import java.util.Set;
 public interface IOsrmService {
 
     NavigationData getNavigationData(Point startingPoint, Set<Point> wayPoints, String navigationType);
-
+    void checkPointBounds(Point point);
 }

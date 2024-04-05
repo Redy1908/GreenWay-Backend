@@ -62,7 +62,8 @@ To configure a different geographical location, please follow the following step
 6. You will get a file with extension ```.asc``` move that file to ```osrm/data```
 7. Open the file end note the content of the first ```6``` lines
 8. Go to ```osrm/``` edit the ```Dockerfile-osrm-elevation``` from line ```7``` to ```13``` according to your ```.asc``` file
-9. Remove the first ```6``` lines from the  ```.asc``` file, save the changes
+9. Remove the first ```6``` lines from the  ```.asc``` file, save the changes 
+10. Go to ```GreenWay/src/main/resources``` edit the files ```application.yml``` and ```application-local.yml```, lines 27-28-29-30 with your max and min coordinates 
 10. Run the following commands inside ```osrm/```:
     - ```docker build -t {dockerHubUsername}/{imageName}:{imageTag} -f Dockerfile-osrm-distance .```
     - ```docker build -t {dockerHubUsername}/{imageName}:{imageTag} -f Dockerfile-osrm-duration .```

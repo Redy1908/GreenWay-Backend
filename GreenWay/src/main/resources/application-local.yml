@@ -24,6 +24,10 @@ spring:
           lob:
             non_contextual_creation: true
 osrm:
+  lon-min: 13.7
+  lon-max: 15.00
+  lat-min: 40.5
+  lat-max: 41.5
   distance:
     url: http://localhost:5000/route/v1/driving/
   duration:
