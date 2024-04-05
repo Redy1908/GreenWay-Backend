@@ -19,6 +19,7 @@ public class DeliveryPackage extends BaseEntity {
     @Column(columnDefinition = "geography")
     private Point destination;
 
+    @Column(nullable = false)
     private Double weight;
 
     @ManyToOne

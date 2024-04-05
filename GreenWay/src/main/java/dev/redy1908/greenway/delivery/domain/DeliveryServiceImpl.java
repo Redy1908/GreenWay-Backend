@@ -61,7 +61,6 @@ class DeliveryServiceImpl extends PagingService<Delivery, DeliveryDTO> implement
         assignVehicle(delivery, deliveryCreationDTO.vehicleId());
         assignDeliveryMan(delivery, deliveryCreationDTO.deliveryManUsername());
 
-        deliveryPackageService.saveAll(delivery.getDeliveryPackages());
         return deliveryRepository.save(delivery);
     }
 

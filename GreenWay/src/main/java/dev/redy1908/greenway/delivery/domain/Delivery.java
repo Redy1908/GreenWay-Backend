@@ -32,7 +32,7 @@ public class Delivery extends BaseEntity {
     @JoinColumn(name = "delivery_man_id", nullable = false)
     private DeliveryMan deliveryMan;
 
-    @OneToMany(mappedBy = "delivery")
+    @OneToMany(mappedBy = "delivery", cascade = CascadeType.ALL)
     private Set<DeliveryPackage> deliveryPackages = new LinkedHashSet<>();
 
     @Column(nullable = false)
