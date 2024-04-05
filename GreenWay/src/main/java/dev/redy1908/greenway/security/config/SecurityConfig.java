@@ -37,7 +37,7 @@ public class SecurityConfig {
     private static final String[] GET_ADMIN_DELIVERY_MAN_LIST_URL = {
             "/api/v1/vehicles/?",
             "/api/v1/deliveries/id/?",
-            "/api/v1/deliveries/?"
+            "/api/v1/deliveries/deliveryman/?"
     };
 
     private static final String[] GET_DELIVERY_MAN_LIST_URL = {

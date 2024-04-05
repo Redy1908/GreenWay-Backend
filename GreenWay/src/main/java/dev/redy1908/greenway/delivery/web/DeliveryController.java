@@ -59,7 +59,8 @@ class DeliveryController {
         return ResponseEntity.ok().body(deliveryDTO);
     }
 
-    @GetMapping("/{deliveryManUsername}")
+    @GetMapping("/deliveryman/{deliveryManUsername}")
+    @PreAuthorize("hasRole('GREEN_WAY_ADMIN') || (#deliveryManUsername == authentication.principal.claims['preferred_username'])")
     public ResponseEntity<PageResponseDTO<DeliveryDTO>> getAllDeliveriesByDeliveryMan(
             @PathVariable String deliveryManUsername,
             @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,

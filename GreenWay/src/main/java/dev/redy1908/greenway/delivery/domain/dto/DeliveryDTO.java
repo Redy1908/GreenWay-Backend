@@ -9,6 +9,8 @@ import java.util.Set;
 
 public record DeliveryDTO(
 
+        @Nullable Long deliveryId,
+
         @NotNull Long vehicleId,
 
         @NotNull Point startingPoint,
