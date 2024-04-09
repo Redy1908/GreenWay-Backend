@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "82219444-fbe1-4a52-925c-7c765f1c7515",
+		"_postman_id": "a3901548-4eaa-4a57-a87f-212d28b8a9e4",
 		"name": "GreenWay",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "27276004"
@@ -466,7 +466,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"vehicleId\": \"1\",\r\n    \"startingPoint\": {\r\n        \"type\": \"Point\",\r\n        \"coordinates\": [14.220771, 40.840825]\r\n    },\r\n    \"deliveryPackages\":[\r\n        {\r\n            \"destination\": {\r\n                \"type\": \"Point\",\r\n                \"coordinates\":[14.245491, 40.855890]\r\n            },\r\n            \"weight\": \"1.5\"\r\n        },\r\n        {\r\n            \"destination\": {\r\n                \"type\": \"Point\",\r\n                \"coordinates\": [14.275188, 40.860434]\r\n            },\r\n            \"weight\": \"2.3\"\r\n        }\r\n    ]\r\n}\r\n",
+							"raw": "{\r\n    \"vehicleId\": \"1\",\r\n    \"depositAddress\": \"Via Bergamo\",\r\n    \"depositCoordinates\": {\r\n        \"type\": \"Point\",\r\n        \"coordinates\": [14.220771, 40.840825]\r\n    },\r\n    \"deliveryPackages\":[\r\n        {\r\n            \"sender\": \"Mario Rossi\",\r\n            \"senderAddress\": \"Via Roma\",\r\n            \"receiver\": \"Beatrice Bianchi\",\r\n            \"receiverAddress\": \"Via Napoli\",\r\n            \"receiverCoordinates\": {\r\n                \"type\": \"Point\",\r\n                \"coordinates\":[14.245491, 40.855890]\r\n            },\r\n            \"weight\": \"1.5\"\r\n        },\r\n        {\r\n            \"sender\": \"Carlo Ferrari\",\r\n            \"senderAddress\": \"Via Torino\",\r\n            \"receiver\": \"Giovanni Marino\",\r\n            \"receiverAddress\": \"Via Bologna\",\r\n            \"receiverCoordinates\": {\r\n                \"type\": \"Point\",\r\n                \"coordinates\": [14.275188, 40.860434]\r\n            },\r\n            \"weight\": \"2.3\"\r\n        }\r\n    ]\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -556,7 +556,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"deliveryManUsername\": \"deliveryman1\",\r\n    \"vehicleId\": \"1\",\r\n    \"startingPoint\": {\r\n        \"type\": \"Point\",\r\n        \"coordinates\": [14.220771, 40.840825]\r\n    },\r\n    \"deliveryPackages\":[\r\n        {\r\n            \"destination\": {\r\n                \"type\": \"Point\",\r\n                \"coordinates\":[14.245491, 40.855890]\r\n            },\r\n            \"weight\": \"1.5\"\r\n        },\r\n        {\r\n            \"destination\": {\r\n                \"type\": \"Point\",\r\n                 \"coordinates\": [14.275188, 40.860434]\r\n            },\r\n            \"weight\": \"2.3\"\r\n        }\r\n    ]\r\n}\r\n",
+							"raw": "{\r\n    \"deliveryManUsername\": \"deliveryman1\",\r\n    \"vehicleId\": \"1\",\r\n    \"depositAddress\": \"Via Bergamo\",\r\n    \"depositCoordinates\": {\r\n        \"type\": \"Point\",\r\n        \"coordinates\": [14.220771, 40.840825]\r\n    },\r\n    \"deliveryPackages\":[\r\n        {\r\n            \"sender\": \"Mario Rossi\",\r\n            \"senderAddress\": \"Via Roma\",\r\n            \"receiver\": \"Beatrice Bianchi\",\r\n            \"receiverAddress\": \"Via Napoli\",\r\n            \"receiverCoordinates\": {\r\n                \"type\": \"Point\",\r\n                \"coordinates\":[14.245491, 40.855890]\r\n            },\r\n            \"weight\": \"1.5\"\r\n        },\r\n        {\r\n            \"sender\": \"Carlo Ferrari\",\r\n            \"senderAddress\": \"Via Torino\",\r\n            \"receiver\": \"Giovanni Marino\",\r\n            \"receiverAddress\": \"Via Bologna\",\r\n            \"receiverCoordinates\": {\r\n                \"type\": \"Point\",\r\n                \"coordinates\": [14.275188, 40.860434]\r\n            },\r\n            \"weight\": \"2.3\"\r\n        }\r\n    ]\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
