@@ -36,8 +36,8 @@ class DeliveryController {
 
         return ResponseEntity.created(location).body(
                 new ResponseDTO(
-                        HttpStatus.OK.value(),
-                        HttpStatus.OK, "New delivery created"));
+                        HttpStatus.CREATED.value(),
+                        HttpStatus.CREATED, "New delivery created"));
     }
 
     @GetMapping("/id/{deliveryId}")
