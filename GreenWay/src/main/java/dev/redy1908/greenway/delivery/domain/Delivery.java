@@ -36,7 +36,10 @@ public class Delivery extends BaseEntity {
     private Set<DeliveryPackage> deliveryPackages = new LinkedHashSet<>();
 
     @Column(nullable = false)
-    private Point startingPoint;
+    private String depositAddress;
+
+    @Column(nullable = false)
+    private Point depositCoordinates;
 
     @Override
     public final boolean equals(Object o) {

@@ -55,8 +55,9 @@ class DeliveryServiceImpl extends PagingService<Delivery, DeliveryDTO> implement
         }
 
         Delivery delivery = new Delivery();
-        osrmService.checkPointBounds(deliveryCreationDTO.startingPoint());
-        delivery.setStartingPoint(deliveryCreationDTO.startingPoint());
+        osrmService.checkPointBounds(deliveryCreationDTO.depositCoordinates());
+        delivery.setDepositAddress(deliveryCreationDTO.depositAddress());
+        delivery.setDepositCoordinates(deliveryCreationDTO.depositCoordinates());
         assignDeliveryPackages(delivery, deliveryCreationDTO.deliveryPackages());
         assignVehicle(delivery, deliveryCreationDTO.vehicleId());
         assignDeliveryMan(delivery, deliveryCreationDTO.deliveryManUsername());
@@ -72,7 +73,7 @@ class DeliveryServiceImpl extends PagingService<Delivery, DeliveryDTO> implement
         DeliveryDTO deliveryDTO = deliveryMapper.toDto(delivery);
 
         Set<Point> wayPoints = extractWaypoints(deliveryDTO.deliveryPackages());
-        NavigationData navigationData = osrmService.getNavigationData(deliveryDTO.startingPoint(), wayPoints, navigationType);
+        NavigationData navigationData = osrmService.getNavigationData(deliveryDTO.depositCoordinates(), wayPoints, navigationType);
 
         return new DeliveryWithNavigationDTO(deliveryDTO, navigationData);
     }
@@ -107,7 +108,7 @@ class DeliveryServiceImpl extends PagingService<Delivery, DeliveryDTO> implement
     private Set<Point> extractWaypoints(Set<DeliveryPackageDTO> deliveryPackageDTOS) {
 
         return deliveryPackageDTOS.stream()
-                .map(DeliveryPackageDTO::destination)
+                .map(DeliveryPackageDTO::receiverCoordinates)
                 .collect(Collectors.toCollection(LinkedHashSet::new));
     }
 
@@ -130,7 +131,7 @@ class DeliveryServiceImpl extends PagingService<Delivery, DeliveryDTO> implement
     private void assignDeliveryPackages(Delivery delivery, Set<DeliveryPackageDTO> packages) {
         Set<DeliveryPackage> deliveryPackages = packages.stream()
                 .map(deliveryPackageMapper::toEntity)
-                .peek(dP -> osrmService.checkPointBounds(dP.getDestination()))
+                .peek(dP -> osrmService.checkPointBounds(dP.getReceiverCoordinates()))
                 .collect(Collectors.toSet());
 
         deliveryPackages.forEach(deliveryPackage -> deliveryPackage.setDelivery(delivery));

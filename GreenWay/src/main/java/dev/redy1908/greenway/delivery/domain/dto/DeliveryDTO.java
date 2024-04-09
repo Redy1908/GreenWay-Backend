@@ -15,7 +15,9 @@ public record DeliveryDTO(
 
         @NotNull Long vehicleId,
 
-        @NotNull Point startingPoint,
+        @NotNull String depositAddress,
+
+        @NotNull Point depositCoordinates,
 
         @NotNull Set<DeliveryPackageDTO> deliveryPackages) {
 }

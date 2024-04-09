@@ -16,8 +16,20 @@ import java.util.Objects;
 @Table(name = "delivery_packages")
 public class DeliveryPackage extends BaseEntity {
 
+    @Column(nullable = false)
+    private String sender;
+
+    @Column(nullable = false)
+    private String senderAddress;
+
+    @Column(nullable = false)
+    private String receiver;
+
+    @Column(nullable = false)
+    private String receiverAddress;
+
     @Column(columnDefinition = "geography")
-    private Point destination;
+    private Point receiverCoordinates;
 
     @Column(nullable = false)
     private Double weight;
