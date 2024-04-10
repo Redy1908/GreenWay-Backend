@@ -12,7 +12,7 @@ public interface IVehicleService {
 
     PageResponseDTO<VehicleDTO> findAllFreeVehicles(int pageNo, int pageSize);
 
-    VehicleDTO getVehicleIfFree(Long vehicleId);
+    Vehicle getVehicleIfFree(Long vehicleId);
 
     void vehicleCapacitySufficientOrThrow(Vehicle vehicle, double deliveryTotalWeight);
 }

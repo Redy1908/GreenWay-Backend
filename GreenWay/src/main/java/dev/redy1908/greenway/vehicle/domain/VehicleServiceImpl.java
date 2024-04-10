@@ -45,7 +45,7 @@ public class VehicleServiceImpl extends PagingService<VehicleDTO> implements IVe
     }
 
     @Override
-    public VehicleDTO getVehicleIfFree(Long vehicleId) {
+    public Vehicle getVehicleIfFree(Long vehicleId) {
         return vehicleRepository.getVehicleIfFree(vehicleId).orElseThrow(VehicleAlreadyAssignedException::new);
     }
 

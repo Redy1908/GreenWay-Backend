@@ -15,8 +15,6 @@ import dev.redy1908.greenway.osrm.domain.NavigationData;
 import dev.redy1908.greenway.util.services.PagingService;
 import dev.redy1908.greenway.vehicle.domain.IVehicleService;
 import dev.redy1908.greenway.vehicle.domain.Vehicle;
-import dev.redy1908.greenway.vehicle.domain.VehicleMapper;
-import dev.redy1908.greenway.vehicle.domain.dto.VehicleDTO;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.locationtech.jts.geom.Point;
@@ -40,7 +38,6 @@ class DeliveryServiceImpl extends PagingService<DeliveryDTO> implements IDeliver
     private final IOsrmService osrmService;
     private final DeliveryMapper deliveryMapper;
     private final DeliveryPackageMapper deliveryPackageMapper;
-    private final VehicleMapper vehicleMapper;
 
     @Override
     public Delivery createDelivery(@Valid DeliveryDTO deliveryCreationDTO) {
@@ -98,8 +95,7 @@ class DeliveryServiceImpl extends PagingService<DeliveryDTO> implements IDeliver
 
     private void assignVehicle(Delivery delivery, Long vehicleId) {
 
-        VehicleDTO vehicleDTO = vehicleService.getVehicleIfFree(vehicleId);
-        Vehicle vehicle = vehicleMapper.toEntity(vehicleDTO);
+        Vehicle vehicle = vehicleService.getVehicleIfFree(vehicleId);
 
         double deliveryTotalWeight = deliveryPackageService.calculatePackagesWeight(delivery.getDeliveryPackages());
         vehicleService.vehicleCapacitySufficientOrThrow(vehicle, deliveryTotalWeight);

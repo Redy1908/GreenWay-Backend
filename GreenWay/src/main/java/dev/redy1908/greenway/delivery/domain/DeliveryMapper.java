@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 @Mapper(uses = DeliveryPackageMapper.class, unmappedTargetPolicy = ReportingPolicy.IGNORE)
 interface DeliveryMapper {
 
-    @Mapping(source = "id", target = "deliveryId")
+    @Mapping(source = "id", target = "id")
     @Mapping(source = "vehicle.id", target = "vehicleId")
     @Mapping(source = "deliveryMan.username", target = "deliveryManUsername")
     DeliveryDTO toDto(Delivery delivery);

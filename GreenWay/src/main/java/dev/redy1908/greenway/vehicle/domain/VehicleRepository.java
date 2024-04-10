@@ -16,9 +16,9 @@ public interface VehicleRepository extends JpaRepository<Vehicle, Long> {
 
     Page<VehicleDTO> findAllBy(Pageable pageable);
 
-    @Query("SELECT v FROM Vehicle v LEFT JOIN Delivery del ON v.id = del.vehicle.id WHERE del IS NULL")
+    @Query("SELECT new dev.redy1908.greenway.vehicle.domain.dto.VehicleDTO(v.modelName, v.maxAutonomyKm, v.maxCapacityKg) FROM Vehicle v LEFT JOIN Delivery del ON v.id = del.vehicle.id WHERE del IS NULL")
     Page<VehicleDTO> findAllFreeVehicles(Pageable pageable);
 
     @Query("SELECT v from Vehicle v LEFT JOIN Delivery d ON v.id = d.vehicle.id WHERE d IS NULL AND v.id = :vehicleId")
-    Optional<VehicleDTO> getVehicleIfFree(@Param("vehicleId") Long vehicleId);
+    Optional<Vehicle> getVehicleIfFree(@Param("vehicleId") Long vehicleId);
 }
