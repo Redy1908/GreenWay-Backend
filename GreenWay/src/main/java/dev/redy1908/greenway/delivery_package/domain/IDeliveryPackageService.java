@@ -4,8 +4,6 @@ import java.util.Set;
 
 public interface IDeliveryPackageService {
 
-    void saveAll(Set<DeliveryPackage> deliveryPackages);
-
     double calculatePackagesWeight(Set<DeliveryPackage> packages);
 
 }

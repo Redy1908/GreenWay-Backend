@@ -9,7 +9,7 @@ import java.util.Set;
 
 public record DeliveryDTO(
 
-        @Nullable Long deliveryId,
+        @Nullable Long id,
 
         @Nullable String deliveryManUsername,
 

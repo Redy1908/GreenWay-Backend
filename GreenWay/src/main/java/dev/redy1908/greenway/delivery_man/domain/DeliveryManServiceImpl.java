@@ -11,15 +11,12 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
-
 @Service
 @Transactional
 @RequiredArgsConstructor
-class DeliveryManServiceImpl extends PagingService<DeliveryMan, DeliveryManDTO> implements IDeliveryManService {
+class DeliveryManServiceImpl extends PagingService<DeliveryManDTO> implements IDeliveryManService {
 
     private final DeliveryManRepository deliveryManRepository;
-    private final DeliveryManMapper deliveryManMapper;
 
     @Override
     public void save(String username) {
@@ -33,18 +30,14 @@ class DeliveryManServiceImpl extends PagingService<DeliveryMan, DeliveryManDTO> 
 
     @Override
     public DeliveryMan findByUsername(String username) {
-        Optional<DeliveryMan> deliveryMan = deliveryManRepository.findByUsername(username);
-
-        if (deliveryMan.isPresent()) {
-            return deliveryMan.get();
-        }
-
-        throw new DeliveryManNotFoundException(username);
+        return deliveryManRepository.findByUsername(username).orElseThrow(
+                () -> new DeliveryManNotFoundException(username)
+        );
     }
 
     @Override
     public DeliveryMan findFirstByDeliveryIsNull() {
-        return deliveryManRepository.findFirstByDeliveryIsNull().orElseThrow(
+        return deliveryManRepository.findFirstFreeDeliveryMan().orElseThrow(
                 NoFreeDeliveryManFound::new
         );
     }
@@ -52,11 +45,6 @@ class DeliveryManServiceImpl extends PagingService<DeliveryMan, DeliveryManDTO> 
     @Override
     public PageResponseDTO<DeliveryManDTO> findAllFreeDeliveryMan(int pageNo, int pageSize) {
         return createPageResponse(
-                () -> deliveryManRepository.findAllByDeliveryIsNull(PageRequest.of(pageNo, pageSize)));
-    }
-
-    @Override
-    protected DeliveryManDTO mapToDto(DeliveryMan entity) {
-        return deliveryManMapper.toDTO(entity);
+                () -> deliveryManRepository.findAllFreeDeliveryMan(PageRequest.of(pageNo, pageSize)));
     }
 }

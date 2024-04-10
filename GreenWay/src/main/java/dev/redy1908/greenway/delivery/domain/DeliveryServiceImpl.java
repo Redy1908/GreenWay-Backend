@@ -15,8 +15,8 @@ import dev.redy1908.greenway.osrm.domain.NavigationData;
 import dev.redy1908.greenway.util.services.PagingService;
 import dev.redy1908.greenway.vehicle.domain.IVehicleService;
 import dev.redy1908.greenway.vehicle.domain.Vehicle;
-import dev.redy1908.greenway.vehicle.domain.exceptions.models.VehicleAlreadyAssignedException;
-import dev.redy1908.greenway.vehicle.domain.exceptions.models.VehicleCapacityExceeded;
+import dev.redy1908.greenway.vehicle.domain.VehicleMapper;
+import dev.redy1908.greenway.vehicle.domain.dto.VehicleDTO;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.locationtech.jts.geom.Point;
@@ -31,33 +31,25 @@ import java.util.stream.Collectors;
 @Service
 @Transactional
 @RequiredArgsConstructor
-class DeliveryServiceImpl extends PagingService<Delivery, DeliveryDTO> implements IDeliveryService {
+class DeliveryServiceImpl extends PagingService<DeliveryDTO> implements IDeliveryService {
 
     private final DeliveryRepository deliveryRepository;
-
     private final IVehicleService vehicleService;
-
     private final IDeliveryManService deliveryManService;
-
     private final IDeliveryPackageService deliveryPackageService;
-
     private final IOsrmService osrmService;
-
     private final DeliveryMapper deliveryMapper;
-
     private final DeliveryPackageMapper deliveryPackageMapper;
+    private final VehicleMapper vehicleMapper;
 
     @Override
     public Delivery createDelivery(@Valid DeliveryDTO deliveryCreationDTO) {
-
-        if (deliveryRepository.existsByVehicle_Id(deliveryCreationDTO.vehicleId())) {
-            throw new VehicleAlreadyAssignedException();
-        }
 
         Delivery delivery = new Delivery();
         osrmService.checkPointBounds(deliveryCreationDTO.depositCoordinates());
         delivery.setDepositAddress(deliveryCreationDTO.depositAddress());
         delivery.setDepositCoordinates(deliveryCreationDTO.depositCoordinates());
+
         assignDeliveryPackages(delivery, deliveryCreationDTO.deliveryPackages());
         assignVehicle(delivery, deliveryCreationDTO.vehicleId());
         assignDeliveryMan(delivery, deliveryCreationDTO.deliveryManUsername());
@@ -82,7 +74,7 @@ class DeliveryServiceImpl extends PagingService<Delivery, DeliveryDTO> implement
     public PageResponseDTO<DeliveryDTO> getAllDeliveries(int pageNo, int pageSize) {
 
         return createPageResponse(
-                () -> deliveryRepository.findAll(PageRequest.of(pageNo, pageSize)));
+                () -> deliveryRepository.findAllBy(PageRequest.of(pageNo, pageSize)));
     }
 
     @Override
@@ -94,15 +86,7 @@ class DeliveryServiceImpl extends PagingService<Delivery, DeliveryDTO> implement
 
     @Override
     public boolean isDeliveryOwner(Long deliveryId, String deliveryManUsername) {
-        return deliveryRepository.getDeliveryByIdAndDeliveryMan_Username(deliveryId, deliveryManUsername).isPresent();
-    }
-
-    protected DeliveryDTO mapToDto(Delivery delivery) {
-        return deliveryMapper.toDto(delivery);
-    }
-
-    private boolean vehicleCanCarryAll(Vehicle vehicle, double deliveryTotalWeight) {
-        return vehicle.getMaxCapacityKg() >= deliveryTotalWeight;
+        return deliveryRepository.findDeliveryDTOByIdAndDeliveryMan_Username(deliveryId, deliveryManUsername).isPresent();
     }
 
     private Set<Point> extractWaypoints(Set<DeliveryPackageDTO> deliveryPackageDTOS) {
@@ -113,17 +97,12 @@ class DeliveryServiceImpl extends PagingService<Delivery, DeliveryDTO> implement
     }
 
     private void assignVehicle(Delivery delivery, Long vehicleId) {
-        if (deliveryRepository.existsByVehicle_Id(vehicleId)) {
-            throw new VehicleAlreadyAssignedException();
-        }
 
-        Vehicle vehicle = vehicleService.findVehicleById(vehicleId);
+        VehicleDTO vehicleDTO = vehicleService.getVehicleIfFree(vehicleId);
+        Vehicle vehicle = vehicleMapper.toEntity(vehicleDTO);
 
         double deliveryTotalWeight = deliveryPackageService.calculatePackagesWeight(delivery.getDeliveryPackages());
-
-        if (!vehicleCanCarryAll(vehicle, deliveryTotalWeight)) {
-            throw new VehicleCapacityExceeded(vehicle.getMaxCapacityKg(), deliveryTotalWeight);
-        }
+        vehicleService.vehicleCapacitySufficientOrThrow(vehicle, deliveryTotalWeight);
 
         delivery.setVehicle(vehicle);
     }
@@ -135,7 +114,6 @@ class DeliveryServiceImpl extends PagingService<Delivery, DeliveryDTO> implement
                 .collect(Collectors.toSet());
 
         deliveryPackages.forEach(deliveryPackage -> deliveryPackage.setDelivery(delivery));
-
         delivery.setDeliveryPackages(deliveryPackages);
     }
 
@@ -150,6 +128,5 @@ class DeliveryServiceImpl extends PagingService<Delivery, DeliveryDTO> implement
         }
 
         delivery.setDeliveryMan(deliveryMan);
-
     }
 }

@@ -43,8 +43,7 @@ class VehicleRepositoryTests extends BaseDataJpaTest{
 
         Vehicle vehicle = new Vehicle("Test Vehicle 1",
                 0.0,
-                0.0,
-                null);
+                0.0);
 
         Vehicle savedVehicle = vehicleRepository.save(vehicle);
 
