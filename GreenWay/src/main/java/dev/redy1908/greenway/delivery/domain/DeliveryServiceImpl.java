@@ -42,8 +42,10 @@ class DeliveryServiceImpl extends PagingService<Delivery, DeliveryDTO> implement
     @Override
     public Delivery createDelivery(@Valid DeliveryDTO deliveryCreationDTO) {
 
-        Delivery delivery = new Delivery();
         osrmService.checkPointBounds(deliveryCreationDTO.depositCoordinates());
+
+        Delivery delivery = new Delivery();
+        delivery.setDeliveryDate(deliveryCreationDTO.deliveryDate());
         delivery.setDepositAddress(deliveryCreationDTO.depositAddress());
         delivery.setDepositCoordinates(deliveryCreationDTO.depositCoordinates());
 

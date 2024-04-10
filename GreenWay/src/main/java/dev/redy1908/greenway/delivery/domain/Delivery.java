@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.locationtech.jts.geom.Point;
 
+import java.time.LocalDate;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -25,6 +26,9 @@ public class Delivery extends BaseEntity {
 
     @Column(nullable = false)
     private Point depositCoordinates;
+
+    @Column(nullable = false)
+    private LocalDate deliveryDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private DeliveryMan deliveryMan;
