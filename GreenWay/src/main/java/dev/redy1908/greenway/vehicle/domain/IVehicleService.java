@@ -12,4 +12,6 @@ public interface IVehicleService {
     Vehicle findVehicleById(Long vehicleId);
 
     PageResponseDTO<VehicleDTO> getAllVehicles(int pageNo, int pageSize);
+
+    PageResponseDTO<VehicleDTO> findAllFreeVehicles(int pageNo, int pageSize);
 }

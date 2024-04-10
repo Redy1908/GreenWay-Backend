@@ -51,4 +51,14 @@ public class VehicleController {
         return ResponseEntity.ok().body(vehiclePageResponseDTO);
     }
 
+    @GetMapping("/free")
+    public ResponseEntity<PageResponseDTO<VehicleDTO>> getAllFreeVehicles(
+            @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
+            @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize) {
+
+        PageResponseDTO<VehicleDTO> vehiclePageResponseDTO = vehicleService.findAllFreeVehicles(pageNo, pageSize);
+
+        return ResponseEntity.ok().body(vehiclePageResponseDTO);
+    }
+
 }

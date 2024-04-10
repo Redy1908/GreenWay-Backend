@@ -44,6 +44,12 @@ public class VehicleServiceImpl extends PagingService<Vehicle, VehicleDTO> imple
     }
 
     @Override
+    public PageResponseDTO<VehicleDTO> findAllFreeVehicles(int pageNo, int pageSize) {
+        return createPageResponse(
+                () -> vehicleRepository.findAllByDeliveryIsNull(PageRequest.of(pageNo, pageSize)));
+    }
+
+    @Override
     protected VehicleDTO mapToDto(Vehicle entity) {
         return vehicleMapper.toDto(entity);
     }

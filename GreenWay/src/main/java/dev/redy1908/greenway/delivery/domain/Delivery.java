@@ -23,8 +23,8 @@ import java.util.Set;
 @Table(name = "deliveries")
 public class Delivery extends BaseEntity {
 
-    @OneToOne(optional = false)
-    @JoinColumn(name = "vehicle_id", nullable = false)
+    @OneToOne(orphanRemoval = true)
+    @JoinColumn(name = "vehicle_id")
     private Vehicle vehicle;
 
     @JsonManagedReference

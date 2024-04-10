@@ -1,6 +1,7 @@
 package dev.redy1908.greenway.vehicle.domain;
 
 import dev.redy1908.greenway.base_entity.domain.BaseEntity;
+import dev.redy1908.greenway.delivery.domain.Delivery;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -33,5 +34,8 @@ public class Vehicle extends BaseEntity {
 
     @Column(nullable = false)
     private Double maxCapacity;
+
+    @OneToOne(mappedBy = "vehicle", orphanRemoval = true)
+    private Delivery delivery;
 
 }

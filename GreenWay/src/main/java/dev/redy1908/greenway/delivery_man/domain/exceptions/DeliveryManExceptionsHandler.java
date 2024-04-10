@@ -20,11 +20,11 @@ public class DeliveryManExceptionsHandler extends ResponseEntityExceptionHandler
                                                                                WebRequest webRequest) {
         ErrorResponseDTO errorResponseDTO = new ErrorResponseDTO(
                 webRequest.getDescription(false),
-                HttpStatus.NOT_FOUND.value(),
-                HttpStatus.NOT_FOUND,
+                HttpStatus.CONFLICT.value(),
+                HttpStatus.CONFLICT,
                 exception.getMessage(),
                 LocalDateTime.now());
-        return new ResponseEntity<>(errorResponseDTO, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(errorResponseDTO, HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler(NoFreeDeliveryManFound.class)
