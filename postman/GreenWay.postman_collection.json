@@ -274,7 +274,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"model\": \"Tesla Model 3\",\r\n    \"batteryNominalCapacity\": \"60.0\",\r\n    \"vehicleConsumption\": \"139.0\",\r\n    \"currentBatteryCharge\": \"100\",\r\n    \"maxCapacity\": \"100\"\r\n}",
+							"raw": "{\r\n    \"modelName\": \"Fiat E-Ducato\",\r\n    \"maxAutonomyKm\": \"370\",\r\n    \"maxCapacityKg\": \"100\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
