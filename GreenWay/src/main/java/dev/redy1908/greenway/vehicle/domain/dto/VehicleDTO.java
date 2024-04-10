@@ -4,13 +4,9 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
 public record VehicleDTO(
-        @NotEmpty String model,
+        @NotEmpty String modelName,
 
-        @NotNull Double batteryNominalCapacity,
+        @NotNull Double maxAutonomyKm,
 
-        @NotNull Double vehicleConsumption,
-
-        @NotNull Double currentBatteryCharge,
-
-        @NotNull Double maxCapacity) {
+        @NotNull Double maxCapacityKg) {
 }

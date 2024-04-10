@@ -35,9 +35,9 @@ class VehicleControllerTests {
 
     @Test
     void it_should_save_vehicle_status_201_created() throws Exception {
-        VehicleDTO vehicleDTO = new VehicleDTO("Model", 100.0, 10.0, 50.0, 200.0);
+        VehicleDTO vehicleDTO = new VehicleDTO("Model", 100.0, 10.0);
 
-        Vehicle vehicle = new Vehicle("Model", 100.0, 10.0, 50.0, 200.0);
+        Vehicle vehicle = new Vehicle("Model", 100.0, 10.0, null);
         vehicle.setId(1L);
 
         when(vehicleService.saveVehicle(vehicleDTO)).thenReturn(vehicle);
@@ -55,7 +55,7 @@ class VehicleControllerTests {
     @Test
     void it_should_find_vehicle_DTO_status_200_OK() throws Exception {
 
-        VehicleDTO vehicleDTO = new VehicleDTO("Model", 100.0, 10.0, 50.0, 200.0);
+        VehicleDTO vehicleDTO = new VehicleDTO("Model", 100.0, 10.0);
 
         when(vehicleService.findVehicleDTOById(1L)).thenReturn(vehicleDTO);
 
@@ -64,6 +64,6 @@ class VehicleControllerTests {
 
         resultActions
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("model").value(vehicleDTO.model()));
+                .andExpect(jsonPath("model").value(vehicleDTO.modelName()));
     }
 }

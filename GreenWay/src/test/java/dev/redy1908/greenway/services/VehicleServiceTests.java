@@ -33,21 +33,17 @@ class VehicleServiceTests {
         VehicleDTO vehicleDTO = new VehicleDTO(
                 "Test Vehicle 1",
                 100.0,
-                10.0,
-                50.0,
-                200.0);
+                10.0);
 
         Vehicle vehicle = new Vehicle("Test Vehicle 1",
                 0.0,
                 0.0,
-                0.0,
-                0.0);
+                null);
 
         Vehicle savedVehicle = new Vehicle("Test Vehicle 1",
                 0.0,
                 0.0,
-                0.0,
-                0.0);
+                null);
 
         savedVehicle.setId(1L);
 

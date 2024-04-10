@@ -102,7 +102,7 @@ class DeliveryServiceImpl extends PagingService<Delivery, DeliveryDTO> implement
     }
 
     private boolean vehicleCanCarryAll(Vehicle vehicle, double deliveryTotalWeight) {
-        return vehicle.getMaxCapacity() >= deliveryTotalWeight;
+        return vehicle.getMaxCapacityKg() >= deliveryTotalWeight;
     }
 
     private Set<Point> extractWaypoints(Set<DeliveryPackageDTO> deliveryPackageDTOS) {
@@ -122,7 +122,7 @@ class DeliveryServiceImpl extends PagingService<Delivery, DeliveryDTO> implement
         double deliveryTotalWeight = deliveryPackageService.calculatePackagesWeight(delivery.getDeliveryPackages());
 
         if (!vehicleCanCarryAll(vehicle, deliveryTotalWeight)) {
-            throw new VehicleCapacityExceeded(vehicle.getMaxCapacity(), deliveryTotalWeight);
+            throw new VehicleCapacityExceeded(vehicle.getMaxCapacityKg(), deliveryTotalWeight);
         }
 
         delivery.setVehicle(vehicle);

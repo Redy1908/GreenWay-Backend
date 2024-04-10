@@ -11,29 +11,19 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-/**
- * @param batteryNominalCapacity battery capacity in kWh
- * @param vehicleConsumption     energy consumed per km Wh/km
- */
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "vehicles")
 public class Vehicle extends BaseEntity {
 
     @Column(nullable = false)
-    private String model;
+    private String modelName;
 
     @Column(nullable = false)
-    private Double batteryNominalCapacity;
+    private Double maxAutonomyKm;
 
     @Column(nullable = false)
-    private Double vehicleConsumption;
-
-    @Column(nullable = false)
-    private Double currentBatteryCharge;
-
-    @Column(nullable = false)
-    private Double maxCapacity;
+    private Double maxCapacityKg;
 
     @OneToOne(mappedBy = "vehicle", orphanRemoval = true)
     private Delivery delivery;
