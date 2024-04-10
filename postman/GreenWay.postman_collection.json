@@ -461,7 +461,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"model\": \"Tesla Model 3\",\r\n    \"batteryNominalCapacity\": \"60.0\",\r\n    \"vehicleConsumption\": \"139.0\",\r\n    \"chargePortType\": \"Type 2\",\r\n    \"chargingPower\": \"11\",\r\n    \"currentBatteryCharge\": \"100\"\r\n}",
+							"raw": "",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -564,7 +564,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"model\": \"Tesla Model 3\",\r\n    \"batteryNominalCapacity\": \"60.0\",\r\n    \"vehicleConsumption\": \"139.0\",\r\n    \"chargePortType\": \"Type 2\",\r\n    \"chargingPower\": \"11\",\r\n    \"currentBatteryCharge\": \"100\"\r\n}",
+							"raw": "",
 							"options": {
 								"raw": {
 									"language": "json"
