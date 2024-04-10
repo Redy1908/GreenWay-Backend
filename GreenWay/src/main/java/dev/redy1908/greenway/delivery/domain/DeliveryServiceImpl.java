@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
 @Service
 @Transactional
 @RequiredArgsConstructor
-class DeliveryServiceImpl extends PagingService<DeliveryDTO> implements IDeliveryService {
+class DeliveryServiceImpl extends PagingService<Delivery, DeliveryDTO> implements IDeliveryService {
 
     private final DeliveryRepository deliveryRepository;
     private final IVehicleService vehicleService;
@@ -71,7 +71,7 @@ class DeliveryServiceImpl extends PagingService<DeliveryDTO> implements IDeliver
     public PageResponseDTO<DeliveryDTO> getAllDeliveries(int pageNo, int pageSize) {
 
         return createPageResponse(
-                () -> deliveryRepository.findAllBy(PageRequest.of(pageNo, pageSize)));
+                () -> deliveryRepository.findAll(PageRequest.of(pageNo, pageSize)));
     }
 
     @Override
@@ -124,5 +124,10 @@ class DeliveryServiceImpl extends PagingService<DeliveryDTO> implements IDeliver
         }
 
         delivery.setDeliveryMan(deliveryMan);
+    }
+
+    @Override
+    protected DeliveryDTO mapToDto(Delivery entity) {
+        return deliveryMapper.toDto(entity);
     }
 }

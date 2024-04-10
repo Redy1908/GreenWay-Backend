@@ -14,9 +14,10 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 @RequiredArgsConstructor
-class DeliveryManServiceImpl extends PagingService<DeliveryManDTO> implements IDeliveryManService {
+class DeliveryManServiceImpl extends PagingService<DeliveryMan, DeliveryManDTO> implements IDeliveryManService {
 
     private final DeliveryManRepository deliveryManRepository;
+    private final DeliveryManMapper deliveryManMapper;
 
     @Override
     public void save(String username) {
@@ -46,5 +47,10 @@ class DeliveryManServiceImpl extends PagingService<DeliveryManDTO> implements ID
     public PageResponseDTO<DeliveryManDTO> findAllFreeDeliveryMan(int pageNo, int pageSize) {
         return createPageResponse(
                 () -> deliveryManRepository.findAllFreeDeliveryMan(PageRequest.of(pageNo, pageSize)));
+    }
+
+    @Override
+    protected DeliveryManDTO mapToDto(DeliveryMan entity) {
+        return deliveryManMapper.toDTO(entity);
     }
 }

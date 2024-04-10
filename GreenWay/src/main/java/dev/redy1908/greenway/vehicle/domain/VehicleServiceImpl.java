@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class VehicleServiceImpl extends PagingService<VehicleDTO> implements IVehicleService {
+public class VehicleServiceImpl extends PagingService<Vehicle, VehicleDTO> implements IVehicleService {
 
     private final VehicleRepository vehicleRepository;
     private final VehicleMapper vehicleMapper;
@@ -26,16 +26,18 @@ public class VehicleServiceImpl extends PagingService<VehicleDTO> implements IVe
 
     @Override
     public VehicleDTO findVehicleById(Long vehicleId) {
-        return vehicleRepository.findDTOById(vehicleId).orElseThrow(
+        Vehicle vehicle = vehicleRepository.findById(vehicleId).orElseThrow(
                 () -> new VehicleNotFoundException(vehicleId)
         );
+
+        return vehicleMapper.toDto(vehicle);
     }
 
     @Override
     public PageResponseDTO<VehicleDTO> getAllVehicles(int pageNo, int pageSize) {
 
         return createPageResponse(
-                () -> vehicleRepository.findAllBy(PageRequest.of(pageNo, pageSize)));
+                () -> vehicleRepository.findAll(PageRequest.of(pageNo, pageSize)));
     }
 
     @Override
@@ -54,5 +56,10 @@ public class VehicleServiceImpl extends PagingService<VehicleDTO> implements IVe
 
         if (vehicle.getMaxCapacityKg() < deliveryTotalWeight)
             throw new VehicleCapacityExceeded(vehicle.getMaxCapacityKg(), deliveryTotalWeight);
+    }
+
+    @Override
+    protected VehicleDTO mapToDto(Vehicle entity) {
+        return vehicleMapper.toDto(entity);
     }
 }
