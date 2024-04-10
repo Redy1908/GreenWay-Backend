@@ -15,7 +15,7 @@ public record DeliveryDTO(
 
         @Nullable LocalDateTime createdAt,
 
-        @NotNull LocalDate deliveryDate,
+        @NotNull LocalDate estimatedDeliveryDate,
 
         @Nullable String deliveryManUsername,
 

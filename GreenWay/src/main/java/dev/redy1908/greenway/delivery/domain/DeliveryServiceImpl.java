@@ -45,7 +45,7 @@ class DeliveryServiceImpl extends PagingService<Delivery, DeliveryDTO> implement
         osrmService.checkPointBounds(deliveryCreationDTO.depositCoordinates());
 
         Delivery delivery = new Delivery();
-        delivery.setDeliveryDate(deliveryCreationDTO.deliveryDate());
+        delivery.setDeliveryDate(deliveryCreationDTO.estimatedDeliveryDate());
         delivery.setDepositAddress(deliveryCreationDTO.depositAddress());
         delivery.setDepositCoordinates(deliveryCreationDTO.depositCoordinates());
 
