@@ -11,10 +11,12 @@ import dev.redy1908.greenway.delivery_package.domain.DeliveryPackageMapper;
 import dev.redy1908.greenway.delivery_package.domain.IDeliveryPackageService;
 import dev.redy1908.greenway.delivery_package.domain.dto.DeliveryPackageDTO;
 import dev.redy1908.greenway.osrm.domain.IOsrmService;
-import dev.redy1908.greenway.osrm.domain.NavigationData;
+import dev.redy1908.greenway.osrm.domain.NavigationType;
+import dev.redy1908.greenway.osrm.domain.RequestType;
 import dev.redy1908.greenway.util.services.PagingService;
 import dev.redy1908.greenway.vehicle.domain.IVehicleService;
 import dev.redy1908.greenway.vehicle.domain.Vehicle;
+import dev.redy1908.greenway.vehicle.domain.exceptions.models.VehicleAutonomyNotSufficientException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.locationtech.jts.geom.Point;
@@ -23,6 +25,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -50,24 +54,40 @@ class DeliveryServiceImpl extends PagingService<Delivery, DeliveryDTO> implement
         delivery.setDepositCoordinates(deliveryCreationDTO.depositCoordinates());
 
         assignDeliveryPackages(delivery, deliveryCreationDTO.deliveryPackages());
-        assignVehicle(delivery, deliveryCreationDTO.vehicleId());
+        assignVehicle(delivery, deliveryCreationDTO.vehicleId(), getTripsDistances(deliveryCreationDTO));
         assignDeliveryMan(delivery, deliveryCreationDTO.deliveryManUsername());
 
         return deliveryRepository.save(delivery);
     }
 
     @Override
-    public DeliveryWithNavigationDTO getDeliveryByIdWithNavigation(Long deliveryId, String navigationType) {
+    public DeliveryWithNavigationDTO getDeliveryWithNavigationById(Long deliveryId, NavigationType navigationType, RequestType requestType) {
         Delivery delivery = deliveryRepository.findById(deliveryId).orElseThrow(
                 () -> new DeliveryNotFoundException(deliveryId));
+
+        double maxDistance = delivery.getVehicle().getMaxAutonomyKm();
 
         DeliveryDTO deliveryDTO = deliveryMapper.toDto(delivery);
 
         Set<Point> wayPoints = extractWaypoints(deliveryDTO.deliveryPackages());
-        NavigationData navigationData = osrmService.getNavigationData(deliveryDTO.depositCoordinates(), wayPoints, navigationType);
+        Map<String, Object> navigationData = osrmService.getNavigationData(deliveryDTO.depositCoordinates(), maxDistance, wayPoints, navigationType, requestType);
 
         return new DeliveryWithNavigationDTO(deliveryDTO, navigationData);
     }
+
+    @Override
+    public Map<String, Object> getDeliveryElevationDataById(Long deliveryId, NavigationType navigationType, RequestType requestType) {
+        Delivery delivery = deliveryRepository.findById(deliveryId).orElseThrow(
+                () -> new DeliveryNotFoundException(deliveryId));
+
+        double maxDistance = delivery.getVehicle().getMaxAutonomyKm();
+
+        DeliveryDTO deliveryDTO = deliveryMapper.toDto(delivery);
+
+        Set<Point> wayPoints = extractWaypoints(deliveryDTO.deliveryPackages());
+        return osrmService.getElevationData(deliveryDTO.depositCoordinates(), maxDistance, wayPoints, navigationType, requestType);
+    }
+
 
     @Override
     public PageResponseDTO<DeliveryDTO> getAllDeliveries(int pageNo, int pageSize) {
@@ -88,6 +108,45 @@ class DeliveryServiceImpl extends PagingService<Delivery, DeliveryDTO> implement
         return deliveryRepository.findDeliveryDTOByIdAndDeliveryMan_Username(deliveryId, deliveryManUsername).isPresent();
     }
 
+    private List<Double> getTripsDistances(DeliveryDTO deliveryDTO){
+
+        Point depositCoordinates = deliveryDTO.depositCoordinates();
+        Set<Point> waypoints = extractWaypoints(deliveryDTO.deliveryPackages());
+
+        double tripDistanceDistance = osrmService.getTripLength(
+                depositCoordinates,
+                waypoints,
+                NavigationType.DISTANCE,
+                RequestType.DISTANCE
+        );
+
+
+        double tripDurationDistance = osrmService.getTripLength(
+                depositCoordinates,
+                waypoints,
+                NavigationType.DURATION,
+                RequestType.DISTANCE
+        );
+
+
+        double tripElevationDistance = osrmService.getTripLength(
+                depositCoordinates,
+                waypoints,
+                NavigationType.ELEVATION,
+                RequestType.DISTANCE
+        );
+
+
+        double tripStandardDistance = osrmService.getTripLength(
+                depositCoordinates,
+                waypoints,
+                NavigationType.STANDARD,
+                RequestType.DISTANCE
+        );
+
+        return List.of(tripDistanceDistance, tripDurationDistance, tripElevationDistance, tripStandardDistance);
+    }
+
     private Set<Point> extractWaypoints(Set<DeliveryPackageDTO> deliveryPackageDTOS) {
 
         return deliveryPackageDTOS.stream()
@@ -95,9 +154,17 @@ class DeliveryServiceImpl extends PagingService<Delivery, DeliveryDTO> implement
                 .collect(Collectors.toCollection(LinkedHashSet::new));
     }
 
-    private void assignVehicle(Delivery delivery, Long vehicleId) {
+    private void assignVehicle(Delivery delivery, Long vehicleId, List<Double> tripDistances) {
 
         Vehicle vehicle = vehicleService.getVehicleIfFree(vehicleId);
+
+        boolean canNavigate = tripDistances.stream()
+                .anyMatch(distance -> distance / 1000 <= vehicle.getMaxAutonomyKm());
+
+        if (!canNavigate) {
+            throw new VehicleAutonomyNotSufficientException(vehicle.getMaxAutonomyKm(), tripDistances);
+        }
+
 
         double deliveryTotalWeight = deliveryPackageService.calculatePackagesWeight(delivery.getDeliveryPackages());
         vehicleService.vehicleCapacitySufficientOrThrow(vehicle, deliveryTotalWeight);

@@ -1,10 +1,10 @@
 package dev.redy1908.greenway.delivery.domain.dto;
 
-import dev.redy1908.greenway.osrm.domain.NavigationData;
+import java.util.Map;
 
 public record DeliveryWithNavigationDTO(
         DeliveryDTO delivery,
 
-        NavigationData navigationData
+        Map<String, Object> navigationData
 ) {
 }

@@ -2,6 +2,7 @@ package dev.redy1908.greenway.vehicle.domain.exceptions;
 
 import dev.redy1908.greenway.app.web.models.ErrorResponseDTO;
 import dev.redy1908.greenway.vehicle.domain.exceptions.models.VehicleAlreadyAssignedException;
+import dev.redy1908.greenway.vehicle.domain.exceptions.models.VehicleAutonomyNotSufficientException;
 import dev.redy1908.greenway.vehicle.domain.exceptions.models.VehicleCapacityExceeded;
 import dev.redy1908.greenway.vehicle.domain.exceptions.models.VehicleNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -43,6 +44,19 @@ public class VehicleExceptionsHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(VehicleAlreadyAssignedException.class)
     public ResponseEntity<ErrorResponseDTO> handleVehicleAlreadyAssignedException(VehicleAlreadyAssignedException exception,
                                                                                   WebRequest webRequest) {
+        ErrorResponseDTO errorResponseDTO = new ErrorResponseDTO(
+                webRequest.getDescription(false),
+                HttpStatus.NOT_ACCEPTABLE.value(),
+                HttpStatus.NOT_ACCEPTABLE,
+                exception.getMessage(),
+                LocalDateTime.now());
+        return new ResponseEntity<>(errorResponseDTO, HttpStatus.NOT_ACCEPTABLE);
+    }
+
+
+    @ExceptionHandler(VehicleAutonomyNotSufficientException.class)
+    public ResponseEntity<ErrorResponseDTO> handleVehicleAutonomyNotSufficientException(VehicleAutonomyNotSufficientException exception,
+                                                                                   WebRequest webRequest) {
         ErrorResponseDTO errorResponseDTO = new ErrorResponseDTO(
                 webRequest.getDescription(false),
                 HttpStatus.NOT_ACCEPTABLE.value(),

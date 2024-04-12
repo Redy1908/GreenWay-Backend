@@ -3,6 +3,7 @@ package dev.redy1908.greenway.osrm.domain;
 import dev.redy1908.greenway.osrm.domain.exceptions.models.InvalidNavigationMode;
 import dev.redy1908.greenway.osrm.domain.exceptions.models.InvalidOsrmResponseException;
 import dev.redy1908.greenway.osrm.domain.exceptions.models.PointOutOfBoundsException;
+import dev.redy1908.greenway.vehicle.domain.exceptions.models.VehicleAutonomyNotSufficientException;
 import lombok.RequiredArgsConstructor;
 import org.locationtech.jts.geom.Point;
 import org.springframework.beans.factory.annotation.Value;
@@ -51,17 +52,34 @@ class OsrmServiceImpl implements IOsrmService {
     private final RestTemplate restTemplate;
 
     @Override
-    public NavigationData getNavigationData(Point startingPoint, Set<Point> wayPoints, String navigationType) {
-        String url = buildUrl(startingPoint, wayPoints, navigationType);
+    public Map<String, Object> getNavigationData(Point startingPoint, double maxDistance, Set<Point> wayPoints, NavigationType navigationType, RequestType requestType) {
+        return getOsrmResponse(startingPoint, maxDistance, wayPoints, navigationType, requestType);
+    }
+
+
+    @Override
+    public Map<String, Object> getElevationData(Point startingPoint, double maxDistance, Set<Point> wayPoints, NavigationType navigationType, RequestType requestType) {
+        Map<String, Object> osrmResponse = getOsrmResponse(startingPoint, maxDistance, wayPoints, navigationType, requestType);
+
+        String urlEncodedPolyline = URLEncoder.encode(extractAttributeFromTrip(osrmResponse, "geometry"), StandardCharsets.UTF_8);
+        return restTemplate.getForObject(OPENTOPODATA_URL + urlEncodedPolyline, Map.class);
+    }
+
+    private Map<String, Object> getOsrmResponse(Point startingPoint, double maxDistance, Set<Point> wayPoints, NavigationType navigationType, RequestType requestType) {
+        String url = buildUrl(startingPoint, wayPoints, navigationType, requestType);
         Map<String, Object> osrmResponse = restTemplate.getForObject(url, Map.class);
 
         if (osrmResponse == null) {
             throw new InvalidOsrmResponseException();
         }
 
-        Map<String, Object> opentopodataResponse = getElevationData(extractPolyline(osrmResponse));
+        double tripDistance = Double.parseDouble(extractAttributeFromTrip(osrmResponse, "distance")) / 1000;
 
-        return new NavigationData(opentopodataResponse, osrmResponse);
+        if(tripDistance > maxDistance) {
+            throw new VehicleAutonomyNotSufficientException(maxDistance, tripDistance);
+        }
+
+        return osrmResponse;
     }
 
     @Override
@@ -71,42 +89,55 @@ class OsrmServiceImpl implements IOsrmService {
         }
     }
 
-    private String buildUrl(Point startingPoint, Set<Point> wayPoints, String navigationType) {
+    @Override
+    public double getTripLength(Point startingPoint, Set<Point> wayPoints, NavigationType navigationType, RequestType requestType) {
+        String url = buildUrl(startingPoint, wayPoints, navigationType, requestType);
+        Map<String, Object> osrmResponse = restTemplate.getForObject(url, Map.class);
+
+        if (osrmResponse == null) {
+            throw new InvalidOsrmResponseException();
+        }
+
+        return Double.parseDouble(extractAttributeFromTrip(osrmResponse, "distance"));
+
+    }
+
+    private String buildUrl(Point startingPoint, Set<Point> wayPoints, NavigationType navigationType, RequestType requestType) {
 
         String basePath;
 
         switch (navigationType) {
-            case "distance" -> basePath = OSRM_DISTANCE_URL;
-            case "duration" -> basePath = OSRM_DURATION_URL;
-            case "elevation" -> basePath = OSRM_ELEVATION_URL;
-            case "standard" -> basePath = OSRM_STANDARD_URL;
+            case NavigationType.DISTANCE -> basePath = OSRM_DISTANCE_URL;
+            case NavigationType.DURATION -> basePath = OSRM_DURATION_URL;
+            case NavigationType.ELEVATION -> basePath = OSRM_ELEVATION_URL;
+            case NavigationType.STANDARD -> basePath = OSRM_STANDARD_URL;
             default -> throw new InvalidNavigationMode();
         }
 
-        return basePath + startingPoint.getX() + "," + startingPoint.getY() + ";" + wayPoints.stream()
+        String url = basePath + startingPoint.getX() + "," + startingPoint.getY() + ";" + wayPoints.stream()
                 .map(point -> point.getX() + "," + point.getY())
                 .collect(Collectors.joining(";"))
-                + "?steps=true&source=first";
+                + "?source=first";
+
+        if (requestType == RequestType.FULL) {
+            url += "&steps=true&overview=full";
+        }
+
+        return url;
     }
 
-    private String extractPolyline(Map<String, Object> osrmResponse) {
+    private String extractAttributeFromTrip(Map<String, Object> osrmResponse, String attributeName) {
 
         if (osrmResponse.containsKey("trips")) {
             List<Object> trips = (List<Object>) osrmResponse.get("trips");
             if (!trips.isEmpty()) {
                 Map<String, Object> firstRoute = (Map<String, Object>) trips.getFirst();
-                if (firstRoute.containsKey("geometry")) {
-                    return (String) firstRoute.get("geometry");
+                if (firstRoute.containsKey(attributeName)) {
+                    return String.valueOf(firstRoute.get(attributeName));
                 }
             }
         }
 
         throw new InvalidOsrmResponseException();
-    }
-
-    private Map<String, Object> getElevationData(String polyline) {
-
-        String urlEncodedPolyline = URLEncoder.encode(polyline, StandardCharsets.UTF_8);
-        return restTemplate.getForObject(OPENTOPODATA_URL + urlEncodedPolyline, Map.class);
     }
 }

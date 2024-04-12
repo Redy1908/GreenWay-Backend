@@ -6,6 +6,8 @@ import dev.redy1908.greenway.delivery.domain.Delivery;
 import dev.redy1908.greenway.delivery.domain.IDeliveryService;
 import dev.redy1908.greenway.delivery.domain.dto.DeliveryDTO;
 import dev.redy1908.greenway.delivery.domain.dto.DeliveryWithNavigationDTO;
+import dev.redy1908.greenway.osrm.domain.NavigationType;
+import dev.redy1908.greenway.osrm.domain.RequestType;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.Map;
 
 @RestController
 @RequestMapping("api/v1/deliveries")
@@ -42,12 +45,23 @@ class DeliveryController {
 
     @GetMapping("/id/{deliveryId}")
     @PreAuthorize("hasRole('GREEN_WAY_ADMIN') || @deliveryServiceImpl.isDeliveryOwner(#deliveryId, authentication.principal.claims['preferred_username'])")
-    public ResponseEntity<DeliveryWithNavigationDTO> getDeliveryById(@PathVariable Long deliveryId, @RequestParam String navigationType) {
+    public ResponseEntity<DeliveryWithNavigationDTO> getDeliveryWithNavigationById(@PathVariable Long deliveryId, @RequestParam NavigationType navigationType) {
 
-        DeliveryWithNavigationDTO deliveryWithNavigationDTO = deliveryService.getDeliveryByIdWithNavigation(deliveryId, navigationType);
+        DeliveryWithNavigationDTO deliveryWithNavigationDTO = deliveryService.getDeliveryWithNavigationById(deliveryId, navigationType, RequestType.FULL);
 
         return ResponseEntity.ok(deliveryWithNavigationDTO);
     }
+
+
+    @GetMapping("/id/{deliveryId}/elevation")
+    @PreAuthorize("hasRole('GREEN_WAY_ADMIN') || @deliveryServiceImpl.isDeliveryOwner(#deliveryId, authentication.principal.claims['preferred_username'])")
+    public ResponseEntity<Map<String, Object>> getDeliveryElevationDataById(@PathVariable Long deliveryId, @RequestParam NavigationType navigationType) {
+
+        Map<String, Object> elevationData = deliveryService.getDeliveryElevationDataById(deliveryId, navigationType, RequestType.ELEVATION);
+
+        return ResponseEntity.ok(elevationData);
+    }
+
 
     @GetMapping
     public ResponseEntity<PageResponseDTO<DeliveryDTO>> getAllDeliveries(
