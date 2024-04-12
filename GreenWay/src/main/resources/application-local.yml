@@ -29,12 +29,12 @@ osrm:
   lat-min: 40.5
   lat-max: 41.5
   distance:
-    url: http://localhost:5000/route/v1/driving/
+    url: http://localhost:5000/trip/v1/driving/
   duration:
-    url: http://localhost:5001/route/v1/driving/
+    url: http://localhost:5001/trip/v1/driving/
   elevation:
-    url: http://localhost:5002/route/v1/driving/
+    url: http://localhost:5002/trip/v1/driving/
   standard:
-    url: http://localhost:5003/route/v1/driving/
+    url: http://localhost:5003/trip/v1/driving/
 opentopodata:
   url: http://localhost:5004/v1/greenway?locations=

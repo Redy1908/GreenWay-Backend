@@ -29,12 +29,12 @@ osrm:
   lat-min: 40.5
   lat-max: 41.5
   distance:
-    url: http://green-way-osrm-distance:5000/route/v1/driving/
+    url: http://green-way-osrm-distance:5000/trip/v1/driving/
   duration:
-    url: http://green-way-osrm-duration:5000/route/v1/driving/
+    url: http://green-way-osrm-duration:5000/trip/v1/driving/
   elevation:
-    url: http://green-way-osrm-elevation:5000/route/v1/driving/
+    url: http://green-way-osrm-elevation:5000/trip/v1/driving/
   standard:
-    url: http://green-way-osrm-standard:5000/route/v1/driving/
+    url: http://green-way-osrm-standard:5000/trip/v1/driving/
 opentopodata:
   url: http://green-way-opentopodata:5000/v1/greenway?locations=

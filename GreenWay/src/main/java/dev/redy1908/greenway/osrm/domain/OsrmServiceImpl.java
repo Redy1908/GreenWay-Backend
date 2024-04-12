@@ -86,15 +86,15 @@ class OsrmServiceImpl implements IOsrmService {
         return basePath + startingPoint.getX() + "," + startingPoint.getY() + ";" + wayPoints.stream()
                 .map(point -> point.getX() + "," + point.getY())
                 .collect(Collectors.joining(";"))
-                + "?steps=true";
+                + "?steps=true&source=first";
     }
 
     private String extractPolyline(Map<String, Object> osrmResponse) {
 
-        if (osrmResponse.containsKey("routes")) {
-            List<Object> routes = (List<Object>) osrmResponse.get("routes");
-            if (!routes.isEmpty()) {
-                Map<String, Object> firstRoute = (Map<String, Object>) routes.getFirst();
+        if (osrmResponse.containsKey("trips")) {
+            List<Object> trips = (List<Object>) osrmResponse.get("trips");
+            if (!trips.isEmpty()) {
+                Map<String, Object> firstRoute = (Map<String, Object>) trips.getFirst();
                 if (firstRoute.containsKey("geometry")) {
                     return (String) firstRoute.get("geometry");
                 }

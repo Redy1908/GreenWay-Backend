@@ -17,25 +17,25 @@ services:
     ports:
       - "5003:5000"
   osrm-frontend-distance:
-    image: ghcr.io/project-osrm/osrm-frontend:latest
+    image: osrm/osrm-frontend
     ports:
       - "9966:9966"
     environment:
       - OSRM_BACKEND='http://localhost:5000'
   osrm-frontend-duration:
-    image: ghcr.io/project-osrm/osrm-frontend:latest
+    image: osrm/osrm-frontend
     ports:
       - "9967:9966"
     environment:
       - OSRM_BACKEND=http://localhost:5001
   osrm-frontend-elevation:
-    image: ghcr.io/project-osrm/osrm-frontend:latest
+    image: osrm/osrm-frontend
     ports:
       - "9968:9966"
     environment:
       - OSRM_BACKEND=http://localhost:5002
   osrm-frontend-standard:
-    image: ghcr.io/project-osrm/osrm-frontend:latest
+    image: osrm/osrm-frontend
     ports:
       - "9969:9966"
     environment:
