@@ -28,7 +28,7 @@ public class Delivery extends BaseEntity {
     private Point depositCoordinates;
 
     @Column(nullable = false)
-    private LocalDate deliveryDate;
+    private LocalDate estimatedDeliveryDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private DeliveryMan deliveryMan;
