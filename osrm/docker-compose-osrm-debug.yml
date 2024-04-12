@@ -1,0 +1,42 @@
+version: "3"
+services:
+  green-way-osrm-distance:
+    image: redy1908/green-way-osrm-distance:v1
+    ports:
+      - "5000:5000"
+  green-way-osrm-duration:
+    image: redy1908/green-way-osrm-duration:v1
+    ports:
+      - "5001:5000"
+  green-way-osrm-elevation:
+    image: redy1908/green-way-osrm-elevation:v1
+    ports:
+      - "5002:5000"
+  green-way-osrm-standard:
+    image: redy1908/green-way-osrm-standard:v1
+    ports:
+      - "5003:5000"
+  osrm-frontend-distance:
+    image: ghcr.io/project-osrm/osrm-frontend:latest
+    ports:
+      - "9966:9966"
+    environment:
+      - OSRM_BACKEND='http://localhost:5000'
+  osrm-frontend-duration:
+    image: ghcr.io/project-osrm/osrm-frontend:latest
+    ports:
+      - "9967:9966"
+    environment:
+      - OSRM_BACKEND=http://localhost:5001
+  osrm-frontend-elevation:
+    image: ghcr.io/project-osrm/osrm-frontend:latest
+    ports:
+      - "9968:9966"
+    environment:
+      - OSRM_BACKEND=http://localhost:5002
+  osrm-frontend-standard:
+    image: ghcr.io/project-osrm/osrm-frontend:latest
+    ports:
+      - "9969:9966"
+    environment:
+      - OSRM_BACKEND=http://localhost:5003
