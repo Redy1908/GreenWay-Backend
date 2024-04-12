@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "a3901548-4eaa-4a57-a87f-212d28b8a9e4",
+		"_postman_id": "78a7d3e3-e0b5-4378-89c9-317c24c18c9b",
 		"name": "GreenWay",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "27276004"
@@ -191,11 +191,13 @@
 							"query": [
 								{
 									"key": "pageNo",
-									"value": "0"
+									"value": "0",
+									"description": "OPTIONAL default = 0"
 								},
 								{
 									"key": "pageSize",
-									"value": "5"
+									"value": "5",
+									"description": "OPTIONAL default = 10"
 								}
 							]
 						}
@@ -483,11 +485,13 @@
 							"query": [
 								{
 									"key": "pageNo",
-									"value": "0"
+									"value": "0",
+									"description": "OPTIONAL default = 0"
 								},
 								{
 									"key": "pageSize",
-									"value": "5"
+									"value": "5",
+									"description": "OPTIONAL default = 10"
 								}
 							]
 						}
@@ -587,11 +591,13 @@
 							"query": [
 								{
 									"key": "pageNo",
-									"value": "0"
+									"value": "0",
+									"description": "OPTIONAL default = 0"
 								},
 								{
 									"key": "pageSize",
-									"value": "5"
+									"value": "5",
+									"description": "OPTIONAL default = 10"
 								}
 							]
 						}
@@ -784,7 +790,7 @@
 					"response": []
 				},
 				{
-					"name": "Get Delivery by ID Navigation Distance",
+					"name": "Get Delivery by ID with Navigation",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -861,7 +867,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/v1/deliveries/id/1?navigationType=distance",
+							"raw": "http://localhost:8080/api/v1/deliveries/id/1?navigationType=ELEVATION",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -877,7 +883,8 @@
 							"query": [
 								{
 									"key": "navigationType",
-									"value": "distance"
+									"value": "ELEVATION",
+									"description": "Navigation optimization can be: DISTANCE, DURATION, ELEVATION, STANDARD"
 								}
 							]
 						}
@@ -885,7 +892,7 @@
 					"response": []
 				},
 				{
-					"name": "Get Delivery by ID Navigation Duration",
+					"name": "Get Delivery Elevation  Overview by ID",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -962,7 +969,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/v1/deliveries/id/1?navigationType=duration",
+							"raw": "http://localhost:8080/api/v1/deliveries/id/1/elevation?navigationType=ELEVATION",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -973,214 +980,14 @@
 								"v1",
 								"deliveries",
 								"id",
-								"1"
+								"1",
+								"elevation"
 							],
 							"query": [
 								{
 									"key": "navigationType",
-									"value": "duration"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get Delivery by ID Navigation Elevation",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"auth": {
-							"type": "oauth2",
-							"oauth2": [
-								{
-									"key": "accessTokenUrl",
-									"value": "http://localhost:8090/realms/GreenWay/protocol/openid-connect/token",
-									"type": "string"
-								},
-								{
-									"key": "authUrl",
-									"value": "http://localhost:8090/realms/GreenWay/protocol/openid-connect/auth",
-									"type": "string"
-								},
-								{
-									"key": "clientId",
-									"value": "GreenWay",
-									"type": "string"
-								},
-								{
-									"key": "clientSecret",
-									"value": "jyTj9K8qcn3AoZjElhNCT15klfdiBH0K",
-									"type": "string"
-								},
-								{
-									"key": "state",
-									"value": "ew34er-344fgfg-5gfgfg",
-									"type": "string"
-								},
-								{
-									"key": "useBrowser",
-									"value": true,
-									"type": "boolean"
-								},
-								{
-									"key": "grant_type",
-									"value": "authorization_code",
-									"type": "string"
-								},
-								{
-									"key": "tokenName",
-									"value": "authcode_accesstoken",
-									"type": "string"
-								},
-								{
-									"key": "client_authentication",
-									"value": "body",
-									"type": "string"
-								},
-								{
-									"key": "scope",
-									"value": "openid email profile",
-									"type": "string"
-								},
-								{
-									"key": "addTokenTo",
-									"value": "header",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/api/v1/deliveries/id/1?navigationType=elevation",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"v1",
-								"deliveries",
-								"id",
-								"1"
-							],
-							"query": [
-								{
-									"key": "navigationType",
-									"value": "elevation"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get Delivery by ID Navigation Standard",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"auth": {
-							"type": "oauth2",
-							"oauth2": [
-								{
-									"key": "accessTokenUrl",
-									"value": "http://localhost:8090/realms/GreenWay/protocol/openid-connect/token",
-									"type": "string"
-								},
-								{
-									"key": "authUrl",
-									"value": "http://localhost:8090/realms/GreenWay/protocol/openid-connect/auth",
-									"type": "string"
-								},
-								{
-									"key": "clientId",
-									"value": "GreenWay",
-									"type": "string"
-								},
-								{
-									"key": "clientSecret",
-									"value": "jyTj9K8qcn3AoZjElhNCT15klfdiBH0K",
-									"type": "string"
-								},
-								{
-									"key": "state",
-									"value": "ew34er-344fgfg-5gfgfg",
-									"type": "string"
-								},
-								{
-									"key": "useBrowser",
-									"value": true,
-									"type": "boolean"
-								},
-								{
-									"key": "grant_type",
-									"value": "authorization_code",
-									"type": "string"
-								},
-								{
-									"key": "tokenName",
-									"value": "authcode_accesstoken",
-									"type": "string"
-								},
-								{
-									"key": "client_authentication",
-									"value": "body",
-									"type": "string"
-								},
-								{
-									"key": "scope",
-									"value": "openid email profile",
-									"type": "string"
-								},
-								{
-									"key": "addTokenTo",
-									"value": "header",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/api/v1/deliveries/id/1?navigationType=standard",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"v1",
-								"deliveries",
-								"id",
-								"1"
-							],
-							"query": [
-								{
-									"key": "navigationType",
-									"value": "standard"
+									"value": "ELEVATION",
+									"description": "Navigation optimization can be: DISTANCE, DURATION, ELEVATION, STANDARD"
 								}
 							]
 						}
