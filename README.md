@@ -30,7 +30,13 @@ GreenWay, an Electric Vehicle (EV) routing service.
     ```
     
     ```
-    Username: deliveryMan1
+    Username: deliveryman1
+    Password: 12345
+    with GREEN_WAY_DELIVERY_MAN privileges
+    ```
+   
+    ```
+    Username: deliveryman2
     Password: 12345
     with GREEN_WAY_DELIVERY_MAN privileges
     ```
