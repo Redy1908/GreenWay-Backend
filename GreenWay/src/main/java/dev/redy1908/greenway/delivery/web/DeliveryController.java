@@ -7,7 +7,6 @@ import dev.redy1908.greenway.delivery.domain.IDeliveryService;
 import dev.redy1908.greenway.delivery.domain.dto.DeliveryDTO;
 import dev.redy1908.greenway.delivery.domain.dto.DeliveryWithNavigationDTO;
 import dev.redy1908.greenway.osrm.domain.NavigationType;
-import dev.redy1908.greenway.osrm.domain.RequestType;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -47,7 +46,7 @@ class DeliveryController {
     @PreAuthorize("hasRole('GREEN_WAY_ADMIN') || @deliveryServiceImpl.isDeliveryOwner(#deliveryId, authentication.principal.claims['preferred_username'])")
     public ResponseEntity<DeliveryWithNavigationDTO> getDeliveryWithNavigationById(@PathVariable Long deliveryId, @RequestParam NavigationType navigationType) {
 
-        DeliveryWithNavigationDTO deliveryWithNavigationDTO = deliveryService.getDeliveryWithNavigationById(deliveryId, navigationType, RequestType.FULL);
+        DeliveryWithNavigationDTO deliveryWithNavigationDTO = deliveryService.getDeliveryWithNavigationById(deliveryId, navigationType);
 
         return ResponseEntity.ok(deliveryWithNavigationDTO);
     }
@@ -57,7 +56,7 @@ class DeliveryController {
     @PreAuthorize("hasRole('GREEN_WAY_ADMIN') || @deliveryServiceImpl.isDeliveryOwner(#deliveryId, authentication.principal.claims['preferred_username'])")
     public ResponseEntity<Map<String, Object>> getDeliveryElevationDataById(@PathVariable Long deliveryId, @RequestParam NavigationType navigationType) {
 
-        Map<String, Object> elevationData = deliveryService.getDeliveryElevationDataById(deliveryId, navigationType, RequestType.ELEVATION);
+        Map<String, Object> elevationData = deliveryService.getDeliveryElevationDataById(deliveryId, navigationType);
 
         return ResponseEntity.ok(elevationData);
     }

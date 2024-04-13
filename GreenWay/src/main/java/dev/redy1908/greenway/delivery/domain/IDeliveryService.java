@@ -4,7 +4,6 @@ import dev.redy1908.greenway.app.web.models.PageResponseDTO;
 import dev.redy1908.greenway.delivery.domain.dto.DeliveryDTO;
 import dev.redy1908.greenway.delivery.domain.dto.DeliveryWithNavigationDTO;
 import dev.redy1908.greenway.osrm.domain.NavigationType;
-import dev.redy1908.greenway.osrm.domain.RequestType;
 import jakarta.validation.Valid;
 
 import java.util.Map;
@@ -13,8 +12,8 @@ public interface IDeliveryService {
 
     Delivery createDelivery(@Valid DeliveryDTO deliveryCreationDTO);
 
-    DeliveryWithNavigationDTO getDeliveryWithNavigationById(Long deliveryId, NavigationType navigationType, RequestType requestType);
-    Map<String, Object> getDeliveryElevationDataById(Long deliveryId, NavigationType navigationType, RequestType requestType);
+    DeliveryWithNavigationDTO getDeliveryWithNavigationById(Long deliveryId, NavigationType navigationType);
+    Map<String, Object> getDeliveryElevationDataById(Long deliveryId, NavigationType navigationType);
 
     PageResponseDTO<DeliveryDTO> getAllDeliveries(int pageNo, int pageSize);
 

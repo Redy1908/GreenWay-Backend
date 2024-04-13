@@ -52,14 +52,14 @@ class OsrmServiceImpl implements IOsrmService {
     private final RestTemplate restTemplate;
 
     @Override
-    public Map<String, Object> getNavigationData(Point startingPoint, double maxDistance, Set<Point> wayPoints, NavigationType navigationType, RequestType requestType) {
-        return getOsrmResponse(startingPoint, maxDistance, wayPoints, navigationType, requestType);
+    public Map<String, Object> getNavigationData(Point startingPoint, double maxDistance, Set<Point> wayPoints, NavigationType navigationType) {
+        return getOsrmResponse(startingPoint, maxDistance, wayPoints, navigationType, RequestType.FULL);
     }
 
 
     @Override
-    public Map<String, Object> getElevationData(Point startingPoint, double maxDistance, Set<Point> wayPoints, NavigationType navigationType, RequestType requestType) {
-        Map<String, Object> osrmResponse = getOsrmResponse(startingPoint, maxDistance, wayPoints, navigationType, requestType);
+    public Map<String, Object> getElevationData(Point startingPoint, double maxDistance, Set<Point> wayPoints, NavigationType navigationType) {
+        Map<String, Object> osrmResponse = getOsrmResponse(startingPoint, maxDistance, wayPoints, navigationType, RequestType.OVERVIEW);
 
         String urlEncodedPolyline = URLEncoder.encode(extractAttributeFromTrip(osrmResponse, "geometry"), StandardCharsets.UTF_8);
         return restTemplate.getForObject(OPENTOPODATA_URL + urlEncodedPolyline, Map.class);
@@ -119,8 +119,8 @@ class OsrmServiceImpl implements IOsrmService {
                 .collect(Collectors.joining(";"))
                 + "?source=first";
 
-        if (requestType == RequestType.FULL) {
-            url += "&steps=true&overview=full";
+        if (requestType == RequestType.FULL ) {
+            url += "&steps=true&overview=false";
         }
 
         return url;

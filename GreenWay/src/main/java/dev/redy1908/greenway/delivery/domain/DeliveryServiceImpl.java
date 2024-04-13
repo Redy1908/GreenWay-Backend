@@ -61,7 +61,7 @@ class DeliveryServiceImpl extends PagingService<Delivery, DeliveryDTO> implement
     }
 
     @Override
-    public DeliveryWithNavigationDTO getDeliveryWithNavigationById(Long deliveryId, NavigationType navigationType, RequestType requestType) {
+    public DeliveryWithNavigationDTO getDeliveryWithNavigationById(Long deliveryId, NavigationType navigationType) {
         Delivery delivery = deliveryRepository.findById(deliveryId).orElseThrow(
                 () -> new DeliveryNotFoundException(deliveryId));
 
@@ -70,13 +70,13 @@ class DeliveryServiceImpl extends PagingService<Delivery, DeliveryDTO> implement
         DeliveryDTO deliveryDTO = deliveryMapper.toDto(delivery);
 
         Set<Point> wayPoints = extractWaypoints(deliveryDTO.deliveryPackages());
-        Map<String, Object> navigationData = osrmService.getNavigationData(deliveryDTO.depositCoordinates(), maxDistance, wayPoints, navigationType, requestType);
+        Map<String, Object> navigationData = osrmService.getNavigationData(deliveryDTO.depositCoordinates(), maxDistance, wayPoints, navigationType);
 
         return new DeliveryWithNavigationDTO(deliveryDTO, navigationData);
     }
 
     @Override
-    public Map<String, Object> getDeliveryElevationDataById(Long deliveryId, NavigationType navigationType, RequestType requestType) {
+    public Map<String, Object> getDeliveryElevationDataById(Long deliveryId, NavigationType navigationType) {
         Delivery delivery = deliveryRepository.findById(deliveryId).orElseThrow(
                 () -> new DeliveryNotFoundException(deliveryId));
 
@@ -85,7 +85,7 @@ class DeliveryServiceImpl extends PagingService<Delivery, DeliveryDTO> implement
         DeliveryDTO deliveryDTO = deliveryMapper.toDto(delivery);
 
         Set<Point> wayPoints = extractWaypoints(deliveryDTO.deliveryPackages());
-        return osrmService.getElevationData(deliveryDTO.depositCoordinates(), maxDistance, wayPoints, navigationType, requestType);
+        return osrmService.getElevationData(deliveryDTO.depositCoordinates(), maxDistance, wayPoints, navigationType);
     }
 
 
@@ -117,7 +117,7 @@ class DeliveryServiceImpl extends PagingService<Delivery, DeliveryDTO> implement
                 depositCoordinates,
                 waypoints,
                 NavigationType.DISTANCE,
-                RequestType.DISTANCE
+                RequestType.OVERVIEW
         );
 
 
@@ -125,7 +125,7 @@ class DeliveryServiceImpl extends PagingService<Delivery, DeliveryDTO> implement
                 depositCoordinates,
                 waypoints,
                 NavigationType.DURATION,
-                RequestType.DISTANCE
+                RequestType.OVERVIEW
         );
 
 
@@ -133,7 +133,7 @@ class DeliveryServiceImpl extends PagingService<Delivery, DeliveryDTO> implement
                 depositCoordinates,
                 waypoints,
                 NavigationType.ELEVATION,
-                RequestType.DISTANCE
+                RequestType.OVERVIEW
         );
 
 
@@ -141,7 +141,7 @@ class DeliveryServiceImpl extends PagingService<Delivery, DeliveryDTO> implement
                 depositCoordinates,
                 waypoints,
                 NavigationType.STANDARD,
-                RequestType.DISTANCE
+                RequestType.OVERVIEW
         );
 
         return List.of(tripDistanceDistance, tripDurationDistance, tripElevationDistance, tripStandardDistance);
