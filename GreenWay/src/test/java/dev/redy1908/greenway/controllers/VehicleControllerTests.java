@@ -35,7 +35,7 @@ class VehicleControllerTests {
 
     @Test
     void it_should_save_vehicle_status_201_created() throws Exception {
-        VehicleDTO vehicleDTO = new VehicleDTO("Model", 100.0, 10.0);
+        VehicleDTO vehicleDTO = new VehicleDTO(1L, "Model", 100.0, 10.0);
 
         Vehicle vehicle = new Vehicle("Model", 100.0, 10.0);
         vehicle.setId(1L);
@@ -55,7 +55,7 @@ class VehicleControllerTests {
     @Test
     void it_should_find_vehicle_DTO_status_200_OK() throws Exception {
 
-        VehicleDTO vehicleDTO = new VehicleDTO("Model", 100.0, 10.0);
+        VehicleDTO vehicleDTO = new VehicleDTO(1L, "Model", 100.0, 10.0);
 
         when(vehicleService.findVehicleById(1L)).thenReturn(vehicleDTO);
 

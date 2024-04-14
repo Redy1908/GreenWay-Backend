@@ -31,6 +31,7 @@ class VehicleServiceTests {
     void it_should_save_vehicle_returns_vehicle() {
 
         VehicleDTO vehicleDTO = new VehicleDTO(
+                1L,
                 "Test Vehicle 1",
                 100.0,
                 10.0);
