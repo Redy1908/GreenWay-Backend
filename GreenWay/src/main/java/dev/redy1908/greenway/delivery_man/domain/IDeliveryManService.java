@@ -5,11 +5,9 @@ import dev.redy1908.greenway.delivery_man.domain.dto.DeliveryManDTO;
 
 public interface IDeliveryManService {
 
-    void save(String username);
+    DeliveryMan save(String username);
 
     DeliveryMan findByUsername(String username);
-
-    boolean existsByUsername(String username);
 
     DeliveryMan findFirstByDeliveryIsNull();
 

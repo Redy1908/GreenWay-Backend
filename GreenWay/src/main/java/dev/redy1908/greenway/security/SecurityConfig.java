@@ -1,7 +1,5 @@
-package dev.redy1908.greenway.security.config;
+package dev.redy1908.greenway.security;
 
-import dev.redy1908.greenway.security.DeliveryManFilter;
-import dev.redy1908.greenway.security.KeyCloakRoleConverter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,15 +10,11 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 @Configuration
 @RequiredArgsConstructor
 @EnableMethodSecurity
 public class SecurityConfig {
-
-    private final DeliveryManFilter deliveryManFilter;
-
     private static final String ADMIN_ROLE = "GREEN_WAY_ADMIN";
     private static final String DELIVERY_MAN_ROLE = "GREEN_WAY_DELIVERY_MAN";
 
@@ -55,7 +49,6 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, GET_ADMIN_DELIVERY_MAN_LIST_URL).hasAnyRole(ADMIN_ROLE, DELIVERY_MAN_ROLE)
                         .requestMatchers(HttpMethod.POST, POST_DELIVERY_MAN_LIST_URL).hasRole(DELIVERY_MAN_ROLE)
                         .anyRequest().authenticated())
-                .addFilterAfter(deliveryManFilter, BasicAuthenticationFilter.class)
                 .cors(AbstractHttpConfigurer::disable)
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session

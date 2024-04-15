@@ -1,6 +1,7 @@
 package dev.redy1908.greenway.delivery_man.domain.exceptions;
 
 import dev.redy1908.greenway.app.web.models.ErrorResponseDTO;
+import dev.redy1908.greenway.delivery_man.domain.exceptions.models.DeliveryManAlreadyExistsException;
 import dev.redy1908.greenway.delivery_man.domain.exceptions.models.DeliveryManNotFoundException;
 import dev.redy1908.greenway.delivery_man.domain.exceptions.models.NoFreeDeliveryManFound;
 import org.springframework.http.HttpStatus;
@@ -37,5 +38,17 @@ public class DeliveryManExceptionsHandler extends ResponseEntityExceptionHandler
                 exception.getMessage(),
                 LocalDateTime.now());
         return new ResponseEntity<>(errorResponseDTO, HttpStatus.NOT_ACCEPTABLE);
+    }
+
+    @ExceptionHandler(DeliveryManAlreadyExistsException.class)
+    public ResponseEntity<ErrorResponseDTO> handleDeliveryManAlreadyExistsException(DeliveryManAlreadyExistsException exception,
+                                                                               WebRequest webRequest) {
+        ErrorResponseDTO errorResponseDTO = new ErrorResponseDTO(
+                webRequest.getDescription(false),
+                HttpStatus.ALREADY_REPORTED.value(),
+                HttpStatus.ALREADY_REPORTED,
+                exception.getMessage(),
+                LocalDateTime.now());
+        return new ResponseEntity<>(errorResponseDTO, HttpStatus.ALREADY_REPORTED);
     }
 }

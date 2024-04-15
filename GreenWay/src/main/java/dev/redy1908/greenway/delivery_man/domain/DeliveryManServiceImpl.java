@@ -20,13 +20,13 @@ class DeliveryManServiceImpl extends PagingService<DeliveryMan, DeliveryManDTO> 
     private final DeliveryManMapper deliveryManMapper;
 
     @Override
-    public void save(String username) {
+    public DeliveryMan save(String username) {
 
         if(deliveryManRepository.findByUsername(username).isPresent()){
             throw new DeliveryManAlreadyExistsException();
         }
 
-        deliveryManRepository.save(new DeliveryMan(username));
+        return deliveryManRepository.save(new DeliveryMan(username));
     }
 
     @Override
@@ -34,11 +34,6 @@ class DeliveryManServiceImpl extends PagingService<DeliveryMan, DeliveryManDTO> 
         return deliveryManRepository.findByUsername(username).orElseThrow(
                 () -> new DeliveryManNotFoundException(username)
         );
-    }
-
-    @Override
-    public boolean existsByUsername(String username) {
-        return deliveryManRepository.existsByUsername(username);
     }
 
     @Override
