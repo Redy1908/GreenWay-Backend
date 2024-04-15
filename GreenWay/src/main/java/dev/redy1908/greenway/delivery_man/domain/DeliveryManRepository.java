@@ -11,6 +11,8 @@ interface DeliveryManRepository extends JpaRepository<DeliveryMan, Long> {
 
     Optional<DeliveryMan> findByUsername(String username);
 
+    boolean existsByUsername(String username);
+
     @Query("SELECT dm FROM DeliveryMan dm LEFT JOIN Delivery del ON dm.id = del.deliveryMan.id WHERE del IS NULL")
     Optional<DeliveryMan> findFirstFreeDeliveryMan();
 

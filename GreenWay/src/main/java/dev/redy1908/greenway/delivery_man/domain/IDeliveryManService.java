@@ -9,6 +9,8 @@ public interface IDeliveryManService {
 
     DeliveryMan findByUsername(String username);
 
+    boolean existsByUsername(String username);
+
     DeliveryMan findFirstByDeliveryIsNull();
 
     PageResponseDTO<DeliveryManDTO> findAllFreeDeliveryMan(int pageNo, int pageSize);

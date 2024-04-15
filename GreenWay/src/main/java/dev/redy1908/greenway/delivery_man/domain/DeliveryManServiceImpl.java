@@ -37,6 +37,11 @@ class DeliveryManServiceImpl extends PagingService<DeliveryMan, DeliveryManDTO> 
     }
 
     @Override
+    public boolean existsByUsername(String username) {
+        return deliveryManRepository.existsByUsername(username);
+    }
+
+    @Override
     public DeliveryMan findFirstByDeliveryIsNull() {
         return deliveryManRepository.findFirstFreeDeliveryMan().orElseThrow(
                 NoFreeDeliveryManFound::new
