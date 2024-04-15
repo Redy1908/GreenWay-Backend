@@ -39,11 +39,11 @@ function setup()
     turn_bias                 = 1.075,
     cardinal_directions       = false,
 
-    -- Size of the vehicle, to be limited by physical restriction of the way
+    -- Size of the deliveryVehicle, to be limited by physical restriction of the way
     vehicle_height = 2.0, -- in meters, 2.0m is the height slightly above biggest SUVs
     vehicle_width = 1.9, -- in meters, ways with narrow tag are considered narrower than 2.2m
 
-    -- Size of the vehicle, to be limited mostly by legal restriction of the way
+    -- Size of the deliveryVehicle, to be limited mostly by legal restriction of the way
     vehicle_length = 4.8, -- in meters, 4.8m is the length of large or family car
     vehicle_weight = 2000, -- in kilograms
 
@@ -69,7 +69,7 @@ function setup()
       'yes',
       'motorcar',
       'motor_vehicle',
-      'vehicle',
+      'deliveryVehicle',
       'permissive',
       'designated',
       'hov'
@@ -102,7 +102,7 @@ function setup()
     access_tags_hierarchy = Sequence {
       'motorcar',
       'motor_vehicle',
-      'vehicle',
+      'deliveryVehicle',
       'access'
     },
 
@@ -113,7 +113,7 @@ function setup()
     restrictions = Sequence {
       'motorcar',
       'motor_vehicle',
-      'vehicle'
+      'deliveryVehicle'
     },
 
     classes = Sequence {
@@ -415,7 +415,7 @@ function process_way(profile, way, result, relations)
     WayHandlers.handle_weight,
 
     -- determine access status by checking our hierarchy of
-    -- access tags, e.g: motorcar, motor_vehicle, vehicle
+    -- access tags, e.g: motorcar, motor_vehicle, deliveryVehicle
     WayHandlers.access,
 
     -- check whether forward/backward directions are routable

@@ -1,29 +1,27 @@
 package dev.redy1908.greenway.delivery.domain.dto;
 
-import dev.redy1908.greenway.delivery_package.domain.dto.DeliveryPackageDTO;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import org.locationtech.jts.geom.Point;
 
-import javax.annotation.Nullable;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Set;
-
 public record DeliveryDTO(
 
-        @Nullable Long id,
+        @NotEmpty
+        String sender,
 
-        @Nullable LocalDateTime createdAt,
+        @NotEmpty
+        String senderAddress,
 
-        @NotNull LocalDate estimatedDeliveryDate,
+        @NotEmpty
+        String receiver,
 
-        @Nullable String deliveryManUsername,
+        @NotEmpty
+        String receiverAddress,
 
-        @NotNull Long vehicleId,
+        @NotNull
+        Point receiverCoordinates,
 
-        @NotNull String depositAddress,
-
-        @NotNull Point depositCoordinates,
-
-        @NotNull Set<DeliveryPackageDTO> deliveryPackages) {
+        @NotNull
+        Double weight
+) {
 }

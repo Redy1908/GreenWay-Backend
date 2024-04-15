@@ -1,10 +1,10 @@
-package dev.redy1908.greenway.vehicle.domain.exceptions;
+package dev.redy1908.greenway.delivery_vehicle.domain.exceptions;
 
 import dev.redy1908.greenway.app.web.models.ErrorResponseDTO;
-import dev.redy1908.greenway.vehicle.domain.exceptions.models.VehicleAlreadyAssignedException;
-import dev.redy1908.greenway.vehicle.domain.exceptions.models.VehicleAutonomyNotSufficientException;
-import dev.redy1908.greenway.vehicle.domain.exceptions.models.VehicleCapacityExceeded;
-import dev.redy1908.greenway.vehicle.domain.exceptions.models.VehicleNotFoundException;
+import dev.redy1908.greenway.delivery_vehicle.domain.exceptions.models.VehicleAlreadyAssignedException;
+import dev.redy1908.greenway.delivery_vehicle.domain.exceptions.models.VehicleAutonomyNotSufficientException;
+import dev.redy1908.greenway.delivery_vehicle.domain.exceptions.models.VehicleCapacityExceeded;
+import dev.redy1908.greenway.delivery_vehicle.domain.exceptions.models.VehicleNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;

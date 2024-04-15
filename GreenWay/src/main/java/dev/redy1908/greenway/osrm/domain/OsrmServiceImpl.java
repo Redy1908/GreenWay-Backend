@@ -1,12 +1,18 @@
 package dev.redy1908.greenway.osrm.domain;
 
+import dev.redy1908.greenway.delivery_vehicle.domain.DeliveryVehicle;
+import dev.redy1908.greenway.delivery.domain.Delivery;
 import dev.redy1908.greenway.osrm.domain.exceptions.models.InvalidNavigationMode;
 import dev.redy1908.greenway.osrm.domain.exceptions.models.InvalidOsrmResponseException;
 import dev.redy1908.greenway.osrm.domain.exceptions.models.PointOutOfBoundsException;
-import dev.redy1908.greenway.vehicle.domain.exceptions.models.VehicleAutonomyNotSufficientException;
+import dev.redy1908.greenway.delivery_vehicle.domain.exceptions.models.VehicleAutonomyNotSufficientException;
+import kotlin.Pair;
 import lombok.RequiredArgsConstructor;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.locationtech.jts.geom.Point;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -83,10 +89,13 @@ class OsrmServiceImpl implements IOsrmService {
     }
 
     @Override
-    public void checkPointBounds(Point point) {
-        if (point.getX() < lonMin || point.getX() > lonMax || point.getY() < latMin || point.getY() > latMax) {
-            throw new PointOutOfBoundsException(point, lonMin, lonMax, latMin, latMax);
-        }
+    public void checkPointsInBounds(List<Point> points) {
+
+        points.forEach(point -> {
+            if(point.getX() < lonMin || point.getX() > lonMax || point.getY() < latMin || point.getY() > latMax){
+                throw new PointOutOfBoundsException(point, lonMin, lonMax, latMin, latMax);
+            }
+        });
     }
 
     @Override
@@ -100,6 +109,70 @@ class OsrmServiceImpl implements IOsrmService {
 
         return Double.parseDouble(extractAttributeFromTrip(osrmResponse, "distance"));
 
+    }
+
+    @Override
+    public Pair<double[][], double[][]> getMatrixDistances(List<DeliveryVehicle> deliveryVehicleList, List<Delivery> deliveryList) {
+
+        String url = buildUrlMatrix(deliveryVehicleList, deliveryList);
+
+        ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
+        JSONObject jsonObject = new JSONObject(response.getBody());
+
+        JSONArray durations = jsonObject.getJSONArray("durations");
+        JSONArray distances = jsonObject.getJSONArray("distances");
+
+        double[][] matrixDurations = new double[durations.length()][];
+        double[][] matrixDistances = new double[distances.length()][];
+
+        for (int i = 0; i < durations.length(); i++) {
+            JSONArray rowDurations = durations.getJSONArray(i);
+            JSONArray rowDistances = distances.getJSONArray(i);
+            matrixDurations[i] = new double[rowDurations.length()];
+            matrixDistances[i] = new double[rowDistances.length()];
+            for (int j = 0; j < rowDurations.length(); j++) {
+                matrixDurations[i][j] = rowDurations.getDouble(j);
+                matrixDistances[i][j] = rowDistances.getDouble(j);
+            }
+        }
+
+        return new Pair<>(matrixDurations, matrixDistances);
+    }
+
+    private String buildUrlMatrix(List<DeliveryVehicle> deliveryVehicleList, List<Delivery> deliveryList){
+        StringBuilder urlBuilder = new StringBuilder("http://localhost:5000/table/v1/driving/");
+
+        for(DeliveryVehicle deliveryVehicle: deliveryVehicleList) {
+            urlBuilder.append(deliveryVehicle.getDepositCoordinates().getX());
+            urlBuilder.append(",");
+            urlBuilder.append(deliveryVehicle.getDepositCoordinates().getY());
+            urlBuilder.append(";");
+        }
+
+        for (Delivery delivery : deliveryList) {
+            urlBuilder.append(delivery.getReceiverCoordinates().getX());
+            urlBuilder.append(",");
+            urlBuilder.append(delivery.getReceiverCoordinates().getY());
+            urlBuilder.append(";");
+        }
+
+        urlBuilder.deleteCharAt(urlBuilder.length() - 1);
+
+        /*urlBuilder.append("?sources=0");
+
+        urlBuilder.append("&destinations=");
+        for (int i = 1; i <= deliveryList.size(); i++) {
+            urlBuilder.append(i);
+            urlBuilder.append(";");
+        }
+
+        urlBuilder.deleteCharAt(urlBuilder.length() - 1);
+
+        urlBuilder.append("&annotations=duration,distance");*/
+
+        urlBuilder.append("?annotations=duration,distance");
+
+        return urlBuilder.toString();
     }
 
     private String buildUrl(Point startingPoint, Set<Point> wayPoints, NavigationType navigationType, RequestType requestType) {

@@ -1,7 +1,7 @@
 package dev.redy1908.greenway.delivery.domain.exceptions;
 
 import dev.redy1908.greenway.app.web.models.ErrorResponseDTO;
-import dev.redy1908.greenway.delivery.domain.exceptions.models.DeliveryNotFoundException;
+import dev.redy1908.greenway.delivery.domain.exceptions.model.DeliveryNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -16,7 +16,7 @@ public class DeliveryExceptionsHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(DeliveryNotFoundException.class)
     public ResponseEntity<ErrorResponseDTO> handleDeliveryNotFoundException(DeliveryNotFoundException exception,
-                                                                            WebRequest webRequest) {
+                                                                               WebRequest webRequest) {
         ErrorResponseDTO errorResponseDTO = new ErrorResponseDTO(
                 webRequest.getDescription(false),
                 HttpStatus.NOT_FOUND.value(),
@@ -25,5 +25,4 @@ public class DeliveryExceptionsHandler extends ResponseEntityExceptionHandler {
                 LocalDateTime.now());
         return new ResponseEntity<>(errorResponseDTO, HttpStatus.NOT_FOUND);
     }
-
 }
