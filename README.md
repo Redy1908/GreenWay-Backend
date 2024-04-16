@@ -63,7 +63,7 @@ To configure a different geographical location, please follow the following step
 1. Download the needed map data from [Geofabrik](https://www.geofabrik.de/)
 2. You will get a file named ```your-location.osm.pbf```
 3. Move the file to ```osrm/data```
-4. Go to ```osrm/``` edit the ```4 Dockerfile``` at line ```6``` set ```OSRM_FILE``` value to ```your-location```
+4. Go to ```osrm/``` edit the ```Dockerfile-osrm-elevation``` at line ```6``` set ```OSRM_FILE``` value to ```your-location```
 5. Download the needed elevation data from [here](https://srtm.csi.cgiar.org/srtmdata/), select ```Esri ASCII```
 6. You will get a file with extension ```.asc``` move that file to ```osrm/data```
 7. Open the file end note the content of the first ```6``` lines
@@ -71,12 +71,9 @@ To configure a different geographical location, please follow the following step
 9. Remove the first ```6``` lines from the  ```.asc``` file, save the changes 
 10. Go to ```GreenWay/src/main/resources``` edit the files ```application.yml``` and ```application-local.yml```, lines 27-28-29-30 with 
     your max and min coordinates. (You will have to create a new Spring Boot image or run a local version with the new changes see below)
-11. Run the following commands inside ```osrm/```:
-    - ```docker build -t {dockerHubUsername}/{imageName}:{imageTag} -f Dockerfile-osrm-distance .```
-    - ```docker build -t {dockerHubUsername}/{imageName}:{imageTag} -f Dockerfile-osrm-duration .```
+11. Run the following command inside ```osrm/```:
     - ```docker build -t {dockerHubUsername}/{imageName}:{imageTag} -f Dockerfile-osrm-elevation .```
-    - ```docker build -t {dockerHubUsername}/{imageName}:{imageTag} -f Dockerfile-osrm-standard .```
-12. Edit the ```docker-compose.yml``` file in the root directory, lines 74-82-86-92, replace the `image` value with the name of your image
+12. Edit the ```docker-compose.yml``` file in the root directory, lines 65, replace the `image` value with the name of your image
 
 ### 2. Opentopodata
 
