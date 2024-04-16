@@ -498,7 +498,7 @@
     } ],
     "disableableCredentialTypes" : [ ],
     "requiredActions" : [ ],
-    "realmRoles" : [ "default-roles-greenway" ],
+    "realmRoles" : [ "default-roles-greenway", "GREEN_WAY_DELIVERY_MAN" ],
     "notBefore" : 0,
     "groups" : [ ]
   }, {
