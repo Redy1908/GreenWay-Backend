@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -23,5 +25,10 @@ class DeliveryServiceImpl implements IDeliveryService {
     @Override
     public Delivery findById(int id) {
         return repository.findById(id).orElseThrow(() -> new DeliveryNotFoundException(id));
+    }
+
+    @Override
+    public List<Delivery> findAllByDeliveryVehicleNull() {
+        return repository.findAllByDeliveryVehicleNull();
     }
 }

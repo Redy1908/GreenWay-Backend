@@ -5,6 +5,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -20,6 +22,11 @@ class DeliveryManServiceImpl implements IDeliveryManService {
         }
 
         return deliveryManRepository.save(new DeliveryMan(username));
+    }
+
+    @Override
+    public List<DeliveryMan> findAllByDeliveryVehicleNull() {
+        return deliveryManRepository.findAllByDeliveryVehicleNull();
     }
 
 }

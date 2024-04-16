@@ -1,4 +1,4 @@
-package dev.redy1908.greenway.jspirit;
+package dev.redy1908.greenway.jspirit.domain;
 
 import com.graphhopper.jsprit.core.algorithm.VehicleRoutingAlgorithm;
 import com.graphhopper.jsprit.core.algorithm.box.Jsprit;
@@ -18,11 +18,14 @@ import com.graphhopper.jsprit.core.util.VehicleRoutingTransportCostsMatrix;
 import dev.redy1908.greenway.delivery.domain.Delivery;
 import dev.redy1908.greenway.delivery.domain.IDeliveryService;
 import dev.redy1908.greenway.delivery_man.domain.DeliveryMan;
+import dev.redy1908.greenway.delivery_man.domain.IDeliveryManService;
 import dev.redy1908.greenway.delivery_vehicle.domain.DeliveryVehicle;
 import dev.redy1908.greenway.delivery_vehicle.domain.IDeliveryVehicleService;
+import dev.redy1908.greenway.jspirit.domain.exceptions.models.NoDeliveryToOrganizeException;
 import dev.redy1908.greenway.osrm.domain.IOsrmService;
 import kotlin.Pair;
 import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -31,17 +34,25 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-public class JspritService {
+public class JspritService implements IJspritService {
 
     private final IOsrmService osrmService;
     private final IDeliveryVehicleService deliveryVehicleService;
     private final IDeliveryService deliveryService;
+    private final IDeliveryManService deliveryManService;
+
+    private List<Delivery> deliveryList;
+    private List<DeliveryVehicle> vehicleList;
+    private List<DeliveryMan> deliveryManList;
+    private Pair<double[][], double[][]> matrices;
+
 
     private static final int WEIGHT_INDEX = 0;
 
-    public void test(List<DeliveryMan> deliveryManList, List<DeliveryVehicle> vehicleList, List<Delivery> deliveryList) {
+    @Scheduled(cron = "0 0 6 * * ?")
+    public void schedule() {
 
-        Pair<double[][], double[][]> matrices = osrmService.getMatrixDistances(vehicleList, deliveryList);
+        loadData();
 
         double[][] matrixDurations = matrices.getFirst();
         double[][] matrixDistances = matrices.getSecond();
@@ -60,9 +71,22 @@ public class JspritService {
         Collection<VehicleRoutingProblemSolution> solutions = vra.searchSolutions();
 
         VehicleRoutingProblemSolution bestSolution = Solutions.bestOf(solutions);
+
         SolutionPrinter.print(vrp, bestSolution, SolutionPrinter.Print.VERBOSE);
 
         organize(bestSolution);
+    }
+
+    private void loadData() {
+        deliveryList = deliveryService.findAllByDeliveryVehicleNull();
+        vehicleList = deliveryVehicleService.findAll();
+        deliveryManList = deliveryManService.findAllByDeliveryVehicleNull();
+
+        if (deliveryList.isEmpty()) {
+            throw new NoDeliveryToOrganizeException();
+        }
+
+        matrices = osrmService.getMatrixDistances(vehicleList, deliveryList);
     }
 
     private void addVehicles(VehicleRoutingProblem.Builder vrpBuilder, List<DeliveryMan> deliveryManList, List<DeliveryVehicle> deliveryVehicleList) {

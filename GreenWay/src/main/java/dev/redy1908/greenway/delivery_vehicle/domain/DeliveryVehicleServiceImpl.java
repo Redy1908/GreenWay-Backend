@@ -4,6 +4,7 @@ import dev.redy1908.greenway.delivery.domain.Delivery;
 import dev.redy1908.greenway.delivery_vehicle.domain.dto.DeliveryVehicleCreationDTO;
 import dev.redy1908.greenway.delivery_vehicle.domain.dto.DeliveryVehicleDTO;
 import dev.redy1908.greenway.delivery_vehicle.domain.exceptions.models.DeliveryVehicleNotFoundException;
+import dev.redy1908.greenway.delivery_vehicle.domain.exceptions.models.NoDeliveryAssignedException;
 import dev.redy1908.greenway.osrm.domain.IOsrmService;
 import lombok.RequiredArgsConstructor;
 import org.locationtech.jts.geom.Point;
@@ -39,6 +40,11 @@ public class DeliveryVehicleServiceImpl implements IDeliveryVehicleService {
     }
 
     @Override
+    public List<DeliveryVehicle> findAll() {
+        return deliveryVehicleRepository.findAll();
+    }
+
+    @Override
     public DeliveryVehicleDTO findByDeliveryManUsername(String deliveryManUsername) {
         DeliveryVehicle deliveryVehicle = deliveryVehicleRepository.findByDeliveryMan_Username(deliveryManUsername).orElseThrow(
                 () -> new DeliveryVehicleNotFoundException(deliveryManUsername));
@@ -54,6 +60,10 @@ public class DeliveryVehicleServiceImpl implements IDeliveryVehicleService {
 
         List<Point> wayPoints = extractWaypoints(deliveryVehicle.getDeliveries());
 
+        if (wayPoints.isEmpty()) {
+            throw new NoDeliveryAssignedException(id);
+        }
+
         return osrmService.getNavigationData(startingPoint, wayPoints);
     }
 
@@ -64,6 +74,10 @@ public class DeliveryVehicleServiceImpl implements IDeliveryVehicleService {
         Point startingPoint = deliveryVehicle.getDepositCoordinates();
 
         List<Point> wayPoints = extractWaypoints(deliveryVehicle.getDeliveries());
+
+        if (wayPoints.isEmpty()) {
+            throw new NoDeliveryAssignedException(id);
+        }
 
         return osrmService.getElevationData(startingPoint, wayPoints);
     }

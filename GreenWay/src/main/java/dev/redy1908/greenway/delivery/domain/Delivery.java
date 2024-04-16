@@ -1,11 +1,10 @@
 package dev.redy1908.greenway.delivery.domain;
 
-import dev.redy1908.greenway.base_entity.domain.BaseEntity;
 import dev.redy1908.greenway.delivery_vehicle.domain.DeliveryVehicle;
+import dev.redy1908.greenway.base_entity.domain.BaseEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 import org.hibernate.proxy.HibernateProxy;
 import org.locationtech.jts.geom.Point;
 
@@ -15,7 +14,6 @@ import java.util.Objects;
 @Entity
 @Getter
 @Setter
-@ToString
 @Table(name = "deliveries")
 public class Delivery extends BaseEntity {
 
@@ -40,6 +38,7 @@ public class Delivery extends BaseEntity {
     @Column(columnDefinition = "geography")
     private Point receiverCoordinates;
 
+    @Column(nullable = true)
     private LocalDate estimatedDeliveryDate;
 
     @Column(nullable = false)
