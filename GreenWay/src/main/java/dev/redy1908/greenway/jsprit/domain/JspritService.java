@@ -57,12 +57,14 @@ public class JspritService implements IJspritService {
         double[][] matrixDurations = matrices.getFirst();
         double[][] matrixDistances = matrices.getSecond();
 
+        int squareMatrixSize = deliveryList.size() + 1;
+
         VehicleRoutingProblem.Builder vrpBuilder = VehicleRoutingProblem.Builder.newInstance();
         vrpBuilder.setFleetSize(VehicleRoutingProblem.FleetSize.INFINITE);
 
         addVehicles(vrpBuilder, deliveryManList, vehicleList);
         addDeliveries(vrpBuilder, deliveryList);
-        setRoutingCosts(vrpBuilder, vehicleList.size() + deliveryList.size(), vehicleList.size() + deliveryList.size(), matrixDistances, matrixDurations);
+        setRoutingCosts(vrpBuilder, squareMatrixSize, squareMatrixSize, matrixDistances, matrixDurations);
 
         VehicleRoutingProblem vrp = vrpBuilder.build();
 
@@ -80,7 +82,7 @@ public class JspritService implements IJspritService {
     private void loadData() {
         deliveryList = deliveryService.findAllByDeliveryVehicleNull();
         vehicleList = deliveryVehicleService.findAll();
-        deliveryManList = deliveryManService.findAllByDeliveryVehicleNull();
+        deliveryManList = deliveryManService.findAll();
 
         if (deliveryList.isEmpty()) {
             throw new NoDeliveryToOrganizeException();

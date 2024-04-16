@@ -25,8 +25,8 @@ class DeliveryManServiceImpl implements IDeliveryManService {
     }
 
     @Override
-    public List<DeliveryMan> findAllByDeliveryVehicleNull() {
-        return deliveryManRepository.findAllByDeliveryVehicleNull();
+    public List<DeliveryMan> findAll() {
+        return deliveryManRepository.findAll();
     }
 
 }

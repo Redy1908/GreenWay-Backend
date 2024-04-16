@@ -116,12 +116,11 @@ class OsrmServiceImpl implements IOsrmService {
     private String buildUrlMatrix(List<DeliveryVehicle> deliveryVehicleList, List<Delivery> deliveryList) {
         StringBuilder urlBuilder = new StringBuilder(OSRM_TABLE_URL);
 
-        for (DeliveryVehicle deliveryVehicle : deliveryVehicleList) {
-            urlBuilder.append(deliveryVehicle.getDepositCoordinates().getX());
-            urlBuilder.append(",");
-            urlBuilder.append(deliveryVehicle.getDepositCoordinates().getY());
-            urlBuilder.append(";");
-        }
+        DeliveryVehicle deliveryVehicle = deliveryVehicleList.getFirst();
+        urlBuilder.append(deliveryVehicle.getDepositCoordinates().getX());
+        urlBuilder.append(",");
+        urlBuilder.append(deliveryVehicle.getDepositCoordinates().getY());
+        urlBuilder.append(";");
 
         for (Delivery delivery : deliveryList) {
             urlBuilder.append(delivery.getReceiverCoordinates().getX());

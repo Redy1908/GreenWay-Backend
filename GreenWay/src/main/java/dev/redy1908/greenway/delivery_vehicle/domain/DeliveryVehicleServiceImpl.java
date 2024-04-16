@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -58,11 +59,7 @@ public class DeliveryVehicleServiceImpl implements IDeliveryVehicleService {
 
         Point startingPoint = deliveryVehicle.getDepositCoordinates();
 
-        List<Point> wayPoints = extractWaypoints(deliveryVehicle.getDeliveries());
-
-        if (wayPoints.isEmpty()) {
-            throw new NoDeliveryAssignedException(id);
-        }
+        List<Point> wayPoints = extractWaypoints(startingPoint, deliveryVehicle.getDeliveries(), id);
 
         return osrmService.getNavigationData(startingPoint, wayPoints);
     }
@@ -73,19 +70,23 @@ public class DeliveryVehicleServiceImpl implements IDeliveryVehicleService {
 
         Point startingPoint = deliveryVehicle.getDepositCoordinates();
 
-        List<Point> wayPoints = extractWaypoints(deliveryVehicle.getDeliveries());
+        List<Point> wayPoints = extractWaypoints(startingPoint, deliveryVehicle.getDeliveries(), id);
+
+        return osrmService.getElevationData(startingPoint, wayPoints);
+    }
+
+    private List<Point> extractWaypoints(Point startingPoint, List<Delivery> deliveryList, int id) {
+
+        List<Point> wayPoints = deliveryList.stream()
+                .map(Delivery::getReceiverCoordinates)
+                .collect(Collectors.toList());
 
         if (wayPoints.isEmpty()) {
             throw new NoDeliveryAssignedException(id);
         }
 
-        return osrmService.getElevationData(startingPoint, wayPoints);
-    }
+        wayPoints.addLast(startingPoint);
 
-    private List<Point> extractWaypoints(List<Delivery> deliveryList) {
-
-        return deliveryList.stream()
-                .map(Delivery::getReceiverCoordinates)
-                .toList();
+        return wayPoints;
     }
 }

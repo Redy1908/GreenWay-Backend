@@ -6,6 +6,6 @@ public interface IDeliveryManService {
 
     DeliveryMan save(String username);
 
-    List<DeliveryMan> findAllByDeliveryVehicleNull();
+    List<DeliveryMan> findAll();
 
 }
