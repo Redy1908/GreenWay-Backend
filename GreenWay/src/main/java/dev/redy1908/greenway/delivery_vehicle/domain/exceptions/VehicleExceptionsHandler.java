@@ -32,8 +32,8 @@ public class VehicleExceptionsHandler extends ResponseEntityExceptionHandler {
                                                                            WebRequest webRequest) {
         ErrorResponseDTO errorResponseDTO = new ErrorResponseDTO(
                 webRequest.getDescription(false),
-                HttpStatus.CONTINUE.value(),
-                HttpStatus.CONTINUE,
+                HttpStatus.NOT_FOUND.value(),
+                HttpStatus.NOT_FOUND,
                 exception.getMessage(),
                 LocalDateTime.now());
         return new ResponseEntity<>(errorResponseDTO, HttpStatus.CONTINUE);
