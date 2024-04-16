@@ -43,13 +43,13 @@ public class VehicleController {
         return ResponseEntity.ok(vehicleService.findByDeliveryManUsername(deliveryManUsername));
     }
 
-    @GetMapping("/route")
-    public ResponseEntity<Map<String, Object>> getRouteNavigationData(@RequestParam(name = "vehicleid") int vehicleId) {
+    @GetMapping("{vehicleId}/route")
+    public ResponseEntity<Map<String, Object>> getRouteNavigationData(@PathVariable int vehicleId) {
         return ResponseEntity.ok(vehicleService.getRouteNavigationData(vehicleId));
     }
 
-    @GetMapping("/route/elevation")
-    public ResponseEntity<Map<String, Object>> getRouteElevationData(@RequestParam(name = "vehicleid") int vehicleId) {
+    @GetMapping("{vehicleId}/route/elevation")
+    public ResponseEntity<Map<String, Object>> getRouteElevationData(@PathVariable int vehicleId) {
         return ResponseEntity.ok(vehicleService.getRouteElevationData(vehicleId));
     }
 
