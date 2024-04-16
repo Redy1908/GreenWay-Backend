@@ -23,6 +23,10 @@ public class SecurityConfig {
             "api/v1/deliveries"
     };
 
+    private static final String[] GET_ADMIN_LIST_URL = {
+            "api/v1/schedule"
+    };
+
     private static final String[] GET_ADMIN_DELIVERY_MAN_LIST_URL = {
             "/api/v1/vehicles/route",
             "/api/v1/vehicles/route/elevation",
@@ -37,6 +41,7 @@ public class SecurityConfig {
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         http.authorizeHttpRequests(auth -> auth
+                        .requestMatchers(HttpMethod.GET, POST_ADMIN_LIST_URL).hasRole(ADMIN_ROLE)
                         .requestMatchers(HttpMethod.POST, POST_ADMIN_LIST_URL).hasRole(ADMIN_ROLE)
                         .requestMatchers(HttpMethod.GET, GET_ADMIN_DELIVERY_MAN_LIST_URL).hasAnyRole(ADMIN_ROLE, DELIVERY_MAN_ROLE)
                         .requestMatchers(HttpMethod.POST, POST_DELIVERY_MAN_LIST_URL).hasRole(DELIVERY_MAN_ROLE)
