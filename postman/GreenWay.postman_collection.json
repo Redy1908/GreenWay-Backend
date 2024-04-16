@@ -264,7 +264,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"modelName\": \"Fiat E-Ducato\",\r\n    \"maxAutonomyKm\": \"370\",\r\n    \"maxCapacityKg\": \"100\",\r\n    \"depositAddress\": \"Via Roma\",\r\n    \"depositCoordinates\": {\r\n        \"type\": \"Point\",\r\n        \"coordinates\":[14.220771, 40.840825]\r\n    }\r\n}",
+							"raw": "",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -363,7 +363,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"modelName\": \"Fiat E-Ducato\",\r\n    \"maxAutonomyKm\": \"370\",\r\n    \"maxCapacityKg\": \"100\",\r\n    \"depositAddress\": \"Via Roma\",\r\n    \"depositCoordinates\": {\r\n        \"type\": \"Point\",\r\n        \"coordinates\":[14.220771, 40.840825]\r\n    }\r\n}",
+							"raw": "",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -463,7 +463,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"modelName\": \"Fiat E-Ducato\",\r\n    \"maxAutonomyKm\": \"370\",\r\n    \"maxCapacityKg\": \"100\",\r\n    \"depositAddress\": \"Via Roma\",\r\n    \"depositCoordinates\": {\r\n        \"type\": \"Point\",\r\n        \"coordinates\":[14.220771, 40.840825]\r\n    }\r\n}",
+							"raw": "",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -664,7 +664,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"estimatedDeliveryDate\": \"2024-07-01\",\r\n    \"vehicleId\": \"1\",\r\n    \"depositAddress\": \"Via Bergamo\",\r\n    \"depositCoordinates\": {\r\n        \"type\": \"Point\",\r\n        \"coordinates\": [14.220771, 40.840825]\r\n    },\r\n    \"deliveryPackages\":[\r\n        {\r\n            \"sender\": \"Mario Rossi\",\r\n            \"senderAddress\": \"Via Roma\",\r\n            \"receiver\": \"Beatrice Bianchi\",\r\n            \"receiverAddress\": \"Via Napoli\",\r\n            \"receiverCoordinates\": {\r\n                \"type\": \"Point\",\r\n                \"coordinates\":[14.245491, 40.855890]\r\n            },\r\n            \"weight\": \"1.5\"\r\n        },\r\n        {\r\n            \"sender\": \"Carlo Ferrari\",\r\n            \"senderAddress\": \"Via Torino\",\r\n            \"receiver\": \"Giovanni Marino\",\r\n            \"receiverAddress\": \"Via Bologna\",\r\n            \"receiverCoordinates\": {\r\n                \"type\": \"Point\",\r\n                \"coordinates\": [14.275188, 40.860434]\r\n            },\r\n            \"weight\": \"2.3\"\r\n        }\r\n    ]\r\n}\r\n",
+							"raw": "",
 							"options": {
 								"raw": {
 									"language": "json"
