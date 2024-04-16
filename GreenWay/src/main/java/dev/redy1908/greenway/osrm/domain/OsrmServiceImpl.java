@@ -141,7 +141,7 @@ class OsrmServiceImpl implements IOsrmService {
 
         return OSRM_ROUTE_URL + startingPoint.getX() + "," + startingPoint.getY() + ";" + wayPoints.stream()
                 .map(point -> point.getX() + "," + point.getY())
-                .collect(Collectors.joining(";")) + "?steps=true&overview=false";
+                .collect(Collectors.joining(";")) + "?steps=true&overview=full";
     }
 
     private String buildUrlElevation(Point startingPoint, List<Point> wayPoints) {
