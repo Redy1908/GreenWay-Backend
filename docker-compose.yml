@@ -8,12 +8,9 @@ services:
       - greenway
     depends_on:
       - postgis
-      - green-way-osrm-distance
-      - green-way-osrm-duration
-      - green-way-osrm-elevation
-      - green-way-osrm-standard
       - keycloak
       - keycloak-db
+      - green-way-osrm
       - green-way-opentopodata
   keycloak:
     image: quay.io/keycloak/keycloak:23.0.7
@@ -64,34 +61,16 @@ services:
       - greenway
     volumes:
       - postgis_data:/var/lib/postgresql/postgis/data
-  green-way-osrm-distance:
-    image: redy1908/green-way-osrm-distance:v1
+  green-way-osrm:
+    image: redy1908/green-way-osrm:v1
     ports:
       - "5000:5000"
-    networks:
-      - greenway
-  green-way-osrm-duration:
-    image: redy1908/green-way-osrm-duration:v1
-    ports:
-      - "5001:5000"
-    networks:
-      - greenway
-  green-way-osrm-elevation:
-    ports:
-      - "5002:5000"
-    image: redy1908/green-way-osrm-elevation:v1
-    networks:
-      - greenway
-  green-way-osrm-standard:
-    image: redy1908/green-way-osrm-standard:v1
-    ports:
-      - "5003:5000"
     networks:
       - greenway
   green-way-opentopodata:
     image: redy1908/green-way-opentopodata:v1
     ports:
-      - "5004:5000"
+      - "5001:5000"
     command: sh -c "/usr/bin/supervisord -c /app/docker/supervisord.conf"
     volumes:
       - "./opentopodata/data:/app/data:ro"

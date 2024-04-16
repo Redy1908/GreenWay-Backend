@@ -42,7 +42,7 @@ public class DeliveryManExceptionsHandler extends ResponseEntityExceptionHandler
 
     @ExceptionHandler(DeliveryManAlreadyExistsException.class)
     public ResponseEntity<ErrorResponseDTO> handleDeliveryManAlreadyExistsException(DeliveryManAlreadyExistsException exception,
-                                                                               WebRequest webRequest) {
+                                                                                    WebRequest webRequest) {
         ErrorResponseDTO errorResponseDTO = new ErrorResponseDTO(
                 webRequest.getDescription(false),
                 HttpStatus.ALREADY_REPORTED.value(),

@@ -1,6 +1,9 @@
 package dev.redy1908.greenway.delivery_vehicle.domain.dto;
 
+import dev.redy1908.greenway.delivery.domain.dto.DeliveryDTO;
 import org.locationtech.jts.geom.Point;
+
+import java.util.List;
 
 public record DeliveryVehicleDTO(
 
@@ -14,6 +17,8 @@ public record DeliveryVehicleDTO(
 
         String depositAddress,
 
-        Point depositCoordinates
+        Point depositCoordinates,
+
+        List<DeliveryDTO> deliveries
 ) {
 }

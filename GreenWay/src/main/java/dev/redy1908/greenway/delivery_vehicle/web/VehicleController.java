@@ -1,9 +1,10 @@
 package dev.redy1908.greenway.delivery_vehicle.web;
 
 import dev.redy1908.greenway.app.web.models.ResponseDTO;
-import dev.redy1908.greenway.delivery_vehicle.domain.IDeliveryVehicleService;
 import dev.redy1908.greenway.delivery_vehicle.domain.DeliveryVehicle;
+import dev.redy1908.greenway.delivery_vehicle.domain.IDeliveryVehicleService;
 import dev.redy1908.greenway.delivery_vehicle.domain.dto.DeliveryVehicleCreationDTO;
+import dev.redy1908.greenway.delivery_vehicle.domain.dto.DeliveryVehicleDTO;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/vehicles")
@@ -34,6 +36,21 @@ public class VehicleController {
         return ResponseEntity
                 .created(location)
                 .body(new ResponseDTO(HttpStatus.CREATED.value(), HttpStatus.CREATED, "Vehicle created"));
+    }
+
+    @GetMapping
+    public ResponseEntity<DeliveryVehicleDTO> findByDeliveryManUsername(@RequestParam(name = "deliveryman") String deliveryManUsername) {
+        return ResponseEntity.ok(vehicleService.findByDeliveryManUsername(deliveryManUsername));
+    }
+
+    @GetMapping("/route")
+    public ResponseEntity<Map<String, Object>> getRouteNavigationData(@RequestParam(name = "vehicleid") int vehicleId) {
+        return ResponseEntity.ok(vehicleService.getRouteNavigationData(vehicleId));
+    }
+
+    @GetMapping("/route/elevation")
+    public ResponseEntity<Map<String, Object>> getRouteElevationData(@RequestParam(name = "vehicleid") int vehicleId) {
+        return ResponseEntity.ok(vehicleService.getRouteElevationData(vehicleId));
     }
 
 }

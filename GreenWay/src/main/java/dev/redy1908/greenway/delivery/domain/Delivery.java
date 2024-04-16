@@ -1,7 +1,7 @@
 package dev.redy1908.greenway.delivery.domain;
 
-import dev.redy1908.greenway.delivery_vehicle.domain.DeliveryVehicle;
 import dev.redy1908.greenway.base_entity.domain.BaseEntity;
+import dev.redy1908.greenway.delivery_vehicle.domain.DeliveryVehicle;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -40,7 +40,6 @@ public class Delivery extends BaseEntity {
     @Column(columnDefinition = "geography")
     private Point receiverCoordinates;
 
-    @Column(nullable = true)
     private LocalDate estimatedDeliveryDate;
 
     @Column(nullable = false)

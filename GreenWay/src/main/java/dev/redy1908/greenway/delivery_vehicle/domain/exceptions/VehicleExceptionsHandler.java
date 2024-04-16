@@ -1,10 +1,9 @@
 package dev.redy1908.greenway.delivery_vehicle.domain.exceptions;
 
 import dev.redy1908.greenway.app.web.models.ErrorResponseDTO;
-import dev.redy1908.greenway.delivery_vehicle.domain.exceptions.models.VehicleAlreadyAssignedException;
-import dev.redy1908.greenway.delivery_vehicle.domain.exceptions.models.VehicleAutonomyNotSufficientException;
-import dev.redy1908.greenway.delivery_vehicle.domain.exceptions.models.VehicleCapacityExceeded;
-import dev.redy1908.greenway.delivery_vehicle.domain.exceptions.models.VehicleNotFoundException;
+import dev.redy1908.greenway.delivery_vehicle.domain.exceptions.models.DeliveryVehicleAlreadyAssignedException;
+import dev.redy1908.greenway.delivery_vehicle.domain.exceptions.models.DeliveryVehicleCapacityExceeded;
+import dev.redy1908.greenway.delivery_vehicle.domain.exceptions.models.DeliveryVehicleNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -17,8 +16,8 @@ import java.time.LocalDateTime;
 @ControllerAdvice
 public class VehicleExceptionsHandler extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(VehicleCapacityExceeded.class)
-    public ResponseEntity<ErrorResponseDTO> handleVehicleCapacityExceededException(VehicleCapacityExceeded exception,
+    @ExceptionHandler(DeliveryVehicleCapacityExceeded.class)
+    public ResponseEntity<ErrorResponseDTO> handleVehicleCapacityExceededException(DeliveryVehicleCapacityExceeded exception,
                                                                                    WebRequest webRequest) {
         ErrorResponseDTO errorResponseDTO = new ErrorResponseDTO(
                 webRequest.getDescription(false),
@@ -29,8 +28,8 @@ public class VehicleExceptionsHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(errorResponseDTO, HttpStatus.NOT_ACCEPTABLE);
     }
 
-    @ExceptionHandler(VehicleNotFoundException.class)
-    public ResponseEntity<ErrorResponseDTO> handleVehicleNotFoundException(VehicleNotFoundException exception,
+    @ExceptionHandler(DeliveryVehicleNotFoundException.class)
+    public ResponseEntity<ErrorResponseDTO> handleVehicleNotFoundException(DeliveryVehicleNotFoundException exception,
                                                                            WebRequest webRequest) {
         ErrorResponseDTO errorResponseDTO = new ErrorResponseDTO(
                 webRequest.getDescription(false),
@@ -41,22 +40,9 @@ public class VehicleExceptionsHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(errorResponseDTO, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(VehicleAlreadyAssignedException.class)
-    public ResponseEntity<ErrorResponseDTO> handleVehicleAlreadyAssignedException(VehicleAlreadyAssignedException exception,
+    @ExceptionHandler(DeliveryVehicleAlreadyAssignedException.class)
+    public ResponseEntity<ErrorResponseDTO> handleVehicleAlreadyAssignedException(DeliveryVehicleAlreadyAssignedException exception,
                                                                                   WebRequest webRequest) {
-        ErrorResponseDTO errorResponseDTO = new ErrorResponseDTO(
-                webRequest.getDescription(false),
-                HttpStatus.NOT_ACCEPTABLE.value(),
-                HttpStatus.NOT_ACCEPTABLE,
-                exception.getMessage(),
-                LocalDateTime.now());
-        return new ResponseEntity<>(errorResponseDTO, HttpStatus.NOT_ACCEPTABLE);
-    }
-
-
-    @ExceptionHandler(VehicleAutonomyNotSufficientException.class)
-    public ResponseEntity<ErrorResponseDTO> handleVehicleAutonomyNotSufficientException(VehicleAutonomyNotSufficientException exception,
-                                                                                   WebRequest webRequest) {
         ErrorResponseDTO errorResponseDTO = new ErrorResponseDTO(
                 webRequest.getDescription(false),
                 HttpStatus.NOT_ACCEPTABLE.value(),

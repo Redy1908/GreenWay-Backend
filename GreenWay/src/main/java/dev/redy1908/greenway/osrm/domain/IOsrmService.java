@@ -7,17 +7,14 @@ import org.locationtech.jts.geom.Point;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 public interface IOsrmService {
 
-    Map<String, Object> getNavigationData(Point startingPoint, double maxDistance, Set<Point> wayPoints, NavigationType navigationType);
+    Map<String, Object> getNavigationData(Point startingPoint, List<Point> wayPoints);
 
-    Map<String, Object> getElevationData(Point startingPoint, double maxDistance, Set<Point> wayPoints, NavigationType navigationType);
+    Map<String, Object> getElevationData(Point startingPoint, List<Point> wayPoints);
 
-    void checkPointsInBounds(List<Point> points);
-
-    double getTripLength(Point startingPoint, Set<Point> wayPoints, NavigationType navigationType, RequestType requestType);
+    void checkPointInBounds(Point point);
 
     Pair<double[][], double[][]> getMatrixDistances(List<DeliveryVehicle> deliveryVehicleList, List<Delivery> deliveryList);
 }

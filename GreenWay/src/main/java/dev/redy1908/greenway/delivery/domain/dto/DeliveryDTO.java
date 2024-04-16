@@ -22,6 +22,6 @@ public record DeliveryDTO(
         Point receiverCoordinates,
 
         @NotNull
-        Double weight
+        Double weightKg
 ) {
 }

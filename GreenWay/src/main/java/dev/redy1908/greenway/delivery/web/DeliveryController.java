@@ -18,15 +18,15 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 
 @RestController
-@RequestMapping("api/v1/deliveries")
 @RequiredArgsConstructor
+@RequestMapping("api/v1/deliveries")
 public class DeliveryController {
 
     private final IDeliveryService deliveryService;
     private final DeliveryMapper deliveryMapper;
 
     @PostMapping
-    public ResponseEntity<ResponseDTO> save(@Valid @RequestBody DeliveryCreationDTO deliveryCreationDTO){
+    public ResponseEntity<ResponseDTO> save(@Valid @RequestBody DeliveryCreationDTO deliveryCreationDTO) {
 
         Delivery delivery = deliveryMapper.deliveryCreationDTOtoDelivery(deliveryCreationDTO);
         Delivery sacedDelivery = deliveryService.save(delivery);

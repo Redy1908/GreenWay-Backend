@@ -1,6 +1,7 @@
 package dev.redy1908.greenway.delivery.domain;
 
 import dev.redy1908.greenway.delivery.domain.exceptions.model.DeliveryNotFoundException;
+import dev.redy1908.greenway.osrm.domain.IOsrmService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,9 +12,11 @@ import org.springframework.transaction.annotation.Transactional;
 class DeliveryServiceImpl implements IDeliveryService {
 
     private final DeliveryRepository repository;
+    private final IOsrmService osrmService;
 
     @Override
     public Delivery save(Delivery delivery) {
+        osrmService.checkPointInBounds(delivery.getReceiverCoordinates());
         return repository.save(delivery);
     }
 

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface DeliveryVehicleMapper {
 
-    DeliveryVehicleDTO toDto(DeliveryVehicle deliveryVehicle);
+    DeliveryVehicleDTO deliveryVehicleToDeliveryVehicleDTO(DeliveryVehicle deliveryVehicle);
 
     DeliveryVehicle vehicleCreationDTOtoVehicle(DeliveryVehicleCreationDTO deliveryVehicleCreationDTO);
 }

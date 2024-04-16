@@ -16,7 +16,7 @@ public class DeliveryExceptionsHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(DeliveryNotFoundException.class)
     public ResponseEntity<ErrorResponseDTO> handleDeliveryNotFoundException(DeliveryNotFoundException exception,
-                                                                               WebRequest webRequest) {
+                                                                            WebRequest webRequest) {
         ErrorResponseDTO errorResponseDTO = new ErrorResponseDTO(
                 webRequest.getDescription(false),
                 HttpStatus.NOT_FOUND.value(),

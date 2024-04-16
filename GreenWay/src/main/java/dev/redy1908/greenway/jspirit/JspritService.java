@@ -17,6 +17,7 @@ import com.graphhopper.jsprit.core.util.Solutions;
 import com.graphhopper.jsprit.core.util.VehicleRoutingTransportCostsMatrix;
 import dev.redy1908.greenway.delivery.domain.Delivery;
 import dev.redy1908.greenway.delivery.domain.IDeliveryService;
+import dev.redy1908.greenway.delivery_man.domain.DeliveryMan;
 import dev.redy1908.greenway.delivery_vehicle.domain.DeliveryVehicle;
 import dev.redy1908.greenway.delivery_vehicle.domain.IDeliveryVehicleService;
 import dev.redy1908.greenway.osrm.domain.IOsrmService;
@@ -38,7 +39,7 @@ public class JspritService {
 
     private static final int WEIGHT_INDEX = 0;
 
-    public void test(List<DeliveryVehicle> vehicleList, List<Delivery> deliveryList) {
+    public void test(List<DeliveryMan> deliveryManList, List<DeliveryVehicle> vehicleList, List<Delivery> deliveryList) {
 
         Pair<double[][], double[][]> matrices = osrmService.getMatrixDistances(vehicleList, deliveryList);
 
@@ -47,11 +48,11 @@ public class JspritService {
 
         VehicleRoutingProblem.Builder vrpBuilder = VehicleRoutingProblem.Builder.newInstance();
         vrpBuilder.setFleetSize(VehicleRoutingProblem.FleetSize.INFINITE);
-        
-        addVehicles(vrpBuilder, vehicleList);
+
+        addVehicles(vrpBuilder, deliveryManList, vehicleList);
         addDeliveries(vrpBuilder, deliveryList);
-        setRoutingCosts(vrpBuilder, vehicleList.size(), deliveryList.size(), matrixDistances, matrixDurations);
-       
+        setRoutingCosts(vrpBuilder, vehicleList.size() + deliveryList.size(), vehicleList.size() + deliveryList.size(), matrixDistances, matrixDurations);
+
         VehicleRoutingProblem vrp = vrpBuilder.build();
 
         VehicleRoutingAlgorithm vra = Jsprit.createAlgorithm(vrp);
@@ -63,27 +64,37 @@ public class JspritService {
 
         organize(bestSolution);
     }
-    
-    private void addVehicles(VehicleRoutingProblem.Builder vrpBuilder, List<DeliveryVehicle> deliveryVehicleList){
 
-        for (DeliveryVehicle deliveryVehicle : deliveryVehicleList) {
-            String id = deliveryVehicle.getId().toString();
+    private void addVehicles(VehicleRoutingProblem.Builder vrpBuilder, List<DeliveryMan> deliveryManList, List<DeliveryVehicle> deliveryVehicleList) {
 
-            VehicleType type = VehicleTypeImpl.Builder.newInstance(id)
-                    .addCapacityDimension(WEIGHT_INDEX, deliveryVehicle.getMaxCapacityKg())
-                    .build();
+        for (int i = 0; i < deliveryManList.size(); i++) {
 
-            VehicleImpl vehicle = VehicleImpl.Builder.newInstance(id)
-                    .setStartLocation(Location.newInstance("0"))
-                    .setType(type)
-                    .setReturnToDepot(true)
-                    .build();
+            DeliveryMan deliveryMan = deliveryManList.get(i);
 
-            vrpBuilder.addVehicle(vehicle);
+            if (i < deliveryVehicleList.size()) {
+                DeliveryVehicle deliveryVehicle = deliveryVehicleList.get(i);
+                String id = deliveryVehicle.getId().toString();
+
+                VehicleType type = VehicleTypeImpl.Builder.newInstance(id)
+                        .addCapacityDimension(WEIGHT_INDEX, deliveryVehicle.getMaxCapacityKg())
+                        .build();
+
+                VehicleImpl vehicle = VehicleImpl.Builder.newInstance(id)
+                        .setStartLocation(Location.newInstance("0"))
+                        .setType(type)
+                        .setReturnToDepot(true)
+                        .build();
+
+                vrpBuilder.addVehicle(vehicle);
+
+                deliveryMan.setDeliveryVehicle(deliveryVehicle);
+                deliveryVehicle.setDeliveryMan(deliveryMan);
+                deliveryVehicleService.save(deliveryVehicle);
+            }
         }
     }
 
-    private void addDeliveries(VehicleRoutingProblem.Builder vrpBuilder, List<Delivery> deliveryList){
+    private void addDeliveries(VehicleRoutingProblem.Builder vrpBuilder, List<Delivery> deliveryList) {
 
         int pos = 1;
         for (Delivery delivery : deliveryList) {
@@ -91,15 +102,15 @@ public class JspritService {
 
             Service service = Service.Builder.newInstance(id)
                     .setLocation(Location.newInstance(Integer.toString(pos)))
-                    .addSizeDimension(WEIGHT_INDEX,delivery.getWeightKg())
+                    .addSizeDimension(WEIGHT_INDEX, delivery.getWeightKg())
                     .build();
 
             vrpBuilder.addJob(service);
             pos++;
         }
     }
-    
-    private void setRoutingCosts(VehicleRoutingProblem.Builder vrpBuilder, int i, int j, double[][] matrixDistances, double[][] matrixDurations){
+
+    private void setRoutingCosts(VehicleRoutingProblem.Builder vrpBuilder, int i, int j, double[][] matrixDistances, double[][] matrixDurations) {
 
         VehicleRoutingTransportCostsMatrix.Builder costMatrixBuilder = VehicleRoutingTransportCostsMatrix.Builder.newInstance(true);
 
@@ -114,7 +125,7 @@ public class JspritService {
         vrpBuilder.setRoutingCost(costMatrix);
     }
 
-    private void organize(VehicleRoutingProblemSolution solution){
+    private void organize(VehicleRoutingProblemSolution solution) {
         List<VehicleRoute> vehicleRouteList = new ArrayList<>(solution.getRoutes());
 
         for (VehicleRoute route : vehicleRouteList) {
@@ -129,9 +140,11 @@ public class JspritService {
                     jobId = "-";
                 }
 
-                if(!jobId.equals("-")){
+                if (!jobId.equals("-")) {
                     Delivery delivery = deliveryService.findById(Integer.parseInt(jobId));
-                    deliveryVehicle.getDeliveries().add(delivery);
+                    delivery.setDeliveryVehicle(deliveryVehicle);
+
+                    deliveryVehicle.getDeliveries().addLast(delivery);
                     deliveryVehicleService.save(deliveryVehicle);
                 }
             }

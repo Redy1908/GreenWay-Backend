@@ -1,7 +1,9 @@
 package dev.redy1908.greenway.delivery_vehicle.domain;
 
 import dev.redy1908.greenway.delivery_vehicle.domain.dto.DeliveryVehicleCreationDTO;
-import java.util.List;
+import dev.redy1908.greenway.delivery_vehicle.domain.dto.DeliveryVehicleDTO;
+
+import java.util.Map;
 
 public interface IDeliveryVehicleService {
 
@@ -11,6 +13,10 @@ public interface IDeliveryVehicleService {
 
     DeliveryVehicle findById(int id);
 
-    List<DeliveryVehicle> findAll();
+    DeliveryVehicleDTO findByDeliveryManUsername(String deliveryManUsername);
+
+    Map<String, Object> getRouteNavigationData(int id);
+
+    Map<String, Object> getRouteElevationData(int id);
 
 }

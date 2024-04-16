@@ -2,16 +2,18 @@ package dev.redy1908.greenway.delivery_vehicle.domain;
 
 import dev.redy1908.greenway.base_entity.domain.BaseEntity;
 import dev.redy1908.greenway.delivery.domain.Delivery;
+import dev.redy1908.greenway.delivery_man.domain.DeliveryMan;
 import jakarta.persistence.*;
 import lombok.*;
 import org.locationtech.jts.geom.Point;
 
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
 @Setter
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "vehicles")
@@ -32,7 +34,11 @@ public class DeliveryVehicle extends BaseEntity {
     @Column(columnDefinition = "geography", nullable = false)
     private Point depositCoordinates;
 
-    @OneToMany(mappedBy = "deliveryVehicle", orphanRemoval = true)
-    private Set<Delivery> deliveries = new LinkedHashSet<>();
+    @OrderColumn
+    @OneToMany(mappedBy = "deliveryVehicle", orphanRemoval = true, fetch = FetchType.EAGER)
+    private List<Delivery> deliveries = new ArrayList<>();
+
+    @OneToOne(mappedBy = "deliveryVehicle", orphanRemoval = true)
+    private DeliveryMan deliveryMan;
 
 }

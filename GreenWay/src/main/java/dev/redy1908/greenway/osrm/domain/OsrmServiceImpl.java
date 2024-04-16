@@ -1,11 +1,9 @@
 package dev.redy1908.greenway.osrm.domain;
 
-import dev.redy1908.greenway.delivery_vehicle.domain.DeliveryVehicle;
 import dev.redy1908.greenway.delivery.domain.Delivery;
-import dev.redy1908.greenway.osrm.domain.exceptions.models.InvalidNavigationMode;
+import dev.redy1908.greenway.delivery_vehicle.domain.DeliveryVehicle;
 import dev.redy1908.greenway.osrm.domain.exceptions.models.InvalidOsrmResponseException;
 import dev.redy1908.greenway.osrm.domain.exceptions.models.PointOutOfBoundsException;
-import dev.redy1908.greenway.delivery_vehicle.domain.exceptions.models.VehicleAutonomyNotSufficientException;
 import kotlin.Pair;
 import lombok.RequiredArgsConstructor;
 import org.json.JSONArray;
@@ -15,12 +13,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
+import java.net.URI;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,17 +25,11 @@ import java.util.stream.Collectors;
 @SuppressWarnings("unchecked")
 class OsrmServiceImpl implements IOsrmService {
 
-    @Value("${osrm.distance.url}")
-    private String OSRM_DISTANCE_URL;
+    @Value("${osrm.route-url}")
+    private String OSRM_ROUTE_URL;
 
-    @Value("${osrm.duration.url}")
-    private String OSRM_DURATION_URL;
-
-    @Value("${osrm.elevation.url}")
-    private String OSRM_ELEVATION_URL;
-
-    @Value("${osrm.standard.url}")
-    private String OSRM_STANDARD_URL;
+    @Value("${osrm.table-url}")
+    private String OSRM_TABLE_URL;
 
     @Value("${opentopodata.url}")
     private String OPENTOPODATA_URL;
@@ -58,57 +49,40 @@ class OsrmServiceImpl implements IOsrmService {
     private final RestTemplate restTemplate;
 
     @Override
-    public Map<String, Object> getNavigationData(Point startingPoint, double maxDistance, Set<Point> wayPoints, NavigationType navigationType) {
-        return getOsrmResponse(startingPoint, maxDistance, wayPoints, navigationType, RequestType.FULL);
+    public Map<String, Object> getNavigationData(Point startingPoint, List<Point> wayPoints) {
+        String url = buildUrlRoute(startingPoint, wayPoints);
+        return getOsrmResponse(url);
     }
-
 
     @Override
-    public Map<String, Object> getElevationData(Point startingPoint, double maxDistance, Set<Point> wayPoints, NavigationType navigationType) {
-        Map<String, Object> osrmResponse = getOsrmResponse(startingPoint, maxDistance, wayPoints, navigationType, RequestType.OVERVIEW);
+    public Map<String, Object> getElevationData(Point startingPoint, List<Point> wayPoints) {
+        String url = buildUrlElevation(startingPoint, wayPoints);
+        Map<String, Object> osrmResponse = getOsrmResponse(url);
 
-        String urlEncodedPolyline = URLEncoder.encode(extractAttributeFromTrip(osrmResponse, "geometry"), StandardCharsets.UTF_8);
-        return restTemplate.getForObject(OPENTOPODATA_URL + urlEncodedPolyline, Map.class);
+        String polyline = extractPolylineFromOsrmResponse(osrmResponse);
+
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(OPENTOPODATA_URL).queryParam("locations", polyline);
+        URI uri = builder.build().encode().toUri();
+
+        return restTemplate.getForObject(uri, Map.class);
     }
 
-    private Map<String, Object> getOsrmResponse(Point startingPoint, double maxDistance, Set<Point> wayPoints, NavigationType navigationType, RequestType requestType) {
-        String url = buildUrl(startingPoint, wayPoints, navigationType, requestType);
+    private Map<String, Object> getOsrmResponse(String url) {
         Map<String, Object> osrmResponse = restTemplate.getForObject(url, Map.class);
 
         if (osrmResponse == null) {
             throw new InvalidOsrmResponseException();
-        }
-
-        double tripDistance = Double.parseDouble(extractAttributeFromTrip(osrmResponse, "distance")) / 1000;
-
-        if(tripDistance > maxDistance) {
-            throw new VehicleAutonomyNotSufficientException(maxDistance, tripDistance);
         }
 
         return osrmResponse;
     }
 
     @Override
-    public void checkPointsInBounds(List<Point> points) {
+    public void checkPointInBounds(Point point) {
 
-        points.forEach(point -> {
-            if(point.getX() < lonMin || point.getX() > lonMax || point.getY() < latMin || point.getY() > latMax){
-                throw new PointOutOfBoundsException(point, lonMin, lonMax, latMin, latMax);
-            }
-        });
-    }
-
-    @Override
-    public double getTripLength(Point startingPoint, Set<Point> wayPoints, NavigationType navigationType, RequestType requestType) {
-        String url = buildUrl(startingPoint, wayPoints, navigationType, requestType);
-        Map<String, Object> osrmResponse = restTemplate.getForObject(url, Map.class);
-
-        if (osrmResponse == null) {
-            throw new InvalidOsrmResponseException();
+        if (point.getX() < lonMin || point.getX() > lonMax || point.getY() < latMin || point.getY() > latMax) {
+            throw new PointOutOfBoundsException(point, lonMin, lonMax, latMin, latMax);
         }
-
-        return Double.parseDouble(extractAttributeFromTrip(osrmResponse, "distance"));
-
     }
 
     @Override
@@ -139,10 +113,10 @@ class OsrmServiceImpl implements IOsrmService {
         return new Pair<>(matrixDurations, matrixDistances);
     }
 
-    private String buildUrlMatrix(List<DeliveryVehicle> deliveryVehicleList, List<Delivery> deliveryList){
-        StringBuilder urlBuilder = new StringBuilder("http://localhost:5000/table/v1/driving/");
+    private String buildUrlMatrix(List<DeliveryVehicle> deliveryVehicleList, List<Delivery> deliveryList) {
+        StringBuilder urlBuilder = new StringBuilder(OSRM_TABLE_URL);
 
-        for(DeliveryVehicle deliveryVehicle: deliveryVehicleList) {
+        for (DeliveryVehicle deliveryVehicle : deliveryVehicleList) {
             urlBuilder.append(deliveryVehicle.getDepositCoordinates().getX());
             urlBuilder.append(",");
             urlBuilder.append(deliveryVehicle.getDepositCoordinates().getY());
@@ -158,55 +132,33 @@ class OsrmServiceImpl implements IOsrmService {
 
         urlBuilder.deleteCharAt(urlBuilder.length() - 1);
 
-        /*urlBuilder.append("?sources=0");
-
-        urlBuilder.append("&destinations=");
-        for (int i = 1; i <= deliveryList.size(); i++) {
-            urlBuilder.append(i);
-            urlBuilder.append(";");
-        }
-
-        urlBuilder.deleteCharAt(urlBuilder.length() - 1);
-
-        urlBuilder.append("&annotations=duration,distance");*/
-
         urlBuilder.append("?annotations=duration,distance");
 
         return urlBuilder.toString();
     }
 
-    private String buildUrl(Point startingPoint, Set<Point> wayPoints, NavigationType navigationType, RequestType requestType) {
+    private String buildUrlRoute(Point startingPoint, List<Point> wayPoints) {
 
-        String basePath;
-
-        switch (navigationType) {
-            case NavigationType.DISTANCE -> basePath = OSRM_DISTANCE_URL;
-            case NavigationType.DURATION -> basePath = OSRM_DURATION_URL;
-            case NavigationType.ELEVATION -> basePath = OSRM_ELEVATION_URL;
-            case NavigationType.STANDARD -> basePath = OSRM_STANDARD_URL;
-            default -> throw new InvalidNavigationMode();
-        }
-
-        String url = basePath + startingPoint.getX() + "," + startingPoint.getY() + ";" + wayPoints.stream()
+        return OSRM_ROUTE_URL + startingPoint.getX() + "," + startingPoint.getY() + ";" + wayPoints.stream()
                 .map(point -> point.getX() + "," + point.getY())
-                .collect(Collectors.joining(";"))
-                + "?source=first";
-
-        if (requestType == RequestType.FULL ) {
-            url += "&steps=true&overview=false";
-        }
-
-        return url;
+                .collect(Collectors.joining(";")) + "?steps=true&overview=false";
     }
 
-    private String extractAttributeFromTrip(Map<String, Object> osrmResponse, String attributeName) {
+    private String buildUrlElevation(Point startingPoint, List<Point> wayPoints) {
 
-        if (osrmResponse.containsKey("trips")) {
-            List<Object> trips = (List<Object>) osrmResponse.get("trips");
+        return OSRM_ROUTE_URL + startingPoint.getX() + "," + startingPoint.getY() + ";" + wayPoints.stream()
+                .map(point -> point.getX() + "," + point.getY())
+                .collect(Collectors.joining(";"));
+    }
+
+    private String extractPolylineFromOsrmResponse(Map<String, Object> osrmResponse) {
+
+        if (osrmResponse.containsKey("routes")) {
+            List<Object> trips = (List<Object>) osrmResponse.get("routes");
             if (!trips.isEmpty()) {
                 Map<String, Object> firstRoute = (Map<String, Object>) trips.getFirst();
-                if (firstRoute.containsKey(attributeName)) {
-                    return String.valueOf(firstRoute.get(attributeName));
+                if (firstRoute.containsKey("geometry")) {
+                    return String.valueOf(firstRoute.get("geometry"));
                 }
             }
         }
