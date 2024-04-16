@@ -1,15 +1,12 @@
 package dev.redy1908.greenway.delivery.domain;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
+import java.util.List;
 
 @Repository
-public interface DeliveryRepository extends JpaRepository<Delivery, Long> {
+public interface DeliveryRepository extends JpaRepository<Delivery, Integer> {
 
-    Optional<Delivery> findDeliveryDTOByIdAndDeliveryMan_Username(Long deliveryId, String deliveryManUsername);
-    Page<Delivery> findAllByDeliveryMan_Username(String deliveryManUsername, Pageable pageable);
+    List<Delivery> findAllByDeliveryVehicleNull();
 }

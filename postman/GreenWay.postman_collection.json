@@ -1,11 +1,109 @@
 {
 	"info": {
-		"_postman_id": "78a7d3e3-e0b5-4378-89c9-317c24c18c9b",
+		"_postman_id": "dcebc094-134b-4cab-839d-06442853f573",
 		"name": "GreenWay",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "27276004"
 	},
 	"item": [
+		{
+			"name": "System",
+			"item": [
+				{
+					"name": "Trigger Deliveries Scheduling",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "accessTokenUrl",
+									"value": "http://localhost:8090/realms/GreenWay/protocol/openid-connect/token",
+									"type": "string"
+								},
+								{
+									"key": "authUrl",
+									"value": "http://localhost:8090/realms/GreenWay/protocol/openid-connect/auth",
+									"type": "string"
+								},
+								{
+									"key": "clientId",
+									"value": "GreenWay",
+									"type": "string"
+								},
+								{
+									"key": "clientSecret",
+									"value": "jyTj9K8qcn3AoZjElhNCT15klfdiBH0K",
+									"type": "string"
+								},
+								{
+									"key": "state",
+									"value": "ew34er-344fgfg-5gfgfg",
+									"type": "string"
+								},
+								{
+									"key": "useBrowser",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "grant_type",
+									"value": "authorization_code",
+									"type": "string"
+								},
+								{
+									"key": "tokenName",
+									"value": "authcode_accesstoken",
+									"type": "string"
+								},
+								{
+									"key": "client_authentication",
+									"value": "body",
+									"type": "string"
+								},
+								{
+									"key": "scope",
+									"value": "openid email profile",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"estimatedDeliveryDate\": \"2024-07-01\",\r\n    \"vehicleId\": \"1\",\r\n    \"depositAddress\": \"Via Bergamo\",\r\n    \"depositCoordinates\": {\r\n        \"type\": \"Point\",\r\n        \"coordinates\": [14.220771, 40.840825]\r\n    },\r\n    \"deliveryPackages\":[\r\n        {\r\n            \"sender\": \"Mario Rossi\",\r\n            \"senderAddress\": \"Via Roma\",\r\n            \"receiver\": \"Beatrice Bianchi\",\r\n            \"receiverAddress\": \"Via Napoli\",\r\n            \"receiverCoordinates\": {\r\n                \"type\": \"Point\",\r\n                \"coordinates\":[14.245491, 40.855890]\r\n            },\r\n            \"weight\": \"1.5\"\r\n        },\r\n        {\r\n            \"sender\": \"Carlo Ferrari\",\r\n            \"senderAddress\": \"Via Torino\",\r\n            \"receiver\": \"Giovanni Marino\",\r\n            \"receiverAddress\": \"Via Bologna\",\r\n            \"receiverCoordinates\": {\r\n                \"type\": \"Point\",\r\n                \"coordinates\": [14.275188, 40.860434]\r\n            },\r\n            \"weight\": \"2.3\"\r\n        }\r\n    ]\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/schedule",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"schedule"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
 		{
 			"name": "DeliveryMan",
 			"item": [
@@ -98,111 +196,6 @@
 						}
 					},
 					"response": []
-				},
-				{
-					"name": "Get All Free DeliveryMan",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"auth": {
-							"type": "oauth2",
-							"oauth2": [
-								{
-									"key": "accessTokenUrl",
-									"value": "http://localhost:8090/realms/GreenWay/protocol/openid-connect/token",
-									"type": "string"
-								},
-								{
-									"key": "authUrl",
-									"value": "http://localhost:8090/realms/GreenWay/protocol/openid-connect/auth",
-									"type": "string"
-								},
-								{
-									"key": "clientId",
-									"value": "GreenWay",
-									"type": "string"
-								},
-								{
-									"key": "clientSecret",
-									"value": "jyTj9K8qcn3AoZjElhNCT15klfdiBH0K",
-									"type": "string"
-								},
-								{
-									"key": "state",
-									"value": "ew34er-344fgfg-5gfgfg",
-									"type": "string"
-								},
-								{
-									"key": "useBrowser",
-									"value": true,
-									"type": "boolean"
-								},
-								{
-									"key": "grant_type",
-									"value": "authorization_code",
-									"type": "string"
-								},
-								{
-									"key": "tokenName",
-									"value": "authcode_accesstoken",
-									"type": "string"
-								},
-								{
-									"key": "client_authentication",
-									"value": "body",
-									"type": "string"
-								},
-								{
-									"key": "scope",
-									"value": "openid email profile",
-									"type": "string"
-								},
-								{
-									"key": "addTokenTo",
-									"value": "header",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/api/v1/deliveryMen?pageNo=0&pageSize=5",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"v1",
-								"deliveryMen"
-							],
-							"query": [
-								{
-									"key": "pageNo",
-									"value": "0",
-									"description": "OPTIONAL default = 0"
-								},
-								{
-									"key": "pageSize",
-									"value": "5",
-									"description": "OPTIONAL default = 10"
-								}
-							]
-						}
-					},
-					"response": []
 				}
 			]
 		},
@@ -276,7 +269,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"modelName\": \"Fiat E-Ducato\",\r\n    \"maxAutonomyKm\": \"370\",\r\n    \"maxCapacityKg\": \"100\"\r\n}",
+							"raw": "{\r\n    \"modelName\": \"Fiat E-Ducato\",\r\n    \"maxAutonomyKm\": \"370\",\r\n    \"maxCapacityKg\": \"100\",\r\n    \"depositAddress\": \"Via Roma\",\r\n    \"depositCoordinates\": {\r\n        \"type\": \"Point\",\r\n        \"coordinates\":[14.220771, 40.840825]\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -300,7 +293,7 @@
 					"response": []
 				},
 				{
-					"name": "Get Vehicle By ID",
+					"name": "Get Vehicle by Deliveryman",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -308,6 +301,11 @@
 						"auth": {
 							"type": "oauth2",
 							"oauth2": [
+								{
+									"key": "clientSecret",
+									"value": "jyTj9K8qcn3AoZjElhNCT15klfdiBH0K",
+									"type": "string"
+								},
 								{
 									"key": "accessTokenUrl",
 									"value": "http://localhost:8090/realms/GreenWay/protocol/openid-connect/token",
@@ -321,11 +319,6 @@
 								{
 									"key": "clientId",
 									"value": "GreenWay",
-									"type": "string"
-								},
-								{
-									"key": "clientSecret",
-									"value": "jyTj9K8qcn3AoZjElhNCT15klfdiBH0K",
 									"type": "string"
 								},
 								{
@@ -369,7 +362,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "",
+							"raw": "{\r\n    \"modelName\": \"Fiat E-Ducato\",\r\n    \"maxAutonomyKm\": \"370\",\r\n    \"maxCapacityKg\": \"100\",\r\n    \"depositAddress\": \"Via Roma\",\r\n    \"depositCoordinates\": {\r\n        \"type\": \"Point\",\r\n        \"coordinates\":[14.220771, 40.840825]\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -377,101 +370,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/v1/vehicles/1",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"v1",
-								"vehicles",
-								"1"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get All Vehicles",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"auth": {
-							"type": "oauth2",
-							"oauth2": [
-								{
-									"key": "accessTokenUrl",
-									"value": "http://localhost:8090/realms/GreenWay/protocol/openid-connect/token",
-									"type": "string"
-								},
-								{
-									"key": "authUrl",
-									"value": "http://localhost:8090/realms/GreenWay/protocol/openid-connect/auth",
-									"type": "string"
-								},
-								{
-									"key": "clientId",
-									"value": "GreenWay",
-									"type": "string"
-								},
-								{
-									"key": "clientSecret",
-									"value": "jyTj9K8qcn3AoZjElhNCT15klfdiBH0K",
-									"type": "string"
-								},
-								{
-									"key": "state",
-									"value": "ew34er-344fgfg-5gfgfg",
-									"type": "string"
-								},
-								{
-									"key": "useBrowser",
-									"value": true,
-									"type": "boolean"
-								},
-								{
-									"key": "grant_type",
-									"value": "authorization_code",
-									"type": "string"
-								},
-								{
-									"key": "tokenName",
-									"value": "authcode_accesstoken",
-									"type": "string"
-								},
-								{
-									"key": "client_authentication",
-									"value": "body",
-									"type": "string"
-								},
-								{
-									"key": "scope",
-									"value": "openid email profile",
-									"type": "string"
-								},
-								{
-									"key": "addTokenTo",
-									"value": "header",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/api/v1/vehicles?pageNo=0&pageSize=5",
+							"raw": "http://localhost:8080/api/v1/vehicles?deliveryman=deliveryman1",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -484,14 +383,8 @@
 							],
 							"query": [
 								{
-									"key": "pageNo",
-									"value": "0",
-									"description": "OPTIONAL default = 0"
-								},
-								{
-									"key": "pageSize",
-									"value": "5",
-									"description": "OPTIONAL default = 10"
+									"key": "deliveryman",
+									"value": "deliveryman1"
 								}
 							]
 						}
@@ -499,7 +392,7 @@
 					"response": []
 				},
 				{
-					"name": "Get All Free Vehicles",
+					"name": "Get Vehicle Route",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -507,6 +400,11 @@
 						"auth": {
 							"type": "oauth2",
 							"oauth2": [
+								{
+									"key": "clientSecret",
+									"value": "jyTj9K8qcn3AoZjElhNCT15klfdiBH0K",
+									"type": "string"
+								},
 								{
 									"key": "accessTokenUrl",
 									"value": "http://localhost:8090/realms/GreenWay/protocol/openid-connect/token",
@@ -520,11 +418,6 @@
 								{
 									"key": "clientId",
 									"value": "GreenWay",
-									"type": "string"
-								},
-								{
-									"key": "clientSecret",
-									"value": "jyTj9K8qcn3AoZjElhNCT15klfdiBH0K",
 									"type": "string"
 								},
 								{
@@ -568,7 +461,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "",
+							"raw": "{\r\n    \"modelName\": \"Fiat E-Ducato\",\r\n    \"maxAutonomyKm\": \"370\",\r\n    \"maxCapacityKg\": \"100\",\r\n    \"depositAddress\": \"Via Roma\",\r\n    \"depositCoordinates\": {\r\n        \"type\": \"Point\",\r\n        \"coordinates\":[14.220771, 40.840825]\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -576,7 +469,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/v1/vehicles/free?pageNo=0&pageSize=5",
+							"raw": "http://localhost:8080/api/v1/vehicles/route?vehicleid=1",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -586,18 +479,113 @@
 								"api",
 								"v1",
 								"vehicles",
-								"free"
+								"route"
 							],
 							"query": [
 								{
-									"key": "pageNo",
-									"value": "0",
-									"description": "OPTIONAL default = 0"
+									"key": "vehicleid",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Vehicle Route Elevation Data",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "clientSecret",
+									"value": "jyTj9K8qcn3AoZjElhNCT15klfdiBH0K",
+									"type": "string"
 								},
 								{
-									"key": "pageSize",
-									"value": "5",
-									"description": "OPTIONAL default = 10"
+									"key": "accessTokenUrl",
+									"value": "http://localhost:8090/realms/GreenWay/protocol/openid-connect/token",
+									"type": "string"
+								},
+								{
+									"key": "authUrl",
+									"value": "http://localhost:8090/realms/GreenWay/protocol/openid-connect/auth",
+									"type": "string"
+								},
+								{
+									"key": "clientId",
+									"value": "GreenWay",
+									"type": "string"
+								},
+								{
+									"key": "state",
+									"value": "ew34er-344fgfg-5gfgfg",
+									"type": "string"
+								},
+								{
+									"key": "useBrowser",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "grant_type",
+									"value": "authorization_code",
+									"type": "string"
+								},
+								{
+									"key": "tokenName",
+									"value": "authcode_accesstoken",
+									"type": "string"
+								},
+								{
+									"key": "client_authentication",
+									"value": "body",
+									"type": "string"
+								},
+								{
+									"key": "scope",
+									"value": "openid email profile",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"modelName\": \"Fiat E-Ducato\",\r\n    \"maxAutonomyKm\": \"370\",\r\n    \"maxCapacityKg\": \"100\",\r\n    \"depositAddress\": \"Via Roma\",\r\n    \"depositCoordinates\": {\r\n        \"type\": \"Point\",\r\n        \"coordinates\":[14.220771, 40.840825]\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/vehicles/route/elevation?vehicleid=1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"vehicles",
+								"route",
+								"elevation"
+							],
+							"query": [
+								{
+									"key": "vehicleid",
+									"value": "1"
 								}
 							]
 						}
@@ -610,7 +598,7 @@
 			"name": "Delivery",
 			"item": [
 				{
-					"name": "Create Delivery Random DeliveryMan",
+					"name": "Create Delivery",
 					"request": {
 						"auth": {
 							"type": "oauth2",
@@ -676,7 +664,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"estimatedDeliveryDate\": \"2024-07-01\",\r\n    \"vehicleId\": \"1\",\r\n    \"depositAddress\": \"Via Bergamo\",\r\n    \"depositCoordinates\": {\r\n        \"type\": \"Point\",\r\n        \"coordinates\": [14.220771, 40.840825]\r\n    },\r\n    \"deliveryPackages\":[\r\n        {\r\n            \"sender\": \"Mario Rossi\",\r\n            \"senderAddress\": \"Via Roma\",\r\n            \"receiver\": \"Beatrice Bianchi\",\r\n            \"receiverAddress\": \"Via Napoli\",\r\n            \"receiverCoordinates\": {\r\n                \"type\": \"Point\",\r\n                \"coordinates\":[14.245491, 40.855890]\r\n            },\r\n            \"weight\": \"1.5\"\r\n        },\r\n        {\r\n            \"sender\": \"Carlo Ferrari\",\r\n            \"senderAddress\": \"Via Torino\",\r\n            \"receiver\": \"Giovanni Marino\",\r\n            \"receiverAddress\": \"Via Bologna\",\r\n            \"receiverCoordinates\": {\r\n                \"type\": \"Point\",\r\n                \"coordinates\": [14.275188, 40.860434]\r\n            },\r\n            \"weight\": \"2.3\"\r\n        }\r\n    ]\r\n}\r\n",
+							"raw": "{\r\n    \"depositAddress\": \"Via Bergamo\",\r\n    \"depositCoordinates\": {\r\n        \"type\": \"Point\",\r\n        \"coordinates\": [14.220771, 40.840825]\r\n    },\r\n    \"sender\": \"Mario Rossi\",\r\n    \"senderAddress\": \"Via Roma\",\r\n    \"receiver\": \"Beatrice Bianchi\",\r\n    \"receiverAddress\": \"Via Napoli\",\r\n    \"receiverCoordinates\": {\r\n        \"type\": \"Point\",\r\n        \"coordinates\":[14.275188, 40.860434]\r\n    },\r\n    \"weightKg\": \"1.5\"\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -694,513 +682,6 @@
 								"api",
 								"v1",
 								"deliveries"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Create Delivery Selected DeliveryMan",
-					"request": {
-						"auth": {
-							"type": "oauth2",
-							"oauth2": [
-								{
-									"key": "accessTokenUrl",
-									"value": "http://localhost:8090/realms/GreenWay/protocol/openid-connect/token",
-									"type": "string"
-								},
-								{
-									"key": "authUrl",
-									"value": "http://localhost:8090/realms/GreenWay/protocol/openid-connect/auth",
-									"type": "string"
-								},
-								{
-									"key": "clientId",
-									"value": "GreenWay",
-									"type": "string"
-								},
-								{
-									"key": "clientSecret",
-									"value": "jyTj9K8qcn3AoZjElhNCT15klfdiBH0K",
-									"type": "string"
-								},
-								{
-									"key": "state",
-									"value": "ew34er-344fgfg-5gfgfg",
-									"type": "string"
-								},
-								{
-									"key": "useBrowser",
-									"value": true,
-									"type": "boolean"
-								},
-								{
-									"key": "grant_type",
-									"value": "authorization_code",
-									"type": "string"
-								},
-								{
-									"key": "tokenName",
-									"value": "authcode_accesstoken",
-									"type": "string"
-								},
-								{
-									"key": "client_authentication",
-									"value": "body",
-									"type": "string"
-								},
-								{
-									"key": "scope",
-									"value": "openid email profile",
-									"type": "string"
-								},
-								{
-									"key": "addTokenTo",
-									"value": "header",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"estimatedDeliveryDate\": \"2024-07-01\",\r\n    \"vehicleId\": \"1\",\r\n    \"deliveryManUsername\": \"deliveryman1\",\r\n    \"depositAddress\": \"Via Bergamo\",\r\n    \"depositCoordinates\": {\r\n        \"type\": \"Point\",\r\n        \"coordinates\": [14.220771, 40.840825]\r\n    },\r\n    \"deliveryPackages\":[\r\n        {\r\n            \"sender\": \"Mario Rossi\",\r\n            \"senderAddress\": \"Via Roma\",\r\n            \"receiver\": \"Beatrice Bianchi\",\r\n            \"receiverAddress\": \"Via Napoli\",\r\n            \"receiverCoordinates\": {\r\n                \"type\": \"Point\",\r\n                \"coordinates\":[14.245491, 40.855890]\r\n            },\r\n            \"weight\": \"1.5\"\r\n        },\r\n        {\r\n            \"sender\": \"Carlo Ferrari\",\r\n            \"senderAddress\": \"Via Torino\",\r\n            \"receiver\": \"Giovanni Marino\",\r\n            \"receiverAddress\": \"Via Bologna\",\r\n            \"receiverCoordinates\": {\r\n                \"type\": \"Point\",\r\n                \"coordinates\": [14.275188, 40.860434]\r\n            },\r\n            \"weight\": \"2.3\"\r\n        }\r\n    ]\r\n}\r\n",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/api/v1/deliveries",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"v1",
-								"deliveries"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get Delivery by ID with Navigation",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"auth": {
-							"type": "oauth2",
-							"oauth2": [
-								{
-									"key": "accessTokenUrl",
-									"value": "http://localhost:8090/realms/GreenWay/protocol/openid-connect/token",
-									"type": "string"
-								},
-								{
-									"key": "authUrl",
-									"value": "http://localhost:8090/realms/GreenWay/protocol/openid-connect/auth",
-									"type": "string"
-								},
-								{
-									"key": "clientId",
-									"value": "GreenWay",
-									"type": "string"
-								},
-								{
-									"key": "clientSecret",
-									"value": "jyTj9K8qcn3AoZjElhNCT15klfdiBH0K",
-									"type": "string"
-								},
-								{
-									"key": "state",
-									"value": "ew34er-344fgfg-5gfgfg",
-									"type": "string"
-								},
-								{
-									"key": "useBrowser",
-									"value": true,
-									"type": "boolean"
-								},
-								{
-									"key": "grant_type",
-									"value": "authorization_code",
-									"type": "string"
-								},
-								{
-									"key": "tokenName",
-									"value": "authcode_accesstoken",
-									"type": "string"
-								},
-								{
-									"key": "client_authentication",
-									"value": "body",
-									"type": "string"
-								},
-								{
-									"key": "scope",
-									"value": "openid email profile",
-									"type": "string"
-								},
-								{
-									"key": "addTokenTo",
-									"value": "header",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/api/v1/deliveries/id/1?navigationType=ELEVATION",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"v1",
-								"deliveries",
-								"id",
-								"1"
-							],
-							"query": [
-								{
-									"key": "navigationType",
-									"value": "ELEVATION",
-									"description": "Navigation optimization can be: DISTANCE, DURATION, ELEVATION, STANDARD"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get Delivery Elevation  Overview by ID",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"auth": {
-							"type": "oauth2",
-							"oauth2": [
-								{
-									"key": "accessTokenUrl",
-									"value": "http://localhost:8090/realms/GreenWay/protocol/openid-connect/token",
-									"type": "string"
-								},
-								{
-									"key": "authUrl",
-									"value": "http://localhost:8090/realms/GreenWay/protocol/openid-connect/auth",
-									"type": "string"
-								},
-								{
-									"key": "clientId",
-									"value": "GreenWay",
-									"type": "string"
-								},
-								{
-									"key": "clientSecret",
-									"value": "jyTj9K8qcn3AoZjElhNCT15klfdiBH0K",
-									"type": "string"
-								},
-								{
-									"key": "state",
-									"value": "ew34er-344fgfg-5gfgfg",
-									"type": "string"
-								},
-								{
-									"key": "useBrowser",
-									"value": true,
-									"type": "boolean"
-								},
-								{
-									"key": "grant_type",
-									"value": "authorization_code",
-									"type": "string"
-								},
-								{
-									"key": "tokenName",
-									"value": "authcode_accesstoken",
-									"type": "string"
-								},
-								{
-									"key": "client_authentication",
-									"value": "body",
-									"type": "string"
-								},
-								{
-									"key": "scope",
-									"value": "openid email profile",
-									"type": "string"
-								},
-								{
-									"key": "addTokenTo",
-									"value": "header",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/api/v1/deliveries/id/1/elevation?navigationType=ELEVATION",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"v1",
-								"deliveries",
-								"id",
-								"1",
-								"elevation"
-							],
-							"query": [
-								{
-									"key": "navigationType",
-									"value": "ELEVATION",
-									"description": "Navigation optimization can be: DISTANCE, DURATION, ELEVATION, STANDARD"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get All Deliveries",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"auth": {
-							"type": "oauth2",
-							"oauth2": [
-								{
-									"key": "accessTokenUrl",
-									"value": "http://localhost:8090/realms/GreenWay/protocol/openid-connect/token",
-									"type": "string"
-								},
-								{
-									"key": "authUrl",
-									"value": "http://localhost:8090/realms/GreenWay/protocol/openid-connect/auth",
-									"type": "string"
-								},
-								{
-									"key": "clientId",
-									"value": "GreenWay",
-									"type": "string"
-								},
-								{
-									"key": "clientSecret",
-									"value": "jyTj9K8qcn3AoZjElhNCT15klfdiBH0K",
-									"type": "string"
-								},
-								{
-									"key": "state",
-									"value": "ew34er-344fgfg-5gfgfg",
-									"type": "string"
-								},
-								{
-									"key": "useBrowser",
-									"value": true,
-									"type": "boolean"
-								},
-								{
-									"key": "grant_type",
-									"value": "authorization_code",
-									"type": "string"
-								},
-								{
-									"key": "tokenName",
-									"value": "authcode_accesstoken",
-									"type": "string"
-								},
-								{
-									"key": "client_authentication",
-									"value": "body",
-									"type": "string"
-								},
-								{
-									"key": "scope",
-									"value": "openid email profile",
-									"type": "string"
-								},
-								{
-									"key": "addTokenTo",
-									"value": "header",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/api/v1/deliveries?pageNo=0&pageSize=5",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"v1",
-								"deliveries"
-							],
-							"query": [
-								{
-									"key": "pageNo",
-									"value": "0",
-									"description": "OPTIONAL default = 0"
-								},
-								{
-									"key": "pageSize",
-									"value": "5",
-									"description": "OPTIONAL default = 10"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get Deliveries By Delivery Man",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"auth": {
-							"type": "oauth2",
-							"oauth2": [
-								{
-									"key": "accessTokenUrl",
-									"value": "http://localhost:8090/realms/GreenWay/protocol/openid-connect/token",
-									"type": "string"
-								},
-								{
-									"key": "authUrl",
-									"value": "http://localhost:8090/realms/GreenWay/protocol/openid-connect/auth",
-									"type": "string"
-								},
-								{
-									"key": "clientId",
-									"value": "GreenWay",
-									"type": "string"
-								},
-								{
-									"key": "clientSecret",
-									"value": "jyTj9K8qcn3AoZjElhNCT15klfdiBH0K",
-									"type": "string"
-								},
-								{
-									"key": "state",
-									"value": "ew34er-344fgfg-5gfgfg",
-									"type": "string"
-								},
-								{
-									"key": "useBrowser",
-									"value": true,
-									"type": "boolean"
-								},
-								{
-									"key": "grant_type",
-									"value": "authorization_code",
-									"type": "string"
-								},
-								{
-									"key": "tokenName",
-									"value": "authcode_accesstoken",
-									"type": "string"
-								},
-								{
-									"key": "client_authentication",
-									"value": "body",
-									"type": "string"
-								},
-								{
-									"key": "scope",
-									"value": "openid email profile",
-									"type": "string"
-								},
-								{
-									"key": "addTokenTo",
-									"value": "header",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/api/v1/deliveries/deliveryman/deliveryman1?pageNo=0&pageSize=5",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"v1",
-								"deliveries",
-								"deliveryman",
-								"deliveryman1"
-							],
-							"query": [
-								{
-									"key": "pageNo",
-									"value": "0",
-									"description": "OPTIONAL default = 0"
-								},
-								{
-									"key": "pageSize",
-									"value": "5",
-									"description": "OPTIONAL default = 10"
-								}
 							]
 						}
 					},

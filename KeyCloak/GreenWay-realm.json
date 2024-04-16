@@ -436,6 +436,72 @@
     "notBefore" : 0,
     "groups" : [ ]
   }, {
+    "id" : "b03278aa-1e32-4f1e-a739-f7cf3407e756",
+    "createdTimestamp" : 1713276783165,
+    "username" : "deliveryman3",
+    "enabled" : true,
+    "totp" : false,
+    "emailVerified" : false,
+    "firstName" : "Romana",
+    "lastName" : "Ossani",
+    "credentials" : [ {
+      "id" : "c3c895e9-543d-486d-a18a-851f397b6f9f",
+      "type" : "password",
+      "userLabel" : "My password",
+      "createdDate" : 1713276807027,
+      "secretData" : "{\"value\":\"lfbr3vGgqC9WdMuoYdBnhkimP5/NFRv7tVVr1T/xwD0=\",\"salt\":\"ab00GXbvn2zAd5+RMkE8yg==\",\"additionalParameters\":{}}",
+      "credentialData" : "{\"hashIterations\":27500,\"algorithm\":\"pbkdf2-sha256\",\"additionalParameters\":{}}"
+    } ],
+    "disableableCredentialTypes" : [ ],
+    "requiredActions" : [ ],
+    "realmRoles" : [ "default-roles-greenway", "GREEN_WAY_DELIVERY_MAN" ],
+    "notBefore" : 0,
+    "groups" : [ ]
+  }, {
+    "id" : "80176650-b315-4ef1-a94e-e287dc6a5398",
+    "createdTimestamp" : 1713276836521,
+    "username" : "deliveryman4",
+    "enabled" : true,
+    "totp" : false,
+    "emailVerified" : false,
+    "firstName" : "Fedele",
+    "lastName" : "Piazza",
+    "credentials" : [ {
+      "id" : "af01a1a9-4b10-4f7a-a68e-4edf0966270b",
+      "type" : "password",
+      "userLabel" : "My password",
+      "createdDate" : 1713276845365,
+      "secretData" : "{\"value\":\"JJXe5rcoVSIIdJQxti1A5NOmaZMgZy7g3dTPe+4B9Ik=\",\"salt\":\"3FVp+Y1RsyboGrR4K9MjwQ==\",\"additionalParameters\":{}}",
+      "credentialData" : "{\"hashIterations\":27500,\"algorithm\":\"pbkdf2-sha256\",\"additionalParameters\":{}}"
+    } ],
+    "disableableCredentialTypes" : [ ],
+    "requiredActions" : [ ],
+    "realmRoles" : [ "default-roles-greenway", "GREEN_WAY_DELIVERY_MAN" ],
+    "notBefore" : 0,
+    "groups" : [ ]
+  }, {
+    "id" : "1b4dbef1-a897-4baa-a1a4-edc4ab0fac0a",
+    "createdTimestamp" : 1713276880837,
+    "username" : "deliveryman5",
+    "enabled" : true,
+    "totp" : false,
+    "emailVerified" : false,
+    "firstName" : "Salvatore",
+    "lastName" : "Tocci",
+    "credentials" : [ {
+      "id" : "52016fec-eccb-444e-8576-b66392d5c7e4",
+      "type" : "password",
+      "userLabel" : "My password",
+      "createdDate" : 1713276888945,
+      "secretData" : "{\"value\":\"s9+qiIaco+B2WfJTtAjb6Bf9knM7eeyYWyGQro7ZteQ=\",\"salt\":\"2EAKZvWNOx+6sHfUJFS+zg==\",\"additionalParameters\":{}}",
+      "credentialData" : "{\"hashIterations\":27500,\"algorithm\":\"pbkdf2-sha256\",\"additionalParameters\":{}}"
+    } ],
+    "disableableCredentialTypes" : [ ],
+    "requiredActions" : [ ],
+    "realmRoles" : [ "default-roles-greenway" ],
+    "notBefore" : 0,
+    "groups" : [ ]
+  }, {
     "id" : "a8d5b601-683e-4fa8-858e-f242ee43521c",
     "createdTimestamp" : 1709842673444,
     "username" : "green_way_admin",
@@ -1270,7 +1336,7 @@
       "subType" : "anonymous",
       "subComponents" : { },
       "config" : {
-        "allowed-protocol-mapper-types" : [ "oidc-sha256-pairwise-sub-mapper", "oidc-usermodel-attribute-mapper", "oidc-full-name-mapper", "saml-role-list-mapper", "saml-user-attribute-mapper", "saml-user-property-mapper", "oidc-address-mapper", "oidc-usermodel-property-mapper" ]
+        "allowed-protocol-mapper-types" : [ "saml-user-attribute-mapper", "oidc-usermodel-property-mapper", "oidc-sha256-pairwise-sub-mapper", "oidc-full-name-mapper", "oidc-address-mapper", "oidc-usermodel-attribute-mapper", "saml-role-list-mapper", "saml-user-property-mapper" ]
       }
     }, {
       "id" : "51d2c464-87ed-4c55-825f-41bf665054b1",
@@ -1289,7 +1355,7 @@
       "subType" : "authenticated",
       "subComponents" : { },
       "config" : {
-        "allowed-protocol-mapper-types" : [ "oidc-sha256-pairwise-sub-mapper", "saml-role-list-mapper", "oidc-full-name-mapper", "oidc-usermodel-attribute-mapper", "oidc-usermodel-property-mapper", "oidc-address-mapper", "saml-user-property-mapper", "saml-user-attribute-mapper" ]
+        "allowed-protocol-mapper-types" : [ "oidc-usermodel-property-mapper", "oidc-usermodel-attribute-mapper", "saml-role-list-mapper", "saml-user-property-mapper", "saml-user-attribute-mapper", "oidc-sha256-pairwise-sub-mapper", "oidc-full-name-mapper", "oidc-address-mapper" ]
       }
     } ],
     "org.keycloak.keys.KeyProvider" : [ {
