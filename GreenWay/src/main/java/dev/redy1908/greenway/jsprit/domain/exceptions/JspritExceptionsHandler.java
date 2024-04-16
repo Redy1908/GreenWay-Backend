@@ -1,7 +1,7 @@
-package dev.redy1908.greenway.jspirit.domain.exceptions;
+package dev.redy1908.greenway.jsprit.domain.exceptions;
 
 import dev.redy1908.greenway.app.web.models.ErrorResponseDTO;
-import dev.redy1908.greenway.jspirit.domain.exceptions.models.NoDeliveryToOrganizeException;
+import dev.redy1908.greenway.jsprit.domain.exceptions.models.NoDeliveryToOrganizeException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -11,7 +11,7 @@ import org.springframework.web.context.request.WebRequest;
 import java.time.LocalDateTime;
 
 @ControllerAdvice
-public class JspriteExceptionsHandler {
+public class JspritExceptionsHandler {
 
     @ExceptionHandler(NoDeliveryToOrganizeException.class)
     public ResponseEntity<ErrorResponseDTO> handleNoDeliveryToOrganizeException(NoDeliveryToOrganizeException exception,

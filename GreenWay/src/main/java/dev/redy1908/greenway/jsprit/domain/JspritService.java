@@ -1,4 +1,4 @@
-package dev.redy1908.greenway.jspirit.domain;
+package dev.redy1908.greenway.jsprit.domain;
 
 import com.graphhopper.jsprit.core.algorithm.VehicleRoutingAlgorithm;
 import com.graphhopper.jsprit.core.algorithm.box.Jsprit;
@@ -21,7 +21,7 @@ import dev.redy1908.greenway.delivery_man.domain.DeliveryMan;
 import dev.redy1908.greenway.delivery_man.domain.IDeliveryManService;
 import dev.redy1908.greenway.delivery_vehicle.domain.DeliveryVehicle;
 import dev.redy1908.greenway.delivery_vehicle.domain.IDeliveryVehicleService;
-import dev.redy1908.greenway.jspirit.domain.exceptions.models.NoDeliveryToOrganizeException;
+import dev.redy1908.greenway.jsprit.domain.exceptions.models.NoDeliveryToOrganizeException;
 import dev.redy1908.greenway.osrm.domain.IOsrmService;
 import kotlin.Pair;
 import lombok.RequiredArgsConstructor;

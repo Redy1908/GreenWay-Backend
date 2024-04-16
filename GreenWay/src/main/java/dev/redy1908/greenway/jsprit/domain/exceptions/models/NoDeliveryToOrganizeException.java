@@ -1,4 +1,4 @@
-package dev.redy1908.greenway.jspirit.domain.exceptions.models;
+package dev.redy1908.greenway.jsprit.domain.exceptions.models;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

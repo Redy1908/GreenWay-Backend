@@ -1,6 +1,6 @@
-package dev.redy1908.greenway.jspirit.web;
+package dev.redy1908.greenway.jsprit.web;
 
-import dev.redy1908.greenway.jspirit.domain.IJspritService;
+import dev.redy1908.greenway.jsprit.domain.IJspritService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("api/v1/schedule")
 @RequiredArgsConstructor
-public class JspiritController {
+public class JspritController {
 
     private final IJspritService jspritService;
 
