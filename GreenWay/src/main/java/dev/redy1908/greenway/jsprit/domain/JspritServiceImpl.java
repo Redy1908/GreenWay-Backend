@@ -25,19 +25,21 @@ import dev.redy1908.greenway.jsprit.domain.exceptions.models.NoDeliveryToOrganiz
 import dev.redy1908.greenway.osrm.domain.IOsrmService;
 import dev.redy1908.greenway.vehicle_deposit.domain.IVehicleDepositService;
 import dev.redy1908.greenway.vehicle_deposit.domain.VehicleDeposit;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.util.Pair;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-@Component
+@Service
+@Transactional
 @RequiredArgsConstructor
-public class JspritService implements IJspritService {
+public class JspritServiceImpl implements IJspritService {
 
     private final IOsrmService osrmService;
     private final IDeliveryVehicleService deliveryVehicleService;
@@ -106,7 +108,7 @@ public class JspritService implements IJspritService {
                 String id = deliveryVehicle.getId().toString();
 
                 VehicleType type = VehicleTypeImpl.Builder.newInstance(id)
-                        .addCapacityDimension(WEIGHT_INDEX, deliveryVehicle.getMaxCapacityKg())
+                        .addCapacityDimension(WEIGHT_INDEX, deliveryVehicle.getMaxCapacityKg() - deliveryVehicle.getCurrentLoadKg())
                         .build();
 
                 VehicleImpl vehicle = VehicleImpl.Builder.newInstance(id)
@@ -174,6 +176,7 @@ public class JspritService implements IJspritService {
                     delivery.setDeliveryVehicle(deliveryVehicle);
 
                     deliveryVehicle.getDeliveries().addLast(delivery);
+                    deliveryVehicle.setCurrentLoadKg(deliveryVehicle.getCurrentLoadKg() + delivery.getWeightKg());
                     deliveryVehicleService.save(deliveryVehicle);
                 }
             }

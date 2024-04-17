@@ -27,6 +27,9 @@ public class DeliveryVehicle extends BaseEntity {
     @Column(nullable = false)
     private int maxCapacityKg;
 
+    @Column(nullable = false)
+    private int currentLoadKg = 0;
+
     @OrderColumn
     @OneToMany(mappedBy = "deliveryVehicle", fetch = FetchType.EAGER)
     private List<Delivery> deliveries = new ArrayList<>();

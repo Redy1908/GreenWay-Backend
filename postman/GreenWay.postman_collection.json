@@ -171,7 +171,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"depositAddress\": \"Via Bergamo\",\r\n    \"depositCoordinates\": {\r\n        \"type\": \"Point\",\r\n        \"coordinates\": [14.220771, 40.840825]\r\n    }\r\n}",
+							"raw": "{\r\n    \"depositAddress\": \"Via Roma\",\r\n    \"depositCoordinates\": {\r\n        \"type\": \"Point\",\r\n        \"coordinates\": [14.266262,40.884837]\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -261,7 +261,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"depositAddress\": \"Via Bergamo\",\r\n    \"depositCoordinates\": {\r\n        \"type\": \"Point\",\r\n        \"coordinates\": [14.220771, 40.840825]\r\n    }\r\n}",
+							"raw": "{\r\n    \"depositAddress\": \"Via Roma\",\r\n    \"depositCoordinates\": {\r\n        \"type\": \"Point\",\r\n        \"coordinates\": [14.266262,40.884837]\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -846,7 +846,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"sender\": \"Mario Rossi\",\r\n    \"senderAddress\": \"Via Roma\",\r\n    \"receiver\": \"Beatrice Bianchi\",\r\n    \"receiverAddress\": \"Via Napoli\",\r\n    \"receiverCoordinates\": {\r\n        \"type\": \"Point\",\r\n        \"coordinates\":[14.275188, 40.860434]\r\n    },\r\n    \"weightKg\": \"1.5\"\r\n}\r\n",
+							"raw": "{\r\n    \"sender\": \"Mario Rossi\",\r\n    \"senderAddress\": \"Via Roma\",\r\n    \"receiver\": \"Beatrice Bianchi\",\r\n    \"receiverAddress\": \"Via Napoli\",\r\n    \"receiverCoordinates\": {\r\n        \"type\": \"Point\",\r\n        \"coordinates\":[14.331493,40.981074]\r\n    },\r\n    \"weightKg\": \"1\"\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
