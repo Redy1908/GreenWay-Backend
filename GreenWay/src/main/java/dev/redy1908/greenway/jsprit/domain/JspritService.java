@@ -5,7 +5,7 @@ import com.graphhopper.jsprit.core.algorithm.box.Jsprit;
 import com.graphhopper.jsprit.core.problem.Location;
 import com.graphhopper.jsprit.core.problem.VehicleRoutingProblem;
 import com.graphhopper.jsprit.core.problem.cost.VehicleRoutingTransportCosts;
-import com.graphhopper.jsprit.core.problem.job.Service;
+import com.graphhopper.jsprit.core.problem.job.Shipment;
 import com.graphhopper.jsprit.core.problem.solution.VehicleRoutingProblemSolution;
 import com.graphhopper.jsprit.core.problem.solution.route.VehicleRoute;
 import com.graphhopper.jsprit.core.problem.solution.route.activity.TourActivity;
@@ -130,12 +130,13 @@ public class JspritService implements IJspritService {
         for (Delivery delivery : deliveryList) {
             String id = delivery.getId().toString();
 
-            Service service = Service.Builder.newInstance(id)
-                    .setLocation(Location.newInstance(Integer.toString(pos)))
+            Shipment shipment = Shipment.Builder.newInstance(id)
+                    .setPickupLocation(Location.newInstance(0))
+                    .setDeliveryLocation(Location.newInstance(Integer.toString(pos)))
                     .addSizeDimension(WEIGHT_INDEX, delivery.getWeightKg())
                     .build();
 
-            vrpBuilder.addJob(service);
+            vrpBuilder.addJob(shipment);
             pos++;
         }
     }
@@ -164,13 +165,9 @@ public class JspritService implements IJspritService {
 
             for (TourActivity act : route.getActivities()) {
                 String jobId;
-                if (act instanceof TourActivity.JobActivity jobActivity) {
+                if (act instanceof TourActivity.JobActivity jobActivity && jobActivity.getName().equals("deliverShipment")) {
                     jobId = jobActivity.getJob().getId();
-                } else {
-                    jobId = "-";
-                }
 
-                if (!jobId.equals("-")) {
                     Delivery delivery = deliveryService.findById(Integer.parseInt(jobId));
                     delivery.setDeliveryVehicle(deliveryVehicle);
 

@@ -36,7 +36,7 @@ public class VehicleExceptionsHandler extends ResponseEntityExceptionHandler {
                 HttpStatus.NOT_FOUND,
                 exception.getMessage(),
                 LocalDateTime.now());
-        return new ResponseEntity<>(errorResponseDTO, HttpStatus.CONTINUE);
+        return new ResponseEntity<>(errorResponseDTO, HttpStatus.NOT_FOUND);
     }
 
 }

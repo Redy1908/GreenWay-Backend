@@ -105,13 +105,13 @@ public class DeliveryVehicleServiceImpl implements IDeliveryVehicleService {
 
     private List<Point> extractWaypoints(Point startingPoint, List<Delivery> deliveryList, int id) {
 
+        if (deliveryList.isEmpty()) {
+            throw new NoDeliveryAssignedException(id);
+        }
+
         List<Point> wayPoints = deliveryList.stream()
                 .map(Delivery::getReceiverCoordinates)
                 .collect(Collectors.toList());
-
-        if (wayPoints.isEmpty()) {
-            throw new NoDeliveryAssignedException(id);
-        }
 
         wayPoints.addLast(startingPoint);
 

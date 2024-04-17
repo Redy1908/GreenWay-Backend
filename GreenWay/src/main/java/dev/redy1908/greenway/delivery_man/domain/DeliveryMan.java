@@ -22,7 +22,7 @@ public class DeliveryMan {
     @Column(unique = true, nullable = false)
     private String username;
 
-    @OneToOne(orphanRemoval = true)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "delivery_vehicle_id")
     private DeliveryVehicle deliveryVehicle;
 
