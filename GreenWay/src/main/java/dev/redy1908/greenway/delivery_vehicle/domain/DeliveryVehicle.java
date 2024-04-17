@@ -28,10 +28,10 @@ public class DeliveryVehicle extends BaseEntity {
     private int maxCapacityKg;
 
     @OrderColumn
-    @OneToMany(mappedBy = "deliveryVehicle", orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "deliveryVehicle", fetch = FetchType.EAGER)
     private List<Delivery> deliveries = new ArrayList<>();
 
-    @OneToOne(mappedBy = "deliveryVehicle", orphanRemoval = true)
+    @OneToOne(mappedBy = "deliveryVehicle")
     private DeliveryMan deliveryMan;
 
 }
