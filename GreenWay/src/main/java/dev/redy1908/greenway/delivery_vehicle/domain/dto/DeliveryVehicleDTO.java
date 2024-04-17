@@ -6,8 +6,6 @@ import java.util.List;
 
 public record DeliveryVehicleDTO(
 
-        Long id,
-
         String modelName,
 
         int maxAutonomyKm,

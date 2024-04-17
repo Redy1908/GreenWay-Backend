@@ -7,4 +7,6 @@ import java.util.Optional;
 public interface DeliveryVehicleRepository extends JpaRepository<DeliveryVehicle, Integer> {
 
     Optional<DeliveryVehicle> findByDeliveryMan_Username(String deliveryManUsername);
+
+    boolean existsByIdAndDeliveryMan_Username(int vehicleId, String deliveryManUsername);
 }

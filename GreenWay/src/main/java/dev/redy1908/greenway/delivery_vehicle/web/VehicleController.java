@@ -1,14 +1,17 @@
 package dev.redy1908.greenway.delivery_vehicle.web;
 
+import dev.redy1908.greenway.app.web.models.PageResponseDTO;
 import dev.redy1908.greenway.app.web.models.ResponseDTO;
 import dev.redy1908.greenway.delivery_vehicle.domain.DeliveryVehicle;
 import dev.redy1908.greenway.delivery_vehicle.domain.IDeliveryVehicleService;
 import dev.redy1908.greenway.delivery_vehicle.domain.dto.DeliveryVehicleCreationDTO;
 import dev.redy1908.greenway.delivery_vehicle.domain.dto.DeliveryVehicleDTO;
+import dev.redy1908.greenway.delivery_vehicle.domain.dto.DeliveryVehicleNoDeliveriesDTO;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -38,17 +41,30 @@ public class VehicleController {
                 .body(new ResponseDTO(HttpStatus.CREATED.value(), HttpStatus.CREATED, "Vehicle created"));
     }
 
-    @GetMapping
-    public ResponseEntity<DeliveryVehicleDTO> findByDeliveryManUsername(@RequestParam(name = "deliveryman") String deliveryManUsername) {
+    @GetMapping("/deliveryman/{deliveryManUsername}")
+    @PreAuthorize("hasRole('GREEN_WAY_ADMIN') || (#deliveryManUsername == authentication.principal.claims['preferred_username'])")
+    public ResponseEntity<DeliveryVehicleDTO> findByDeliveryManUsername(@PathVariable String deliveryManUsername) {
         return ResponseEntity.ok(vehicleService.findByDeliveryManUsername(deliveryManUsername));
     }
 
-    @GetMapping("{vehicleId}/route")
+    @GetMapping
+    public ResponseEntity<PageResponseDTO<DeliveryVehicleNoDeliveriesDTO>> getAllVehicles(
+            @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
+            @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize) {
+
+        PageResponseDTO<DeliveryVehicleNoDeliveriesDTO> deliveryVehiclePageResponseDTO = vehicleService.findAll(pageNo, pageSize);
+
+        return ResponseEntity.ok().body(deliveryVehiclePageResponseDTO);
+    }
+
+    @GetMapping("/{vehicleId}/route")
+    @PreAuthorize("hasRole('GREEN_WAY_ADMIN') || @deliveryVehicleServiceImpl.isAssociatedWithVehicle(#vehicleId, authentication.principal.claims['preferred_username'])")
     public ResponseEntity<Map<String, Object>> getRouteNavigationData(@PathVariable int vehicleId) {
         return ResponseEntity.ok(vehicleService.getRouteNavigationData(vehicleId));
     }
 
-    @GetMapping("{vehicleId}/route/elevation")
+    @GetMapping("/{vehicleId}/route/elevation")
+    @PreAuthorize("hasRole('GREEN_WAY_ADMIN') || @deliveryVehicleServiceImpl.isAssociatedWithVehicle(#vehicleId, authentication.principal.claims['preferred_username'])")
     public ResponseEntity<Map<String, Object>> getRouteElevationData(@PathVariable int vehicleId) {
         return ResponseEntity.ok(vehicleService.getRouteElevationData(vehicleId));
     }

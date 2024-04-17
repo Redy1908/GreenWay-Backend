@@ -29,13 +29,14 @@ public class SecurityConfig {
     };
 
     private static final String[] GET_ADMIN_LIST_URL = {
-            "/api/v1/schedule"
+            "/api/v1/schedule",
+            "api/v1/deliveries"
     };
 
     private static final String[] GET_ADMIN_DELIVERY_MAN_LIST_URL = {
-            "/api/v1/vehicles/route",
-            "/api/v1/vehicles/route/elevation",
-            "/api/v1/vehicles/*",
+            "/api/v1/vehicles/deliveryman/*",
+            "/api/v1/vehicles/*/route",
+            "/api/v1/vehicles/*/route/elevation",
     };
 
     private static final String[] POST_DELIVERY_MAN_LIST_URL = {

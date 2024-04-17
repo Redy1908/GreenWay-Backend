@@ -1,14 +1,18 @@
 package dev.redy1908.greenway.delivery_vehicle.domain;
 
+import dev.redy1908.greenway.app.web.models.PageResponseDTO;
 import dev.redy1908.greenway.delivery.domain.Delivery;
 import dev.redy1908.greenway.delivery_vehicle.domain.dto.DeliveryVehicleCreationDTO;
 import dev.redy1908.greenway.delivery_vehicle.domain.dto.DeliveryVehicleDTO;
+import dev.redy1908.greenway.delivery_vehicle.domain.dto.DeliveryVehicleNoDeliveriesDTO;
 import dev.redy1908.greenway.delivery_vehicle.domain.exceptions.models.DeliveryVehicleNotFoundException;
 import dev.redy1908.greenway.delivery_vehicle.domain.exceptions.models.NoDeliveryAssignedException;
 import dev.redy1908.greenway.osrm.domain.IOsrmService;
 import dev.redy1908.greenway.vehicle_deposit.domain.IVehicleDepositService;
 import lombok.RequiredArgsConstructor;
 import org.locationtech.jts.geom.Point;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -48,6 +52,23 @@ public class DeliveryVehicleServiceImpl implements IDeliveryVehicleService {
     }
 
     @Override
+    public PageResponseDTO<DeliveryVehicleNoDeliveriesDTO> findAll(int pageNo, int pageSize) {
+        Page<DeliveryVehicle> elements = deliveryVehicleRepository.findAll(PageRequest.of(pageNo, pageSize));
+        List<DeliveryVehicle> listElements = elements.getContent();
+        List<DeliveryVehicleNoDeliveriesDTO> content = listElements.stream().map(deliveryVehicleMapper::deliveryVehicleToDeliveryVehicleNoDeliveriesDTO).toList();
+
+        PageResponseDTO<DeliveryVehicleNoDeliveriesDTO> pageResponseDTO = new PageResponseDTO<>();
+        pageResponseDTO.setContent(content);
+        pageResponseDTO.setPageNo(elements.getNumber());
+        pageResponseDTO.setPageSize(elements.getSize());
+        pageResponseDTO.setTotalElements(elements.getTotalElements());
+        pageResponseDTO.setTotalPages(elements.getTotalPages());
+        pageResponseDTO.setLast(elements.isLast());
+
+        return pageResponseDTO;
+    }
+
+    @Override
     public DeliveryVehicleDTO findByDeliveryManUsername(String deliveryManUsername) {
         DeliveryVehicle deliveryVehicle = deliveryVehicleRepository.findByDeliveryMan_Username(deliveryManUsername).orElseThrow(
                 () -> new DeliveryVehicleNotFoundException(deliveryManUsername));
@@ -75,6 +96,11 @@ public class DeliveryVehicleServiceImpl implements IDeliveryVehicleService {
         List<Point> wayPoints = extractWaypoints(startingPoint, deliveryVehicle.getDeliveries(), id);
 
         return osrmService.getElevationData(startingPoint, wayPoints);
+    }
+
+    @Override
+    public boolean isAssociatedWithVehicle(int vehicleId, String deliveryManUsername) {
+        return deliveryVehicleRepository.existsByIdAndDeliveryMan_Username(vehicleId, deliveryManUsername);
     }
 
     private List<Point> extractWaypoints(Point startingPoint, List<Delivery> deliveryList, int id) {
