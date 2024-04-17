@@ -23,8 +23,8 @@ import dev.redy1908.greenway.delivery_vehicle.domain.DeliveryVehicle;
 import dev.redy1908.greenway.delivery_vehicle.domain.IDeliveryVehicleService;
 import dev.redy1908.greenway.jsprit.domain.exceptions.models.NoDeliveryToOrganizeException;
 import dev.redy1908.greenway.osrm.domain.IOsrmService;
-import kotlin.Pair;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.util.Pair;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 

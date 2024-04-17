@@ -4,12 +4,12 @@ import dev.redy1908.greenway.delivery.domain.Delivery;
 import dev.redy1908.greenway.delivery_vehicle.domain.DeliveryVehicle;
 import dev.redy1908.greenway.osrm.domain.exceptions.models.InvalidOsrmResponseException;
 import dev.redy1908.greenway.osrm.domain.exceptions.models.PointOutOfBoundsException;
-import kotlin.Pair;
 import lombok.RequiredArgsConstructor;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.locationtech.jts.geom.Point;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.util.Pair;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -110,7 +110,7 @@ class OsrmServiceImpl implements IOsrmService {
             }
         }
 
-        return new Pair<>(matrixDurations, matrixDistances);
+        return Pair.of(matrixDurations, matrixDistances);
     }
 
     private String buildUrlMatrix(List<DeliveryVehicle> deliveryVehicleList, List<Delivery> deliveryList) {
