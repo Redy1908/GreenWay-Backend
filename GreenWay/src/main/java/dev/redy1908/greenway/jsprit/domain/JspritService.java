@@ -30,6 +30,7 @@ import org.springframework.data.util.Pair;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -48,7 +49,6 @@ public class JspritService implements IJspritService {
     private List<DeliveryVehicle> vehicleList;
     private List<DeliveryMan> deliveryManList;
     private Pair<double[][], double[][]> matrices;
-
 
     private static final int WEIGHT_INDEX = 0;
 
@@ -143,7 +143,7 @@ public class JspritService implements IJspritService {
 
     private void setRoutingCosts(VehicleRoutingProblem.Builder vrpBuilder, int i, int j, double[][] matrixDistances, double[][] matrixDurations) {
 
-        VehicleRoutingTransportCostsMatrix.Builder costMatrixBuilder = VehicleRoutingTransportCostsMatrix.Builder.newInstance(true);
+        VehicleRoutingTransportCostsMatrix.Builder costMatrixBuilder = VehicleRoutingTransportCostsMatrix.Builder.newInstance(false);
 
         for (int from = 0; from < i; from++) {
             for (int to = 0; to < j; to++) {
@@ -167,8 +167,10 @@ public class JspritService implements IJspritService {
                 String jobId;
                 if (act instanceof TourActivity.JobActivity jobActivity && jobActivity.getName().equals("deliverShipment")) {
                     jobId = jobActivity.getJob().getId();
+                    double jobArriveTime = jobActivity.getArrTime();
 
                     Delivery delivery = deliveryService.findById(Integer.parseInt(jobId));
+                    delivery.setEstimatedDeliveryTime(LocalDateTime.now().plusHours(2).plusSeconds((long) jobArriveTime));
                     delivery.setDeliveryVehicle(deliveryVehicle);
 
                     deliveryVehicle.getDeliveries().addLast(delivery);

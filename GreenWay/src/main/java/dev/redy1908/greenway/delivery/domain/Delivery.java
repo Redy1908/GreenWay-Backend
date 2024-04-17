@@ -8,7 +8,7 @@ import lombok.Setter;
 import org.hibernate.proxy.HibernateProxy;
 import org.locationtech.jts.geom.Point;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
@@ -33,7 +33,7 @@ public class Delivery extends BaseEntity {
     private Point receiverCoordinates;
 
     @Column(nullable = true)
-    private LocalDate estimatedDeliveryDate;
+    private LocalDateTime estimatedDeliveryTime;
 
     @Column(nullable = false)
     private int weightKg;

@@ -4,6 +4,8 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import org.locationtech.jts.geom.Point;
 
+import java.time.LocalDateTime;
+
 public record DeliveryDTO(
 
         @NotEmpty
@@ -20,6 +22,9 @@ public record DeliveryDTO(
 
         @NotNull
         Point receiverCoordinates,
+
+        @NotNull
+        LocalDateTime estimatedDeliveryTime,
 
         @NotNull
         Double weightKg
