@@ -5,7 +5,6 @@ import dev.redy1908.greenway.delivery.domain.Delivery;
 import dev.redy1908.greenway.delivery_man.domain.DeliveryMan;
 import jakarta.persistence.*;
 import lombok.*;
-import org.locationtech.jts.geom.Point;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,12 +26,6 @@ public class DeliveryVehicle extends BaseEntity {
 
     @Column(nullable = false)
     private int maxCapacityKg;
-
-    @Column(nullable = false)
-    private String depositAddress;
-
-    @Column(columnDefinition = "geography", nullable = false)
-    private Point depositCoordinates;
 
     @OrderColumn
     @OneToMany(mappedBy = "deliveryVehicle", orphanRemoval = true, fetch = FetchType.EAGER)

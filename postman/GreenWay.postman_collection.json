@@ -102,6 +102,191 @@
 			]
 		},
 		{
+			"name": "Vehicle Deposit",
+			"item": [
+				{
+					"name": "Create Vehicle Deposit",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "clientSecret",
+									"value": "jyTj9K8qcn3AoZjElhNCT15klfdiBH0K",
+									"type": "string"
+								},
+								{
+									"key": "accessTokenUrl",
+									"value": "http://localhost:8090/realms/GreenWay/protocol/openid-connect/token",
+									"type": "string"
+								},
+								{
+									"key": "authUrl",
+									"value": "http://localhost:8090/realms/GreenWay/protocol/openid-connect/auth",
+									"type": "string"
+								},
+								{
+									"key": "clientId",
+									"value": "GreenWay",
+									"type": "string"
+								},
+								{
+									"key": "state",
+									"value": "ew34er-344fgfg-5gfgfg",
+									"type": "string"
+								},
+								{
+									"key": "useBrowser",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "grant_type",
+									"value": "authorization_code",
+									"type": "string"
+								},
+								{
+									"key": "tokenName",
+									"value": "authcode_accesstoken",
+									"type": "string"
+								},
+								{
+									"key": "client_authentication",
+									"value": "body",
+									"type": "string"
+								},
+								{
+									"key": "scope",
+									"value": "openid email profile",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"depositAddress\": \"Via Bergamo\",\r\n    \"depositCoordinates\": {\r\n        \"type\": \"Point\",\r\n        \"coordinates\": [14.220771, 40.840825]\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/deposit",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"deposit"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Vehicle Deposit",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "clientSecret",
+									"value": "jyTj9K8qcn3AoZjElhNCT15klfdiBH0K",
+									"type": "string"
+								},
+								{
+									"key": "accessTokenUrl",
+									"value": "http://localhost:8090/realms/GreenWay/protocol/openid-connect/token",
+									"type": "string"
+								},
+								{
+									"key": "authUrl",
+									"value": "http://localhost:8090/realms/GreenWay/protocol/openid-connect/auth",
+									"type": "string"
+								},
+								{
+									"key": "clientId",
+									"value": "GreenWay",
+									"type": "string"
+								},
+								{
+									"key": "state",
+									"value": "ew34er-344fgfg-5gfgfg",
+									"type": "string"
+								},
+								{
+									"key": "useBrowser",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "grant_type",
+									"value": "authorization_code",
+									"type": "string"
+								},
+								{
+									"key": "tokenName",
+									"value": "authcode_accesstoken",
+									"type": "string"
+								},
+								{
+									"key": "client_authentication",
+									"value": "body",
+									"type": "string"
+								},
+								{
+									"key": "scope",
+									"value": "openid email profile",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"depositAddress\": \"Via Bergamo\",\r\n    \"depositCoordinates\": {\r\n        \"type\": \"Point\",\r\n        \"coordinates\": [14.220771, 40.840825]\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/deposit",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"deposit"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Vehicle",
 			"item": [
 				{
@@ -171,7 +356,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"modelName\": \"Fiat E-Ducato\",\r\n    \"maxAutonomyKm\": \"370\",\r\n    \"maxCapacityKg\": \"100\",\r\n    \"depositAddress\": \"Via Roma\",\r\n    \"depositCoordinates\": {\r\n        \"type\": \"Point\",\r\n        \"coordinates\":[14.220771, 40.840825]\r\n    }\r\n}",
+							"raw": "{\r\n    \"modelName\": \"Fiat E-Ducato\",\r\n    \"maxAutonomyKm\": \"370\",\r\n    \"maxCapacityKg\": \"100\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -556,7 +741,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"depositAddress\": \"Via Bergamo\",\r\n    \"depositCoordinates\": {\r\n        \"type\": \"Point\",\r\n        \"coordinates\": [14.220771, 40.840825]\r\n    },\r\n    \"sender\": \"Mario Rossi\",\r\n    \"senderAddress\": \"Via Roma\",\r\n    \"receiver\": \"Beatrice Bianchi\",\r\n    \"receiverAddress\": \"Via Napoli\",\r\n    \"receiverCoordinates\": {\r\n        \"type\": \"Point\",\r\n        \"coordinates\":[14.275188, 40.860434]\r\n    },\r\n    \"weightKg\": \"1.5\"\r\n}\r\n",
+							"raw": "{\r\n    \"sender\": \"Mario Rossi\",\r\n    \"senderAddress\": \"Via Roma\",\r\n    \"receiver\": \"Beatrice Bianchi\",\r\n    \"receiverAddress\": \"Via Napoli\",\r\n    \"receiverCoordinates\": {\r\n        \"type\": \"Point\",\r\n        \"coordinates\":[14.275188, 40.860434]\r\n    },\r\n    \"weightKg\": \"1.5\"\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"

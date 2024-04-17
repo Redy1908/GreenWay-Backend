@@ -18,12 +18,6 @@ import java.util.Objects;
 public class Delivery extends BaseEntity {
 
     @Column(nullable = false)
-    private String depositAddress;
-
-    @Column(nullable = false)
-    private Point depositCoordinates;
-
-    @Column(nullable = false)
     private String sender;
 
     @Column(nullable = false)

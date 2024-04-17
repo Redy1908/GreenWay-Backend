@@ -1,7 +1,7 @@
 package dev.redy1908.greenway.osrm.domain;
 
 import dev.redy1908.greenway.delivery.domain.Delivery;
-import dev.redy1908.greenway.delivery_vehicle.domain.DeliveryVehicle;
+import dev.redy1908.greenway.vehicle_deposit.domain.VehicleDeposit;
 import org.locationtech.jts.geom.Point;
 import org.springframework.data.util.Pair;
 
@@ -16,5 +16,5 @@ public interface IOsrmService {
 
     void checkPointInBounds(Point point);
 
-    Pair<double[][], double[][]> getMatrixDistances(List<DeliveryVehicle> deliveryVehicleList, List<Delivery> deliveryList);
+    Pair<double[][], double[][]> getMatrixDistances(VehicleDeposit vehicleDeposit, List<Delivery> deliveryList);
 }

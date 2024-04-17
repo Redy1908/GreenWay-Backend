@@ -5,10 +5,6 @@ import org.locationtech.jts.geom.Point;
 
 public record DeliveryCreationDTO(
 
-        @NotNull String depositAddress,
-
-        @NotNull Point depositCoordinates,
-
         @NotNull String sender,
 
         @NotNull String senderAddress,

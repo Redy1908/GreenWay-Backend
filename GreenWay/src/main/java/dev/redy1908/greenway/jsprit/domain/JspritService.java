@@ -23,6 +23,8 @@ import dev.redy1908.greenway.delivery_vehicle.domain.DeliveryVehicle;
 import dev.redy1908.greenway.delivery_vehicle.domain.IDeliveryVehicleService;
 import dev.redy1908.greenway.jsprit.domain.exceptions.models.NoDeliveryToOrganizeException;
 import dev.redy1908.greenway.osrm.domain.IOsrmService;
+import dev.redy1908.greenway.vehicle_deposit.domain.IVehicleDepositService;
+import dev.redy1908.greenway.vehicle_deposit.domain.VehicleDeposit;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.util.Pair;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -40,6 +42,7 @@ public class JspritService implements IJspritService {
     private final IDeliveryVehicleService deliveryVehicleService;
     private final IDeliveryService deliveryService;
     private final IDeliveryManService deliveryManService;
+    private final IVehicleDepositService depositService;
 
     private List<Delivery> deliveryList;
     private List<DeliveryVehicle> vehicleList;
@@ -83,12 +86,13 @@ public class JspritService implements IJspritService {
         deliveryList = deliveryService.findAllByDeliveryVehicleNull();
         vehicleList = deliveryVehicleService.findAll();
         deliveryManList = deliveryManService.findAll();
+        VehicleDeposit vehicleDeposit = depositService.getVehicleDeposit();
 
         if (deliveryList.isEmpty()) {
             throw new NoDeliveryToOrganizeException();
         }
 
-        matrices = osrmService.getMatrixDistances(vehicleList, deliveryList);
+        matrices = osrmService.getMatrixDistances(vehicleDeposit, deliveryList);
     }
 
     private void addVehicles(VehicleRoutingProblem.Builder vrpBuilder, List<DeliveryMan> deliveryManList, List<DeliveryVehicle> deliveryVehicleList) {

@@ -1,7 +1,7 @@
 package dev.redy1908.greenway.osrm.domain;
 
 import dev.redy1908.greenway.delivery.domain.Delivery;
-import dev.redy1908.greenway.delivery_vehicle.domain.DeliveryVehicle;
+import dev.redy1908.greenway.vehicle_deposit.domain.VehicleDeposit;
 import dev.redy1908.greenway.osrm.domain.exceptions.models.InvalidOsrmResponseException;
 import dev.redy1908.greenway.osrm.domain.exceptions.models.PointOutOfBoundsException;
 import lombok.RequiredArgsConstructor;
@@ -86,9 +86,9 @@ class OsrmServiceImpl implements IOsrmService {
     }
 
     @Override
-    public Pair<double[][], double[][]> getMatrixDistances(List<DeliveryVehicle> deliveryVehicleList, List<Delivery> deliveryList) {
+    public Pair<double[][], double[][]> getMatrixDistances(VehicleDeposit vehicleDeposit, List<Delivery> deliveryList) {
 
-        String url = buildUrlMatrix(deliveryVehicleList, deliveryList);
+        String url = buildUrlMatrix(vehicleDeposit, deliveryList);
 
         ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
         JSONObject jsonObject = new JSONObject(response.getBody());
@@ -113,13 +113,12 @@ class OsrmServiceImpl implements IOsrmService {
         return Pair.of(matrixDurations, matrixDistances);
     }
 
-    private String buildUrlMatrix(List<DeliveryVehicle> deliveryVehicleList, List<Delivery> deliveryList) {
+    private String buildUrlMatrix(VehicleDeposit vehicleDeposit, List<Delivery> deliveryList) {
         StringBuilder urlBuilder = new StringBuilder(OSRM_TABLE_URL);
 
-        DeliveryVehicle deliveryVehicle = deliveryVehicleList.getFirst();
-        urlBuilder.append(deliveryVehicle.getDepositCoordinates().getX());
+        urlBuilder.append(vehicleDeposit.getDepositCoordinates().getX());
         urlBuilder.append(",");
-        urlBuilder.append(deliveryVehicle.getDepositCoordinates().getY());
+        urlBuilder.append(vehicleDeposit.getDepositCoordinates().getY());
         urlBuilder.append(";");
 
         for (Delivery delivery : deliveryList) {

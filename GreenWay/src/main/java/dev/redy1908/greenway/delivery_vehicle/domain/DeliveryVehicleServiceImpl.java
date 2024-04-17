@@ -6,6 +6,7 @@ import dev.redy1908.greenway.delivery_vehicle.domain.dto.DeliveryVehicleDTO;
 import dev.redy1908.greenway.delivery_vehicle.domain.exceptions.models.DeliveryVehicleNotFoundException;
 import dev.redy1908.greenway.delivery_vehicle.domain.exceptions.models.NoDeliveryAssignedException;
 import dev.redy1908.greenway.osrm.domain.IOsrmService;
+import dev.redy1908.greenway.vehicle_deposit.domain.IVehicleDepositService;
 import lombok.RequiredArgsConstructor;
 import org.locationtech.jts.geom.Point;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,7 @@ public class DeliveryVehicleServiceImpl implements IDeliveryVehicleService {
     private final DeliveryVehicleRepository deliveryVehicleRepository;
     private final DeliveryVehicleMapper deliveryVehicleMapper;
     private final IOsrmService osrmService;
+    private final IVehicleDepositService vehicleDepositService;
 
     @Override
     public DeliveryVehicle save(DeliveryVehicleCreationDTO deliveryVehicleCreationDTO) {
@@ -57,7 +59,7 @@ public class DeliveryVehicleServiceImpl implements IDeliveryVehicleService {
     public Map<String, Object> getRouteNavigationData(int id) {
         DeliveryVehicle deliveryVehicle = deliveryVehicleRepository.findById(id).orElseThrow(() -> new DeliveryVehicleNotFoundException(id));
 
-        Point startingPoint = deliveryVehicle.getDepositCoordinates();
+        Point startingPoint = vehicleDepositService.getVehicleDeposit().getDepositCoordinates();
 
         List<Point> wayPoints = extractWaypoints(startingPoint, deliveryVehicle.getDeliveries(), id);
 
@@ -68,7 +70,7 @@ public class DeliveryVehicleServiceImpl implements IDeliveryVehicleService {
     public Map<String, Object> getRouteElevationData(int id) {
         DeliveryVehicle deliveryVehicle = deliveryVehicleRepository.findById(id).orElseThrow(() -> new DeliveryVehicleNotFoundException(id));
 
-        Point startingPoint = deliveryVehicle.getDepositCoordinates();
+        Point startingPoint = vehicleDepositService.getVehicleDeposit().getDepositCoordinates();
 
         List<Point> wayPoints = extractWaypoints(startingPoint, deliveryVehicle.getDeliveries(), id);
 

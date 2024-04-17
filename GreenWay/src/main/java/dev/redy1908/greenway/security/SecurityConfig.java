@@ -19,12 +19,17 @@ public class SecurityConfig {
     private static final String DELIVERY_MAN_ROLE = "GREEN_WAY_DELIVERY_MAN";
 
     private static final String[] POST_ADMIN_LIST_URL = {
+            "/api/v1/deposit",
             "/api/v1/vehicles",
-            "api/v1/deliveries"
+            "/api/v1/deliveries"
+    };
+
+    private static final String[] PUT_ADMIN_LIST_URL = {
+            "/api/v1/deposit",
     };
 
     private static final String[] GET_ADMIN_LIST_URL = {
-            "api/v1/schedule"
+            "/api/v1/schedule"
     };
 
     private static final String[] GET_ADMIN_DELIVERY_MAN_LIST_URL = {
@@ -43,6 +48,7 @@ public class SecurityConfig {
         http.authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.GET, GET_ADMIN_LIST_URL).hasRole(ADMIN_ROLE)
                         .requestMatchers(HttpMethod.POST, POST_ADMIN_LIST_URL).hasRole(ADMIN_ROLE)
+                        .requestMatchers(HttpMethod.PUT, PUT_ADMIN_LIST_URL).hasRole(ADMIN_ROLE)
                         .requestMatchers(HttpMethod.GET, GET_ADMIN_DELIVERY_MAN_LIST_URL).hasAnyRole(ADMIN_ROLE, DELIVERY_MAN_ROLE)
                         .requestMatchers(HttpMethod.POST, POST_DELIVERY_MAN_LIST_URL).hasRole(DELIVERY_MAN_ROLE)
                         .anyRequest().authenticated())
