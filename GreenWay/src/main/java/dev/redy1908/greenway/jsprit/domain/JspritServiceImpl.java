@@ -5,7 +5,6 @@ import com.graphhopper.jsprit.core.algorithm.box.Jsprit;
 import com.graphhopper.jsprit.core.problem.Location;
 import com.graphhopper.jsprit.core.problem.VehicleRoutingProblem;
 import com.graphhopper.jsprit.core.problem.cost.VehicleRoutingTransportCosts;
-import com.graphhopper.jsprit.core.problem.job.Shipment;
 import com.graphhopper.jsprit.core.problem.solution.VehicleRoutingProblemSolution;
 import com.graphhopper.jsprit.core.problem.solution.route.VehicleRoute;
 import com.graphhopper.jsprit.core.problem.solution.route.activity.TourActivity;
@@ -65,7 +64,7 @@ public class JspritServiceImpl implements IJspritService {
         int squareMatrixSize = deliveryList.size() + 1;
 
         VehicleRoutingProblem.Builder vrpBuilder = VehicleRoutingProblem.Builder.newInstance();
-        vrpBuilder.setFleetSize(VehicleRoutingProblem.FleetSize.INFINITE);
+        vrpBuilder.setFleetSize(VehicleRoutingProblem.FleetSize.FINITE);
 
         addVehicles(vrpBuilder, deliveryManList, vehicleList);
         addDeliveries(vrpBuilder, deliveryList);
@@ -132,14 +131,13 @@ public class JspritServiceImpl implements IJspritService {
         for (Delivery delivery : deliveryList) {
             String id = delivery.getId().toString();
 
-            Shipment shipment = Shipment.Builder.newInstance(id)
-                    .setPickupLocation(Location.newInstance(0))
-                    .setDeliveryLocation(Location.newInstance(Integer.toString(pos)))
-                    .setDeliveryServiceTime(420)
+            com.graphhopper.jsprit.core.problem.job.Service service = com.graphhopper.jsprit.core.problem.job.Service.Builder.newInstance(id)
+                    .setLocation(Location.newInstance(Integer.toString(pos)))
+                    .setServiceTime(420)
                     .addSizeDimension(WEIGHT_INDEX, delivery.getWeightKg())
                     .build();
 
-            vrpBuilder.addJob(shipment);
+            vrpBuilder.addJob(service);
             pos++;
         }
     }
@@ -168,7 +166,7 @@ public class JspritServiceImpl implements IJspritService {
 
             for (TourActivity act : route.getActivities()) {
                 String jobId;
-                if (act instanceof TourActivity.JobActivity jobActivity && jobActivity.getName().equals("deliverShipment")) {
+                if (act instanceof TourActivity.JobActivity jobActivity) {
                     jobId = jobActivity.getJob().getId();
                     double jobArriveTime = jobActivity.getArrTime();
 
