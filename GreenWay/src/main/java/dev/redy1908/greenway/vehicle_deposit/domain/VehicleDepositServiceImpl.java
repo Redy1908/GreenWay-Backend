@@ -6,6 +6,8 @@ import dev.redy1908.greenway.vehicle_deposit.domain.exceptions.models.VehicleDep
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class VehicleDepositServiceImpl implements IVehicleDepositService {
@@ -27,13 +29,25 @@ public class VehicleDepositServiceImpl implements IVehicleDepositService {
 
     @Override
     public VehicleDeposit getVehicleDeposit() {
-        return repository.findById(1).orElseThrow(VehicleDepositNotFoundException::new);
+        List<VehicleDeposit> vehicleDepositList = repository.findAll();
+
+        if(vehicleDepositList.isEmpty()){
+            throw new VehicleDepositNotFoundException();
+        }
+
+        return vehicleDepositList.getFirst();
     }
 
     @Override
     public void updateVehicleDeposit(VehicleDepositDTO vehicleDepositDTO) {
 
-        VehicleDeposit savedVehicleDeposit = repository.findById(1).orElseThrow();
+        List<VehicleDeposit> vehicleDepositList = repository.findAll();
+
+        if(vehicleDepositList.isEmpty()){
+            throw new VehicleDepositNotFoundException();
+        }
+
+        VehicleDeposit savedVehicleDeposit = vehicleDepositList.getFirst();
 
         savedVehicleDeposit.setDepositAddress(vehicleDepositDTO.depositAddress());
         savedVehicleDeposit.setDepositCoordinates(vehicleDepositDTO.depositCoordinates());
