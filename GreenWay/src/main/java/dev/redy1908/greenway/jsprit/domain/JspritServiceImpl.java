@@ -135,6 +135,7 @@ public class JspritServiceImpl implements IJspritService {
             Shipment shipment = Shipment.Builder.newInstance(id)
                     .setPickupLocation(Location.newInstance(0))
                     .setDeliveryLocation(Location.newInstance(Integer.toString(pos)))
+                    .setDeliveryServiceTime(420)
                     .addSizeDimension(WEIGHT_INDEX, delivery.getWeightKg())
                     .build();
 
