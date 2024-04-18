@@ -15,7 +15,7 @@ import java.util.List;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "vehicles")
+@Table(name = "delivery_vehicles")
 public class DeliveryVehicle extends BaseEntity {
 
     @Column(nullable = false)
