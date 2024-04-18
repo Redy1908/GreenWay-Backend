@@ -84,7 +84,7 @@ public class JspritServiceImpl implements IJspritService {
     }
 
     private void loadData() {
-        deliveryList = deliveryService.findAllByDeliveryVehicleNull();
+        deliveryList = deliveryService.findUnassignedDeliveries();
         vehicleList = deliveryVehicleService.findAll();
         deliveryManList = deliveryManService.findAll();
         VehicleDeposit vehicleDeposit = depositService.getVehicleDeposit();

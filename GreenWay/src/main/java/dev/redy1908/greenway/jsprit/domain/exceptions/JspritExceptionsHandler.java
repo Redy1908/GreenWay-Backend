@@ -18,11 +18,11 @@ public class JspritExceptionsHandler {
                                                                                 WebRequest webRequest) {
         ErrorResponseDTO errorResponseDTO = new ErrorResponseDTO(
                 webRequest.getDescription(false),
-                HttpStatus.TOO_EARLY.value(),
-                HttpStatus.TOO_EARLY,
+                HttpStatus.NOT_FOUND.value(),
+                HttpStatus.NOT_FOUND,
                 exception.getMessage(),
                 LocalDateTime.now());
-        return new ResponseEntity<>(errorResponseDTO, HttpStatus.TOO_EARLY);
+        return new ResponseEntity<>(errorResponseDTO, HttpStatus.NOT_FOUND);
     }
 
 }

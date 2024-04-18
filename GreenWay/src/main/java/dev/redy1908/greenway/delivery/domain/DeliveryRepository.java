@@ -8,5 +8,5 @@ import java.util.List;
 @Repository
 public interface DeliveryRepository extends JpaRepository<Delivery, Integer> {
 
-    List<Delivery> findAllByDeliveryVehicleNull();
+    List<Delivery> findAllByDeliveryVehicleNullAndDeliveredIsFalse();
 }

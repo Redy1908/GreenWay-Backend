@@ -38,6 +38,12 @@ public class Delivery extends BaseEntity {
     @Column(nullable = false)
     private int weightKg;
 
+    @Column(nullable = false)
+    private boolean delivered = false;
+
+    @Column(nullable = true)
+    private LocalDateTime deliveryTime;
+
     @ManyToOne
     @JoinColumn(name = "vehicle_id")
     private DeliveryVehicle deliveryVehicle;

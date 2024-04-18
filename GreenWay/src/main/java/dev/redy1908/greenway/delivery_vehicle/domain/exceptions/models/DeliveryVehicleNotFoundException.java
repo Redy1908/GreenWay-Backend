@@ -10,6 +10,6 @@ public class DeliveryVehicleNotFoundException extends RuntimeException {
     }
 
     public DeliveryVehicleNotFoundException(String deliveryManUsername) {
-        super(String.format("Vehicle with associated delvieryman: '%s' not found", deliveryManUsername));
+        super(String.format("Vehicle with associated deliveryman: '%s' not found", deliveryManUsername));
     }
 }
