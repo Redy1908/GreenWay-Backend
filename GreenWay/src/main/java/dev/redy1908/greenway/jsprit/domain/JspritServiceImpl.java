@@ -71,8 +71,6 @@ public class JspritServiceImpl implements IJspritService {
         double[][] matrixDurations = matrices.getFirst();
         double[][] matrixDistances = matrices.getSecond();
 
-        System.out.println(matrixDistances[0][1]);
-
         int squareMatrixSize = deliveryList.size() + 1;
 
         VehicleRoutingProblem.Builder vrpBuilder = VehicleRoutingProblem.Builder.newInstance();
@@ -219,7 +217,7 @@ public class JspritServiceImpl implements IJspritService {
 
             for (TourActivity act : route.getActivities()) {
                 String jobId;
-                if (act instanceof TourActivity.JobActivity jobActivity) {
+                if (act instanceof TourActivity.JobActivity jobActivity && jobActivity.getName().equals("deliverShipment")) {
                     jobId = jobActivity.getJob().getId();
                     double jobArriveTime = jobActivity.getArrTime();
 
