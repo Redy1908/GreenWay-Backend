@@ -61,7 +61,9 @@ public class JspritServiceImpl implements IJspritService {
     private static final int AUTONOMY_IN_METER_INDEX = 0;
     private static final int WEIGHT_IN_KG_INDEX = 1;
 
-    private static final int EST_CLIENT_RETRIEVE_TIME_SECONDS = 420;
+    private static final int TURN_START_TIME_SECONDS = 9 * 60 * 60;
+    private static final int TURN_END_TIME_SECONDS = 10 * 60 * 60;
+    private static final int EST_CLIENT_RETRIEVE_TIME_SECONDS = 7 * 60;
 
     @Scheduled(cron = "0 0 6 * * ?")
     public void schedule() {
@@ -127,6 +129,8 @@ public class JspritServiceImpl implements IJspritService {
 
                 VehicleImpl vehicle = VehicleImpl.Builder.newInstance(id)
                         .setStartLocation(Location.newInstance("0"))
+                        .setEarliestStart(TURN_START_TIME_SECONDS)
+                        .setLatestArrival(TURN_END_TIME_SECONDS)
                         .setReturnToDepot(true)
                         .setType(type)
                         .build();
