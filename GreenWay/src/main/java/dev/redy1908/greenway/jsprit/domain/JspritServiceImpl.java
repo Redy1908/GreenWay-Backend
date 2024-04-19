@@ -2,12 +2,19 @@ package dev.redy1908.greenway.jsprit.domain;
 
 import com.graphhopper.jsprit.core.algorithm.VehicleRoutingAlgorithm;
 import com.graphhopper.jsprit.core.algorithm.box.Jsprit;
+import com.graphhopper.jsprit.core.algorithm.state.StateId;
+import com.graphhopper.jsprit.core.algorithm.state.StateManager;
 import com.graphhopper.jsprit.core.problem.Location;
 import com.graphhopper.jsprit.core.problem.VehicleRoutingProblem;
+import com.graphhopper.jsprit.core.problem.constraint.ConstraintManager;
+import com.graphhopper.jsprit.core.problem.constraint.HardActivityConstraint;
 import com.graphhopper.jsprit.core.problem.cost.VehicleRoutingTransportCosts;
+import com.graphhopper.jsprit.core.problem.job.Shipment;
 import com.graphhopper.jsprit.core.problem.solution.VehicleRoutingProblemSolution;
 import com.graphhopper.jsprit.core.problem.solution.route.VehicleRoute;
+import com.graphhopper.jsprit.core.problem.solution.route.activity.PickupShipment;
 import com.graphhopper.jsprit.core.problem.solution.route.activity.TourActivity;
+import com.graphhopper.jsprit.core.problem.vehicle.Vehicle;
 import com.graphhopper.jsprit.core.problem.vehicle.VehicleImpl;
 import com.graphhopper.jsprit.core.problem.vehicle.VehicleType;
 import com.graphhopper.jsprit.core.problem.vehicle.VehicleTypeImpl;
@@ -51,7 +58,10 @@ public class JspritServiceImpl implements IJspritService {
     private List<DeliveryMan> deliveryManList;
     private Pair<double[][], double[][]> matrices;
 
-    private static final int WEIGHT_INDEX = 0;
+    private static final int AUTONOMY_IN_METER_INDEX = 0;
+    private static final int WEIGHT_IN_KG_INDEX = 1;
+
+    private static final int EST_CLIENT_RETRIEVE_TIME_SECONDS = 420;
 
     @Scheduled(cron = "0 0 6 * * ?")
     public void schedule() {
@@ -60,6 +70,8 @@ public class JspritServiceImpl implements IJspritService {
 
         double[][] matrixDurations = matrices.getFirst();
         double[][] matrixDistances = matrices.getSecond();
+
+        System.out.println(matrixDistances[0][1]);
 
         int squareMatrixSize = deliveryList.size() + 1;
 
@@ -72,7 +84,11 @@ public class JspritServiceImpl implements IJspritService {
 
         VehicleRoutingProblem vrp = vrpBuilder.build();
 
-        VehicleRoutingAlgorithm vra = Jsprit.createAlgorithm(vrp);
+        StateManager stateManager = buildStateManager(vrp);
+        ConstraintManager constraintManager = buildConstraintManager(vrp, stateManager);
+        addMaxDistanceConstraint(vrp, stateManager, constraintManager);
+
+        VehicleRoutingAlgorithm vra = Jsprit.Builder.newInstance(vrp).setStateAndConstraintManager(stateManager, constraintManager).buildAlgorithm();
 
         Collection<VehicleRoutingProblemSolution> solutions = vra.searchSolutions();
 
@@ -107,13 +123,14 @@ public class JspritServiceImpl implements IJspritService {
                 String id = deliveryVehicle.getId().toString();
 
                 VehicleType type = VehicleTypeImpl.Builder.newInstance(id)
-                        .addCapacityDimension(WEIGHT_INDEX, deliveryVehicle.getMaxCapacityKg() - deliveryVehicle.getCurrentLoadKg())
+                        .addCapacityDimension(AUTONOMY_IN_METER_INDEX, deliveryVehicle.getMaxAutonomyKm() * 1000)
+                        .addCapacityDimension(WEIGHT_IN_KG_INDEX, deliveryVehicle.getMaxCapacityKg() - deliveryVehicle.getCurrentLoadKg())
                         .build();
 
                 VehicleImpl vehicle = VehicleImpl.Builder.newInstance(id)
                         .setStartLocation(Location.newInstance("0"))
-                        .setType(type)
                         .setReturnToDepot(true)
+                        .setType(type)
                         .build();
 
                 vrpBuilder.addVehicle(vehicle);
@@ -131,10 +148,11 @@ public class JspritServiceImpl implements IJspritService {
         for (Delivery delivery : deliveryList) {
             String id = delivery.getId().toString();
 
-            com.graphhopper.jsprit.core.problem.job.Service service = com.graphhopper.jsprit.core.problem.job.Service.Builder.newInstance(id)
-                    .setLocation(Location.newInstance(Integer.toString(pos)))
-                    .setServiceTime(420)
-                    .addSizeDimension(WEIGHT_INDEX, delivery.getWeightKg())
+            Shipment service = Shipment.Builder.newInstance(id)
+                    .setPickupLocation(Location.newInstance("0"))
+                    .setDeliveryLocation(Location.newInstance(Integer.toString(pos)))
+                    .setDeliveryServiceTime(EST_CLIENT_RETRIEVE_TIME_SECONDS)
+                    .addSizeDimension(WEIGHT_IN_KG_INDEX, delivery.getWeightKg())
                     .build();
 
             vrpBuilder.addJob(service);
@@ -155,6 +173,41 @@ public class JspritServiceImpl implements IJspritService {
 
         VehicleRoutingTransportCosts costMatrix = costMatrixBuilder.build();
         vrpBuilder.setRoutingCost(costMatrix);
+    }
+
+    private StateManager buildStateManager(VehicleRoutingProblem vrp) {
+        return new StateManager(vrp);
+    }
+
+    private ConstraintManager buildConstraintManager(VehicleRoutingProblem vrp, StateManager stateManager) {
+        return new ConstraintManager(vrp, stateManager);
+    }
+
+    private void addMaxDistanceConstraint(VehicleRoutingProblem vrp, StateManager stateManager, ConstraintManager constraintManager) {
+
+        StateId stateId = stateManager.createStateId("distance");
+
+        constraintManager.addConstraint((iFacts, prevAct, newAct, nextAct, prevActDepTime) -> {
+
+            if (newAct instanceof PickupShipment) {
+                stateManager.putRouteState(iFacts.getRoute(), stateId, 0.0);
+            } else {
+                Vehicle vehicle = iFacts.getNewVehicle();
+
+                double distance = stateManager.getRouteState(iFacts.getRoute(), stateId, Double.class);
+                double additionalDistance = vrp.getTransportCosts().getDistance(prevAct.getLocation(), newAct.getLocation(), prevActDepTime, vehicle);
+                double distanceToDepot = vrp.getTransportCosts().getDistance(newAct.getLocation(), vehicle.getStartLocation(), prevActDepTime, vehicle);
+                int vehicleAutonomy = vehicle.getType().getCapacityDimensions().get(AUTONOMY_IN_METER_INDEX);
+
+                if (distance + additionalDistance + distanceToDepot > vehicleAutonomy) {
+                    return HardActivityConstraint.ConstraintsStatus.NOT_FULFILLED_BREAK;
+                }
+
+                stateManager.putRouteState(iFacts.getRoute(), stateId, distance + additionalDistance);
+            }
+
+            return HardActivityConstraint.ConstraintsStatus.FULFILLED;
+        }, ConstraintManager.Priority.CRITICAL);
     }
 
     private void organize(VehicleRoutingProblemSolution solution) {
