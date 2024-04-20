@@ -58,7 +58,9 @@ public class JspritServiceImpl implements IJspritService {
     private List<Delivery> deliveryList;
     private List<DeliveryVehicle> vehicleList;
     private List<DeliveryMan> deliveryManList;
-    private Pair<double[][], double[][]> matrices;
+    private Pair<double[][], double[][]> costMatrices;
+
+    private static final int DEPOSIT_LOCATION = 0;
 
     private static final int AUTONOMY_IN_METER_INDEX = 0;
     private static final int WEIGHT_IN_KG_INDEX = 1;
@@ -67,30 +69,31 @@ public class JspritServiceImpl implements IJspritService {
     private static final int TURN_END_TIME_SECONDS = 17 * 60 * 60;
     private static final int EST_CLIENT_RETRIEVE_TIME_SECONDS = 7 * 60;
 
+    private static final String DISTANCE_STATE_NAME = "distance";
+
     @Scheduled(cron = "0 0 6 * * ?")
     public void schedule() {
 
         loadData();
-
-        double[][] matrixDurations = matrices.getFirst();
-        double[][] matrixDistances = matrices.getSecond();
-
-        int squareMatrixSize = deliveryList.size() + 1;
 
         VehicleRoutingProblem.Builder vrpBuilder = VehicleRoutingProblem.Builder.newInstance();
         vrpBuilder.setFleetSize(VehicleRoutingProblem.FleetSize.FINITE);
 
         addVehicles(vrpBuilder, vehicleList);
         addDeliveries(vrpBuilder, deliveryList);
-        setRoutingCosts(vrpBuilder, squareMatrixSize, squareMatrixSize, matrixDistances, matrixDurations);
+        setRoutingCosts(vrpBuilder, costMatrices);
 
         VehicleRoutingProblem vrp = vrpBuilder.build();
 
         StateManager stateManager = buildStateManager(vrp);
         ConstraintManager constraintManager = buildConstraintManager(vrp, stateManager);
+
         addMaxDistanceConstraint(vrp, stateManager, constraintManager);
 
-        VehicleRoutingAlgorithm vra = Jsprit.Builder.newInstance(vrp).setStateAndConstraintManager(stateManager, constraintManager).buildAlgorithm();
+        VehicleRoutingAlgorithm vra = Jsprit.Builder
+                .newInstance(vrp)
+                .setStateAndConstraintManager(stateManager, constraintManager)
+                .buildAlgorithm();
 
         Collection<VehicleRoutingProblemSolution> solutions = vra.searchSolutions();
 
@@ -119,7 +122,7 @@ public class JspritServiceImpl implements IJspritService {
             throw new NoDeliveryVehicleToOrganizeException();
         }
 
-        matrices = osrmService.getMatrixDistances(vehicleDeposit, deliveryList);
+        costMatrices = osrmService.getMatrixDistances(vehicleDeposit, deliveryList);
     }
 
     private void addVehicles(VehicleRoutingProblem.Builder vrpBuilder, List<DeliveryVehicle> deliveryVehicleList) {
@@ -134,7 +137,7 @@ public class JspritServiceImpl implements IJspritService {
                     .build();
 
             VehicleImpl vehicle = VehicleImpl.Builder.newInstance(id)
-                    .setStartLocation(Location.newInstance("0"))
+                    .setStartLocation(Location.newInstance(DEPOSIT_LOCATION))
                     .setEarliestStart(TURN_START_TIME_SECONDS)
                     .setLatestArrival(TURN_END_TIME_SECONDS)
                     .setReturnToDepot(true)
@@ -152,8 +155,8 @@ public class JspritServiceImpl implements IJspritService {
             String id = delivery.getId().toString();
 
             Shipment service = Shipment.Builder.newInstance(id)
-                    .setPickupLocation(Location.newInstance("0"))
-                    .setDeliveryLocation(Location.newInstance(Integer.toString(pos)))
+                    .setPickupLocation(Location.newInstance(DEPOSIT_LOCATION))
+                    .setDeliveryLocation(Location.newInstance(pos))
                     .setDeliveryServiceTime(EST_CLIENT_RETRIEVE_TIME_SECONDS)
                     .addSizeDimension(WEIGHT_IN_KG_INDEX, delivery.getWeightKg())
                     .build();
@@ -163,12 +166,17 @@ public class JspritServiceImpl implements IJspritService {
         }
     }
 
-    private void setRoutingCosts(VehicleRoutingProblem.Builder vrpBuilder, int i, int j, double[][] matrixDistances, double[][] matrixDurations) {
+    private void setRoutingCosts(VehicleRoutingProblem.Builder vrpBuilder, Pair<double[][], double[][]> costMatrices) {
 
         VehicleRoutingTransportCostsMatrix.Builder costMatrixBuilder = VehicleRoutingTransportCostsMatrix.Builder.newInstance(false);
 
-        for (int from = 0; from < i; from++) {
-            for (int to = 0; to < j; to++) {
+        double[][] matrixDurations = costMatrices.getFirst();
+        double[][] matrixDistances = costMatrices.getSecond();
+
+        int matricesSize = matrixDurations.length - 1;
+
+        for (int from = 0; from < matricesSize; from++) {
+            for (int to = 0; to < matricesSize; to++) {
                 costMatrixBuilder.addTransportDistance(Integer.toString(from), Integer.toString(to), matrixDistances[from][to]);
                 costMatrixBuilder.addTransportTime(Integer.toString(from), Integer.toString(to), matrixDurations[from][to]);
             }
@@ -188,7 +196,7 @@ public class JspritServiceImpl implements IJspritService {
 
     private void addMaxDistanceConstraint(VehicleRoutingProblem vrp, StateManager stateManager, ConstraintManager constraintManager) {
 
-        StateId stateId = stateManager.createStateId("distance");
+        StateId stateId = stateManager.createStateId(DISTANCE_STATE_NAME);
 
         constraintManager.addConstraint((iFacts, prevAct, newAct, nextAct, prevActDepTime) -> {
 
@@ -228,7 +236,6 @@ public class JspritServiceImpl implements IJspritService {
                     jobId = jobActivity.getJob().getId();
                     double jobArriveTime = jobActivity.getArrTime();
 
-
                     Delivery delivery = deliveryService.findById(Integer.parseInt(jobId));
                     delivery.setEstimatedDeliveryTime(LocalDateTime.now().plusHours(3).plusSeconds((long) jobArriveTime));
                     delivery.setDeliveryVehicle(deliveryVehicle);
@@ -242,7 +249,6 @@ public class JspritServiceImpl implements IJspritService {
                     deliveryVehicleService.save(deliveryVehicle);
                 }
             }
-
             deliveryManIndex++;
         }
     }
