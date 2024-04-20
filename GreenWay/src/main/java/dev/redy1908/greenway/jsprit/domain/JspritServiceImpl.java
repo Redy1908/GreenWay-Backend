@@ -80,7 +80,7 @@ public class JspritServiceImpl implements IJspritService {
         VehicleRoutingProblem.Builder vrpBuilder = VehicleRoutingProblem.Builder.newInstance();
         vrpBuilder.setFleetSize(VehicleRoutingProblem.FleetSize.FINITE);
 
-        addVehicles(vrpBuilder, deliveryManList, vehicleList);
+        addVehicles(vrpBuilder, vehicleList);
         addDeliveries(vrpBuilder, deliveryList);
         setRoutingCosts(vrpBuilder, squareMatrixSize, squareMatrixSize, matrixDistances, matrixDurations);
 
@@ -111,46 +111,37 @@ public class JspritServiceImpl implements IJspritService {
             throw new NoDeliveryToOrganizeException();
         }
 
-        if(deliveryManList.isEmpty()) {
+        if (deliveryManList.isEmpty()) {
             throw new NoDeliveryManToOrganizeException();
         }
 
-        if(vehicleList.isEmpty()) {
+        if (vehicleList.isEmpty()) {
             throw new NoDeliveryVehicleToOrganizeException();
         }
 
         matrices = osrmService.getMatrixDistances(vehicleDeposit, deliveryList);
     }
 
-    private void addVehicles(VehicleRoutingProblem.Builder vrpBuilder, List<DeliveryMan> deliveryManList, List<DeliveryVehicle> deliveryVehicleList) {
+    private void addVehicles(VehicleRoutingProblem.Builder vrpBuilder, List<DeliveryVehicle> deliveryVehicleList) {
 
-        for (int i = 0; i < deliveryManList.size(); i++) {
 
-            DeliveryMan deliveryMan = deliveryManList.get(i);
+        for (DeliveryVehicle deliveryVehicle : deliveryVehicleList) {
+            String id = deliveryVehicle.getId().toString();
 
-            if (i < deliveryVehicleList.size()) {
-                DeliveryVehicle deliveryVehicle = deliveryVehicleList.get(i);
-                String id = deliveryVehicle.getId().toString();
+            VehicleType type = VehicleTypeImpl.Builder.newInstance(id)
+                    .addCapacityDimension(AUTONOMY_IN_METER_INDEX, deliveryVehicle.getMaxAutonomyKm() * 1000)
+                    .addCapacityDimension(WEIGHT_IN_KG_INDEX, deliveryVehicle.getMaxCapacityKg() - deliveryVehicle.getCurrentLoadKg())
+                    .build();
 
-                VehicleType type = VehicleTypeImpl.Builder.newInstance(id)
-                        .addCapacityDimension(AUTONOMY_IN_METER_INDEX, deliveryVehicle.getMaxAutonomyKm() * 1000)
-                        .addCapacityDimension(WEIGHT_IN_KG_INDEX, deliveryVehicle.getMaxCapacityKg() - deliveryVehicle.getCurrentLoadKg())
-                        .build();
+            VehicleImpl vehicle = VehicleImpl.Builder.newInstance(id)
+                    .setStartLocation(Location.newInstance("0"))
+                    .setEarliestStart(TURN_START_TIME_SECONDS)
+                    .setLatestArrival(TURN_END_TIME_SECONDS)
+                    .setReturnToDepot(true)
+                    .setType(type)
+                    .build();
 
-                VehicleImpl vehicle = VehicleImpl.Builder.newInstance(id)
-                        .setStartLocation(Location.newInstance("0"))
-                        .setEarliestStart(TURN_START_TIME_SECONDS)
-                        .setLatestArrival(TURN_END_TIME_SECONDS)
-                        .setReturnToDepot(true)
-                        .setType(type)
-                        .build();
-
-                vrpBuilder.addVehicle(vehicle);
-
-                deliveryMan.setDeliveryVehicle(deliveryVehicle);
-                deliveryVehicle.setDeliveryMan(deliveryMan);
-                deliveryVehicleService.save(deliveryVehicle);
-            }
+            vrpBuilder.addVehicle(vehicle);
         }
     }
 
@@ -225,9 +216,11 @@ public class JspritServiceImpl implements IJspritService {
     private void organize(VehicleRoutingProblemSolution solution) {
         List<VehicleRoute> vehicleRouteList = new ArrayList<>(solution.getRoutes());
 
+        int deliveryManIndex = 0;
         for (VehicleRoute route : vehicleRouteList) {
 
             DeliveryVehicle deliveryVehicle = deliveryVehicleService.findById(Integer.parseInt(route.getVehicle().getId()));
+            DeliveryMan deliveryMan = deliveryManList.get(deliveryManIndex);
 
             for (TourActivity act : route.getActivities()) {
                 String jobId;
@@ -235,18 +228,23 @@ public class JspritServiceImpl implements IJspritService {
                     jobId = jobActivity.getJob().getId();
                     double jobArriveTime = jobActivity.getArrTime();
 
+
                     Delivery delivery = deliveryService.findById(Integer.parseInt(jobId));
                     delivery.setEstimatedDeliveryTime(LocalDateTime.now().plusHours(3).plusSeconds((long) jobArriveTime));
                     delivery.setDeliveryVehicle(deliveryVehicle);
 
                     deliveryVehicle.getDeliveries().addLast(delivery);
                     deliveryVehicle.setCurrentLoadKg(deliveryVehicle.getCurrentLoadKg() + delivery.getWeightKg());
+                    deliveryVehicle.setDeliveryMan(deliveryMan);
+
+                    deliveryMan.setDeliveryVehicle(deliveryVehicle);
+
                     deliveryVehicleService.save(deliveryVehicle);
                 }
             }
-        }
 
-        //TODO delete association between deliveryMan and empty delivery vehicle
+            deliveryManIndex++;
+        }
     }
 
 }
