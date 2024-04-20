@@ -2,6 +2,7 @@
 	"info": {
 		"_postman_id": "dcebc094-134b-4cab-839d-06442853f573",
 		"name": "GreenWay",
+		"description": "REST API for the multiplatform application (IOS and Android), GreenWay, an Electric Vehicle (EV) routing service.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "27276004"
 	},
@@ -95,11 +96,13 @@
 								"v1",
 								"deliveryMen"
 							]
-						}
+						},
+						"description": "Create a new DeliveryMan, this is an utility method to sync the DeliveryMen between KeyCloak DB and Spring Boot DB"
 					},
 					"response": []
 				}
-			]
+			],
+			"description": "Collection of endpoints for the entity \"DeliveryMan\""
 		},
 		{
 			"name": "Vehicle Deposit",
@@ -190,7 +193,8 @@
 								"v1",
 								"deposit"
 							]
-						}
+						},
+						"description": "Create a new VehicleDeposit"
 					},
 					"response": []
 				},
@@ -280,14 +284,16 @@
 								"v1",
 								"deposit"
 							]
-						}
+						},
+						"description": "Update a VehicleDeposit both ADDRESS and COORDINATES are required"
 					},
 					"response": []
 				}
-			]
+			],
+			"description": "Collection of endpoints for the entity \"VehicleDeposit\""
 		},
 		{
-			"name": "Vehicle",
+			"name": "DeliveryVehicle",
 			"item": [
 				{
 					"name": "Create Vehicle",
@@ -375,7 +381,8 @@
 								"v1",
 								"vehicles"
 							]
-						}
+						},
+						"description": "Create a new DeliveryVehicle"
 					},
 					"response": []
 				},
@@ -480,7 +487,8 @@
 									"description": "OPTIONAL, if not provided default is 10"
 								}
 							]
-						}
+						},
+						"description": "Get all the DeliveryVehicles present in the DB"
 					},
 					"response": []
 				},
@@ -575,7 +583,8 @@
 								"deliveryman",
 								"deliveryman1"
 							]
-						}
+						},
+						"description": "Get the DeliveryVehicle associated with the deliveryMan"
 					},
 					"response": []
 				},
@@ -670,7 +679,8 @@
 								"1",
 								"route"
 							]
-						}
+						},
+						"description": "Get the GPS route for the DeliveryVehicle"
 					},
 					"response": []
 				},
@@ -766,11 +776,109 @@
 								"route",
 								"elevation"
 							]
-						}
+						},
+						"description": "Get elevation data for a subset of points inside the vehicle route"
+					},
+					"response": []
+				},
+				{
+					"name": "Leave Vehicle",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "clientSecret",
+									"value": "jyTj9K8qcn3AoZjElhNCT15klfdiBH0K",
+									"type": "string"
+								},
+								{
+									"key": "accessTokenUrl",
+									"value": "http://localhost:8090/realms/GreenWay/protocol/openid-connect/token",
+									"type": "string"
+								},
+								{
+									"key": "authUrl",
+									"value": "http://localhost:8090/realms/GreenWay/protocol/openid-connect/auth",
+									"type": "string"
+								},
+								{
+									"key": "clientId",
+									"value": "GreenWay",
+									"type": "string"
+								},
+								{
+									"key": "state",
+									"value": "ew34er-344fgfg-5gfgfg",
+									"type": "string"
+								},
+								{
+									"key": "useBrowser",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "grant_type",
+									"value": "authorization_code",
+									"type": "string"
+								},
+								{
+									"key": "tokenName",
+									"value": "authcode_accesstoken",
+									"type": "string"
+								},
+								{
+									"key": "client_authentication",
+									"value": "body",
+									"type": "string"
+								},
+								{
+									"key": "scope",
+									"value": "openid email profile",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/vehicles/1/leave",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"vehicles",
+								"1",
+								"leave"
+							]
+						},
+						"description": "Remove the deliveryMan and all the (undone) deliveries associated with the DeliveryVehicle, to be used at the end of the turn by the deliveryMan"
 					},
 					"response": []
 				}
-			]
+			],
+			"description": "Collection of endpoints for the entity \"DeliveryVehicle"
 		},
 		{
 			"name": "Delivery",
@@ -861,7 +969,8 @@
 								"v1",
 								"deliveries"
 							]
-						}
+						},
+						"description": "Create a new Delivery"
 					},
 					"response": []
 				},
@@ -966,7 +1075,8 @@
 									"description": "OPTIONAL, if not provided default is 10"
 								}
 							]
-						}
+						},
+						"description": "Get all the deliveries present in the DB"
 					},
 					"response": []
 				},
@@ -1061,11 +1171,13 @@
 								"2",
 								"complete"
 							]
-						}
+						},
+						"description": "Mark the delivery as completed removing it from the DeliveryVehicle"
 					},
 					"response": []
 				}
-			]
+			],
+			"description": "Collection of endpoints for the entity Delivery"
 		},
 		{
 			"name": "System",
@@ -1159,7 +1271,8 @@
 								"v1",
 								"schedule"
 							]
-						}
+						},
+						"description": "Trigger the deliveries scheduling beetween: all the unassagnied deliveries (not assigned to any vehicle and not delivered), free Vehicles (with no delivery assigned), free deliveryMan (with no vehicle assigned)"
 					},
 					"response": []
 				}
