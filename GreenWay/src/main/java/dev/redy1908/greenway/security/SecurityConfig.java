@@ -37,6 +37,7 @@ public class SecurityConfig {
             "/api/v1/vehicles/deliveryman/*",
             "/api/v1/vehicles/*/route",
             "/api/v1/vehicles/*/route/elevation",
+            "/api/v1/vehicles/*/leave",
             "/api/v1/deliveries/*/complete"
     };
 

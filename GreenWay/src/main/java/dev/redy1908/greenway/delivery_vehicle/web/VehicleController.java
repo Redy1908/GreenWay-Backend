@@ -58,15 +58,22 @@ public class VehicleController {
     }
 
     @GetMapping("/{vehicleId}/route")
-    @PreAuthorize("hasRole('GREEN_WAY_ADMIN') || @deliveryVehicleServiceImpl.isAssociatedWithVehicle(#vehicleId, authentication.principal.claims['preferred_username'])")
+    @PreAuthorize("hasRole('GREEN_WAY_ADMIN') || @deliveryVehicleServiceImpl.isAssociatedWithDeliveryMan(#vehicleId, authentication.principal.claims['preferred_username'])")
     public ResponseEntity<Map<String, Object>> getRouteNavigationData(@PathVariable int vehicleId) {
         return ResponseEntity.ok(vehicleService.getRouteNavigationData(vehicleId));
     }
 
     @GetMapping("/{vehicleId}/route/elevation")
-    @PreAuthorize("hasRole('GREEN_WAY_ADMIN') || @deliveryVehicleServiceImpl.isAssociatedWithVehicle(#vehicleId, authentication.principal.claims['preferred_username'])")
+    @PreAuthorize("hasRole('GREEN_WAY_ADMIN') || @deliveryVehicleServiceImpl.isAssociatedWithDeliveryMan(#vehicleId, authentication.principal.claims['preferred_username'])")
     public ResponseEntity<Map<String, Object>> getRouteElevationData(@PathVariable int vehicleId) {
         return ResponseEntity.ok(vehicleService.getRouteElevationData(vehicleId));
+    }
+
+    @GetMapping("{vehicleId}/leave")
+    @PreAuthorize("hasRole('GREEN_WAY_ADMIN') || @deliveryVehicleServiceImpl.isAssociatedWithDeliveryMan(#vehicleId, authentication.principal.claims['preferred_username'])")
+    public ResponseEntity<ResponseDTO> leaveVehicle(@PathVariable int vehicleId) {
+        vehicleService.leaveVehicle(vehicleId);
+        return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK.value(), HttpStatus.OK, "Vehicle cleared"));
     }
 
 }

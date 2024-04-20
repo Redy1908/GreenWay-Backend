@@ -3,6 +3,7 @@ package dev.redy1908.greenway.delivery_vehicle.domain.exceptions;
 import dev.redy1908.greenway.app.web.models.ErrorResponseDTO;
 import dev.redy1908.greenway.delivery_vehicle.domain.exceptions.models.DeliveryVehicleNotFoundException;
 import dev.redy1908.greenway.delivery_vehicle.domain.exceptions.models.NoDeliveryAssignedException;
+import dev.redy1908.greenway.delivery_vehicle.domain.exceptions.models.NoDeliveryManAssignedException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -37,6 +38,19 @@ public class VehicleExceptionsHandler extends ResponseEntityExceptionHandler {
                 exception.getMessage(),
                 LocalDateTime.now());
         return new ResponseEntity<>(errorResponseDTO, HttpStatus.NOT_FOUND);
+    }
+
+
+    @ExceptionHandler(NoDeliveryManAssignedException.class)
+    public ResponseEntity<ErrorResponseDTO> handleNoDeliveryAssignedException(NoDeliveryManAssignedException exception,
+                                                                              WebRequest webRequest) {
+        ErrorResponseDTO errorResponseDTO = new ErrorResponseDTO(
+                webRequest.getDescription(false),
+                HttpStatus.NOT_ACCEPTABLE.value(),
+                HttpStatus.NOT_ACCEPTABLE,
+                exception.getMessage(),
+                LocalDateTime.now());
+        return new ResponseEntity<>(errorResponseDTO, HttpStatus.NOT_ACCEPTABLE);
     }
 
 }

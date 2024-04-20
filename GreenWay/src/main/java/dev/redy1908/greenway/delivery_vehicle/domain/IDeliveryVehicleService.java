@@ -16,7 +16,7 @@ public interface IDeliveryVehicleService {
 
     DeliveryVehicle findById(int id);
 
-    List<DeliveryVehicle> findAll();
+    List<DeliveryVehicle> findAllEmptyVehicles();
 
     PageResponseDTO<DeliveryVehicleNoDeliveriesDTO> findAll(int pageNo, int pageSize);
 
@@ -26,6 +26,8 @@ public interface IDeliveryVehicleService {
 
     Map<String, Object> getRouteElevationData(int id);
 
-    boolean isAssociatedWithVehicle(int vehicleId, String deliveryManUsername);
+    boolean isAssociatedWithDeliveryMan(int id, String deliveryManUsername);
+
+    void leaveVehicle(int id);
 
 }

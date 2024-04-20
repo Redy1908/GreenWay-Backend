@@ -27,7 +27,9 @@ import dev.redy1908.greenway.delivery_man.domain.DeliveryMan;
 import dev.redy1908.greenway.delivery_man.domain.IDeliveryManService;
 import dev.redy1908.greenway.delivery_vehicle.domain.DeliveryVehicle;
 import dev.redy1908.greenway.delivery_vehicle.domain.IDeliveryVehicleService;
+import dev.redy1908.greenway.jsprit.domain.exceptions.models.NoDeliveryManToOrganizeException;
 import dev.redy1908.greenway.jsprit.domain.exceptions.models.NoDeliveryToOrganizeException;
+import dev.redy1908.greenway.jsprit.domain.exceptions.models.NoDeliveryVehicleToOrganizeException;
 import dev.redy1908.greenway.osrm.domain.IOsrmService;
 import dev.redy1908.greenway.vehicle_deposit.domain.IVehicleDepositService;
 import dev.redy1908.greenway.vehicle_deposit.domain.VehicleDeposit;
@@ -62,7 +64,7 @@ public class JspritServiceImpl implements IJspritService {
     private static final int WEIGHT_IN_KG_INDEX = 1;
 
     private static final int TURN_START_TIME_SECONDS = 9 * 60 * 60;
-    private static final int TURN_END_TIME_SECONDS = 10 * 60 * 60;
+    private static final int TURN_END_TIME_SECONDS = 17 * 60 * 60;
     private static final int EST_CLIENT_RETRIEVE_TIME_SECONDS = 7 * 60;
 
     @Scheduled(cron = "0 0 6 * * ?")
@@ -101,12 +103,20 @@ public class JspritServiceImpl implements IJspritService {
 
     private void loadData() {
         deliveryList = deliveryService.findUnassignedDeliveries();
-        vehicleList = deliveryVehicleService.findAll();
-        deliveryManList = deliveryManService.findAll();
+        vehicleList = deliveryVehicleService.findAllEmptyVehicles();
+        deliveryManList = deliveryManService.findFreeDeliveryMen();
         VehicleDeposit vehicleDeposit = depositService.getVehicleDeposit();
 
         if (deliveryList.isEmpty()) {
             throw new NoDeliveryToOrganizeException();
+        }
+
+        if(deliveryManList.isEmpty()) {
+            throw new NoDeliveryManToOrganizeException();
+        }
+
+        if(vehicleList.isEmpty()) {
+            throw new NoDeliveryVehicleToOrganizeException();
         }
 
         matrices = osrmService.getMatrixDistances(vehicleDeposit, deliveryList);
@@ -226,7 +236,7 @@ public class JspritServiceImpl implements IJspritService {
                     double jobArriveTime = jobActivity.getArrTime();
 
                     Delivery delivery = deliveryService.findById(Integer.parseInt(jobId));
-                    delivery.setEstimatedDeliveryTime(LocalDateTime.now().plusHours(2).plusSeconds((long) jobArriveTime));
+                    delivery.setEstimatedDeliveryTime(LocalDateTime.now().plusHours(3).plusSeconds((long) jobArriveTime));
                     delivery.setDeliveryVehicle(deliveryVehicle);
 
                     deliveryVehicle.getDeliveries().addLast(delivery);
@@ -235,6 +245,8 @@ public class JspritServiceImpl implements IJspritService {
                 }
             }
         }
+
+        //TODO delete association between deliveryMan and empty delivery vehicle
     }
 
 }

@@ -2,11 +2,13 @@ package dev.redy1908.greenway.delivery_vehicle.domain;
 
 import dev.redy1908.greenway.app.web.models.PageResponseDTO;
 import dev.redy1908.greenway.delivery.domain.Delivery;
+import dev.redy1908.greenway.delivery_man.domain.DeliveryMan;
 import dev.redy1908.greenway.delivery_vehicle.domain.dto.DeliveryVehicleCreationDTO;
 import dev.redy1908.greenway.delivery_vehicle.domain.dto.DeliveryVehicleDTO;
 import dev.redy1908.greenway.delivery_vehicle.domain.dto.DeliveryVehicleNoDeliveriesDTO;
 import dev.redy1908.greenway.delivery_vehicle.domain.exceptions.models.DeliveryVehicleNotFoundException;
 import dev.redy1908.greenway.delivery_vehicle.domain.exceptions.models.NoDeliveryAssignedException;
+import dev.redy1908.greenway.delivery_vehicle.domain.exceptions.models.NoDeliveryManAssignedException;
 import dev.redy1908.greenway.osrm.domain.IOsrmService;
 import dev.redy1908.greenway.vehicle_deposit.domain.IVehicleDepositService;
 import lombok.RequiredArgsConstructor;
@@ -47,8 +49,8 @@ public class DeliveryVehicleServiceImpl implements IDeliveryVehicleService {
     }
 
     @Override
-    public List<DeliveryVehicle> findAll() {
-        return deliveryVehicleRepository.findAll();
+    public List<DeliveryVehicle> findAllEmptyVehicles() {
+        return deliveryVehicleRepository.findAllByDeliveriesIsNull();
     }
 
     @Override
@@ -99,8 +101,33 @@ public class DeliveryVehicleServiceImpl implements IDeliveryVehicleService {
     }
 
     @Override
-    public boolean isAssociatedWithVehicle(int vehicleId, String deliveryManUsername) {
+    public boolean isAssociatedWithDeliveryMan(int vehicleId, String deliveryManUsername) {
         return deliveryVehicleRepository.existsByIdAndDeliveryMan_Username(vehicleId, deliveryManUsername);
+    }
+
+    @Override
+    public void leaveVehicle(int id) {
+       DeliveryVehicle deliveryVehicle = deliveryVehicleRepository.findById(id).orElseThrow(
+               () -> new DeliveryVehicleNotFoundException(id));
+
+        DeliveryMan deliveryMan = deliveryVehicle.getDeliveryMan();
+
+        if(deliveryMan == null){
+           throw new NoDeliveryManAssignedException(id);
+        }
+
+        deliveryVehicle.setDeliveryMan(null);
+        deliveryMan.setDeliveryVehicle(null);
+
+        deliveryVehicle.getDeliveries().forEach(delivery -> {
+            delivery.setDeliveryVehicle(null);
+            deliveryVehicle.setCurrentLoadKg(deliveryVehicle.getCurrentLoadKg() - delivery.getWeightKg());
+        });
+
+        deliveryVehicle.setDeliveries(null);
+
+        deliveryVehicleRepository.save(deliveryVehicle);
+
     }
 
     private List<Point> extractWaypoints(Point startingPoint, List<Delivery> deliveryList, int id) {

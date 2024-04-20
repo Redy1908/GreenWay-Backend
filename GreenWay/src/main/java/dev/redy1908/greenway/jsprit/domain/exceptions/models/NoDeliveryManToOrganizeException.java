@@ -4,9 +4,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.NOT_FOUND)
-public class NoDeliveryToOrganizeException extends RuntimeException{
+public class NoDeliveryManToOrganizeException extends RuntimeException {
 
-    public NoDeliveryToOrganizeException() {
-        super("No unassigned Delivery to organize found.");
+    public NoDeliveryManToOrganizeException() {
+        super("No free delivery man to organize found.");
     }
 }
