@@ -43,7 +43,7 @@
 </details>
 
 <!-- ABOUT THE PROJECT -->
-## About The Projec
+## About The Project
 
 This is the Backend of GreenWay, an innovative project focused on the routing and optimization of electric vehicle (EV) paths, specifically within the challenging context of goods delivery across complex terrains.
 The project uniquely considers altitude variations in its optimization algorithms, ensuring the most efficient routes for electric vehicles. Furthermore, GreenWay effectively addresses the
