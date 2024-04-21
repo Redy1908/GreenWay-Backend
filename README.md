@@ -7,10 +7,14 @@
     <img src="images/logo.png" alt="Logo" width="80" height="80">
   </a>
 
-<h3 align="center">GreenWay</h3>
-
-  <p style="text-align: center">Routing and optimization of electric vehicle paths, in a context of goods delivery in territories with complex orography.</p>
+  <h3 align="center">GreenWay</h3>
+    
+  <div style="text-align: center">
+    Routing and optimization of electric vehicle paths, in a context of goods delivery in territories with complex orography.
+  </div>
 </div>
+
+<br>
 
 <details>
   <summary>Table of Contents</summary>
