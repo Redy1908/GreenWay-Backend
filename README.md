@@ -62,7 +62,7 @@ recharging breaks. This strategic approach not only enhances delivery efficiency
 * [![Java][Java]][Java-url]
 * [![Docker][Docker]][Docker-url]
 
-<p style="text-align: right">(<a href="#readme-top">back to top</a>)</p>
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- GETTING STARTED -->
 ## Getting Started
@@ -83,7 +83,7 @@ Within the root folder execute:
    docker compose up -d
 ```
 
-<p style="text-align: right">(<a href="#readme-top">back to top</a>)</p>
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 <!-- USAGE EXAMPLES -->
@@ -91,7 +91,7 @@ Within the root folder execute:
 
 **TODO**
 
-<p style="text-align: right">(<a href="#readme-top">back to top</a>)</p>
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## Example
 
@@ -109,7 +109,7 @@ Now let's limit the number of deliveries for the three vehicles to 4:
 
 <img src="images/map3.png" alt="map2">
 
-<p style="text-align: right">(<a href="#readme-top">back to top</a>)</p>
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- Customization -->
 ## Customization
@@ -166,6 +166,9 @@ GreenWay comes preconfigured with the map of Southern Italy and the relative ele
 16. Run the following command inside `GreenWay/`:
     - `./mvnw -DskipTests spring-boot:build-image `
 17. Edit the ```docker-compose.yml``` file in the root directory, line [65][Github-url-6], replace the `image` value with the name of your image
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
 
 [SpringBoot]: https://img.shields.io/badge/SpringBoot-6DB33F?logo=Spring&logoColor=white
 [SpringBoot-url]: https://spring.io/projects/spring-boot
