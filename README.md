@@ -9,9 +9,7 @@
 
 <h3 align="center">GreenWay</h3>
 
-  <p style="text-align: center">
-    Routing and optimization of electric vehicle paths, in a context of goods delivery in territories with complex orography.
-  </p>
+  <p style="text-align: center">Routing and optimization of electric vehicle paths, in a context of goods delivery in territories with complex orography.</p>
 </div>
 
 <details>
