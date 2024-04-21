@@ -12,6 +12,7 @@
   <p style="text-align: center">
     Routing and optimization of electric vehicle paths, in a context of goods delivery in territories with complex orography. 
     <br />
+  </p>
 </div>
 
 <details>
