@@ -2,18 +2,18 @@
 
 <!-- PROJECT LOGO -->
 <br />
-
-<p style="text-align: center">
+<div style="text-align: center">
   <a href="https://github.com/Redy1908/GreenWay-Backend">
     <img src="images/logo.png" alt="Logo" width="80" height="80">
   </a>
 
-  <h3 align="center">GreenWay</h3>
-    
+<h3 align="center">GreenWay</h3>
+
   <p style="text-align: center">
     Routing and optimization of Electric Vehicle paths,
-    in a context of goods delivery in territories with complex terrain.
+    in a context of goods delivery in territories with complex terrain.  
   </p>
+</div>
 
 <br>
 
