@@ -26,6 +26,8 @@ CREATE TABLE deliveries
     updated_at              TIMESTAMP(6),
     updated_by              VARCHAR(255),
     estimated_delivery_date DATE,
+    delivered               boolean      NOT NULL,
+    delivery_time           timestamp(6),
     receiver                VARCHAR(255) NOT NULL,
     receiver_address        VARCHAR(255) NOT NULL,
     receiver_coordinates    GEOGRAPHY,

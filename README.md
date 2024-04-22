@@ -36,6 +36,13 @@
     <li><a href="#usage">Usage</a></li>
     <li><a href="#example">Example</a></li>
     <li>
+     <a href="#architecture">Architecture</a>
+      <ul>
+        <li><a href="#database">Database</a></li>
+        <li><a href="#system">System</a></li>
+      </ul>
+    </li>
+    <li>
      <a href="#customization">Customization</a>
       <ul>
         <li><a href="#keycloak">Keycloak</a></li>
@@ -112,6 +119,21 @@ the algorithm output will be:
 Now let's limit the number of deliveries for the three vehicles to 4:
 
 <img src="images/map3.png" alt="map2">
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+<!-- Customization -->
+## Architecture
+
+### Database
+
+<img src="images/GreenWayDB.png" alt="database">
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+### System
+
+<img src="images/System.png" alt="database">
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
