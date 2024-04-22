@@ -27,17 +27,17 @@
       </ul>
     </li>
     <li>
-      <a href="#getting-started">Getting Started</a>
-      <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#run">Run</a></li>
-      </ul>
-    </li>
-    <li>
      <a href="#architecture">Architecture</a>
       <ul>
         <li><a href="#system">System</a></li>
         <li><a href="#database">Database</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#getting-started">Getting Started</a>
+      <ul>
+        <li><a href="#prerequisites">Prerequisites</a></li>
+        <li><a href="#run">Run</a></li>
       </ul>
     </li>
     <li><a href="#usage">Usage</a></li>
@@ -75,6 +75,21 @@ recharging breaks. This strategic approach not only enhances delivery efficiency
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+<!-- Design -->
+## Architecture
+
+### System
+
+<img src="images/System.png" alt="database">
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+### Database
+
+<img src="images/GreenWayDB.png" alt="database">
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
 <!-- GETTING STARTED -->
 ## Getting Started
 
@@ -93,21 +108,6 @@ Within the root folder execute:
 ```cmd
    docker compose up -d
 ```
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-<!-- Design -->
-## Architecture
-
-### System
-
-<img src="images/System.png" alt="database">
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-### Database
-
-<img src="images/GreenWayDB.png" alt="database">
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
