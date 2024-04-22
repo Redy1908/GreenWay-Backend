@@ -8,6 +8,9 @@ import java.time.LocalDateTime;
 
 public record DeliveryDTO(
 
+        @NotNull
+        int id,
+
         @NotEmpty
         String sender,
 
