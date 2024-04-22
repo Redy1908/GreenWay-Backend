@@ -36,9 +36,10 @@ import dev.redy1908.greenway.vehicle_deposit.domain.VehicleDeposit;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.util.Pair;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -71,8 +72,8 @@ public class JspritServiceImpl implements IJspritService {
 
     private static final String DISTANCE_STATE_NAME = "distance";
 
-    @Scheduled(cron = "0 0 6 * * ?")
-    public void schedule() {
+    //@Scheduled(cron = "0 0 6 * * ?")
+    public String schedule() {
 
         loadData();
 
@@ -99,9 +100,14 @@ public class JspritServiceImpl implements IJspritService {
 
         VehicleRoutingProblemSolution bestSolution = Solutions.bestOf(solutions);
 
-        SolutionPrinter.print(vrp, bestSolution, SolutionPrinter.Print.VERBOSE);
-
         organize(bestSolution);
+
+        StringWriter stringWriter = new StringWriter();
+        PrintWriter printWriter = new PrintWriter(stringWriter);
+
+        SolutionPrinter.print(printWriter, vrp, bestSolution, SolutionPrinter.Print.VERBOSE);
+
+        return stringWriter.toString();
     }
 
     private void loadData() {
