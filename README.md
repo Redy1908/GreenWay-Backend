@@ -178,7 +178,7 @@ GreenWay comes preconfigured with the map of Southern Italy and the relative ele
 [SpringBoot-url]: https://spring.io/projects/spring-boot
 [ProjectOSRM]: https://img.shields.io/badge/Project_OSRM_with_OpenStreetMap-white?logo=openstreetmap&logoColor=6DB33F
 [ProjectOSRM-url]: https://project-osrm.org/
-[Docker]: https://img.shields.io/badge/Dokcer-2496ED?style=flat-square&logo=docker&logoColor=white
+[Docker]: https://img.shields.io/badge/Dokcer-2496ED?logo=docker&logoColor=white
 [Docker-url]: https://www.docker.com/
 [Java]:https://img.shields.io/badge/Java-ED8B00?logo=openjdk&logoColor=white
 [Java-url]:https://www.oracle.com/it/java/technologies/downloads/
