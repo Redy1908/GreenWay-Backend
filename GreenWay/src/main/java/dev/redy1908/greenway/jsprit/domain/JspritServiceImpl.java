@@ -173,10 +173,10 @@ public class JspritServiceImpl implements IJspritService {
         double[][] matrixDurations = costMatrices.getFirst();
         double[][] matrixDistances = costMatrices.getSecond();
 
-        int matricesSize = matrixDurations.length - 1;
+        int matrixSize = matrixDurations.length;
 
-        for (int from = 0; from < matricesSize; from++) {
-            for (int to = 0; to < matricesSize; to++) {
+        for (int from = 0; from < matrixSize; from++) {
+            for (int to = 0; to < matrixSize; to++) {
                 costMatrixBuilder.addTransportDistance(Integer.toString(from), Integer.toString(to), matrixDistances[from][to]);
                 costMatrixBuilder.addTransportTime(Integer.toString(from), Integer.toString(to), matrixDurations[from][to]);
             }
