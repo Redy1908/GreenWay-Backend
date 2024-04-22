@@ -48,10 +48,14 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-This is the Backend of GreenWay, an innovative project focused on the routing and optimization of electric vehicle (EV) paths, specifically within the challenging context of goods delivery across complex terrains.
-The project uniquely considers altitude variations in its optimization algorithms, ensuring the most efficient routes for electric vehicles. Furthermore, GreenWay effectively addresses the
-[Travelling Salesman Problem](https://en.wikipedia.org/wiki/Travelling_salesman_problem) by organizing deliveries in a manner that allows vehicles to return to the depot without the need for
-recharging breaks. This strategic approach not only enhances delivery efficiency but also aims to extend the range and usability of electric vehicles in goods delivery.
+This is the Backend of GreenWay, a project focused on the routing and optimization of electric vehicle (EV) paths, 
+specifically within the challenging context of goods delivery across complex terrains.
+GreenWay considers altitude variations in its optimization algorithm, 
+ensuring the most efficient routes for electric vehicles. 
+Furthermore, GreenWay effectively addresses a variant of the
+[Travelling Salesman Problem](https://en.wikipedia.org/wiki/Travelling_salesman_problem) the [Vehicle Routing Problem](https://en.wikipedia.org/wiki/Vehicle_routing_problem),
+by organizing deliveries in a manner that allows vehicles to return to the depot without the need for
+recharging breaks. This strategic approach not only enhances delivery efficiency but also aims to extend the range and usability of electric vehicles.
 
 ### Built With
 
