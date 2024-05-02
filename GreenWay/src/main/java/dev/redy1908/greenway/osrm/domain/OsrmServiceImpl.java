@@ -1,6 +1,8 @@
 package dev.redy1908.greenway.osrm.domain;
 
 import dev.redy1908.greenway.delivery.domain.Delivery;
+import dev.redy1908.greenway.osrm.domain.exceptions.models.CantConnectToOpentopoDataException;
+import dev.redy1908.greenway.osrm.domain.exceptions.models.CantConnectToOsrmException;
 import dev.redy1908.greenway.vehicle_deposit.domain.VehicleDeposit;
 import dev.redy1908.greenway.osrm.domain.exceptions.models.InvalidOsrmResponseException;
 import dev.redy1908.greenway.osrm.domain.exceptions.models.PointOutOfBoundsException;
@@ -12,6 +14,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.util.Pair;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -64,17 +67,25 @@ class OsrmServiceImpl implements IOsrmService {
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(OPENTOPODATA_URL).queryParam("locations", polyline);
         URI uri = builder.build().encode().toUri();
 
-        return restTemplate.getForObject(uri, Map.class);
+        try {
+            return restTemplate.getForObject(uri, Map.class);
+        }catch (RestClientException e){
+            throw new CantConnectToOpentopoDataException();
+        }
     }
 
     private Map<String, Object> getOsrmResponse(String url) {
-        Map<String, Object> osrmResponse = restTemplate.getForObject(url, Map.class);
+        try {
+            Map<String, Object> osrmResponse = restTemplate.getForObject(url, Map.class);
 
-        if (osrmResponse == null) {
-            throw new InvalidOsrmResponseException();
+            if (osrmResponse == null) {
+                throw new InvalidOsrmResponseException();
+            }
+
+            return osrmResponse;
+        } catch (RestClientException e) {
+            throw new CantConnectToOsrmException();
         }
-
-        return osrmResponse;
     }
 
     @Override

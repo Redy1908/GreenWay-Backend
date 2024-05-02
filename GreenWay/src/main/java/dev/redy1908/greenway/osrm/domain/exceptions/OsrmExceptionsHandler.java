@@ -1,6 +1,8 @@
 package dev.redy1908.greenway.osrm.domain.exceptions;
 
 import dev.redy1908.greenway.app.web.models.ErrorResponseDTO;
+import dev.redy1908.greenway.osrm.domain.exceptions.models.CantConnectToOpentopoDataException;
+import dev.redy1908.greenway.osrm.domain.exceptions.models.CantConnectToOsrmException;
 import dev.redy1908.greenway.osrm.domain.exceptions.models.InvalidOsrmResponseException;
 import dev.redy1908.greenway.osrm.domain.exceptions.models.PointOutOfBoundsException;
 import org.springframework.http.HttpStatus;
@@ -37,5 +39,31 @@ public class OsrmExceptionsHandler extends ResponseEntityExceptionHandler {
                 exception.getMessage(),
                 LocalDateTime.now());
         return new ResponseEntity<>(errorResponseDTO, HttpStatus.NOT_ACCEPTABLE);
+    }
+
+
+    @ExceptionHandler(CantConnectToOsrmException.class)
+    public ResponseEntity<ErrorResponseDTO> handleCantConnectToOsrmException(CantConnectToOsrmException exception,
+                                                                            WebRequest webRequest) {
+        ErrorResponseDTO errorResponseDTO = new ErrorResponseDTO(
+                webRequest.getDescription(false),
+                HttpStatus.FAILED_DEPENDENCY.value(),
+                HttpStatus.FAILED_DEPENDENCY,
+                exception.getMessage(),
+                LocalDateTime.now());
+        return new ResponseEntity<>(errorResponseDTO, HttpStatus.FAILED_DEPENDENCY);
+    }
+
+
+    @ExceptionHandler(CantConnectToOpentopoDataException.class)
+    public ResponseEntity<ErrorResponseDTO> handleCantConnectToOsrmException(CantConnectToOpentopoDataException exception,
+                                                                            WebRequest webRequest) {
+        ErrorResponseDTO errorResponseDTO = new ErrorResponseDTO(
+                webRequest.getDescription(false),
+                HttpStatus.FAILED_DEPENDENCY.value(),
+                HttpStatus.FAILED_DEPENDENCY,
+                exception.getMessage(),
+                LocalDateTime.now());
+        return new ResponseEntity<>(errorResponseDTO, HttpStatus.FAILED_DEPENDENCY);
     }
 }
