@@ -177,21 +177,22 @@ GreenWay comes preconfigured with the map of Southern Italy and the relative ele
 3. Move the file to `osrm/data/`
 4. Go to `osrm/` edit the `Dockerfile-osrm-elevation.yml` at line [6][Github-url-1] set `OSRM_FILE` value to `your-location` with no extension
 5. [Download](https://srtm.csi.cgiar.org/srtmdata/) the elevation data for your location, download both the `Esri ASCII` and `Geo TIFF` format
-6. You will get two files, move the `.asc` file to `osrm/data/`
-7. Open the file end note the content of the first `6` lines
-8. Go to `osrm/` edit the `Dockerfile-osrm-elevation.yml` file, from line `7` to `13` according to your `.asc` file
-9. Remove the first `6` lines from the  `.asc` file, save the changes
-10. Go to `oepntopodata/data` create a new folder `yourDatasetFolder/` move the downloaded `.tif` file inside this folder
-11. Edit the file `oepntopodata/config.yml` set the `name` end `path` to your dataset
-12. Go to `GreenWay/src/main/resources` edit the files `application.yml` and `application-local.yml`, lines [27][Github-url-2]-[28][Github-url-3]-[29][Github-url-4]-[30][Github-url-5] with
-    your max and min coordinates.
-13. Run the following command inside `osrm/`:
-    - `docker build -t {dockerHubUsername}/{imageName}:{imageTag} -f Dockerfile-osrm-elevation .`
-14. Edit the ```docker-compose.yml``` file in the root directory, line [65][Github-url-6], replace the `image` value with the name of your image
-15. Go to `GreenWay/` edit the `pom.xml` line [132][Github-url-7] replace `redy1908` with Docker Hub Username
-16. Run the following command inside `GreenWay/`:
-    - `./mvnw -DskipTests spring-boot:build-image `
-17. Edit the ```docker-compose.yml``` file in the root directory, line [65][Github-url-6], replace the `image` value with the name of your image
+6. OSRM
+   - Move the `.asc` file to `osrm/data/`
+   - Open the file end note the content of the first `6` lines
+   - Go to `osrm/` edit the `Dockerfile-osrm-elevation.yml` file, from line `7` to `13` according to your `.asc` file
+   - Remove the first `6` lines from the  `.asc` file, save the changes
+   - Run the following command inside `osrm/`: `docker build -t {dockerHubUsername}/{imageName}:{imageTag} -f Dockerfile-osrm-elevation .`
+   - Edit the ```docker-compose.yml``` file in the root directory, line [65][Github-url-6], replace the `image` value with the name of your image
+   - Go to `GreenWay/src/main/resources` edit the files `application.yml` and `application-local.yml`,
+     lines [27][Github-url-2]-[28][Github-url-3]-[29][Github-url-4]-[30][Github-url-5] with
+     your max and min coordinates according to your `.asc` file.
+7. Opentopodata
+   - Move the `.tif` file in `opentopodata/data/greenWay/`
+8. Spring Boot
+   - Go to `GreenWay/` edit the `pom.xml` line [132][Github-url-7] replace `redy1908` with Docker Hub Username
+   - Run the following command inside `GreenWay/`: `./mvnw -DskipTests spring-boot:build-image `
+   - Edit the ```docker-compose.yml``` file in the root directory, line [65][Github-url-6], replace the `image` value with the name of your image
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
