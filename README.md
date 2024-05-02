@@ -10,8 +10,7 @@
   <h3 align="center">GreenWay</h3>
 
   <p align="center">
-    Routing and optimization of Electric Vehicle paths,
-    in a context of goods delivery in territories with complex terrain.  
+    Routing and Path Optimization in a context of goods delivery with Electric Vehicle (EV) in territories with complex terrain.  
   </p>
 </div>
 
