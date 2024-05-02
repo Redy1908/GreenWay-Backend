@@ -189,6 +189,7 @@ GreenWay comes preconfigured with the map of Southern Italy and the relative ele
      your max and min coordinates according to your `.asc` file.
 7. Opentopodata
    - Move the `.tif` file in `opentopodata/data/greenWay/`
+   - Note that Opentopodata will provide the elevation data for up to 1000 locations then will throw `ERROR 400` you can change this limit [there][Github-url-8] 
 8. Spring Boot
    - Go to `GreenWay/` edit the `pom.xml` line [132][Github-url-7] replace `redy1908` with Docker Hub Username
    - Run the following command inside `GreenWay/`: `./mvnw -DskipTests spring-boot:build-image `
@@ -217,3 +218,4 @@ GreenWay comes preconfigured with the map of Southern Italy and the relative ele
 [Github-url-5]: https://github.com/Redy1908/GreenWay-Backend/blob/a669dbe472d8ff0ce111a6f76280de9bd6a24f0e/GreenWay/src/main/resources/application.yml#L30
 [Github-url-6]: https://github.com/Redy1908/GreenWay-Backend/blob/a669dbe472d8ff0ce111a6f76280de9bd6a24f0e/docker-compose.yml#L65
 [Github-url-7]: https://github.com/Redy1908/GreenWay-Backend/blob/a669dbe472d8ff0ce111a6f76280de9bd6a24f0e/GreenWay/pom.xml#L132C1-L132C26
+[Github-url-8]: https://github.com/Redy1908/GreenWay-Backend/blob/a47ae71ee16a85db0d704b584f9cbfb288b84ad7/opentopodata/config.yaml#L2
