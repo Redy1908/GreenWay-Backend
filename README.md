@@ -7,7 +7,7 @@
     <img src="images/logo.png" alt="Logo" width="80" height="80">
   </a>
 
-  <h3 align="center">GreenWay</h3>
+  <h3>GreenWay</h3>
 
 <br>
 
