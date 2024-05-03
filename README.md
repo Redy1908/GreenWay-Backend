@@ -2,14 +2,7 @@
 
 <!-- PROJECT LOGO -->
 <br />
-<div style="display: flex; align-items: center; justify-content: center;">
-  <a href="https://github.com/Redy1908/GreenWay-Backend">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
-  </a>
-  <h3 style="margin-left: 10px;">GreenWay</h3>
-
-<br>
-
+<div>
 <details>
   <summary>Table of Contents</summary>
   <ol>
