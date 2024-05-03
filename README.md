@@ -175,7 +175,7 @@ GreenWay comes preconfigured with the map of Southern Italy and the relative ele
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
-[SpringBoot]: https://img.shields.io/badge/SpringBoot-6DB33F?logo=Spring&logoColor=white
+[SpringBoot]: https://img.shields.io/badge/SpringBoot-6DB33F?style=for-the-badge&logo=Spring&logoColor=white
 [SpringBoot-url]: https://spring.io/projects/spring-boot
 [ProjectOSRM]: https://img.shields.io/badge/Project_OSRM_with_OpenStreetMap-white?logo=openstreetmap&logoColor=6DB33F
 [ProjectOSRM-url]: https://project-osrm.org/
