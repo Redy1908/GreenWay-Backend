@@ -178,7 +178,7 @@ GreenWay comes preconfigured with the map of Southern Italy and the relative ele
 [Docker-url]: https://www.docker.com/
 [Java]:https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white
 [Java-url]:https://www.oracle.com/it/java/technologies/downloads/
-[Keycloack]:https://img.shields.io/badge/Keycloak-purple?style=for-the-badge&logo=keycloak&logoColor=4D4D4D
+[Keycloack]:https://img.shields.io/badge/Keycloak-purple?style=for-the-badge&logo=keycloak&logoColor=FFFFFF
 [Keycloack-url]: https://www.keycloak.org/
 [OpenTopoData]: https://img.shields.io/badge/Open_Topo_Data-blue?style=for-the-badge
 [OpenTopoData-url]: https://www.opentopodata.org/
