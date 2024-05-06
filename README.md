@@ -172,13 +172,13 @@ GreenWay comes preconfigured with the map of Southern Italy and the relative ele
 
 [SpringBoot]: https://img.shields.io/badge/SpringBoot-6DB33F?style=for-the-badge&logo=Spring&logoColor=white
 [SpringBoot-url]: https://spring.io/projects/spring-boot
-[ProjectOSRM]: https://img.shields.io/badge/Project_OSRM-white?style=for-the-badge&logo=openstreetmap&logoColor=6DB33F
+[ProjectOSRM]: https://img.shields.io/badge/Project_OSRM-black?style=for-the-badge&logo=openstreetmap&logoColor=6DB33F
 [ProjectOSRM-url]: https://project-osrm.org/
 [Docker]: https://img.shields.io/badge/Dokcer-2496ED?style=for-the-badge&logo=docker&logoColor=white
 [Docker-url]: https://www.docker.com/
 [Java]:https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white
 [Java-url]:https://www.oracle.com/it/java/technologies/downloads/
-[Keycloack]:https://img.shields.io/badge/Keycloak-white?style=for-the-badge&logo=keycloak&logoColor=4D4D4D
+[Keycloack]:https://img.shields.io/badge/Keycloak-purple?style=for-the-badge&logo=keycloak&logoColor=4D4D4D
 [Keycloack-url]: https://www.keycloak.org/
 [OpenTopoData]: https://img.shields.io/badge/Open_Topo_Data-blue?style=for-the-badge
 [OpenTopoData-url]: https://www.opentopodata.org/
