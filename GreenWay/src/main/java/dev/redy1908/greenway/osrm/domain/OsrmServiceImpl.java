@@ -1,11 +1,9 @@
 package dev.redy1908.greenway.osrm.domain;
 
+import dev.redy1908.greenway.app.web.exceptions.GenericException;
 import dev.redy1908.greenway.delivery.domain.Delivery;
-import dev.redy1908.greenway.osrm.domain.exceptions.models.CantConnectToOpentopoDataException;
-import dev.redy1908.greenway.osrm.domain.exceptions.models.CantConnectToOsrmException;
+import dev.redy1908.greenway.osrm.domain.exceptions.models.*;
 import dev.redy1908.greenway.vehicle_deposit.domain.VehicleDeposit;
-import dev.redy1908.greenway.osrm.domain.exceptions.models.InvalidOsrmResponseException;
-import dev.redy1908.greenway.osrm.domain.exceptions.models.PointOutOfBoundsException;
 import lombok.RequiredArgsConstructor;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -70,7 +68,15 @@ class OsrmServiceImpl implements IOsrmService {
         try {
             return restTemplate.getForObject(uri, Map.class);
         }catch (RestClientException e){
-            throw new CantConnectToOpentopoDataException();
+            if(e.getMessage().contains("Config Error: Dataset")){
+                throw new OpentopodataDatasetNotConfiguredException();
+            } else if (e.getMessage().contains("Too many locations provided")) {
+                throw new OpentopodataTooManyLocationsException();
+            } else if (e.getMessage().contains("Connection refused")) {
+                throw new OpentopodataConnectionRefusedException();
+            }else {
+                throw new GenericException();
+            }
         }
     }
 

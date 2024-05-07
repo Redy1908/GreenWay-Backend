@@ -1,10 +1,7 @@
 package dev.redy1908.greenway.osrm.domain.exceptions;
 
 import dev.redy1908.greenway.app.web.models.ErrorResponseDTO;
-import dev.redy1908.greenway.osrm.domain.exceptions.models.CantConnectToOpentopoDataException;
-import dev.redy1908.greenway.osrm.domain.exceptions.models.CantConnectToOsrmException;
-import dev.redy1908.greenway.osrm.domain.exceptions.models.InvalidOsrmResponseException;
-import dev.redy1908.greenway.osrm.domain.exceptions.models.PointOutOfBoundsException;
+import dev.redy1908.greenway.osrm.domain.exceptions.models.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -55,9 +52,9 @@ public class OsrmExceptionsHandler extends ResponseEntityExceptionHandler {
     }
 
 
-    @ExceptionHandler(CantConnectToOpentopoDataException.class)
-    public ResponseEntity<ErrorResponseDTO> handleCantConnectToOsrmException(CantConnectToOpentopoDataException exception,
-                                                                            WebRequest webRequest) {
+    @ExceptionHandler(OpentopodataDatasetNotConfiguredException.class)
+    public ResponseEntity<ErrorResponseDTO> handleOpentopodataDatasetNotConfiguredException(OpentopodataDatasetNotConfiguredException exception,
+                                                                                              WebRequest webRequest) {
         ErrorResponseDTO errorResponseDTO = new ErrorResponseDTO(
                 webRequest.getDescription(false),
                 HttpStatus.FAILED_DEPENDENCY.value(),
@@ -65,5 +62,30 @@ public class OsrmExceptionsHandler extends ResponseEntityExceptionHandler {
                 exception.getMessage(),
                 LocalDateTime.now());
         return new ResponseEntity<>(errorResponseDTO, HttpStatus.FAILED_DEPENDENCY);
+    }
+
+
+    @ExceptionHandler(OpentopodataTooManyLocationsException.class)
+    public ResponseEntity<ErrorResponseDTO> handleOpentopodataTooManyLocationsException(OpentopodataTooManyLocationsException exception,
+                                                                                            WebRequest webRequest) {
+        ErrorResponseDTO errorResponseDTO = new ErrorResponseDTO(
+                webRequest.getDescription(false),
+                HttpStatus.BAD_REQUEST.value(),
+                HttpStatus.BAD_REQUEST,
+                exception.getMessage(),
+                LocalDateTime.now());
+        return new ResponseEntity<>(errorResponseDTO, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(OpentopodataConnectionRefusedException.class)
+    public ResponseEntity<ErrorResponseDTO> handleOpentopodataConnectionRefusedException(OpentopodataConnectionRefusedException exception,
+                                                                                            WebRequest webRequest) {
+        ErrorResponseDTO errorResponseDTO = new ErrorResponseDTO(
+                webRequest.getDescription(false),
+                HttpStatus.NOT_ACCEPTABLE.value(),
+                HttpStatus.NOT_ACCEPTABLE,
+                exception.getMessage(),
+                LocalDateTime.now());
+        return new ResponseEntity<>(errorResponseDTO, HttpStatus.NOT_ACCEPTABLE);
     }
 }
