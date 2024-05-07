@@ -1,22 +1,6 @@
 <a name="readme-top"></a>
 
-<!-- PROJECT LOGO -->
-<br />
-<div style="text-align: center">
-  <a href="https://github.com/Redy1908/GreenWay-Backend">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
-  </a>
-
-  <h3 align="center">GreenWay</h3>
-
-  <p align="center">
-    Routing and optimization of Electric Vehicle paths,
-    in a context of goods delivery in territories with complex terrain.  
-  </p>
-</div>
-
-<br>
-
+<div>
 <details>
   <summary>Table of Contents</summary>
   <ol>
@@ -55,23 +39,11 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-This is the Backend of GreenWay, a project focused on the routing and optimization of electric vehicle (EV) paths, 
-specifically within the challenging context of goods delivery across complex terrains.
-GreenWay considers altitude variations in its optimization algorithm, 
-ensuring the most efficient routes for electric vehicles. 
-Furthermore, GreenWay effectively addresses a variant of the
-[Travelling Salesman Problem](https://en.wikipedia.org/wiki/Travelling_salesman_problem) the [Vehicle Routing Problem](https://en.wikipedia.org/wiki/Vehicle_routing_problem),
-by organizing deliveries in a manner that allows vehicles to return to the depot without the need for
-recharging breaks. This strategic approach not only enhances delivery efficiency but also aims to extend the range and usability of electric vehicles.
+This is the backend of GreenWay. GreenWay optimizes the routes for a fleet of electric vehicles, taking into account their load capacity, range, courier work shifts, and terrain elevation. By considering terrain elevation, GreenWay generates more efficient routes for electric vehicles, taking advantage of their ability to recharge batteries during downhill travel. GreenWay solves a variant of the [Travelling Salesman Problem](https://en.wikipedia.org/wiki/Travelling_salesman_problem), the [Vehicle Routing Problem](https://en.wikipedia.org/wiki/Vehicle_routing_problem). Deliveries are organized in such a way that a vehicle can deliver its load and return to the depot within the courier’s end-of-shift time, without the need for recharging breaks see the [example](https://github.com/Redy1908/GreenWay-Backend?tab=readme-ov-file#example).
 
 ### Built With
 
-* [![SpringBoot][SpringBoot]][SpringBoot-url]
-* [![Keycloack][Keycloack]][Keycloack-url]
-* [![Project OSRM][ProjectOSRM]][ProjectOSRM-url]
-* [![Open Topo Data][OpenTopoData]][OpenTopoData-url]
-* [![Java][Java]][Java-url]
-* [![Docker][Docker]][Docker-url]
+[![SpringBoot][SpringBoot]][SpringBoot-url][![Project OSRM][ProjectOSRM]][ProjectOSRM-url][![Open Topo Data][OpenTopoData]][OpenTopoData-url][![Keycloack][Keycloack]][Keycloack-url][![Java][Java]][Java-url][![Docker][Docker]][Docker-url]
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -198,17 +170,17 @@ GreenWay comes preconfigured with the map of Southern Italy and the relative ele
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
-[SpringBoot]: https://img.shields.io/badge/SpringBoot-6DB33F?logo=Spring&logoColor=white
+[SpringBoot]: https://img.shields.io/badge/SpringBoot-6DB33F?style=for-the-badge&logo=Spring&logoColor=white
 [SpringBoot-url]: https://spring.io/projects/spring-boot
-[ProjectOSRM]: https://img.shields.io/badge/Project_OSRM_with_OpenStreetMap-white?logo=openstreetmap&logoColor=6DB33F
+[ProjectOSRM]: https://img.shields.io/badge/Project_OSRM-black?style=for-the-badge&logo=openstreetmap&logoColor=6DB33F
 [ProjectOSRM-url]: https://project-osrm.org/
-[Docker]: https://img.shields.io/badge/Dokcer-2496ED?logo=docker&logoColor=white
+[Docker]: https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white
 [Docker-url]: https://www.docker.com/
-[Java]:https://img.shields.io/badge/Java-ED8B00?logo=openjdk&logoColor=white
+[Java]:https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white
 [Java-url]:https://www.oracle.com/it/java/technologies/downloads/
-[Keycloack]:https://img.shields.io/badge/Keycloak-white?logo=keycloak&logoColor=4D4D4D
+[Keycloack]:https://img.shields.io/badge/Keycloak-purple?style=for-the-badge&logo=keycloak&logoColor=FFFFFF
 [Keycloack-url]: https://www.keycloak.org/
-[OpenTopoData]: https://img.shields.io/badge/Open_Topo_Data-blue
+[OpenTopoData]: https://img.shields.io/badge/Open_Topo_Data-blue?style=for-the-badge
 [OpenTopoData-url]: https://www.opentopodata.org/
 
 [Github-url-1]: https://github.com/Redy1908/GreenWay-Backend/blob/a669dbe472d8ff0ce111a6f76280de9bd6a24f0e/osrm/Dockerfile-osrm-elevation#L6
