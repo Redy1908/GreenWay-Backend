@@ -51,13 +51,13 @@ class OsrmServiceImpl implements IOsrmService {
 
     @Override
     public Map<String, Object> getNavigationData(Point startingPoint, List<Point> wayPoints) {
-        String url = buildUrlRoute(startingPoint, wayPoints);
+        String url = buildUrl(startingPoint, wayPoints, true);
         return getOsrmResponse(url);
     }
 
     @Override
     public Map<String, Object> getElevationData(Point startingPoint, List<Point> wayPoints) {
-        String url = buildUrlElevation(startingPoint, wayPoints);
+        String url = buildUrl(startingPoint, wayPoints, false);
         Map<String, Object> osrmResponse = getOsrmResponse(url);
 
         String polyline = extractPolylineFromOsrmResponse(osrmResponse);
@@ -152,18 +152,17 @@ class OsrmServiceImpl implements IOsrmService {
         return urlBuilder.toString();
     }
 
-    private String buildUrlRoute(Point startingPoint, List<Point> wayPoints) {
+    private String buildUrl(Point startingPoint, List<Point> wayPoints, boolean isRoute) {
 
-        return OSRM_ROUTE_URL + startingPoint.getX() + "," + startingPoint.getY() + ";" + wayPoints.stream()
-                .map(point -> point.getX() + "," + point.getY())
-                .collect(Collectors.joining(";")) + "?steps=true&overview=full";
-    }
-
-    private String buildUrlElevation(Point startingPoint, List<Point> wayPoints) {
-
-        return OSRM_ROUTE_URL + startingPoint.getX() + "," + startingPoint.getY() + ";" + wayPoints.stream()
+        String url =  OSRM_ROUTE_URL + startingPoint.getX() + "," + startingPoint.getY() + ";" + wayPoints.stream()
                 .map(point -> point.getX() + "," + point.getY())
                 .collect(Collectors.joining(";"));
+
+        if(isRoute){
+            url += "?steps=true";
+        }
+
+        return url;
     }
 
     private String extractPolylineFromOsrmResponse(Map<String, Object> osrmResponse) {
