@@ -147,7 +147,7 @@ class OsrmServiceImpl implements IOsrmService {
 
         return baseUrl + startingPoint.getX() + "," + startingPoint.getY() + ";" + wayPoints.stream()
                 .map(point -> point.getX() + "," + point.getY())
-                .collect(Collectors.joining(";")) + "?steps=true&overview=full";
+                .collect(Collectors.joining(";")) + "?steps=true";
 
     }
 
