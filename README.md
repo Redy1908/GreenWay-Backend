@@ -33,6 +33,7 @@
         <li><a href="#OSRM-OpenTopoData">OSMR and Open Topo Data</a></li>
       </ul>
     </li>
+     <a href="#license">License</a>
   </ol>
 </details>
 
@@ -166,6 +167,12 @@ GreenWay comes preconfigured with the map of Southern Italy and the relative ele
    - Go to `GreenWay/` edit the `pom.xml` line [132][Github-url-7] replace `redy1908` with Docker Hub Username
    - Run the following command inside `GreenWay/`: `./mvnw -DskipTests spring-boot:build-image `
    - Edit the ```docker-compose.yml``` file in the root directory, line [65][Github-url-6], replace the `image` value with the name of your image
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+## License
+
+This project is licensed under the Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0) License - see the [LICENSE file](https://github.com/Redy1908/GreenWay-Backend/blob/main/LICENSE) for details.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
