@@ -33,7 +33,9 @@
         <li><a href="#OSRM-OpenTopoData">OSMR and Open Topo Data</a></li>
       </ul>
     </li>
+    <li>
      <a href="#license">License</a>
+    </li>
   </ol>
 </details>
 
