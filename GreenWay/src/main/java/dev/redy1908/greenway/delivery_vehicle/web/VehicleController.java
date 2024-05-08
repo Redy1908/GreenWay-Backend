@@ -7,6 +7,7 @@ import dev.redy1908.greenway.delivery_vehicle.domain.IDeliveryVehicleService;
 import dev.redy1908.greenway.delivery_vehicle.domain.dto.DeliveryVehicleCreationDTO;
 import dev.redy1908.greenway.delivery_vehicle.domain.dto.DeliveryVehicleDTO;
 import dev.redy1908.greenway.delivery_vehicle.domain.dto.DeliveryVehicleNoDeliveriesDTO;
+import dev.redy1908.greenway.osrm.domain.NavigationType;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -59,14 +60,8 @@ public class VehicleController {
 
     @GetMapping("/{vehicleId}/route")
     @PreAuthorize("hasRole('GREEN_WAY_ADMIN') || @deliveryVehicleServiceImpl.isAssociatedWithDeliveryMan(#vehicleId, authentication.principal.claims['preferred_username'])")
-    public ResponseEntity<Map<String, Object>> getRouteNavigationData(@PathVariable int vehicleId) {
-        return ResponseEntity.ok(vehicleService.getRouteNavigationData(vehicleId));
-    }
-
-    @GetMapping("/{vehicleId}/route/elevation")
-    @PreAuthorize("hasRole('GREEN_WAY_ADMIN') || @deliveryVehicleServiceImpl.isAssociatedWithDeliveryMan(#vehicleId, authentication.principal.claims['preferred_username'])")
-    public ResponseEntity<Map<String, Object>> getRouteElevationData(@PathVariable int vehicleId) {
-        return ResponseEntity.ok(vehicleService.getRouteElevationData(vehicleId));
+    public ResponseEntity<Map<String, Object>> getRouteNavigationData(@PathVariable int vehicleId, @RequestParam NavigationType navigationType) {
+        return ResponseEntity.ok(vehicleService.getRouteNavigationData(vehicleId, navigationType));
     }
 
     @GetMapping("{vehicleId}/leave")

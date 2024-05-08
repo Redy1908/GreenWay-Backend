@@ -4,6 +4,7 @@ import dev.redy1908.greenway.app.web.models.PageResponseDTO;
 import dev.redy1908.greenway.delivery_vehicle.domain.dto.DeliveryVehicleCreationDTO;
 import dev.redy1908.greenway.delivery_vehicle.domain.dto.DeliveryVehicleDTO;
 import dev.redy1908.greenway.delivery_vehicle.domain.dto.DeliveryVehicleNoDeliveriesDTO;
+import dev.redy1908.greenway.osrm.domain.NavigationType;
 
 import java.util.List;
 import java.util.Map;
@@ -22,9 +23,7 @@ public interface IDeliveryVehicleService {
 
     DeliveryVehicleDTO findByDeliveryManUsername(String deliveryManUsername);
 
-    Map<String, Object> getRouteNavigationData(int id);
-
-    Map<String, Object> getRouteElevationData(int id);
+    Map<String, Object> getRouteNavigationData(int id, NavigationType navigationType);
 
     boolean isAssociatedWithDeliveryMan(int id, String deliveryManUsername);
 

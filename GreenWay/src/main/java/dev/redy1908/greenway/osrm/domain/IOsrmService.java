@@ -10,9 +10,7 @@ import java.util.Map;
 
 public interface IOsrmService {
 
-    Map<String, Object> getNavigationData(Point startingPoint, List<Point> wayPoints);
-
-    Map<String, Object> getElevationData(Point startingPoint, List<Point> wayPoints);
+    Map<String, Object> getNavigationData(Point startingPoint, List<Point> wayPoints, NavigationType navigationType);
 
     void checkPointInBounds(Point point);
 

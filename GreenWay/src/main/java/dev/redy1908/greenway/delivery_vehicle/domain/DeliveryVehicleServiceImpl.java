@@ -10,6 +10,7 @@ import dev.redy1908.greenway.delivery_vehicle.domain.exceptions.models.DeliveryV
 import dev.redy1908.greenway.delivery_vehicle.domain.exceptions.models.NoDeliveryAssignedException;
 import dev.redy1908.greenway.delivery_vehicle.domain.exceptions.models.NoDeliveryManAssignedException;
 import dev.redy1908.greenway.osrm.domain.IOsrmService;
+import dev.redy1908.greenway.osrm.domain.NavigationType;
 import dev.redy1908.greenway.vehicle_deposit.domain.IVehicleDepositService;
 import lombok.RequiredArgsConstructor;
 import org.locationtech.jts.geom.Point;
@@ -79,25 +80,14 @@ public class DeliveryVehicleServiceImpl implements IDeliveryVehicleService {
     }
 
     @Override
-    public Map<String, Object> getRouteNavigationData(int id) {
+    public Map<String, Object> getRouteNavigationData(int id, NavigationType navigationType) {
         DeliveryVehicle deliveryVehicle = deliveryVehicleRepository.findById(id).orElseThrow(() -> new DeliveryVehicleNotFoundException(id));
 
         Point startingPoint = vehicleDepositService.getVehicleDeposit().getDepositCoordinates();
 
         List<Point> wayPoints = extractWaypoints(startingPoint, deliveryVehicle.getDeliveries(), id);
 
-        return osrmService.getNavigationData(startingPoint, wayPoints);
-    }
-
-    @Override
-    public Map<String, Object> getRouteElevationData(int id) {
-        DeliveryVehicle deliveryVehicle = deliveryVehicleRepository.findById(id).orElseThrow(() -> new DeliveryVehicleNotFoundException(id));
-
-        Point startingPoint = vehicleDepositService.getVehicleDeposit().getDepositCoordinates();
-
-        List<Point> wayPoints = extractWaypoints(startingPoint, deliveryVehicle.getDeliveries(), id);
-
-        return osrmService.getElevationData(startingPoint, wayPoints);
+        return osrmService.getNavigationData(startingPoint, wayPoints, navigationType);
     }
 
     @Override

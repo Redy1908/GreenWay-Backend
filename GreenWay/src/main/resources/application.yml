@@ -28,7 +28,8 @@ osrm:
   lon-max: 15.00
   lat-min: 40.5
   lat-max: 41.5
-  route-url: http://green-way-osrm:5000/route/v1/driving/
-  table-url: http://green-way-osrm:5000/table/v1/driving/
+  route-standard-url: http://green-way-osrm-standard:5000/route/v1/driving/
+  route-elevation-url: http://green-way-osrm-elevation:5000/route/v1/driving/
+  table-elevation-url: http://green-way-osrm-elevation:5000/table/v1/driving/
 opentopodata:
   url: http://green-way-opentopodata:5000/v1/greenway

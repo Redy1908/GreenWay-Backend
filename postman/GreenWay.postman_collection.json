@@ -265,7 +265,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"depositAddress\": \"Via Roma\",\r\n    \"depositCoordinates\": {\r\n        \"type\": \"Point\",\r\n        \"coordinates\": [14.266262,40.884837]\r\n    }\r\n}",
+							"raw": "{\r\n    \"depositAddress\": \"Via Roma\",\r\n    \"depositCoordinates\": {\r\n        \"type\": \"Point\",\r\n        \"coordinates\": [14.214249,40.838749]\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -666,7 +666,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/v1/vehicles/1/route",
+							"raw": "http://localhost:8080/api/v1/vehicles/1/route?navigationType=STANDARD",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -678,106 +678,16 @@
 								"vehicles",
 								"1",
 								"route"
+							],
+							"query": [
+								{
+									"key": "navigationType",
+									"value": "STANDARD",
+									"description": "REQUIRED. Can be STANDARD or ELEVATION_OPTIMIZED. Case sensitive"
+								}
 							]
 						},
 						"description": "Get the GPS route for the DeliveryVehicle"
-					},
-					"response": []
-				},
-				{
-					"name": "Get Vehicle Route Elevation Data",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"auth": {
-							"type": "oauth2",
-							"oauth2": [
-								{
-									"key": "clientSecret",
-									"value": "jyTj9K8qcn3AoZjElhNCT15klfdiBH0K",
-									"type": "string"
-								},
-								{
-									"key": "accessTokenUrl",
-									"value": "http://localhost:8090/realms/GreenWay/protocol/openid-connect/token",
-									"type": "string"
-								},
-								{
-									"key": "authUrl",
-									"value": "http://localhost:8090/realms/GreenWay/protocol/openid-connect/auth",
-									"type": "string"
-								},
-								{
-									"key": "clientId",
-									"value": "GreenWay",
-									"type": "string"
-								},
-								{
-									"key": "state",
-									"value": "ew34er-344fgfg-5gfgfg",
-									"type": "string"
-								},
-								{
-									"key": "useBrowser",
-									"value": true,
-									"type": "boolean"
-								},
-								{
-									"key": "grant_type",
-									"value": "authorization_code",
-									"type": "string"
-								},
-								{
-									"key": "tokenName",
-									"value": "authcode_accesstoken",
-									"type": "string"
-								},
-								{
-									"key": "client_authentication",
-									"value": "body",
-									"type": "string"
-								},
-								{
-									"key": "scope",
-									"value": "openid email profile",
-									"type": "string"
-								},
-								{
-									"key": "addTokenTo",
-									"value": "header",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/api/v1/vehicles/1/route/elevation",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"v1",
-								"vehicles",
-								"1",
-								"route",
-								"elevation"
-							]
-						},
-						"description": "Get elevation data for a subset of points inside the vehicle route"
 					},
 					"response": []
 				},
@@ -950,7 +860,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"sender\": \"Mario Rossi\",\r\n    \"senderAddress\": \"Via Roma\",\r\n    \"receiver\": \"Beatrice Bianchi\",\r\n    \"receiverAddress\": \"Via Napoli\",\r\n    \"receiverCoordinates\": {\r\n        \"type\": \"Point\",\r\n        \"coordinates\":[14.331493,40.981074]\r\n    },\r\n    \"weightKg\": \"1\"\r\n}\r\n",
+							"raw": "{\r\n    \"sender\": \"Mario Rossi\",\r\n    \"senderAddress\": \"Via Roma\",\r\n    \"receiver\": \"Beatrice Bianchi\",\r\n    \"receiverAddress\": \"Via Napoli\",\r\n    \"receiverCoordinates\": {\r\n        \"type\": \"Point\",\r\n        \"coordinates\":[14.348831,40.899760]\r\n    },\r\n    \"weightKg\": \"1\"\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"

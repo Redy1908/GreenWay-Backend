@@ -28,7 +28,8 @@ osrm:
   lon-max: 15.00
   lat-min: 40.5
   lat-max: 41.5
-  route-url: http://localhost:5000/route/v1/driving/
-  table-url: http://localhost:5000/table/v1/driving/
+  route-standard-url: http://localhost:5000/route/v1/driving/
+  route-elevation-url: http://localhost:5001/route/v1/driving/
+  table-elevation-url: http://localhost:5001/table/v1/driving/
 opentopodata:
-  url: http://localhost:5001/v1/greenway
+  url: http://localhost:5002/v1/greenway
