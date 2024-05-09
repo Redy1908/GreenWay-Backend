@@ -63,8 +63,6 @@ This is the backend of GreenWay. GreenWay optimizes the routes for a fleet of el
 <!-- GETTING STARTED -->
 ## Getting Started
 
-Setting up the REST API is as easy as running a simple command
-
 ### Prerequisites
 
 Make sure to install the following dependencies
