@@ -84,15 +84,15 @@ download both the `Esri ASCII` and `Geo TIFF` format.
 You will get 2 files:
    - For the `your-location.asc` file 
      - Rename the `your-location.asc` file to `green-way.asc` and move it to `osrm/data-elevation/`
-     - Open the file `green-way.asc` and note the first two lines, edit the`docker-compose.yml` file in the root directory lines 113 and 114
-     - Remove the first '6' lines from the `green-way.asc` file and save it
-     - Edit the`docker-compose.yml` file in the root directory lines 109, 110, 111, 112 with the limit of your elevation data, you can find them in the download page on [srtm.csi.org](https://srtm.csi.cgiar.org/srtmdata/), 
+     - Open the file `green-way.asc` and note the first two lines, edit the `docker-compose.yml` file in the root directory lines 113 and 114
+     - Remove the first `6` lines from the `green-way.asc` file and save it
+     - Edit the`docker-compose.yml` file in the root directory lines [109][Github-url-9], [110][Github-url-10], [111][Github-url-11], [112][Github-url-12] with the limit of your elevation data, you can find them in the download page on [srtm.csi.org](https://srtm.csi.cgiar.org/srtmdata/), 
      - The map data end elevation data will probably cover different locations;
        you want to limit the queries to the intersection of this data, 
-       to do this edit the `application.yml` file in `GreenWay/src/resources/` lines 27,28,29,30 
+       to do this edit the `application.yml` file in `GreenWay/src/resources/` lines [27][Github-url-13], [28][Github-url-14], [29][Github-url-15], [30][Github-url-16] 
    - For the `your-location.tif` file
      - move the `your-location.tif` file to `opentopodata/data/`
-     - Note that Opentopodata will provide the elevation data for up to 5000 locations then will throw `ERROR 400` you can [change this limit][Github-url-8]
+     - Note that Opentopodata will provide the elevation data for up to `5000` locations then will throw `ERROR 400` you can [change this limit][Github-url-8]
 
 ### Run
 
@@ -184,3 +184,11 @@ This project is licensed under the Creative Commons Attribution-ShareAlike 4.0 I
 [Github-url-6]: https://github.com/Redy1908/GreenWay-Backend/blob/a669dbe472d8ff0ce111a6f76280de9bd6a24f0e/docker-compose.yml#L65
 [Github-url-7]: https://github.com/Redy1908/GreenWay-Backend/blob/a669dbe472d8ff0ce111a6f76280de9bd6a24f0e/GreenWay/pom.xml#L132C1-L132C26
 [Github-url-8]: https://github.com/Redy1908/GreenWay-Backend/blob/a47ae71ee16a85db0d704b584f9cbfb288b84ad7/opentopodata/config.yaml#L2
+[Github-url-9]: https://github.com/Redy1908/GreenWay-Backend/blob/9112e40020df8c6a8be55ab98fa40bc4517404df/docker-compose.yml#L109
+[Github-url-10]: https://github.com/Redy1908/GreenWay-Backend/blob/9112e40020df8c6a8be55ab98fa40bc4517404df/docker-compose.yml#L110
+[Github-url-11]: https://github.com/Redy1908/GreenWay-Backend/blob/9112e40020df8c6a8be55ab98fa40bc4517404df/docker-compose.yml#L111
+[Github-url-12]: https://github.com/Redy1908/GreenWay-Backend/blob/9112e40020df8c6a8be55ab98fa40bc4517404df/docker-compose.yml#L112
+[Github-url-13]: https://github.com/Redy1908/GreenWay-Backend/blob/9112e40020df8c6a8be55ab98fa40bc4517404df/GreenWay/src/main/resources/application.yml#L27
+[Github-url-14]: https://github.com/Redy1908/GreenWay-Backend/blob/9112e40020df8c6a8be55ab98fa40bc4517404df/GreenWay/src/main/resources/application.yml#L28
+[Github-url-15]: https://github.com/Redy1908/GreenWay-Backend/blob/9112e40020df8c6a8be55ab98fa40bc4517404df/GreenWay/src/main/resources/application.yml#L29
+[Github-url-16]: https://github.com/Redy1908/GreenWay-Backend/blob/9112e40020df8c6a8be55ab98fa40bc4517404df/GreenWay/src/main/resources/application.yml#L30
