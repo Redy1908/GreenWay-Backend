@@ -1,8 +1,5 @@
-osrm/data-standard/
-!osrm/data-standard/.gitkeep
-
-osrm/data-elevation
-!osrm/data-elevation/.gitkeep
+osrm/data/
+!osrm/data/.gitkeep
 
 opentopodata/data/greenWay
 !opentopodata/data/greenWay/.gitkeep

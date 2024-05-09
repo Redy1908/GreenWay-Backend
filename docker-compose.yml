@@ -1,7 +1,5 @@
 version: '3.1'
 services:
-
-  # --------
   green-way-backend:
     image: redy1908/green-way-backend:v1
     ports:
@@ -15,8 +13,6 @@ services:
       - green-way-osrm-standard
       - green-way-osrm-elevation
       - green-way-opentopodata
-
-  # --------
   keycloak:
     image: quay.io/keycloak/keycloak:23.0.7
     command: start-dev --import-realm
@@ -38,8 +34,6 @@ services:
         condition: service_healthy
     networks:
       - greenway
-
-  # --------
   keycloak-db:
     image: postgres:16.2
     environment:
@@ -54,8 +48,6 @@ services:
       - greenway
     volumes:
       - keycloak_data:/var/lib/postgresql/keycloak/data
-
-  # --------
   postgis:
     image: postgis/postgis
     environment:
@@ -70,61 +62,18 @@ services:
       - greenway
     volumes:
       - postgis_data:/var/lib/postgresql/postgis/data
-
-  # --------
   green-way-osrm-standard:
-    image: ghcr.io/project-osrm/osrm-backend:v5.27.1
-    volumes:
-      - ./osrm/data-standard:/data-standard
-      - ./osrm/profiles/car-standard.lua:/opt/car-standard.lua
-    command: >
-      /bin/bash -c "
-       if [ $(ls -1 /data-standard | wc -l) -eq 2 ]; then
-          osrm-extract -p /opt/car-standard.lua /data-standard/green-way.osm.pbf &&
-          osrm-partition /data-standard/green-way.osrm &&
-          osrm-customize /data-standard/green-way.osrm &&
-          osrm-routed --algorithm mld /data-standard/green-way.osrm
-        else
-          osrm-routed --algorithm mld /data-standard/green-way.osrm
-        fi
-      "
+    image: redy1908/green-way-osrm-standard:v1
     ports:
       - "5000:5000"
     networks:
       - greenway
-
-  # --------
   green-way-osrm-elevation:
-    image: ghcr.io/project-osrm/osrm-backend:v5.27.1
-    volumes:
-      - ./osrm/data-elevation:/data-elevation
-      - ./osrm/profiles/car-elevation.lua:/opt/car-elevation.lua
-    environment:
-      - OSRM_FILE=sud-latest
-      - OSRM_RASTER_SOURCE=../data-elevation/green-way.asc
-      - LON_MIN=10 # <- CHANGE
-      - LON_MAX=15 # <- CHANGE
-      - LAT_MIN=40 # <- CHANGE
-      - LAT_MAX=45 # <- CHANGE
-      - NROWS=6000 # <- CHANGE
-      - NCOLS=6000 # <- CHANGE
-    command: >
-      /bin/bash -c "
-       if [ $(ls -1 /data-elevation | wc -l) -eq 2 ]; then
-          osrm-extract -p /opt/car-elevation.lua /data-elevation/green-way.osm.pbf &&
-          osrm-partition /data-elevation/green-way.osrm &&
-          osrm-customize /data-elevation/green-way.osrm &&
-          osrm-routed --algorithm mld /data-elevation/green-way.osrm
-        else
-          osrm-routed --algorithm mld /data-elevation/green-way.osrm
-        fi
-      "
+    image: redy1908/green-way-osrm-elevation:v1
     ports:
       - "5001:5000"
     networks:
       - greenway
-
-  # --------
   green-way-opentopodata:
     image: redy1908/green-way-opentopodata:v1
     ports:
@@ -143,3 +92,4 @@ volumes:
 networks:
   greenway:
     driver: bridge
+
