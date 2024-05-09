@@ -7,6 +7,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class OpentopodataTooManyLocationsException extends RuntimeException{
 
     public OpentopodataTooManyLocationsException() {
-        super("Max number of locations (points) limit is 1000");
+        super("Max number of locations (points) limit is 5000");
     }
 }
