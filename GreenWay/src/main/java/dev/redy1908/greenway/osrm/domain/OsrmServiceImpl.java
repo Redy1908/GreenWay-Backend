@@ -161,18 +161,22 @@ class OsrmServiceImpl implements IOsrmService {
 
         for (Map<String, Object> leg : legs) {
             List<Map<String, Object>> steps = (List<Map<String, Object>>) leg.get("steps");
-            for (Map<String, Object> step : steps) {
-                Map<String, Object> maneuver = (Map<String, Object>) step.get("maneuver");
-                List<Double> location = (List<Double>) maneuver.get("location");
+            for (int i = 0; i < steps.size(); i++) {
+                Map<String, Object> step = steps.get(i);
                 Number distanceNumber = (Number) step.get("distance");
                 double distance = distanceNumber.doubleValue();
 
                 accumulatedDistance += distance;
 
                 if (accumulatedDistance >= 200) {
-                    Coordinate coordinate = new Coordinate(location.getLast(), location.getFirst());
-                    Point point = geometryFactory.createPoint(coordinate);
-                    points.add(point);
+                    if (i + 1 < steps.size()) {
+                        Map<String, Object> nextStep = steps.get(i + 1);
+                        Map<String, Object> maneuver = (Map<String, Object>) nextStep.get("maneuver");
+                        List<Double> location = (List<Double>) maneuver.get("location");
+                        Coordinate coordinate = new Coordinate(location.getLast(), location.getFirst());
+                        Point point = geometryFactory.createPoint(coordinate);
+                        points.add(point);
+                    }
                     accumulatedDistance = accumulatedDistance % 200;
                 }
             }
