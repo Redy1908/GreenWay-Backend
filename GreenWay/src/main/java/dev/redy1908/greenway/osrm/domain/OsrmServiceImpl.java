@@ -12,6 +12,9 @@ import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.Point;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.util.Pair;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
@@ -143,10 +146,10 @@ class OsrmServiceImpl implements IOsrmService {
         }
 
         String wayPointsString = wayPoints.stream().map(
-                point -> String.format(Locale.US, "%f,%f", point.getX(), point.getY()))
+                        point -> String.format(Locale.US, "%f,%f", point.getX(), point.getY()))
                 .collect(Collectors.joining(";"));
 
-        return String.format(Locale.US,"%s%f,%f;%s?steps=true&overview=false", baseUrl, startingPoint.getX(), startingPoint.getY(), wayPointsString);
+        return String.format(Locale.US, "%s%f,%f;%s?steps=true&overview=false", baseUrl, startingPoint.getX(), startingPoint.getY(), wayPointsString);
     }
 
     private List<Point> selectPointsForElevation(Map<String, Object> osrmResponse) {
@@ -176,12 +179,20 @@ class OsrmServiceImpl implements IOsrmService {
     private HashMap<String, Double> getElevationData(List<Point> points) {
 
         String locations = points.stream()
-                .map(point -> String.format(Locale.US,"%f,%f", point.getX(), point.getY()))
+                .map(point -> String.format(Locale.US, "%f,%f", point.getX(), point.getY()))
                 .collect(Collectors.joining("|"));
-        String url = String.format("%s%s", OPENTOPODATA_URL, locations);
 
         try {
-            Map<String, Object> response = restTemplate.getForObject(url, Map.class);
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("locations", locations);
+
+            HttpEntity<String> request = new HttpEntity<>(jsonObject.toString(), headers);
+
+            Map<String, Object> response = restTemplate.postForObject(OPENTOPODATA_URL, request, Map.class);
             assert response != null;
             List<Map<String, Object>> elevationResults = (List<Map<String, Object>>) response.get("results");
 
