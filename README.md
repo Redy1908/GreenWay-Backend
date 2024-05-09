@@ -94,7 +94,7 @@ You will get 2 files:
 
 ### Run
 
-Within the root folder execute:
+After the [Setup](https://github.com/Redy1908/GreenWay-Backend?tab=readme-ov-file#setup) within the root folder execute:
 
 ```cmd
    docker compose up -d
