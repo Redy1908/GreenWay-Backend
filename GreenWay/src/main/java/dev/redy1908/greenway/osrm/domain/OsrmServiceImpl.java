@@ -146,7 +146,7 @@ class OsrmServiceImpl implements IOsrmService {
                 point -> String.format(Locale.US, "%f,%f", point.getX(), point.getY()))
                 .collect(Collectors.joining(";"));
 
-        return String.format(Locale.US,"%s%f,%f;%s?steps=true", baseUrl, startingPoint.getX(), startingPoint.getY(), wayPointsString);
+        return String.format(Locale.US,"%s%f,%f;%s?steps=true&overview=false", baseUrl, startingPoint.getX(), startingPoint.getY(), wayPointsString);
     }
 
     private List<Point> selectPointsForElevation(Map<String, Object> osrmResponse) {
