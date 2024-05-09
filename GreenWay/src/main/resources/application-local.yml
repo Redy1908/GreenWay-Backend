@@ -32,4 +32,4 @@ osrm:
   route-elevation-url: http://localhost:5001/route/v1/driving/
   table-elevation-url: http://localhost:5001/table/v1/driving/
 opentopodata:
-  url: http://localhost:5002/v1/greenway
+  url: http://localhost:5002/v1/greenway?locations=

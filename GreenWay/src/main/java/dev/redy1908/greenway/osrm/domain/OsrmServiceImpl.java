@@ -17,10 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -56,10 +53,10 @@ class OsrmServiceImpl implements IOsrmService {
 
     @Override
     public Map<String, Object> getNavigationData(Point startingPoint, List<Point> wayPoints, NavigationType navigationType) {
-        String url = buildUrl(startingPoint, wayPoints, navigationType);
-        Map<String, Object> osrmResponse = getOsrmResponse(url);
+        String osrmUrl = buildOsrmUrl(startingPoint, wayPoints, navigationType);
+        Map<String, Object> osrmResponse = getOsrmResponse(osrmUrl);
         List<Point> points = selectPointsForElevation(osrmResponse);
-        Map<String, Double> openTopodataResponse = getElevationData(points);
+        HashMap<String, Double> openTopodataResponse = getElevationData(points);
         return addElevation(osrmResponse, openTopodataResponse);
     }
 
@@ -135,7 +132,7 @@ class OsrmServiceImpl implements IOsrmService {
         return urlBuilder.toString();
     }
 
-    private String buildUrl(Point startingPoint, List<Point> wayPoints, NavigationType navigationType) {
+    private String buildOsrmUrl(Point startingPoint, List<Point> wayPoints, NavigationType navigationType) {
 
         String baseUrl;
 
@@ -145,9 +142,11 @@ class OsrmServiceImpl implements IOsrmService {
             baseUrl = OSRM_ROUTE_ELEVATION_URL;
         }
 
-        return baseUrl + startingPoint.getX() + "," + startingPoint.getY() + ";" + wayPoints.stream()
-                .map(point -> point.getX() + "," + point.getY())
-                .collect(Collectors.joining(";")) + "?steps=true&annotations=true";
+        String wayPointsString = wayPoints.stream().map(
+                point -> String.format(Locale.US, "%f,%f", point.getX(), point.getY()))
+                .collect(Collectors.joining(";"));
+
+        return String.format(Locale.US,"%s%f,%f;%s?steps=true", baseUrl, startingPoint.getX(), startingPoint.getY(), wayPointsString);
     }
 
     private List<Point> selectPointsForElevation(Map<String, Object> osrmResponse) {
@@ -174,17 +173,19 @@ class OsrmServiceImpl implements IOsrmService {
         return points;
     }
 
-    private Map<String, Double> getElevationData(List<Point> points) {
-        String url = OPENTOPODATA_URL + "?locations=" + points.stream()
-                .map(point -> point.getX() + "," + point.getY())
+    private HashMap<String, Double> getElevationData(List<Point> points) {
+
+        String locations = points.stream()
+                .map(point -> String.format(Locale.US,"%f,%f", point.getX(), point.getY()))
                 .collect(Collectors.joining("|"));
+        String url = String.format("%s%s", OPENTOPODATA_URL, locations);
 
         try {
             Map<String, Object> response = restTemplate.getForObject(url, Map.class);
             assert response != null;
             List<Map<String, Object>> elevationResults = (List<Map<String, Object>>) response.get("results");
 
-            Map<String, Double> elevationMap = new HashMap<>();
+            HashMap<String, Double> elevationMap = new HashMap<>();
             for (Map<String, Object> result : elevationResults) {
                 Map<String, Double> elevationLocation = (Map<String, Double>) result.get("location");
                 String key = elevationLocation.get("lng") + "," + elevationLocation.get("lat");
@@ -206,7 +207,7 @@ class OsrmServiceImpl implements IOsrmService {
         }
     }
 
-    private Map<String, Object> addElevation(Map<String, Object> osrmResponse, Map<String, Double> elevationMap) {
+    private Map<String, Object> addElevation(Map<String, Object> osrmResponse, HashMap<String, Double> elevationMap) {
         Map<String, Object> route = ((List<Map<String, Object>>) osrmResponse.get("routes")).getFirst();
         List<Map<String, Object>> legs = (List<Map<String, Object>>) route.get("legs");
 
