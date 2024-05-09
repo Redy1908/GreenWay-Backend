@@ -1,6 +1,6 @@
 FROM ghcr.io/project-osrm/osrm-backend:v5.27.1
 
-COPY ./data /data
+COPY data-standard /data
 COPY profiles/car-standard.lua /opt
 
 ENV OSRM_FILE=sud-latest
