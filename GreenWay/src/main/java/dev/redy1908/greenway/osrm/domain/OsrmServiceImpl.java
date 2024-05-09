@@ -7,6 +7,8 @@ import dev.redy1908.greenway.vehicle_deposit.domain.VehicleDeposit;
 import lombok.RequiredArgsConstructor;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.Point;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.util.Pair;
@@ -14,9 +16,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponentsBuilder;
 
-import java.net.URI;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -56,12 +58,10 @@ class OsrmServiceImpl implements IOsrmService {
     public Map<String, Object> getNavigationData(Point startingPoint, List<Point> wayPoints, NavigationType navigationType) {
         String url = buildUrl(startingPoint, wayPoints, navigationType);
         Map<String, Object> osrmResponse = getOsrmResponse(url);
-        String polyline = extractPolylineFromOsrmResponse(osrmResponse);
-        Map<String, Object> openTopodataResponse = getElevationData(polyline);
+        List<Point> points = selectPointsForElevation(osrmResponse);
+        Map<String, Double> openTopodataResponse = getElevationData(points);
         return addElevation(osrmResponse, openTopodataResponse);
     }
-
-
 
     private Map<String, Object> getOsrmResponse(String url) {
         try {
@@ -147,33 +147,52 @@ class OsrmServiceImpl implements IOsrmService {
 
         return baseUrl + startingPoint.getX() + "," + startingPoint.getY() + ";" + wayPoints.stream()
                 .map(point -> point.getX() + "," + point.getY())
-                .collect(Collectors.joining(";")) + "?steps=true";
-
+                .collect(Collectors.joining(";")) + "?steps=true&annotations=true";
     }
 
-    private String extractPolylineFromOsrmResponse(Map<String, Object> osrmResponse) {
+    private List<Point> selectPointsForElevation(Map<String, Object> osrmResponse) {
+        GeometryFactory geometryFactory = new GeometryFactory();
+        List<Point> points = new ArrayList<>();
+        Map<String, Object> route = ((List<Map<String, Object>>) osrmResponse.get("routes")).getFirst();
+        List<Map<String, Object>> legs = (List<Map<String, Object>>) route.get("legs");
 
-        if (osrmResponse.containsKey("routes")) {
-            List<Object> trips = (List<Object>) osrmResponse.get("routes");
-            if (!trips.isEmpty()) {
-                Map<String, Object> firstRoute = (Map<String, Object>) trips.getFirst();
-                if (firstRoute.containsKey("geometry")) {
-                    return String.valueOf(firstRoute.get("geometry"));
+        for (Map<String, Object> leg : legs) {
+            List<Map<String, Object>> steps = (List<Map<String, Object>>) leg.get("steps");
+            for (Map<String, Object> step : steps) {
+                Map<String, Object> maneuver = (Map<String, Object>) step.get("maneuver");
+                List<Double> location = (List<Double>) maneuver.get("location");
+                Number distanceNumber = (Number) step.get("distance");
+                double distance = distanceNumber.doubleValue();
+
+                if (distance >= 200) {
+                    Coordinate coordinate = new Coordinate(location.getLast(), location.getFirst());
+                    Point point = geometryFactory.createPoint(coordinate);
+                    points.add(point);
                 }
             }
         }
-
-        throw new InvalidOsrmResponseException();
+        return points;
     }
 
-
-    private Map<String, Object> getElevationData(String polyline) {
-
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(OPENTOPODATA_URL).queryParam("locations", polyline);
-        URI uri = builder.build().encode().toUri();
+    private Map<String, Double> getElevationData(List<Point> points) {
+        String url = OPENTOPODATA_URL + "?locations=" + points.stream()
+                .map(point -> point.getX() + "," + point.getY())
+                .collect(Collectors.joining("|"));
 
         try {
-            return restTemplate.getForObject(uri, Map.class);
+            Map<String, Object> response = restTemplate.getForObject(url, Map.class);
+            assert response != null;
+            List<Map<String, Object>> elevationResults = (List<Map<String, Object>>) response.get("results");
+
+            Map<String, Double> elevationMap = new HashMap<>();
+            for (Map<String, Object> result : elevationResults) {
+                Map<String, Double> elevationLocation = (Map<String, Double>) result.get("location");
+                String key = elevationLocation.get("lng") + "," + elevationLocation.get("lat");
+                elevationMap.put(key, (Double) result.get("elevation"));
+            }
+
+            return elevationMap;
+
         } catch (RestClientException e) {
             if (e.getMessage().contains("Config Error: Dataset")) {
                 throw new OpentopodataDatasetNotConfiguredException();
@@ -187,31 +206,23 @@ class OsrmServiceImpl implements IOsrmService {
         }
     }
 
-    private Map<String, Object> addElevation(Map<String, Object> osrmResponse, Map<String, Object> elevationData) {
-        List<Map<String, Object>> osrmRoutes = (List<Map<String, Object>>) osrmResponse.get("routes");
-        List<Map<String, Object>> elevationResults = (List<Map<String, Object>>) elevationData.get("results");
+    private Map<String, Object> addElevation(Map<String, Object> osrmResponse, Map<String, Double> elevationMap) {
+        Map<String, Object> route = ((List<Map<String, Object>>) osrmResponse.get("routes")).getFirst();
+        List<Map<String, Object>> legs = (List<Map<String, Object>>) route.get("legs");
 
-        for (Map<String, Object> route : osrmRoutes) {
-            List<Map<String, Object>> legs = (List<Map<String, Object>>) route.get("legs");
-            for (Map<String, Object> leg : legs) {
-                List<Map<String, Object>> steps = (List<Map<String, Object>>) leg.get("steps");
-                for (Map<String, Object> step : steps) {
-                    Map<String, Object> maneuver = (Map<String, Object>) step.get("maneuver");
-                    List<Double> location = (List<Double>) maneuver.get("location");
-                    for (Map<String, Object> result : elevationResults) {
-                        Map<String, Double> elevationLocation = (Map<String, Double>) result.get("location");
-                        if (Math.round(location.get(0) * 10000) == Math.round(elevationLocation.get("lng") * 10000) &&
-                                Math.round(location.get(1) * 10000) == Math.round(elevationLocation.get("lat") * 10000)) {
-                            location.add((Double) result.get("elevation"));
-                            break;
-                        }
-                    }
+        for (Map<String, Object> leg : legs) {
+            List<Map<String, Object>> steps = (List<Map<String, Object>>) leg.get("steps");
+            for (Map<String, Object> step : steps) {
+                Map<String, Object> maneuver = (Map<String, Object>) step.get("maneuver");
+                List<Double> location = (List<Double>) maneuver.get("location");
+                String key = location.get(0) + "," + location.get(1);
+                if (elevationMap.containsKey(key)) {
+                    location.add(elevationMap.get(key));
                 }
             }
         }
         return osrmResponse;
     }
-
 
 }
 
