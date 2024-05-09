@@ -82,7 +82,7 @@ download both the `Esri ASCII` and `Geo TIFF` format.
 You will get 2 files:
    - For the `your-location.asc` file 
      - Rename the `your-location.asc` file to `green-way.asc` and move it to `osrm/data-elevation/`
-     - Open the file `green-way.asc` and note the first two lines, edit the `docker-compose.yml` file in the root directory lines 113 and 114
+     - Open the file `green-way.asc` and note the first two lines, edit the `docker-compose.yml` file in the root directory lines [113][Github-url-17] and [114][Github-url-18]
      - Remove the first `6` lines from the `green-way.asc` file and save it
      - Edit the`docker-compose.yml` file in the root directory lines [109][Github-url-9], [110][Github-url-10], [111][Github-url-11], [112][Github-url-12] with the limit of your elevation data, you can find them in the download page on [srtm.csi.org](https://srtm.csi.cgiar.org/srtmdata/), 
      - The map data end elevation data will probably cover different locations;
@@ -190,3 +190,5 @@ This project is licensed under the Creative Commons Attribution-ShareAlike 4.0 I
 [Github-url-14]: https://github.com/Redy1908/GreenWay-Backend/blob/9112e40020df8c6a8be55ab98fa40bc4517404df/GreenWay/src/main/resources/application.yml#L28
 [Github-url-15]: https://github.com/Redy1908/GreenWay-Backend/blob/9112e40020df8c6a8be55ab98fa40bc4517404df/GreenWay/src/main/resources/application.yml#L29
 [Github-url-16]: https://github.com/Redy1908/GreenWay-Backend/blob/9112e40020df8c6a8be55ab98fa40bc4517404df/GreenWay/src/main/resources/application.yml#L30
+[Github-url-17]: https://github.com/Redy1908/GreenWay-Backend/blob/9112e40020df8c6a8be55ab98fa40bc4517404df/docker-compose.yml#L113
+[Github-url-18]: https://github.com/Redy1908/GreenWay-Backend/blob/9112e40020df8c6a8be55ab98fa40bc4517404df/docker-compose.yml#L114
