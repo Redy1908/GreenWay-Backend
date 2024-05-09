@@ -90,10 +90,6 @@ services:
       "
     ports:
       - "5000:5000"
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
-      interval: 30s
-      retries: 10
     networks:
       - greenway
 
@@ -123,10 +119,6 @@ services:
           osrm-routed --algorithm mld /data-elevation/green-way.osrm
         fi
       "
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
-      interval: 30s
-      retries: 10
     ports:
       - "5001:5000"
     networks:
