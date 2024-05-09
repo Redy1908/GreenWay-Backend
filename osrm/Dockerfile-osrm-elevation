@@ -1,10 +1,9 @@
 FROM ghcr.io/project-osrm/osrm-backend:v5.27.1
 
-COPY data-standard /data
+COPY data /data
 COPY profiles/car-elevation.lua /opt
 
-ENV OSRM_FILE=sud-latest
-ENV OSRM_RASTER_SOURCE="../data/srtm_39_04.asc"
+ENV OSRM_RASTER_SOURCE="../data/green-way.asc"
 ENV LON_MIN=10
 ENV LON_MAX=15
 ENV LAT_MIN=40
@@ -12,10 +11,10 @@ ENV LAT_MAX=45
 ENV NROWS=6000
 ENV NCOLS=6000
 
-RUN osrm-extract -p /opt/car-elevation.lua /data/${OSRM_FILE}.osm.pbf && \
-        osrm-partition /data/${OSRM_FILE}.osrm && \
-        osrm-customize /data/${OSRM_FILE}.osrm;
+RUN osrm-extract -p /opt/car-elevation.lua /data/green-way.osm.pbf && \
+        osrm-partition /data/green-way.osrm && \
+        osrm-customize /data/green-way.osrm;
 
 EXPOSE 5000
 
-CMD osrm-routed --algorithm mld /data/${OSRM_FILE}.osrm
+CMD osrm-routed --algorithm mld /data/green-way.osrm

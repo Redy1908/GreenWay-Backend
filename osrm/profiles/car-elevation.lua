@@ -1,6 +1,6 @@
 -- Car profile
 
-local RASTER_PATH = os.getenv('OSRM_RASTER_SOURCE') or "../data/srtm_39_04.asc"
+local RASTER_PATH = os.getenv('OSRM_RASTER_SOURCE') or "../data/green-way.asc"
 local LON_MIN = tonumber(os.getenv("LON_MIN")) or 10
 local LON_MAX = tonumber(os.getenv("LON_MAX")) or 15
 local LAT_MIN = tonumber(os.getenv("LAT_MIN")) or 40

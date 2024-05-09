@@ -1,9 +1,6 @@
 osrm/data/
 !osrm/data/.gitkeep
 
-opentopodata/data/greenWay
-!opentopodata/data/greenWay/.gitkeep
-
 HELP.md
 target/
 !.mvn/wrapper/maven-wrapper.jar

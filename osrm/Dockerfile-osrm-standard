@@ -1,14 +1,12 @@
 FROM ghcr.io/project-osrm/osrm-backend:v5.27.1
 
-COPY data-standard /data
+COPY data /data
 COPY profiles/car-standard.lua /opt
 
-ENV OSRM_FILE=sud-latest
-
-RUN osrm-extract -p /opt/car-standard.lua /data/${OSRM_FILE}.osm.pbf && \
-        osrm-partition /data/${OSRM_FILE}.osrm && \
-        osrm-customize /data/${OSRM_FILE}.osrm;
+RUN osrm-extract -p /opt/car-standard.lua /data/green-way.osm.pbf && \
+        osrm-partition /data/green-way.osrm && \
+        osrm-customize /data/green-way.osrm;
 
 EXPOSE 5000
 
-CMD osrm-routed --algorithm mld /data/${OSRM_FILE}.osrm
+CMD osrm-routed --algorithm mld /data/green-way.osrm
