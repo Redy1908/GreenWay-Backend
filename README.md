@@ -37,7 +37,7 @@ This is the backend of GreenWay. GreenWay optimizes the routes for a fleet of el
 
 ### Built With
 
-[![SpringBoot][SpringBoot]][SpringBoot-url][![Project OSRM][ProjectOSRM]][ProjectOSRM-url][![Open Topo Data][OpenTopoData]][OpenTopoData-url][![Keycloack][Keycloack]][Keycloack-url][![Java][Java]][Java-url][![Docker][Docker]][Docker-url]
+[![SpringBoot][SpringBoot]][SpringBoot-url][![Project OSRM][ProjectOSRM]][ProjectOSRM-url][![Keycloack][Keycloack]][Keycloack-url][![Java][Java]][Java-url][![Docker][Docker]][Docker-url]
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -140,8 +140,6 @@ This project is licensed under the Creative Commons Attribution-ShareAlike 4.0 I
 [Java-url]:https://www.oracle.com/it/java/technologies/downloads/
 [Keycloack]:https://img.shields.io/badge/Keycloak-purple?style=for-the-badge&logo=keycloak&logoColor=FFFFFF
 [Keycloack-url]: https://www.keycloak.org/
-[OpenTopoData]: https://img.shields.io/badge/Open_Topo_Data-blue?style=for-the-badge
-[OpenTopoData-url]: https://www.opentopodata.org/
 
 [Github-url-1]: https://github.com/Redy1908/GreenWay-Backend/blob/a669dbe472d8ff0ce111a6f76280de9bd6a24f0e/osrm/Dockerfile-osrm-elevation#L6
 [Github-url-2]: https://github.com/Redy1908/GreenWay-Backend/blob/a669dbe472d8ff0ce111a6f76280de9bd6a24f0e/GreenWay/src/main/resources/application.yml#L27
