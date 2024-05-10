@@ -37,7 +37,7 @@ This is the backend of GreenWay. GreenWay optimizes the routes for a fleet of el
 
 ### Built With
 
-[![SpringBoot][SpringBoot]][SpringBoot-url][![Project OSRM][ProjectOSRM]][ProjectOSRM-url][![Keycloack][Keycloack]][Keycloack-url][![Java][Java]][Java-url][![Docker][Docker]][Docker-url]
+[![SpringBoot][SpringBoot]][SpringBoot-url][![Project OSRM][ProjectOSRM]][ProjectOSRM-url][![Keycloack][Keycloack]][Keycloack-url][![Java 21][Java]][Java-url][![Docker][Docker]][Docker-url]
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
