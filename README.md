@@ -26,16 +26,8 @@
     </li>
     <li><a href="#usage">Usage</a></li>
     <li><a href="#example">Example</a></li>
-    <li>
-     <a href="#customization">Customization</a>
-      <ul>
-        <li><a href="#keycloak">Keycloak</a></li>
-        <li><a href="#OSRM-OpenTopoData">OSMR and Open Topo Data</a></li>
-      </ul>
-    </li>
-    <li>
-     <a href="#license">License</a>
-    </li>
+    <li><a href="#keycloak">Keycloak</a></li>
+    <li><a href="#license">License</a></li>
   </ol>
 </details>
 
@@ -111,13 +103,7 @@ Now let's limit the number of deliveries for the three vehicles to 4:
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
-<!-- Customization -->
-## Customization
-
-GreenWay Backend is easily customizable to your needs.
-
-### Keycloak
+## Keycloak
 
 > :warning: This set up is only for development/prototyping <u>DO NOT</u> use it in production :warning:
 
@@ -142,33 +128,6 @@ with GREEN_WAY_DELIVERY_MAN ROLE
 
 If you want to edit the Keycloak configuration or add new users, access the
 KeyCloak [dashboard](http://localhost:8090/) using the default admin profile.
-
-### OSRM-OpenTopoData
-
-GreenWay comes preconfigured with the map of Southern Italy and the relative elevation data. You can customize that.
-
-1. Download map data for your location from [Geofabrik](https://www.geofabrik.de/)
-2. You will get a file named `your-location.osm.pbf`
-3. Move the file to `osrm/data/`
-4. Go to `osrm/` edit the `Dockerfile-osrm-elevation.yml` at line [6][Github-url-1] set `OSRM_FILE` value to `your-location` with no extension
-5. [Download](https://srtm.csi.cgiar.org/srtmdata/) the elevation data for your location, download both the `Esri ASCII` and `Geo TIFF` format
-6. OSRM
-    - Move the `.asc` file to `osrm/data/`
-    - Open the file end note the content of the first `6` lines
-    - Go to `osrm/` edit the `Dockerfile-osrm-elevation.yml` file, from line `7` to `13` according to your `.asc` file
-    - Remove the first `6` lines from the  `.asc` file, save the changes
-    - Run the following command inside `osrm/`: `docker build -t {dockerHubUsername}/{imageName}:{imageTag} -f Dockerfile-osrm-elevation .`
-    - Edit the ```docker-compose.yml``` file in the root directory, line [65][Github-url-6], replace the `image` value with the name of your image
-    - Go to `GreenWay/src/main/resources` edit the files `application.yml` and `application-local.yml`,
-      lines [27][Github-url-2]-[28][Github-url-3]-[29][Github-url-4]-[30][Github-url-5] with
-      your max and min coordinates according to your `.asc` file.
-7. Opentopodata
-    - Move the `.tif` file in `opentopodata/data/greenWay/`
-    - Note that Opentopodata will provide the elevation data for up to 5000 locations then will throw `ERROR 400` you can [change this limit][Github-url-8]
-8. Spring Boot
-    - Go to `GreenWay/` edit the `pom.xml` line [132][Github-url-7] replace `redy1908` with Docker Hub Username
-    - Run the following command inside `GreenWay/`: `./mvnw -DskipTests spring-boot:build-image `
-    - Edit the ```docker-compose.yml``` file in the root directory, line [65][Github-url-6], replace the `image` value with the name of your image
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
