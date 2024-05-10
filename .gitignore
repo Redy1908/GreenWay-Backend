@@ -1,10 +1,10 @@
 osrm/data/
 !osrm/data/.gitkeep
 
-postgis/DEM
+postgis/DEM/
 !postgis/DEM/.gitkeep
 
-postgis/DB
+postgis/DB/
 !postgis/DB/.gitkeep
 
 HELP.md
