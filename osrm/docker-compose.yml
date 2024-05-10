@@ -4,20 +4,20 @@ services:
   osrm-backend-standard:
     image: redy1908/green-way-osrm-standard:v1
     ports:
-      - "5000:5000"
+      - "5005:5000"
   osrm-frontend-standard:
     image: osrm/osrm-frontend
     ports:
       - "9966:9966"
     environment:
-      - OSRM_BACKEND=http://localhost:5000
+      - OSRM_BACKEND=http://localhost:5005
   osrm-backend-elevation:
     image: redy1908/green-way-osrm-elevation:v1
     ports:
-      - "5001:5000"
+      - "5006:5000"
   osrm-frontend-elevation:
     image: osrm/osrm-frontend
     ports:
       - "9967:9966"
     environment:
-      - OSRM_BACKEND=http://localhost:5001
+      - OSRM_BACKEND=http://localhost:5006
