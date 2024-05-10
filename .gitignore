@@ -1,6 +1,12 @@
 osrm/data/
 !osrm/data/.gitkeep
 
+postgis/DEM
+!postgis/DEM/.gitkeep
+
+postgis/DB
+!postgis/DB/.gitkeep
+
 HELP.md
 target/
 !.mvn/wrapper/maven-wrapper.jar
