@@ -37,7 +37,7 @@ This is the backend of GreenWay. GreenWay optimizes the routes for a fleet of el
 
 ### Built With
 
-[![SpringBoot][SpringBoot]][SpringBoot-url][![Project OSRM][ProjectOSRM]][ProjectOSRM-url][![Keycloack][Keycloack]][Keycloack-url][![Java 21][Java]][Java-url][![Docker][Docker]][Docker-url]
+[![SpringBoot][SpringBoot]][SpringBoot-url][![Project OSRM][ProjectOSRM]][ProjectOSRM-url][![Keycloack][Keycloack]][Keycloack-url][![Java][Java]][Java-url][![Docker][Docker]][Docker-url]
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -136,7 +136,7 @@ This project is licensed under the Creative Commons Attribution-ShareAlike 4.0 I
 [ProjectOSRM-url]: https://project-osrm.org/
 [Docker]: https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white
 [Docker-url]: https://www.docker.com/
-[Java]:https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white
+[Java]:https://img.shields.io/badge/Java_21-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white
 [Java-url]:https://www.oracle.com/it/java/technologies/downloads/
 [Keycloack]:https://img.shields.io/badge/Keycloak-purple?style=for-the-badge&logo=keycloak&logoColor=FFFFFF
 [Keycloack-url]: https://www.keycloak.org/
