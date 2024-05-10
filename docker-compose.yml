@@ -7,7 +7,7 @@ services:
     networks:
       - greenway
     depends_on:
-      - postgis
+      - green-way-postgis
       - keycloak
       - keycloak-db
       - green-way-osrm-standard
@@ -48,14 +48,12 @@ services:
       - greenway
     volumes:
       - keycloak_data:/var/lib/postgresql/keycloak/data
-  postgis:
-    image: postgis/postgis
+  green-way-postgis:
+    image: redy1908/green-way-postgis:v1
     environment:
       POSTGRES_PASSWORD: postgis
       POSTGRES_DB: postgis
       POSTGRES_USER: postgis
-    healthcheck:
-      test: "exit 0"
     ports:
       - "5433:5432"
     networks:

@@ -9,7 +9,7 @@ spring:
           jwk-set-uri: http://keycloak:8080/realms/GreenWay/protocol/openid-connect/certs
   datasource:
     driverClassName: org.postgresql.Driver
-    url: jdbc:postgresql://postgis:5432/postgis
+    url: jdbc:postgresql://green-way-postgis:5432/postgis
     username: postgis
     password: postgis
   jpa:
@@ -31,5 +31,3 @@ osrm:
   route-standard-url: http://green-way-osrm-standard:5000/route/v1/driving/
   route-elevation-url: http://green-way-osrm-elevation:5000/route/v1/driving/
   table-elevation-url: http://green-way-osrm-elevation:5000/table/v1/driving/
-opentopodata:
-  url: http://green-way-opentopodata:5000/v1/greenway

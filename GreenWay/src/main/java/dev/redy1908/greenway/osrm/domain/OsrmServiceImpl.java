@@ -1,7 +1,9 @@
 package dev.redy1908.greenway.osrm.domain;
 
-import dev.redy1908.greenway.app.web.exceptions.GenericException;
+import com.google.maps.internal.PolylineEncoding;
+import com.google.maps.model.LatLng;
 import dev.redy1908.greenway.delivery.domain.Delivery;
+import dev.redy1908.greenway.dem.domain.DemRepository;
 import dev.redy1908.greenway.osrm.domain.exceptions.models.*;
 import dev.redy1908.greenway.vehicle_deposit.domain.VehicleDeposit;
 import lombok.RequiredArgsConstructor;
@@ -9,12 +11,10 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.GeometryFactory;
+import org.locationtech.jts.geom.LineString;
 import org.locationtech.jts.geom.Point;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.util.Pair;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
@@ -37,9 +37,6 @@ class OsrmServiceImpl implements IOsrmService {
     @Value("${osrm.table-elevation-url}")
     private String OSRM_TABLE_ELEVATION_URL;
 
-    @Value("${opentopodata.url}")
-    private String OPENTOPODATA_URL;
-
     @Value("${osrm.lon-min}")
     private double lonMin;
 
@@ -54,13 +51,16 @@ class OsrmServiceImpl implements IOsrmService {
 
     private final RestTemplate restTemplate;
 
+    private final DemRepository demRepository;
+
     @Override
     public Map<String, Object> getNavigationData(Point startingPoint, List<Point> wayPoints, NavigationType navigationType) {
         String osrmUrl = buildOsrmUrl(startingPoint, wayPoints, navigationType);
         Map<String, Object> osrmResponse = getOsrmResponse(osrmUrl);
-        List<Point> points = selectPointsForElevation(osrmResponse);
-        HashMap<String, Double> openTopodataResponse = getElevationData(points);
-        return addElevation(osrmResponse, openTopodataResponse);
+        String polyline = extractPolylineFromOsrmResponse(osrmResponse);
+        LineString lineString = polylineToLineString(polyline);
+        Map<String, Object> elevations = demRepository.findValuesForLineString(lineString.toString());
+        return addElevation(osrmResponse, elevations);
     }
 
     private Map<String, Object> getOsrmResponse(String url) {
@@ -149,88 +149,42 @@ class OsrmServiceImpl implements IOsrmService {
                         point -> String.format(Locale.US, "%f,%f", point.getX(), point.getY()))
                 .collect(Collectors.joining(";"));
 
-        return String.format(Locale.US, "%s%f,%f;%s?steps=true&overview=false", baseUrl, startingPoint.getX(), startingPoint.getY(), wayPointsString);
+        return String.format(Locale.US, "%s%f,%f;%s?steps=true&overview=full", baseUrl, startingPoint.getX(), startingPoint.getY(), wayPointsString);
     }
 
-    private List<Point> selectPointsForElevation(Map<String, Object> osrmResponse) {
-        GeometryFactory geometryFactory = new GeometryFactory();
-        List<Point> points = new ArrayList<>();
-        Map<String, Object> route = ((List<Map<String, Object>>) osrmResponse.get("routes")).getFirst();
-        List<Map<String, Object>> legs = (List<Map<String, Object>>) route.get("legs");
+    private String extractPolylineFromOsrmResponse(Map<String, Object> osrmResponse) {
 
-        for (Map<String, Object> leg : legs) {
-            List<Map<String, Object>> steps = (List<Map<String, Object>>) leg.get("steps");
-            for (Map<String, Object> step : steps) {
-                Map<String, Object> maneuver = (Map<String, Object>) step.get("maneuver");
-                List<Double> location = (List<Double>) maneuver.get("location");
-                Coordinate coordinate = new Coordinate(location.getLast(), location.getFirst());
-                Point point = geometryFactory.createPoint(coordinate);
-                points.add(point);
-            }
-        }
-        return points;
-    }
-
-    private HashMap<String, Double> getElevationData(List<Point> points) {
-
-        String locations = points.stream()
-                .map(point -> String.format(Locale.US, "%f,%f", point.getX(), point.getY()))
-                .collect(Collectors.joining("|"));
-
-        try {
-
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_JSON);
-
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("locations", locations);
-
-            HttpEntity<String> request = new HttpEntity<>(jsonObject.toString(), headers);
-
-            Map<String, Object> response = restTemplate.postForObject(OPENTOPODATA_URL, request, Map.class);
-            assert response != null;
-            List<Map<String, Object>> elevationResults = (List<Map<String, Object>>) response.get("results");
-
-            HashMap<String, Double> elevationMap = new HashMap<>();
-            for (Map<String, Object> result : elevationResults) {
-                Map<String, Double> elevationLocation = (Map<String, Double>) result.get("location");
-                String key = elevationLocation.get("lng") + "," + elevationLocation.get("lat");
-                elevationMap.put(key, (Double) result.get("elevation"));
-            }
-
-            return elevationMap;
-
-        } catch (RestClientException e) {
-            if (e.getMessage().contains("Config Error: Dataset")) {
-                throw new OpentopodataDatasetNotConfiguredException();
-            } else if (e.getMessage().contains("Too many locations provided")) {
-                throw new OpentopodataTooManyLocationsException();
-            } else if (e.getMessage().contains("Connection refused")) {
-                throw new OpentopodataConnectionRefusedException();
-            } else {
-                throw new GenericException();
-            }
-        }
-    }
-
-    private Map<String, Object> addElevation(Map<String, Object> osrmResponse, HashMap<String, Double> elevationMap) {
-        Map<String, Object> route = ((List<Map<String, Object>>) osrmResponse.get("routes")).getFirst();
-        List<Map<String, Object>> legs = (List<Map<String, Object>>) route.get("legs");
-
-        for (Map<String, Object> leg : legs) {
-            List<Map<String, Object>> steps = (List<Map<String, Object>>) leg.get("steps");
-            for (Map<String, Object> step : steps) {
-                Map<String, Object> maneuver = (Map<String, Object>) step.get("maneuver");
-                List<Double> location = (List<Double>) maneuver.get("location");
-                String key = location.get(0) + "," + location.get(1);
-                if (elevationMap.containsKey(key)) {
-                    location.add(elevationMap.get(key));
+        if (osrmResponse.containsKey("routes")) {
+            List<Object> routes = (List<Object>) osrmResponse.get("routes");
+            if (!routes.isEmpty()) {
+                Map<String, Object> firstRoute = (Map<String, Object>) routes.getFirst();
+                if (firstRoute.containsKey("geometry")) {
+                    return String.valueOf(firstRoute.get("geometry"));
                 }
             }
         }
-        return osrmResponse;
+
+        throw new InvalidOsrmResponseException();
     }
 
+    private LineString polylineToLineString(String polyline) {
+        List<LatLng> latLngs = PolylineEncoding.decode(polyline);
+
+        List<Coordinate> coordinates = new ArrayList<>();
+        for (com.google.maps.model.LatLng latLng : latLngs) {
+            coordinates.add(new Coordinate(latLng.lng, latLng.lat));
+        }
+
+        GeometryFactory geometryFactory = new GeometryFactory();
+        return geometryFactory.createLineString(coordinates.toArray(new Coordinate[0]));
+    }
+
+    private Map<String, Object> addElevation(Map<String, Object> osrmResponse, Map<String, Object> elevations){
+
+        osrmResponse.put("elevations", elevations);
+
+        return osrmResponse;
+    }
 }
 
 
