@@ -1,3 +1,4 @@
+# Use this for the debugging of the osrm images
 version: "3"
 services:
   osrm-backend-standard:
