@@ -72,18 +72,6 @@ services:
       - "5001:5000"
     networks:
       - greenway
-  green-way-opentopodata:
-    image: redy1908/green-way-opentopodata:v1
-    ports:
-      - "5002:5000"
-    command: sh -c "/usr/bin/supervisord -c /app/docker/supervisord.conf"
-    volumes:
-      - "./opentopodata/data:/app/data:ro"
-      - "./opentopodata/config.yaml:/app/config.yaml"
-    environment:
-      - N_UWSGI_THREADS=4
-    networks:
-      - greenway
 volumes:
   postgis_data:
   keycloak_data:
