@@ -12,7 +12,6 @@ services:
       - keycloak-db
       - green-way-osrm-standard
       - green-way-osrm-elevation
-      - green-way-opentopodata
   keycloak:
     image: quay.io/keycloak/keycloak:23.0.7
     command: start-dev --import-realm
