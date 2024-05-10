@@ -24,7 +24,6 @@
         <li><a href="#run">Run</a></li>
       </ul>
     </li>
-    <li><a href="#usage">Usage</a></li>
     <li><a href="#example">Example</a></li>
     <li><a href="#keycloak">Keycloak</a></li>
     <li><a href="#license">License</a></li>
@@ -47,7 +46,7 @@ This is the backend of GreenWay. GreenWay optimizes the routes for a fleet of el
 
 ### System
 
-<img src="images/System.png" alt="database">
+<img src="images/System-Architecture.png" alt="database">
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -75,13 +74,6 @@ Within the root folder execute:
 ```cmd
    docker compose up -d
 ```
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-<!-- USAGE EXAMPLES -->
-## Usage
-
-**TODO**
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
