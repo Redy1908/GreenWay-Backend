@@ -1,7 +1,7 @@
 osrm/data/
 !osrm/data/.gitkeep
 
-postgis/
+postgis/*/
 !postgis/DB/.gitkeep
 !postgis/DEM/.gitkeep
 
