@@ -10,10 +10,9 @@ import org.testcontainers.utility.DockerImageName;
  */
 public abstract class BaseDataJpaTest {
 
+    public static final PostgreSQLContainer<?> postgis;
     static final DockerImageName image = DockerImageName.parse("postgis/postgis")
             .asCompatibleSubstituteFor("postgres");
-
-    public static final PostgreSQLContainer<?> postgis;
 
     static {
         postgis = new PostgreSQLContainer<>(image);

@@ -1,1192 +1,1192 @@
 {
-	"info": {
-		"_postman_id": "dcebc094-134b-4cab-839d-06442853f573",
-		"name": "GreenWay",
-		"description": "REST API for the multiplatform application (IOS and Android), GreenWay, an Electric Vehicle (EV) routing service.",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "27276004"
-	},
-	"item": [
-		{
-			"name": "DeliveryMan",
-			"item": [
-				{
-					"name": "Create DeliveryMan",
-					"request": {
-						"auth": {
-							"type": "oauth2",
-							"oauth2": [
-								{
-									"key": "accessTokenUrl",
-									"value": "http://localhost:8090/realms/GreenWay/protocol/openid-connect/token",
-									"type": "string"
-								},
-								{
-									"key": "authUrl",
-									"value": "http://localhost:8090/realms/GreenWay/protocol/openid-connect/auth",
-									"type": "string"
-								},
-								{
-									"key": "clientId",
-									"value": "GreenWay",
-									"type": "string"
-								},
-								{
-									"key": "clientSecret",
-									"value": "jyTj9K8qcn3AoZjElhNCT15klfdiBH0K",
-									"type": "string"
-								},
-								{
-									"key": "state",
-									"value": "ew34er-344fgfg-5gfgfg",
-									"type": "string"
-								},
-								{
-									"key": "useBrowser",
-									"value": true,
-									"type": "boolean"
-								},
-								{
-									"key": "grant_type",
-									"value": "authorization_code",
-									"type": "string"
-								},
-								{
-									"key": "tokenName",
-									"value": "authcode_accesstoken",
-									"type": "string"
-								},
-								{
-									"key": "client_authentication",
-									"value": "body",
-									"type": "string"
-								},
-								{
-									"key": "scope",
-									"value": "openid email profile",
-									"type": "string"
-								},
-								{
-									"key": "addTokenTo",
-									"value": "header",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/api/v1/deliveryMen",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"v1",
-								"deliveryMen"
-							]
-						},
-						"description": "Create a new DeliveryMan, this is an utility method to sync the DeliveryMen between KeyCloak DB and Spring Boot DB"
-					},
-					"response": []
-				}
-			],
-			"description": "Collection of endpoints for the entity \"DeliveryMan\""
-		},
-		{
-			"name": "Vehicle Deposit",
-			"item": [
-				{
-					"name": "Create Vehicle Deposit",
-					"request": {
-						"auth": {
-							"type": "oauth2",
-							"oauth2": [
-								{
-									"key": "clientSecret",
-									"value": "jyTj9K8qcn3AoZjElhNCT15klfdiBH0K",
-									"type": "string"
-								},
-								{
-									"key": "accessTokenUrl",
-									"value": "http://localhost:8090/realms/GreenWay/protocol/openid-connect/token",
-									"type": "string"
-								},
-								{
-									"key": "authUrl",
-									"value": "http://localhost:8090/realms/GreenWay/protocol/openid-connect/auth",
-									"type": "string"
-								},
-								{
-									"key": "clientId",
-									"value": "GreenWay",
-									"type": "string"
-								},
-								{
-									"key": "state",
-									"value": "ew34er-344fgfg-5gfgfg",
-									"type": "string"
-								},
-								{
-									"key": "useBrowser",
-									"value": true,
-									"type": "boolean"
-								},
-								{
-									"key": "grant_type",
-									"value": "authorization_code",
-									"type": "string"
-								},
-								{
-									"key": "tokenName",
-									"value": "authcode_accesstoken",
-									"type": "string"
-								},
-								{
-									"key": "client_authentication",
-									"value": "body",
-									"type": "string"
-								},
-								{
-									"key": "scope",
-									"value": "openid email profile",
-									"type": "string"
-								},
-								{
-									"key": "addTokenTo",
-									"value": "header",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"depositAddress\": \"Via Roma\",\r\n    \"depositCoordinates\": {\r\n        \"type\": \"Point\",\r\n        \"coordinates\": [14.266262,40.884837]\r\n    }\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/api/v1/deposit",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"v1",
-								"deposit"
-							]
-						},
-						"description": "Create a new VehicleDeposit"
-					},
-					"response": []
-				},
-				{
-					"name": "Update Vehicle Deposit",
-					"request": {
-						"auth": {
-							"type": "oauth2",
-							"oauth2": [
-								{
-									"key": "clientSecret",
-									"value": "jyTj9K8qcn3AoZjElhNCT15klfdiBH0K",
-									"type": "string"
-								},
-								{
-									"key": "accessTokenUrl",
-									"value": "http://localhost:8090/realms/GreenWay/protocol/openid-connect/token",
-									"type": "string"
-								},
-								{
-									"key": "authUrl",
-									"value": "http://localhost:8090/realms/GreenWay/protocol/openid-connect/auth",
-									"type": "string"
-								},
-								{
-									"key": "clientId",
-									"value": "GreenWay",
-									"type": "string"
-								},
-								{
-									"key": "state",
-									"value": "ew34er-344fgfg-5gfgfg",
-									"type": "string"
-								},
-								{
-									"key": "useBrowser",
-									"value": true,
-									"type": "boolean"
-								},
-								{
-									"key": "grant_type",
-									"value": "authorization_code",
-									"type": "string"
-								},
-								{
-									"key": "tokenName",
-									"value": "authcode_accesstoken",
-									"type": "string"
-								},
-								{
-									"key": "client_authentication",
-									"value": "body",
-									"type": "string"
-								},
-								{
-									"key": "scope",
-									"value": "openid email profile",
-									"type": "string"
-								},
-								{
-									"key": "addTokenTo",
-									"value": "header",
-									"type": "string"
-								}
-							]
-						},
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"depositAddress\": \"Via Roma\",\r\n    \"depositCoordinates\": {\r\n        \"type\": \"Point\",\r\n        \"coordinates\": [14.214249,40.838749]\r\n    }\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/api/v1/deposit",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"v1",
-								"deposit"
-							]
-						},
-						"description": "Update a VehicleDeposit both ADDRESS and COORDINATES are required"
-					},
-					"response": []
-				}
-			],
-			"description": "Collection of endpoints for the entity \"VehicleDeposit\""
-		},
-		{
-			"name": "DeliveryVehicle",
-			"item": [
-				{
-					"name": "Create Vehicle",
-					"request": {
-						"auth": {
-							"type": "oauth2",
-							"oauth2": [
-								{
-									"key": "clientSecret",
-									"value": "jyTj9K8qcn3AoZjElhNCT15klfdiBH0K",
-									"type": "string"
-								},
-								{
-									"key": "accessTokenUrl",
-									"value": "http://localhost:8090/realms/GreenWay/protocol/openid-connect/token",
-									"type": "string"
-								},
-								{
-									"key": "authUrl",
-									"value": "http://localhost:8090/realms/GreenWay/protocol/openid-connect/auth",
-									"type": "string"
-								},
-								{
-									"key": "clientId",
-									"value": "GreenWay",
-									"type": "string"
-								},
-								{
-									"key": "state",
-									"value": "ew34er-344fgfg-5gfgfg",
-									"type": "string"
-								},
-								{
-									"key": "useBrowser",
-									"value": true,
-									"type": "boolean"
-								},
-								{
-									"key": "grant_type",
-									"value": "authorization_code",
-									"type": "string"
-								},
-								{
-									"key": "tokenName",
-									"value": "authcode_accesstoken",
-									"type": "string"
-								},
-								{
-									"key": "client_authentication",
-									"value": "body",
-									"type": "string"
-								},
-								{
-									"key": "scope",
-									"value": "openid email profile",
-									"type": "string"
-								},
-								{
-									"key": "addTokenTo",
-									"value": "header",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"modelName\": \"Fiat E-Ducato\",\r\n    \"maxAutonomyKm\": \"370\",\r\n    \"maxCapacityKg\": \"100\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/api/v1/vehicles",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"v1",
-								"vehicles"
-							]
-						},
-						"description": "Create a new DeliveryVehicle"
-					},
-					"response": []
-				},
-				{
-					"name": "Get All Vehicles",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"auth": {
-							"type": "oauth2",
-							"oauth2": [
-								{
-									"key": "clientSecret",
-									"value": "jyTj9K8qcn3AoZjElhNCT15klfdiBH0K",
-									"type": "string"
-								},
-								{
-									"key": "accessTokenUrl",
-									"value": "http://localhost:8090/realms/GreenWay/protocol/openid-connect/token",
-									"type": "string"
-								},
-								{
-									"key": "authUrl",
-									"value": "http://localhost:8090/realms/GreenWay/protocol/openid-connect/auth",
-									"type": "string"
-								},
-								{
-									"key": "clientId",
-									"value": "GreenWay",
-									"type": "string"
-								},
-								{
-									"key": "state",
-									"value": "ew34er-344fgfg-5gfgfg",
-									"type": "string"
-								},
-								{
-									"key": "useBrowser",
-									"value": true,
-									"type": "boolean"
-								},
-								{
-									"key": "grant_type",
-									"value": "authorization_code",
-									"type": "string"
-								},
-								{
-									"key": "tokenName",
-									"value": "authcode_accesstoken",
-									"type": "string"
-								},
-								{
-									"key": "client_authentication",
-									"value": "body",
-									"type": "string"
-								},
-								{
-									"key": "scope",
-									"value": "openid email profile",
-									"type": "string"
-								},
-								{
-									"key": "addTokenTo",
-									"value": "header",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/api/v1/vehicles?pageNo=0&pageSize=10",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"v1",
-								"vehicles"
-							],
-							"query": [
-								{
-									"key": "pageNo",
-									"value": "0",
-									"description": "OPTIONAL, if not provided default is 0"
-								},
-								{
-									"key": "pageSize",
-									"value": "10",
-									"description": "OPTIONAL, if not provided default is 10"
-								}
-							]
-						},
-						"description": "Get all the DeliveryVehicles present in the DB"
-					},
-					"response": []
-				},
-				{
-					"name": "Get Vehicle by Deliveryman",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"auth": {
-							"type": "oauth2",
-							"oauth2": [
-								{
-									"key": "clientSecret",
-									"value": "jyTj9K8qcn3AoZjElhNCT15klfdiBH0K",
-									"type": "string"
-								},
-								{
-									"key": "accessTokenUrl",
-									"value": "http://localhost:8090/realms/GreenWay/protocol/openid-connect/token",
-									"type": "string"
-								},
-								{
-									"key": "authUrl",
-									"value": "http://localhost:8090/realms/GreenWay/protocol/openid-connect/auth",
-									"type": "string"
-								},
-								{
-									"key": "clientId",
-									"value": "GreenWay",
-									"type": "string"
-								},
-								{
-									"key": "state",
-									"value": "ew34er-344fgfg-5gfgfg",
-									"type": "string"
-								},
-								{
-									"key": "useBrowser",
-									"value": true,
-									"type": "boolean"
-								},
-								{
-									"key": "grant_type",
-									"value": "authorization_code",
-									"type": "string"
-								},
-								{
-									"key": "tokenName",
-									"value": "authcode_accesstoken",
-									"type": "string"
-								},
-								{
-									"key": "client_authentication",
-									"value": "body",
-									"type": "string"
-								},
-								{
-									"key": "scope",
-									"value": "openid email profile",
-									"type": "string"
-								},
-								{
-									"key": "addTokenTo",
-									"value": "header",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/api/v1/vehicles/deliveryman/deliveryman1",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"v1",
-								"vehicles",
-								"deliveryman",
-								"deliveryman1"
-							]
-						},
-						"description": "Get the DeliveryVehicle associated with the deliveryMan"
-					},
-					"response": []
-				},
-				{
-					"name": "Get Vehicle Route",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"auth": {
-							"type": "oauth2",
-							"oauth2": [
-								{
-									"key": "clientSecret",
-									"value": "jyTj9K8qcn3AoZjElhNCT15klfdiBH0K",
-									"type": "string"
-								},
-								{
-									"key": "accessTokenUrl",
-									"value": "http://localhost:8090/realms/GreenWay/protocol/openid-connect/token",
-									"type": "string"
-								},
-								{
-									"key": "authUrl",
-									"value": "http://localhost:8090/realms/GreenWay/protocol/openid-connect/auth",
-									"type": "string"
-								},
-								{
-									"key": "clientId",
-									"value": "GreenWay",
-									"type": "string"
-								},
-								{
-									"key": "state",
-									"value": "ew34er-344fgfg-5gfgfg",
-									"type": "string"
-								},
-								{
-									"key": "useBrowser",
-									"value": true,
-									"type": "boolean"
-								},
-								{
-									"key": "grant_type",
-									"value": "authorization_code",
-									"type": "string"
-								},
-								{
-									"key": "tokenName",
-									"value": "authcode_accesstoken",
-									"type": "string"
-								},
-								{
-									"key": "client_authentication",
-									"value": "body",
-									"type": "string"
-								},
-								{
-									"key": "scope",
-									"value": "openid email profile",
-									"type": "string"
-								},
-								{
-									"key": "addTokenTo",
-									"value": "header",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/api/v1/vehicles/1/route?navigationType=STANDARD",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"v1",
-								"vehicles",
-								"1",
-								"route"
-							],
-							"query": [
-								{
-									"key": "navigationType",
-									"value": "STANDARD",
-									"description": "REQUIRED. Can be STANDARD or ELEVATION_OPTIMIZED. Case sensitive"
-								}
-							]
-						},
-						"description": "Get the GPS route for the DeliveryVehicle"
-					},
-					"response": []
-				},
-				{
-					"name": "Leave Vehicle",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"auth": {
-							"type": "oauth2",
-							"oauth2": [
-								{
-									"key": "clientSecret",
-									"value": "jyTj9K8qcn3AoZjElhNCT15klfdiBH0K",
-									"type": "string"
-								},
-								{
-									"key": "accessTokenUrl",
-									"value": "http://localhost:8090/realms/GreenWay/protocol/openid-connect/token",
-									"type": "string"
-								},
-								{
-									"key": "authUrl",
-									"value": "http://localhost:8090/realms/GreenWay/protocol/openid-connect/auth",
-									"type": "string"
-								},
-								{
-									"key": "clientId",
-									"value": "GreenWay",
-									"type": "string"
-								},
-								{
-									"key": "state",
-									"value": "ew34er-344fgfg-5gfgfg",
-									"type": "string"
-								},
-								{
-									"key": "useBrowser",
-									"value": true,
-									"type": "boolean"
-								},
-								{
-									"key": "grant_type",
-									"value": "authorization_code",
-									"type": "string"
-								},
-								{
-									"key": "tokenName",
-									"value": "authcode_accesstoken",
-									"type": "string"
-								},
-								{
-									"key": "client_authentication",
-									"value": "body",
-									"type": "string"
-								},
-								{
-									"key": "scope",
-									"value": "openid email profile",
-									"type": "string"
-								},
-								{
-									"key": "addTokenTo",
-									"value": "header",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/api/v1/vehicles/1/leave",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"v1",
-								"vehicles",
-								"1",
-								"leave"
-							]
-						},
-						"description": "Remove the deliveryMan and all the (undone) deliveries associated with the DeliveryVehicle, to be used at the end of the turn by the deliveryMan"
-					},
-					"response": []
-				}
-			],
-			"description": "Collection of endpoints for the entity \"DeliveryVehicle"
-		},
-		{
-			"name": "Delivery",
-			"item": [
-				{
-					"name": "Create Delivery",
-					"request": {
-						"auth": {
-							"type": "oauth2",
-							"oauth2": [
-								{
-									"key": "accessTokenUrl",
-									"value": "http://localhost:8090/realms/GreenWay/protocol/openid-connect/token",
-									"type": "string"
-								},
-								{
-									"key": "authUrl",
-									"value": "http://localhost:8090/realms/GreenWay/protocol/openid-connect/auth",
-									"type": "string"
-								},
-								{
-									"key": "clientId",
-									"value": "GreenWay",
-									"type": "string"
-								},
-								{
-									"key": "clientSecret",
-									"value": "jyTj9K8qcn3AoZjElhNCT15klfdiBH0K",
-									"type": "string"
-								},
-								{
-									"key": "state",
-									"value": "ew34er-344fgfg-5gfgfg",
-									"type": "string"
-								},
-								{
-									"key": "useBrowser",
-									"value": true,
-									"type": "boolean"
-								},
-								{
-									"key": "grant_type",
-									"value": "authorization_code",
-									"type": "string"
-								},
-								{
-									"key": "tokenName",
-									"value": "authcode_accesstoken",
-									"type": "string"
-								},
-								{
-									"key": "client_authentication",
-									"value": "body",
-									"type": "string"
-								},
-								{
-									"key": "scope",
-									"value": "openid email profile",
-									"type": "string"
-								},
-								{
-									"key": "addTokenTo",
-									"value": "header",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"sender\": \"Mario Rossi\",\r\n    \"senderAddress\": \"Via Roma\",\r\n    \"receiver\": \"Beatrice Bianchi\",\r\n    \"receiverAddress\": \"Via Napoli\",\r\n    \"receiverCoordinates\": {\r\n        \"type\": \"Point\",\r\n        \"coordinates\":[14.348831,40.899760]\r\n    },\r\n    \"weightKg\": \"1\"\r\n}\r\n",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/api/v1/deliveries",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"v1",
-								"deliveries"
-							]
-						},
-						"description": "Create a new Delivery"
-					},
-					"response": []
-				},
-				{
-					"name": "Get All Deliveries",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"auth": {
-							"type": "oauth2",
-							"oauth2": [
-								{
-									"key": "clientSecret",
-									"value": "jyTj9K8qcn3AoZjElhNCT15klfdiBH0K",
-									"type": "string"
-								},
-								{
-									"key": "accessTokenUrl",
-									"value": "http://localhost:8090/realms/GreenWay/protocol/openid-connect/token",
-									"type": "string"
-								},
-								{
-									"key": "authUrl",
-									"value": "http://localhost:8090/realms/GreenWay/protocol/openid-connect/auth",
-									"type": "string"
-								},
-								{
-									"key": "clientId",
-									"value": "GreenWay",
-									"type": "string"
-								},
-								{
-									"key": "state",
-									"value": "ew34er-344fgfg-5gfgfg",
-									"type": "string"
-								},
-								{
-									"key": "useBrowser",
-									"value": true,
-									"type": "boolean"
-								},
-								{
-									"key": "grant_type",
-									"value": "authorization_code",
-									"type": "string"
-								},
-								{
-									"key": "tokenName",
-									"value": "authcode_accesstoken",
-									"type": "string"
-								},
-								{
-									"key": "client_authentication",
-									"value": "body",
-									"type": "string"
-								},
-								{
-									"key": "scope",
-									"value": "openid email profile",
-									"type": "string"
-								},
-								{
-									"key": "addTokenTo",
-									"value": "header",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/api/v1/deliveries?pageNo=0&pageSize=10",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"v1",
-								"deliveries"
-							],
-							"query": [
-								{
-									"key": "pageNo",
-									"value": "0",
-									"description": "OPTIONAL, if not provided default is 0"
-								},
-								{
-									"key": "pageSize",
-									"value": "10",
-									"description": "OPTIONAL, if not provided default is 10"
-								}
-							]
-						},
-						"description": "Get all the deliveries present in the DB"
-					},
-					"response": []
-				},
-				{
-					"name": "Complete Delivery",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"auth": {
-							"type": "oauth2",
-							"oauth2": [
-								{
-									"key": "clientSecret",
-									"value": "jyTj9K8qcn3AoZjElhNCT15klfdiBH0K",
-									"type": "string"
-								},
-								{
-									"key": "accessTokenUrl",
-									"value": "http://localhost:8090/realms/GreenWay/protocol/openid-connect/token",
-									"type": "string"
-								},
-								{
-									"key": "authUrl",
-									"value": "http://localhost:8090/realms/GreenWay/protocol/openid-connect/auth",
-									"type": "string"
-								},
-								{
-									"key": "clientId",
-									"value": "GreenWay",
-									"type": "string"
-								},
-								{
-									"key": "state",
-									"value": "ew34er-344fgfg-5gfgfg",
-									"type": "string"
-								},
-								{
-									"key": "useBrowser",
-									"value": true,
-									"type": "boolean"
-								},
-								{
-									"key": "grant_type",
-									"value": "authorization_code",
-									"type": "string"
-								},
-								{
-									"key": "tokenName",
-									"value": "authcode_accesstoken",
-									"type": "string"
-								},
-								{
-									"key": "client_authentication",
-									"value": "body",
-									"type": "string"
-								},
-								{
-									"key": "scope",
-									"value": "openid email profile",
-									"type": "string"
-								},
-								{
-									"key": "addTokenTo",
-									"value": "header",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/api/v1/deliveries/2/complete",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"v1",
-								"deliveries",
-								"2",
-								"complete"
-							]
-						},
-						"description": "Mark the delivery as completed removing it from the DeliveryVehicle"
-					},
-					"response": []
-				}
-			],
-			"description": "Collection of endpoints for the entity Delivery"
-		},
-		{
-			"name": "System",
-			"item": [
-				{
-					"name": "Trigger Deliveries Scheduling",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"auth": {
-							"type": "oauth2",
-							"oauth2": [
-								{
-									"key": "accessTokenUrl",
-									"value": "http://localhost:8090/realms/GreenWay/protocol/openid-connect/token",
-									"type": "string"
-								},
-								{
-									"key": "authUrl",
-									"value": "http://localhost:8090/realms/GreenWay/protocol/openid-connect/auth",
-									"type": "string"
-								},
-								{
-									"key": "clientId",
-									"value": "GreenWay",
-									"type": "string"
-								},
-								{
-									"key": "clientSecret",
-									"value": "jyTj9K8qcn3AoZjElhNCT15klfdiBH0K",
-									"type": "string"
-								},
-								{
-									"key": "state",
-									"value": "ew34er-344fgfg-5gfgfg",
-									"type": "string"
-								},
-								{
-									"key": "useBrowser",
-									"value": true,
-									"type": "boolean"
-								},
-								{
-									"key": "grant_type",
-									"value": "authorization_code",
-									"type": "string"
-								},
-								{
-									"key": "tokenName",
-									"value": "authcode_accesstoken",
-									"type": "string"
-								},
-								{
-									"key": "client_authentication",
-									"value": "body",
-									"type": "string"
-								},
-								{
-									"key": "scope",
-									"value": "openid email profile",
-									"type": "string"
-								},
-								{
-									"key": "addTokenTo",
-									"value": "header",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/api/v1/schedule",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"v1",
-								"schedule"
-							]
-						},
-						"description": "Trigger the deliveries scheduling beetween: all the unassagnied deliveries (not assigned to any vehicle and not delivered), free Vehicles (with no delivery assigned), free deliveryMan (with no vehicle assigned)"
-					},
-					"response": []
-				}
-			]
-		}
-	]
+  "info": {
+    "_postman_id": "dcebc094-134b-4cab-839d-06442853f573",
+    "name": "GreenWay",
+    "description": "REST API for the multiplatform application (IOS and Android), GreenWay, an Electric Vehicle (EV) routing service.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "27276004"
+  },
+  "item": [
+    {
+      "name": "DeliveryMan",
+      "item": [
+        {
+          "name": "Create DeliveryMan",
+          "request": {
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "accessTokenUrl",
+                  "value": "http://localhost:8090/realms/GreenWay/protocol/openid-connect/token",
+                  "type": "string"
+                },
+                {
+                  "key": "authUrl",
+                  "value": "http://localhost:8090/realms/GreenWay/protocol/openid-connect/auth",
+                  "type": "string"
+                },
+                {
+                  "key": "clientId",
+                  "value": "GreenWay",
+                  "type": "string"
+                },
+                {
+                  "key": "clientSecret",
+                  "value": "jyTj9K8qcn3AoZjElhNCT15klfdiBH0K",
+                  "type": "string"
+                },
+                {
+                  "key": "state",
+                  "value": "ew34er-344fgfg-5gfgfg",
+                  "type": "string"
+                },
+                {
+                  "key": "useBrowser",
+                  "value": true,
+                  "type": "boolean"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "authorization_code",
+                  "type": "string"
+                },
+                {
+                  "key": "tokenName",
+                  "value": "authcode_accesstoken",
+                  "type": "string"
+                },
+                {
+                  "key": "client_authentication",
+                  "value": "body",
+                  "type": "string"
+                },
+                {
+                  "key": "scope",
+                  "value": "openid email profile",
+                  "type": "string"
+                },
+                {
+                  "key": "addTokenTo",
+                  "value": "header",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/v1/deliveryMen",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "deliveryMen"
+              ]
+            },
+            "description": "Create a new DeliveryMan, this is an utility method to sync the DeliveryMen between KeyCloak DB and Spring Boot DB"
+          },
+          "response": []
+        }
+      ],
+      "description": "Collection of endpoints for the entity \"DeliveryMan\""
+    },
+    {
+      "name": "Vehicle Deposit",
+      "item": [
+        {
+          "name": "Create Vehicle Deposit",
+          "request": {
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "clientSecret",
+                  "value": "jyTj9K8qcn3AoZjElhNCT15klfdiBH0K",
+                  "type": "string"
+                },
+                {
+                  "key": "accessTokenUrl",
+                  "value": "http://localhost:8090/realms/GreenWay/protocol/openid-connect/token",
+                  "type": "string"
+                },
+                {
+                  "key": "authUrl",
+                  "value": "http://localhost:8090/realms/GreenWay/protocol/openid-connect/auth",
+                  "type": "string"
+                },
+                {
+                  "key": "clientId",
+                  "value": "GreenWay",
+                  "type": "string"
+                },
+                {
+                  "key": "state",
+                  "value": "ew34er-344fgfg-5gfgfg",
+                  "type": "string"
+                },
+                {
+                  "key": "useBrowser",
+                  "value": true,
+                  "type": "boolean"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "authorization_code",
+                  "type": "string"
+                },
+                {
+                  "key": "tokenName",
+                  "value": "authcode_accesstoken",
+                  "type": "string"
+                },
+                {
+                  "key": "client_authentication",
+                  "value": "body",
+                  "type": "string"
+                },
+                {
+                  "key": "scope",
+                  "value": "openid email profile",
+                  "type": "string"
+                },
+                {
+                  "key": "addTokenTo",
+                  "value": "header",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"depositAddress\": \"Via Roma\",\r\n    \"depositCoordinates\": {\r\n        \"type\": \"Point\",\r\n        \"coordinates\": [14.266262,40.884837]\r\n    }\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/v1/deposit",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "deposit"
+              ]
+            },
+            "description": "Create a new VehicleDeposit"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Vehicle Deposit",
+          "request": {
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "clientSecret",
+                  "value": "jyTj9K8qcn3AoZjElhNCT15klfdiBH0K",
+                  "type": "string"
+                },
+                {
+                  "key": "accessTokenUrl",
+                  "value": "http://localhost:8090/realms/GreenWay/protocol/openid-connect/token",
+                  "type": "string"
+                },
+                {
+                  "key": "authUrl",
+                  "value": "http://localhost:8090/realms/GreenWay/protocol/openid-connect/auth",
+                  "type": "string"
+                },
+                {
+                  "key": "clientId",
+                  "value": "GreenWay",
+                  "type": "string"
+                },
+                {
+                  "key": "state",
+                  "value": "ew34er-344fgfg-5gfgfg",
+                  "type": "string"
+                },
+                {
+                  "key": "useBrowser",
+                  "value": true,
+                  "type": "boolean"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "authorization_code",
+                  "type": "string"
+                },
+                {
+                  "key": "tokenName",
+                  "value": "authcode_accesstoken",
+                  "type": "string"
+                },
+                {
+                  "key": "client_authentication",
+                  "value": "body",
+                  "type": "string"
+                },
+                {
+                  "key": "scope",
+                  "value": "openid email profile",
+                  "type": "string"
+                },
+                {
+                  "key": "addTokenTo",
+                  "value": "header",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"depositAddress\": \"Via Roma\",\r\n    \"depositCoordinates\": {\r\n        \"type\": \"Point\",\r\n        \"coordinates\": [14.214249,40.838749]\r\n    }\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/v1/deposit",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "deposit"
+              ]
+            },
+            "description": "Update a VehicleDeposit both ADDRESS and COORDINATES are required"
+          },
+          "response": []
+        }
+      ],
+      "description": "Collection of endpoints for the entity \"VehicleDeposit\""
+    },
+    {
+      "name": "DeliveryVehicle",
+      "item": [
+        {
+          "name": "Create Vehicle",
+          "request": {
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "clientSecret",
+                  "value": "jyTj9K8qcn3AoZjElhNCT15klfdiBH0K",
+                  "type": "string"
+                },
+                {
+                  "key": "accessTokenUrl",
+                  "value": "http://localhost:8090/realms/GreenWay/protocol/openid-connect/token",
+                  "type": "string"
+                },
+                {
+                  "key": "authUrl",
+                  "value": "http://localhost:8090/realms/GreenWay/protocol/openid-connect/auth",
+                  "type": "string"
+                },
+                {
+                  "key": "clientId",
+                  "value": "GreenWay",
+                  "type": "string"
+                },
+                {
+                  "key": "state",
+                  "value": "ew34er-344fgfg-5gfgfg",
+                  "type": "string"
+                },
+                {
+                  "key": "useBrowser",
+                  "value": true,
+                  "type": "boolean"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "authorization_code",
+                  "type": "string"
+                },
+                {
+                  "key": "tokenName",
+                  "value": "authcode_accesstoken",
+                  "type": "string"
+                },
+                {
+                  "key": "client_authentication",
+                  "value": "body",
+                  "type": "string"
+                },
+                {
+                  "key": "scope",
+                  "value": "openid email profile",
+                  "type": "string"
+                },
+                {
+                  "key": "addTokenTo",
+                  "value": "header",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"modelName\": \"Fiat E-Ducato\",\r\n    \"maxAutonomyKm\": \"370\",\r\n    \"maxCapacityKg\": \"100\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/v1/vehicles",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "vehicles"
+              ]
+            },
+            "description": "Create a new DeliveryVehicle"
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Vehicles",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "clientSecret",
+                  "value": "jyTj9K8qcn3AoZjElhNCT15klfdiBH0K",
+                  "type": "string"
+                },
+                {
+                  "key": "accessTokenUrl",
+                  "value": "http://localhost:8090/realms/GreenWay/protocol/openid-connect/token",
+                  "type": "string"
+                },
+                {
+                  "key": "authUrl",
+                  "value": "http://localhost:8090/realms/GreenWay/protocol/openid-connect/auth",
+                  "type": "string"
+                },
+                {
+                  "key": "clientId",
+                  "value": "GreenWay",
+                  "type": "string"
+                },
+                {
+                  "key": "state",
+                  "value": "ew34er-344fgfg-5gfgfg",
+                  "type": "string"
+                },
+                {
+                  "key": "useBrowser",
+                  "value": true,
+                  "type": "boolean"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "authorization_code",
+                  "type": "string"
+                },
+                {
+                  "key": "tokenName",
+                  "value": "authcode_accesstoken",
+                  "type": "string"
+                },
+                {
+                  "key": "client_authentication",
+                  "value": "body",
+                  "type": "string"
+                },
+                {
+                  "key": "scope",
+                  "value": "openid email profile",
+                  "type": "string"
+                },
+                {
+                  "key": "addTokenTo",
+                  "value": "header",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/v1/vehicles?pageNo=0&pageSize=10",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "vehicles"
+              ],
+              "query": [
+                {
+                  "key": "pageNo",
+                  "value": "0",
+                  "description": "OPTIONAL, if not provided default is 0"
+                },
+                {
+                  "key": "pageSize",
+                  "value": "10",
+                  "description": "OPTIONAL, if not provided default is 10"
+                }
+              ]
+            },
+            "description": "Get all the DeliveryVehicles present in the DB"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Vehicle by Deliveryman",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "clientSecret",
+                  "value": "jyTj9K8qcn3AoZjElhNCT15klfdiBH0K",
+                  "type": "string"
+                },
+                {
+                  "key": "accessTokenUrl",
+                  "value": "http://localhost:8090/realms/GreenWay/protocol/openid-connect/token",
+                  "type": "string"
+                },
+                {
+                  "key": "authUrl",
+                  "value": "http://localhost:8090/realms/GreenWay/protocol/openid-connect/auth",
+                  "type": "string"
+                },
+                {
+                  "key": "clientId",
+                  "value": "GreenWay",
+                  "type": "string"
+                },
+                {
+                  "key": "state",
+                  "value": "ew34er-344fgfg-5gfgfg",
+                  "type": "string"
+                },
+                {
+                  "key": "useBrowser",
+                  "value": true,
+                  "type": "boolean"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "authorization_code",
+                  "type": "string"
+                },
+                {
+                  "key": "tokenName",
+                  "value": "authcode_accesstoken",
+                  "type": "string"
+                },
+                {
+                  "key": "client_authentication",
+                  "value": "body",
+                  "type": "string"
+                },
+                {
+                  "key": "scope",
+                  "value": "openid email profile",
+                  "type": "string"
+                },
+                {
+                  "key": "addTokenTo",
+                  "value": "header",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/v1/vehicles/deliveryman/deliveryman1",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "vehicles",
+                "deliveryman",
+                "deliveryman1"
+              ]
+            },
+            "description": "Get the DeliveryVehicle associated with the deliveryMan"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Vehicle Route",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "clientSecret",
+                  "value": "jyTj9K8qcn3AoZjElhNCT15klfdiBH0K",
+                  "type": "string"
+                },
+                {
+                  "key": "accessTokenUrl",
+                  "value": "http://localhost:8090/realms/GreenWay/protocol/openid-connect/token",
+                  "type": "string"
+                },
+                {
+                  "key": "authUrl",
+                  "value": "http://localhost:8090/realms/GreenWay/protocol/openid-connect/auth",
+                  "type": "string"
+                },
+                {
+                  "key": "clientId",
+                  "value": "GreenWay",
+                  "type": "string"
+                },
+                {
+                  "key": "state",
+                  "value": "ew34er-344fgfg-5gfgfg",
+                  "type": "string"
+                },
+                {
+                  "key": "useBrowser",
+                  "value": true,
+                  "type": "boolean"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "authorization_code",
+                  "type": "string"
+                },
+                {
+                  "key": "tokenName",
+                  "value": "authcode_accesstoken",
+                  "type": "string"
+                },
+                {
+                  "key": "client_authentication",
+                  "value": "body",
+                  "type": "string"
+                },
+                {
+                  "key": "scope",
+                  "value": "openid email profile",
+                  "type": "string"
+                },
+                {
+                  "key": "addTokenTo",
+                  "value": "header",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/v1/vehicles/1/route?navigationType=STANDARD",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "vehicles",
+                "1",
+                "route"
+              ],
+              "query": [
+                {
+                  "key": "navigationType",
+                  "value": "STANDARD",
+                  "description": "REQUIRED. Can be STANDARD or ELEVATION_OPTIMIZED. Case sensitive"
+                }
+              ]
+            },
+            "description": "Get the GPS route for the DeliveryVehicle"
+          },
+          "response": []
+        },
+        {
+          "name": "Leave Vehicle",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "clientSecret",
+                  "value": "jyTj9K8qcn3AoZjElhNCT15klfdiBH0K",
+                  "type": "string"
+                },
+                {
+                  "key": "accessTokenUrl",
+                  "value": "http://localhost:8090/realms/GreenWay/protocol/openid-connect/token",
+                  "type": "string"
+                },
+                {
+                  "key": "authUrl",
+                  "value": "http://localhost:8090/realms/GreenWay/protocol/openid-connect/auth",
+                  "type": "string"
+                },
+                {
+                  "key": "clientId",
+                  "value": "GreenWay",
+                  "type": "string"
+                },
+                {
+                  "key": "state",
+                  "value": "ew34er-344fgfg-5gfgfg",
+                  "type": "string"
+                },
+                {
+                  "key": "useBrowser",
+                  "value": true,
+                  "type": "boolean"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "authorization_code",
+                  "type": "string"
+                },
+                {
+                  "key": "tokenName",
+                  "value": "authcode_accesstoken",
+                  "type": "string"
+                },
+                {
+                  "key": "client_authentication",
+                  "value": "body",
+                  "type": "string"
+                },
+                {
+                  "key": "scope",
+                  "value": "openid email profile",
+                  "type": "string"
+                },
+                {
+                  "key": "addTokenTo",
+                  "value": "header",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/v1/vehicles/1/leave",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "vehicles",
+                "1",
+                "leave"
+              ]
+            },
+            "description": "Remove the deliveryMan and all the (undone) deliveries associated with the DeliveryVehicle, to be used at the end of the turn by the deliveryMan"
+          },
+          "response": []
+        }
+      ],
+      "description": "Collection of endpoints for the entity \"DeliveryVehicle"
+    },
+    {
+      "name": "Delivery",
+      "item": [
+        {
+          "name": "Create Delivery",
+          "request": {
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "accessTokenUrl",
+                  "value": "http://localhost:8090/realms/GreenWay/protocol/openid-connect/token",
+                  "type": "string"
+                },
+                {
+                  "key": "authUrl",
+                  "value": "http://localhost:8090/realms/GreenWay/protocol/openid-connect/auth",
+                  "type": "string"
+                },
+                {
+                  "key": "clientId",
+                  "value": "GreenWay",
+                  "type": "string"
+                },
+                {
+                  "key": "clientSecret",
+                  "value": "jyTj9K8qcn3AoZjElhNCT15klfdiBH0K",
+                  "type": "string"
+                },
+                {
+                  "key": "state",
+                  "value": "ew34er-344fgfg-5gfgfg",
+                  "type": "string"
+                },
+                {
+                  "key": "useBrowser",
+                  "value": true,
+                  "type": "boolean"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "authorization_code",
+                  "type": "string"
+                },
+                {
+                  "key": "tokenName",
+                  "value": "authcode_accesstoken",
+                  "type": "string"
+                },
+                {
+                  "key": "client_authentication",
+                  "value": "body",
+                  "type": "string"
+                },
+                {
+                  "key": "scope",
+                  "value": "openid email profile",
+                  "type": "string"
+                },
+                {
+                  "key": "addTokenTo",
+                  "value": "header",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"sender\": \"Mario Rossi\",\r\n    \"senderAddress\": \"Via Roma\",\r\n    \"receiver\": \"Beatrice Bianchi\",\r\n    \"receiverAddress\": \"Via Napoli\",\r\n    \"receiverCoordinates\": {\r\n        \"type\": \"Point\",\r\n        \"coordinates\":[14.348831,40.899760]\r\n    },\r\n    \"weightKg\": \"1\"\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/v1/deliveries",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "deliveries"
+              ]
+            },
+            "description": "Create a new Delivery"
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Deliveries",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "clientSecret",
+                  "value": "jyTj9K8qcn3AoZjElhNCT15klfdiBH0K",
+                  "type": "string"
+                },
+                {
+                  "key": "accessTokenUrl",
+                  "value": "http://localhost:8090/realms/GreenWay/protocol/openid-connect/token",
+                  "type": "string"
+                },
+                {
+                  "key": "authUrl",
+                  "value": "http://localhost:8090/realms/GreenWay/protocol/openid-connect/auth",
+                  "type": "string"
+                },
+                {
+                  "key": "clientId",
+                  "value": "GreenWay",
+                  "type": "string"
+                },
+                {
+                  "key": "state",
+                  "value": "ew34er-344fgfg-5gfgfg",
+                  "type": "string"
+                },
+                {
+                  "key": "useBrowser",
+                  "value": true,
+                  "type": "boolean"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "authorization_code",
+                  "type": "string"
+                },
+                {
+                  "key": "tokenName",
+                  "value": "authcode_accesstoken",
+                  "type": "string"
+                },
+                {
+                  "key": "client_authentication",
+                  "value": "body",
+                  "type": "string"
+                },
+                {
+                  "key": "scope",
+                  "value": "openid email profile",
+                  "type": "string"
+                },
+                {
+                  "key": "addTokenTo",
+                  "value": "header",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/v1/deliveries?pageNo=0&pageSize=10",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "deliveries"
+              ],
+              "query": [
+                {
+                  "key": "pageNo",
+                  "value": "0",
+                  "description": "OPTIONAL, if not provided default is 0"
+                },
+                {
+                  "key": "pageSize",
+                  "value": "10",
+                  "description": "OPTIONAL, if not provided default is 10"
+                }
+              ]
+            },
+            "description": "Get all the deliveries present in the DB"
+          },
+          "response": []
+        },
+        {
+          "name": "Complete Delivery",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "clientSecret",
+                  "value": "jyTj9K8qcn3AoZjElhNCT15klfdiBH0K",
+                  "type": "string"
+                },
+                {
+                  "key": "accessTokenUrl",
+                  "value": "http://localhost:8090/realms/GreenWay/protocol/openid-connect/token",
+                  "type": "string"
+                },
+                {
+                  "key": "authUrl",
+                  "value": "http://localhost:8090/realms/GreenWay/protocol/openid-connect/auth",
+                  "type": "string"
+                },
+                {
+                  "key": "clientId",
+                  "value": "GreenWay",
+                  "type": "string"
+                },
+                {
+                  "key": "state",
+                  "value": "ew34er-344fgfg-5gfgfg",
+                  "type": "string"
+                },
+                {
+                  "key": "useBrowser",
+                  "value": true,
+                  "type": "boolean"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "authorization_code",
+                  "type": "string"
+                },
+                {
+                  "key": "tokenName",
+                  "value": "authcode_accesstoken",
+                  "type": "string"
+                },
+                {
+                  "key": "client_authentication",
+                  "value": "body",
+                  "type": "string"
+                },
+                {
+                  "key": "scope",
+                  "value": "openid email profile",
+                  "type": "string"
+                },
+                {
+                  "key": "addTokenTo",
+                  "value": "header",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/v1/deliveries/2/complete",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "deliveries",
+                "2",
+                "complete"
+              ]
+            },
+            "description": "Mark the delivery as completed removing it from the DeliveryVehicle"
+          },
+          "response": []
+        }
+      ],
+      "description": "Collection of endpoints for the entity Delivery"
+    },
+    {
+      "name": "System",
+      "item": [
+        {
+          "name": "Trigger Deliveries Scheduling",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "accessTokenUrl",
+                  "value": "http://localhost:8090/realms/GreenWay/protocol/openid-connect/token",
+                  "type": "string"
+                },
+                {
+                  "key": "authUrl",
+                  "value": "http://localhost:8090/realms/GreenWay/protocol/openid-connect/auth",
+                  "type": "string"
+                },
+                {
+                  "key": "clientId",
+                  "value": "GreenWay",
+                  "type": "string"
+                },
+                {
+                  "key": "clientSecret",
+                  "value": "jyTj9K8qcn3AoZjElhNCT15klfdiBH0K",
+                  "type": "string"
+                },
+                {
+                  "key": "state",
+                  "value": "ew34er-344fgfg-5gfgfg",
+                  "type": "string"
+                },
+                {
+                  "key": "useBrowser",
+                  "value": true,
+                  "type": "boolean"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "authorization_code",
+                  "type": "string"
+                },
+                {
+                  "key": "tokenName",
+                  "value": "authcode_accesstoken",
+                  "type": "string"
+                },
+                {
+                  "key": "client_authentication",
+                  "value": "body",
+                  "type": "string"
+                },
+                {
+                  "key": "scope",
+                  "value": "openid email profile",
+                  "type": "string"
+                },
+                {
+                  "key": "addTokenTo",
+                  "value": "header",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/v1/schedule",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "schedule"
+              ]
+            },
+            "description": "Trigger the deliveries scheduling beetween: all the unassagnied deliveries (not assigned to any vehicle and not delivered), free Vehicles (with no delivery assigned), free deliveryMan (with no vehicle assigned)"
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
 }

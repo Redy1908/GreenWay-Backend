@@ -11,6 +11,7 @@ import dev.redy1908.greenway.delivery_vehicle.domain.exceptions.models.NoDeliver
 import dev.redy1908.greenway.delivery_vehicle.domain.exceptions.models.NoDeliveryManAssignedException;
 import dev.redy1908.greenway.osrm.domain.IOsrmService;
 import dev.redy1908.greenway.osrm.domain.NavigationType;
+import dev.redy1908.greenway.trip.Trip;
 import dev.redy1908.greenway.vehicle_deposit.domain.IVehicleDepositService;
 import lombok.RequiredArgsConstructor;
 import org.locationtech.jts.geom.Point;
@@ -51,7 +52,7 @@ public class DeliveryVehicleServiceImpl implements IDeliveryVehicleService {
 
     @Override
     public List<DeliveryVehicle> findAllEmptyVehicles() {
-        return deliveryVehicleRepository.findAllByDeliveriesIsNull();
+        return deliveryVehicleRepository.findAllByTripIsNull();
     }
 
     @Override
@@ -85,7 +86,7 @@ public class DeliveryVehicleServiceImpl implements IDeliveryVehicleService {
 
         Point startingPoint = vehicleDepositService.getVehicleDeposit().getDepositCoordinates();
 
-        List<Point> wayPoints = extractWaypoints(startingPoint, deliveryVehicle.getDeliveries(), id);
+        List<Point> wayPoints = extractWaypoints(startingPoint, deliveryVehicle.getTrip().getDeliveries(), id);
 
         return osrmService.getNavigationData(startingPoint, wayPoints, navigationType);
     }
@@ -97,27 +98,29 @@ public class DeliveryVehicleServiceImpl implements IDeliveryVehicleService {
 
     @Override
     public void leaveVehicle(int id) {
-       DeliveryVehicle deliveryVehicle = deliveryVehicleRepository.findById(id).orElseThrow(
-               () -> new DeliveryVehicleNotFoundException(id));
+        DeliveryVehicle deliveryVehicle = deliveryVehicleRepository.findById(id).orElseThrow(
+                () -> new DeliveryVehicleNotFoundException(id));
 
         DeliveryMan deliveryMan = deliveryVehicle.getDeliveryMan();
 
-        if(deliveryMan == null){
-           throw new NoDeliveryManAssignedException(id);
+        if (deliveryMan == null) {
+            throw new NoDeliveryManAssignedException(id);
         }
 
         deliveryVehicle.setDeliveryMan(null);
         deliveryMan.setDeliveryVehicle(null);
 
-        deliveryVehicle.getDeliveries().forEach(delivery -> {
-            delivery.setDeliveryVehicle(null);
-            deliveryVehicle.setCurrentLoadKg(deliveryVehicle.getCurrentLoadKg() - delivery.getWeightKg());
-        });
+        Trip trip = deliveryVehicle.getTrip();
+        trip.setDeliveryVehicle(null);
 
-        deliveryVehicle.setDeliveries(null);
+        for (Delivery delivery : trip.getDeliveries()) {
+            delivery.setEstimatedDeliveryTime(null);
+            delivery.setScheduled(false);
+        }
+
+        deliveryVehicle.setTrip(null);
 
         deliveryVehicleRepository.save(deliveryVehicle);
-
     }
 
     private List<Point> extractWaypoints(Point startingPoint, List<Delivery> deliveryList, int id) {

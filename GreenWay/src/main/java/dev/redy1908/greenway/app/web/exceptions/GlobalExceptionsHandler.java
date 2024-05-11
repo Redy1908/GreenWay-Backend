@@ -25,7 +25,7 @@ public class GlobalExceptionsHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(GenericException.class)
     public ResponseEntity<ErrorResponseDTO> handleGenericException(GenericException exception,
-                                                                                         WebRequest webRequest) {
+                                                                   WebRequest webRequest) {
         ErrorResponseDTO errorResponseDTO = new ErrorResponseDTO(
                 webRequest.getDescription(false),
                 HttpStatus.INTERNAL_SERVER_ERROR.value(),

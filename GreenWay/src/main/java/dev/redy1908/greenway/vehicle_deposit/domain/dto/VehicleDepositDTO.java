@@ -7,5 +7,5 @@ public record VehicleDepositDTO(
         @NotNull String depositAddress,
 
         @NotNull Point depositCoordinates
-){
+) {
 }

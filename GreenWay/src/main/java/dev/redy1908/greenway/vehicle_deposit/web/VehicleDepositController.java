@@ -1,8 +1,8 @@
 package dev.redy1908.greenway.vehicle_deposit.web;
 
 import dev.redy1908.greenway.app.web.models.ResponseDTO;
-import dev.redy1908.greenway.vehicle_deposit.domain.VehicleDeposit;
 import dev.redy1908.greenway.vehicle_deposit.domain.IVehicleDepositService;
+import dev.redy1908.greenway.vehicle_deposit.domain.VehicleDeposit;
 import dev.redy1908.greenway.vehicle_deposit.domain.dto.VehicleDepositDTO;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +21,7 @@ public class VehicleDepositController {
     private final IVehicleDepositService depositService;
 
     @PostMapping
-    public ResponseEntity<ResponseDTO> saveVehicleDeposit(@RequestBody @Valid VehicleDepositDTO vehicleDepositDTO){
+    public ResponseEntity<ResponseDTO> saveVehicleDeposit(@RequestBody @Valid VehicleDepositDTO vehicleDepositDTO) {
         VehicleDeposit savedVehicleDeposit = depositService.saveVehicleDeposit(vehicleDepositDTO);
 
         URI location = ServletUriComponentsBuilder
@@ -37,7 +37,7 @@ public class VehicleDepositController {
 
     @PutMapping
     @ResponseStatus(HttpStatus.OK)
-    public void updateVehicleDeposit(@RequestBody @Valid VehicleDepositDTO vehicleDepositDTO){
+    public void updateVehicleDeposit(@RequestBody @Valid VehicleDepositDTO vehicleDepositDTO) {
         depositService.updateVehicleDeposit(vehicleDepositDTO);
     }
 }

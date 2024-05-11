@@ -30,7 +30,7 @@ public class DeliveryExceptionsHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(DeliveryAlreadyCompletedException.class)
     public ResponseEntity<ErrorResponseDTO> handleDeliveryAlreadyCompletedException(DeliveryAlreadyCompletedException exception,
-                                                                            WebRequest webRequest) {
+                                                                                    WebRequest webRequest) {
         ErrorResponseDTO errorResponseDTO = new ErrorResponseDTO(
                 webRequest.getDescription(false),
                 HttpStatus.ALREADY_REPORTED.value(),

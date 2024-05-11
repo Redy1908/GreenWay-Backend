@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface DeliveryVehicleRepository extends JpaRepository<DeliveryVehicle, Integer> {
 
-    List<DeliveryVehicle> findAllByDeliveriesIsNull();
+    List<DeliveryVehicle> findAllByTripIsNull();
 
     Optional<DeliveryVehicle> findByDeliveryMan_Username(String deliveryManUsername);
 

@@ -31,6 +31,8 @@ import dev.redy1908.greenway.jsprit.domain.exceptions.models.NoDeliveryManToOrga
 import dev.redy1908.greenway.jsprit.domain.exceptions.models.NoDeliveryToOrganizeException;
 import dev.redy1908.greenway.jsprit.domain.exceptions.models.NoDeliveryVehicleToOrganizeException;
 import dev.redy1908.greenway.osrm.domain.IOsrmService;
+import dev.redy1908.greenway.trip.ITripService;
+import dev.redy1908.greenway.trip.Trip;
 import dev.redy1908.greenway.vehicle_deposit.domain.IVehicleDepositService;
 import dev.redy1908.greenway.vehicle_deposit.domain.VehicleDeposit;
 import jakarta.transaction.Transactional;
@@ -50,27 +52,23 @@ import java.util.List;
 @RequiredArgsConstructor
 public class JspritServiceImpl implements IJspritService {
 
+    private static final int DEPOSIT_LOCATION = 0;
+    private static final int AUTONOMY_IN_METER_INDEX = 0;
+    private static final int WEIGHT_IN_KG_INDEX = 1;
+    private static final int TURN_START_TIME_SECONDS = 9 * 60 * 60;
+    private static final int TURN_END_TIME_SECONDS = 17 * 60 * 60;
+    private static final int EST_CLIENT_RETRIEVE_TIME_SECONDS = 7 * 60;
+    private static final String DISTANCE_STATE_NAME = "distance";
     private final IOsrmService osrmService;
     private final IDeliveryVehicleService deliveryVehicleService;
     private final IDeliveryService deliveryService;
     private final IDeliveryManService deliveryManService;
     private final IVehicleDepositService depositService;
-
+    private final ITripService tripService;
     private List<Delivery> deliveryList;
     private List<DeliveryVehicle> vehicleList;
     private List<DeliveryMan> deliveryManList;
     private Pair<double[][], double[][]> costMatrices;
-
-    private static final int DEPOSIT_LOCATION = 0;
-
-    private static final int AUTONOMY_IN_METER_INDEX = 0;
-    private static final int WEIGHT_IN_KG_INDEX = 1;
-
-    private static final int TURN_START_TIME_SECONDS = 9 * 60 * 60;
-    private static final int TURN_END_TIME_SECONDS = 17 * 60 * 60;
-    private static final int EST_CLIENT_RETRIEVE_TIME_SECONDS = 7 * 60;
-
-    private static final String DISTANCE_STATE_NAME = "distance";
 
     //@Scheduled(cron = "0 0 6 * * ?")
     public String schedule() {
@@ -236,6 +234,13 @@ public class JspritServiceImpl implements IJspritService {
             DeliveryVehicle deliveryVehicle = deliveryVehicleService.findById(Integer.parseInt(route.getVehicle().getId()));
             DeliveryMan deliveryMan = deliveryManList.get(deliveryManIndex);
 
+            Trip trip = new Trip();
+            trip.setDeliveryVehicle(deliveryVehicle);
+            deliveryVehicle.setTrip(trip);
+
+            deliveryVehicle.setDeliveryMan(deliveryMan);
+            deliveryMan.setDeliveryVehicle(deliveryVehicle);
+
             for (TourActivity act : route.getActivities()) {
                 String jobId;
                 if (act instanceof TourActivity.JobActivity jobActivity && jobActivity.getName().equals("deliverShipment")) {
@@ -243,19 +248,20 @@ public class JspritServiceImpl implements IJspritService {
                     double jobArriveTime = jobActivity.getArrTime();
 
                     Delivery delivery = deliveryService.findById(Integer.parseInt(jobId));
+
                     delivery.setEstimatedDeliveryTime(LocalDateTime.now().plusHours(3).plusSeconds((long) jobArriveTime));
-                    delivery.setDeliveryVehicle(deliveryVehicle);
+                    delivery.setScheduled(true);
 
-                    deliveryVehicle.getDeliveries().addLast(delivery);
                     deliveryVehicle.setCurrentLoadKg(deliveryVehicle.getCurrentLoadKg() + delivery.getWeightKg());
-                    deliveryVehicle.setDeliveryMan(deliveryMan);
 
-                    deliveryMan.setDeliveryVehicle(deliveryVehicle);
+                    delivery.setTrip(trip);
+                    trip.getDeliveries().addLast(delivery);
 
-                    deliveryVehicleService.save(deliveryVehicle);
                 }
             }
             deliveryManIndex++;
+            tripService.save(trip);
+            deliveryVehicleService.save(deliveryVehicle);
         }
     }
 

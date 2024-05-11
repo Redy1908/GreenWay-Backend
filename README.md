@@ -31,9 +31,17 @@
 </details>
 
 <!-- ABOUT THE PROJECT -->
+
 ## About The Project
 
-This is the backend of GreenWay. GreenWay optimizes the routes for a fleet of electric vehicles, taking into account their load capacity, range, courier work shifts, and terrain elevation. By considering terrain elevation, GreenWay generates more efficient routes for electric vehicles, taking advantage of their ability to recharge batteries during downhill travel. GreenWay solves a variant of the [Travelling Salesman Problem](https://en.wikipedia.org/wiki/Travelling_salesman_problem), the [Vehicle Routing Problem](https://en.wikipedia.org/wiki/Vehicle_routing_problem). Deliveries are organized in such a way that a vehicle can deliver its load and return to the depot within the courier’s end-of-shift time, without the need for recharging breaks see the [example](https://github.com/Redy1908/GreenWay-Backend?tab=readme-ov-file#example).
+This is the backend of GreenWay. GreenWay optimizes the routes for a fleet of electric vehicles, taking into account
+their load capacity, range, courier work shifts, and terrain elevation. By considering terrain elevation, GreenWay
+generates more efficient routes for electric vehicles, taking advantage of their ability to recharge batteries during
+downhill travel. GreenWay solves a variant of
+the [Travelling Salesman Problem](https://en.wikipedia.org/wiki/Travelling_salesman_problem),
+the [Vehicle Routing Problem](https://en.wikipedia.org/wiki/Vehicle_routing_problem). Deliveries are organized in such a
+way that a vehicle can deliver its load and return to the depot within the courier’s end-of-shift time, without the need
+for recharging breaks see the [example](https://github.com/Redy1908/GreenWay-Backend?tab=readme-ov-file#example).
 
 ### Built With
 
@@ -42,6 +50,7 @@ This is the backend of GreenWay. GreenWay optimizes the routes for a fleet of el
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- Design -->
+
 ## Architecture
 
 ### System
@@ -57,6 +66,7 @@ This is the backend of GreenWay. GreenWay optimizes the routes for a fleet of el
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- GETTING STARTED -->
+
 ## Getting Started
 
 Setting up the REST API is as easy as running a simple command
@@ -107,11 +117,13 @@ Username: admin
 Password: admin
 KeyCloak default admin
 ```
+
 ```
 Username: GREEN_WAY_ADMIN
 Password: 12345
 with GREEN_WAY_ADMIN ROLE
 ```
+
 ```
 Username: deliverymanX where X can be 1-2-3-4-5
 Password: 12345
@@ -125,27 +137,44 @@ KeyCloak [dashboard](http://localhost:8090/) using the default admin profile.
 
 ## License
 
-This project is licensed under the Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0) License - see the [LICENSE file](https://github.com/Redy1908/GreenWay-Backend/blob/main/LICENSE) for details.
+This project is licensed under the Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0) License -
+see the [LICENSE file](https://github.com/Redy1908/GreenWay-Backend/blob/main/LICENSE) for details.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 [SpringBoot]: https://img.shields.io/badge/SpringBoot-6DB33F?style=for-the-badge&logo=Spring&logoColor=white
+
 [SpringBoot-url]: https://spring.io/projects/spring-boot
+
 [ProjectOSRM]: https://img.shields.io/badge/Project_OSRM-black?style=for-the-badge&logo=openstreetmap&logoColor=6DB33F
+
 [ProjectOSRM-url]: https://project-osrm.org/
+
 [Docker]: https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white
+
 [Docker-url]: https://www.docker.com/
+
 [Java]:https://img.shields.io/badge/Java_21-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white
+
 [Java-url]:https://www.oracle.com/it/java/technologies/downloads/
+
 [Keycloack]:https://img.shields.io/badge/Keycloak-purple?style=for-the-badge&logo=keycloak&logoColor=FFFFFF
+
 [Keycloack-url]: https://www.keycloak.org/
 
 [Github-url-1]: https://github.com/Redy1908/GreenWay-Backend/blob/a669dbe472d8ff0ce111a6f76280de9bd6a24f0e/osrm/Dockerfile-osrm-elevation#L6
+
 [Github-url-2]: https://github.com/Redy1908/GreenWay-Backend/blob/a669dbe472d8ff0ce111a6f76280de9bd6a24f0e/GreenWay/src/main/resources/application.yml#L27
+
 [Github-url-3]: https://github.com/Redy1908/GreenWay-Backend/blob/a669dbe472d8ff0ce111a6f76280de9bd6a24f0e/GreenWay/src/main/resources/application.yml#L28
+
 [Github-url-4]: https://github.com/Redy1908/GreenWay-Backend/blob/a669dbe472d8ff0ce111a6f76280de9bd6a24f0e/GreenWay/src/main/resources/application.yml#L29
+
 [Github-url-5]: https://github.com/Redy1908/GreenWay-Backend/blob/a669dbe472d8ff0ce111a6f76280de9bd6a24f0e/GreenWay/src/main/resources/application.yml#L30
+
 [Github-url-6]: https://github.com/Redy1908/GreenWay-Backend/blob/a669dbe472d8ff0ce111a6f76280de9bd6a24f0e/docker-compose.yml#L65
+
 [Github-url-7]: https://github.com/Redy1908/GreenWay-Backend/blob/a669dbe472d8ff0ce111a6f76280de9bd6a24f0e/GreenWay/pom.xml#L132C1-L132C26
+
 [Github-url-8]: https://github.com/Redy1908/GreenWay-Backend/blob/a47ae71ee16a85db0d704b584f9cbfb288b84ad7/opentopodata/config.yaml#L2

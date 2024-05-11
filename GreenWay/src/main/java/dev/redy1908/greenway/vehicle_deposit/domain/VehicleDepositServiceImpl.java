@@ -18,7 +18,7 @@ public class VehicleDepositServiceImpl implements IVehicleDepositService {
     @Override
     public VehicleDeposit saveVehicleDeposit(VehicleDepositDTO vehicleDepositDTO) {
 
-        if(repository.findAll().size() == 1){
+        if (repository.findAll().size() == 1) {
             throw new VehicleDepositAlreadyExistsException();
         }
 
@@ -31,7 +31,7 @@ public class VehicleDepositServiceImpl implements IVehicleDepositService {
     public VehicleDeposit getVehicleDeposit() {
         List<VehicleDeposit> vehicleDepositList = repository.findAll();
 
-        if(vehicleDepositList.isEmpty()){
+        if (vehicleDepositList.isEmpty()) {
             throw new VehicleDepositNotFoundException();
         }
 
@@ -43,7 +43,7 @@ public class VehicleDepositServiceImpl implements IVehicleDepositService {
 
         List<VehicleDeposit> vehicleDepositList = repository.findAll();
 
-        if(vehicleDepositList.isEmpty()){
+        if (vehicleDepositList.isEmpty()) {
             throw new VehicleDepositNotFoundException();
         }
 

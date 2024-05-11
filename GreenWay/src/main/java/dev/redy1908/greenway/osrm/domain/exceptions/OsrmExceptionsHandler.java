@@ -41,7 +41,7 @@ public class OsrmExceptionsHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(CantConnectToOsrmException.class)
     public ResponseEntity<ErrorResponseDTO> handleCantConnectToOsrmException(CantConnectToOsrmException exception,
-                                                                            WebRequest webRequest) {
+                                                                             WebRequest webRequest) {
         ErrorResponseDTO errorResponseDTO = new ErrorResponseDTO(
                 webRequest.getDescription(false),
                 HttpStatus.FAILED_DEPENDENCY.value(),
@@ -54,7 +54,7 @@ public class OsrmExceptionsHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(OpentopodataDatasetNotConfiguredException.class)
     public ResponseEntity<ErrorResponseDTO> handleOpentopodataDatasetNotConfiguredException(OpentopodataDatasetNotConfiguredException exception,
-                                                                                              WebRequest webRequest) {
+                                                                                            WebRequest webRequest) {
         ErrorResponseDTO errorResponseDTO = new ErrorResponseDTO(
                 webRequest.getDescription(false),
                 HttpStatus.FAILED_DEPENDENCY.value(),
@@ -67,7 +67,7 @@ public class OsrmExceptionsHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(OpentopodataTooManyLocationsException.class)
     public ResponseEntity<ErrorResponseDTO> handleOpentopodataTooManyLocationsException(OpentopodataTooManyLocationsException exception,
-                                                                                            WebRequest webRequest) {
+                                                                                        WebRequest webRequest) {
         ErrorResponseDTO errorResponseDTO = new ErrorResponseDTO(
                 webRequest.getDescription(false),
                 HttpStatus.BAD_REQUEST.value(),
@@ -79,7 +79,7 @@ public class OsrmExceptionsHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(OpentopodataConnectionRefusedException.class)
     public ResponseEntity<ErrorResponseDTO> handleOpentopodataConnectionRefusedException(OpentopodataConnectionRefusedException exception,
-                                                                                            WebRequest webRequest) {
+                                                                                         WebRequest webRequest) {
         ErrorResponseDTO errorResponseDTO = new ErrorResponseDTO(
                 webRequest.getDescription(false),
                 HttpStatus.NOT_ACCEPTABLE.value(),

@@ -1,13 +1,13 @@
 package dev.redy1908.greenway.delivery_vehicle.domain;
 
 import dev.redy1908.greenway.base_entity.domain.BaseEntity;
-import dev.redy1908.greenway.delivery.domain.Delivery;
 import dev.redy1908.greenway.delivery_man.domain.DeliveryMan;
-import jakarta.persistence.*;
+import dev.redy1908.greenway.trip.Trip;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 import lombok.*;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Getter
@@ -30,11 +30,10 @@ public class DeliveryVehicle extends BaseEntity {
     @Column(nullable = false)
     private int currentLoadKg = 0;
 
-    @OrderColumn
-    @OneToMany(mappedBy = "deliveryVehicle", fetch = FetchType.EAGER)
-    private List<Delivery> deliveries = new ArrayList<>();
-
     @OneToOne(mappedBy = "deliveryVehicle")
     private DeliveryMan deliveryMan;
+
+    @OneToOne(mappedBy = "deliveryVehicle")
+    private Trip trip;
 
 }

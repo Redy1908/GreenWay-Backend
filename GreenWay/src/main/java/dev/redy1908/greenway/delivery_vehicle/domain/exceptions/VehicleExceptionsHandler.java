@@ -30,7 +30,7 @@ public class VehicleExceptionsHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(NoDeliveryAssignedException.class)
     public ResponseEntity<ErrorResponseDTO> handleNoDeliveryAssignedException(NoDeliveryAssignedException exception,
-                                                                           WebRequest webRequest) {
+                                                                              WebRequest webRequest) {
         ErrorResponseDTO errorResponseDTO = new ErrorResponseDTO(
                 webRequest.getDescription(false),
                 HttpStatus.NOT_FOUND.value(),

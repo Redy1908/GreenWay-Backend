@@ -17,7 +17,7 @@ public class VehicleDepositExceptionsHandler extends ResponseEntityExceptionHand
 
     @ExceptionHandler(VehicleDepositAlreadyExistsException.class)
     public ResponseEntity<ErrorResponseDTO> handleVehicleDepositAlreadyExistsException(VehicleDepositAlreadyExistsException exception,
-                                                                                WebRequest webRequest) {
+                                                                                       WebRequest webRequest) {
         ErrorResponseDTO errorResponseDTO = new ErrorResponseDTO(
                 webRequest.getDescription(false),
                 HttpStatus.ALREADY_REPORTED.value(),
@@ -29,7 +29,7 @@ public class VehicleDepositExceptionsHandler extends ResponseEntityExceptionHand
 
     @ExceptionHandler(VehicleDepositNotFoundException.class)
     public ResponseEntity<ErrorResponseDTO> handleVehicleDepositNotFoundException(VehicleDepositNotFoundException exception,
-                                                                           WebRequest webRequest) {
+                                                                                  WebRequest webRequest) {
         ErrorResponseDTO errorResponseDTO = new ErrorResponseDTO(
                 webRequest.getDescription(false),
                 HttpStatus.NOT_FOUND.value(),

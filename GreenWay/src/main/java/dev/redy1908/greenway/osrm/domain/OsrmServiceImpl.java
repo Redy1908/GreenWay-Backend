@@ -4,7 +4,9 @@ import com.google.maps.internal.PolylineEncoding;
 import com.google.maps.model.LatLng;
 import dev.redy1908.greenway.delivery.domain.Delivery;
 import dev.redy1908.greenway.dem.domain.DemRepository;
-import dev.redy1908.greenway.osrm.domain.exceptions.models.*;
+import dev.redy1908.greenway.osrm.domain.exceptions.models.CantConnectToOsrmException;
+import dev.redy1908.greenway.osrm.domain.exceptions.models.InvalidOsrmResponseException;
+import dev.redy1908.greenway.osrm.domain.exceptions.models.PointOutOfBoundsException;
 import dev.redy1908.greenway.vehicle_deposit.domain.VehicleDeposit;
 import lombok.RequiredArgsConstructor;
 import org.json.JSONArray;
@@ -20,7 +22,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,30 +33,22 @@ import java.util.stream.Collectors;
 @SuppressWarnings("unchecked")
 class OsrmServiceImpl implements IOsrmService {
 
+    private final RestTemplate restTemplate;
+    private final DemRepository demRepository;
     @Value("${osrm.route-standard-url}")
     private String OSRM_ROUTE_STANDARD_URL;
-
     @Value("${osrm.route-elevation-url}")
     private String OSRM_ROUTE_ELEVATION_URL;
-
     @Value("${osrm.table-elevation-url}")
     private String OSRM_TABLE_ELEVATION_URL;
-
     @Value("${osrm.lon-min}")
     private double lonMin;
-
     @Value("${osrm.lon-max}")
     private double lonMax;
-
     @Value("${osrm.lat-min}")
     private double latMin;
-
     @Value("${osrm.lat-max}")
     private double latMax;
-
-    private final RestTemplate restTemplate;
-
-    private final DemRepository demRepository;
 
     @Override
     public Map<String, Object> getNavigationData(Point startingPoint, List<Point> wayPoints, NavigationType navigationType) {
@@ -179,7 +176,7 @@ class OsrmServiceImpl implements IOsrmService {
         return geometryFactory.createLineString(coordinates.toArray(new Coordinate[0]));
     }
 
-    private Map<String, Object> addElevation(Map<String, Object> osrmResponse, Map<String, Object> elevations){
+    private Map<String, Object> addElevation(Map<String, Object> osrmResponse, Map<String, Object> elevations) {
 
         osrmResponse.put("elevations", elevations);
 

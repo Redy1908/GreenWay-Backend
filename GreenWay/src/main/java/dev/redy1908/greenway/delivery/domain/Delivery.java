@@ -1,7 +1,7 @@
 package dev.redy1908.greenway.delivery.domain;
 
-import dev.redy1908.greenway.delivery_vehicle.domain.DeliveryVehicle;
 import dev.redy1908.greenway.base_entity.domain.BaseEntity;
+import dev.redy1908.greenway.trip.Trip;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -32,21 +32,21 @@ public class Delivery extends BaseEntity {
     @Column(columnDefinition = "geography")
     private Point receiverCoordinates;
 
-    @Column(nullable = true)
-    private LocalDateTime estimatedDeliveryTime;
-
     @Column(nullable = false)
     private int weightKg;
 
     @Column(nullable = false)
-    private boolean delivered = false;
+    private boolean scheduled = false;
 
-    @Column(nullable = true)
+    @Column
+    private LocalDateTime estimatedDeliveryTime;
+
+    @Column
     private LocalDateTime deliveryTime;
 
     @ManyToOne
-    @JoinColumn(name = "vehicle_id")
-    private DeliveryVehicle deliveryVehicle;
+    @JoinColumn(name = "trip_id")
+    private Trip trip;
 
     @Override
     public final boolean equals(Object o) {
