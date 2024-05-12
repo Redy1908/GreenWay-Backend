@@ -6,10 +6,13 @@ import org.locationtech.jts.geom.Point;
 import org.springframework.data.util.Pair;
 
 import java.util.List;
+import java.util.Map;
 
 public interface IOsrmService {
 
-   String getNavigationData(List<Point> wayPoints, NavigationType navigationType);
+    String getPolyline(List<Point> wayPoints, NavigationType navigationType);
+
+    Map<String, Object> getNavigationData(List<Point> wayPoints, NavigationType navigationType);
 
     void checkPointInBounds(Point point);
 

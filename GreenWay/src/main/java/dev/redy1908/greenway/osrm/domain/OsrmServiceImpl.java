@@ -1,6 +1,5 @@
 package dev.redy1908.greenway.osrm.domain;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.maps.internal.PolylineEncoding;
 import com.google.maps.model.LatLng;
 import dev.redy1908.greenway.delivery.domain.Delivery;
@@ -57,14 +56,21 @@ class OsrmServiceImpl implements IOsrmService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public String getNavigationData(List<Point> wayPoints, NavigationType navigationType) {
+    public String getPolyline(List<Point> wayPoints, NavigationType navigationType) {
+        String osrmUrl = buildOsrmUrl(wayPoints, navigationType);
+        Map<String, Object> osrmResponse = getOsrmResponse(osrmUrl);
+        return extractPolylineFromOsrmResponse(osrmResponse);
+    }
+
+
+    @Override
+    public Map<String, Object> getNavigationData(List<Point> wayPoints, NavigationType navigationType) {
         String osrmUrl = buildOsrmUrl(wayPoints, navigationType);
         Map<String, Object> osrmResponse = getOsrmResponse(osrmUrl);
         String polyline = extractPolylineFromOsrmResponse(osrmResponse);
         LineString lineString = polylineToLineString(polyline);
         List<Double> elevations = demRepository.findValuesForLineString(lineString.toString());
-        return polyline;
-
+        return addElevation(osrmResponse, elevations);
     }
 
     private Map<String, Object> getOsrmResponse(String url) {
@@ -185,7 +191,7 @@ class OsrmServiceImpl implements IOsrmService {
         return geometryFactory.createLineString(coordinates.toArray(new Coordinate[0]));
     }
 
-    private Map<String, Object> addElevation(Map<String, Object> osrmResponse, Map<String, Object> elevations) {
+    private Map<String, Object> addElevation(Map<String, Object> osrmResponse, List<Double> elevations) {
 
         osrmResponse.put("elevations", elevations);
 

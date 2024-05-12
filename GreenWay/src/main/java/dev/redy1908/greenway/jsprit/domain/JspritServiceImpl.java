@@ -32,8 +32,8 @@ import dev.redy1908.greenway.jsprit.domain.exceptions.models.NoDeliveryToOrganiz
 import dev.redy1908.greenway.jsprit.domain.exceptions.models.NoDeliveryVehicleToOrganizeException;
 import dev.redy1908.greenway.osrm.domain.IOsrmService;
 import dev.redy1908.greenway.osrm.domain.NavigationType;
-import dev.redy1908.greenway.trip.ITripService;
-import dev.redy1908.greenway.trip.Trip;
+import dev.redy1908.greenway.trip.domain.ITripService;
+import dev.redy1908.greenway.trip.domain.Trip;
 import dev.redy1908.greenway.vehicle_deposit.domain.IVehicleDepositService;
 import dev.redy1908.greenway.vehicle_deposit.domain.VehicleDeposit;
 import jakarta.transaction.Transactional;
@@ -265,8 +265,8 @@ public class JspritServiceImpl implements IJspritService {
             deliveryManIndex++;
 
             List<Point> wayPoints = extractWaypoints(trip.getDeliveries());
-            String polylineStandard = osrmService.getNavigationData(wayPoints, NavigationType.STANDARD);
-            String polylineElevation = osrmService.getNavigationData(wayPoints, NavigationType.ELEVATION_OPTIMIZED);
+            String polylineStandard = osrmService.getPolyline(wayPoints, NavigationType.STANDARD);
+            String polylineElevation = osrmService.getPolyline(wayPoints, NavigationType.ELEVATION_OPTIMIZED);
 
             trip.setPolylineStandard(polylineStandard);
             trip.setPolylineElevation(polylineElevation);

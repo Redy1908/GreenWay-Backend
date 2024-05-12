@@ -1,7 +1,7 @@
 package dev.redy1908.greenway.delivery.domain;
 
 import dev.redy1908.greenway.base_entity.domain.BaseEntity;
-import dev.redy1908.greenway.trip.Trip;
+import dev.redy1908.greenway.trip.domain.Trip;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;

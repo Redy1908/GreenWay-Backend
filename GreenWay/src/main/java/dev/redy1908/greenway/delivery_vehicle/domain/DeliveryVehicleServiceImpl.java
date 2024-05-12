@@ -11,7 +11,7 @@ import dev.redy1908.greenway.delivery_vehicle.domain.exceptions.models.NoDeliver
 import dev.redy1908.greenway.delivery_vehicle.domain.exceptions.models.NoDeliveryManAssignedException;
 import dev.redy1908.greenway.osrm.domain.IOsrmService;
 import dev.redy1908.greenway.osrm.domain.NavigationType;
-import dev.redy1908.greenway.trip.Trip;
+import dev.redy1908.greenway.trip.domain.Trip;
 import dev.redy1908.greenway.vehicle_deposit.domain.IVehicleDepositService;
 import lombok.RequiredArgsConstructor;
 import org.locationtech.jts.geom.Point;
@@ -33,7 +33,6 @@ public class DeliveryVehicleServiceImpl implements IDeliveryVehicleService {
     private final DeliveryVehicleRepository deliveryVehicleRepository;
     private final DeliveryVehicleMapper deliveryVehicleMapper;
     private final IOsrmService osrmService;
-    private final IVehicleDepositService vehicleDepositService;
 
     @Override
     public DeliveryVehicle save(DeliveryVehicleCreationDTO deliveryVehicleCreationDTO) {
@@ -85,13 +84,7 @@ public class DeliveryVehicleServiceImpl implements IDeliveryVehicleService {
     public Map<String, Object> getRouteNavigationData(int id, NavigationType navigationType) {
         DeliveryVehicle deliveryVehicle = deliveryVehicleRepository.findById(id).orElseThrow(() -> new DeliveryVehicleNotFoundException(id));
 
-        Point startingPoint = vehicleDepositService.getVehicleDeposit().getDepositCoordinates();
-
-        List<Point> wayPoints = extractWaypoints(startingPoint, deliveryVehicle.getTrip().getDeliveries(), id);
-
-        //TODO
-        //return osrmService.getNavigationData(startingPoint, wayPoints, navigationType);
-        return null;
+        return osrmService.getNavigationData(extractWaypoints(deliveryVehicle.getTrip().getDeliveries(), deliveryVehicle.getId()), navigationType);
     }
 
     @Override
@@ -135,18 +128,14 @@ public class DeliveryVehicleServiceImpl implements IDeliveryVehicleService {
         deliveryVehicleRepository.save(deliveryVehicle);
     }
 
-    private List<Point> extractWaypoints(Point startingPoint, List<Delivery> deliveryList, int id) {
+    private List<Point> extractWaypoints(List<Delivery> deliveryList, int id) {
 
         if (deliveryList.isEmpty()) {
             throw new NoDeliveryAssignedException(id);
         }
 
-        List<Point> wayPoints = deliveryList.stream()
+        return deliveryList.stream()
                 .map(Delivery::getReceiverCoordinates)
                 .collect(Collectors.toList());
-
-        wayPoints.addLast(startingPoint);
-
-        return wayPoints;
     }
 }
