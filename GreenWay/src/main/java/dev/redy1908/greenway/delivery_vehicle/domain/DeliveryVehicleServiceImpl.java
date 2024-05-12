@@ -96,6 +96,14 @@ public class DeliveryVehicleServiceImpl implements IDeliveryVehicleService {
     }
 
     @Override
+    public void enterVehicle(int id) {
+        DeliveryVehicle deliveryVehicle = deliveryVehicleRepository.findById(id).orElseThrow(
+                () -> new DeliveryVehicleNotFoundException(id));
+
+        deliveryVehicle.getDeliveries().forEach(delivery -> delivery.setInTransit(true));
+    }
+
+    @Override
     public void leaveVehicle(int id) {
        DeliveryVehicle deliveryVehicle = deliveryVehicleRepository.findById(id).orElseThrow(
                () -> new DeliveryVehicleNotFoundException(id));

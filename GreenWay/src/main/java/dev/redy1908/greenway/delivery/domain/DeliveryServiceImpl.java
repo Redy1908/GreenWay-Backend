@@ -64,13 +64,16 @@ class DeliveryServiceImpl implements IDeliveryService {
                 () -> new DeliveryNotFoundException(id)
         );
 
-        if(delivery.isDelivered()){
+        if(delivery.getDeliveryTime() != null){
             throw new DeliveryAlreadyCompletedException(id);
+        }
+
+        if(!delivery.isInTransit()){
+            //TODO force the call to "enterVehicle"
         }
 
         DeliveryVehicle deliveryVehicle = deliveryVehicleService.findById(delivery.getDeliveryVehicle().getId());
 
-        delivery.setDelivered(true);
         delivery.setDeliveryTime(LocalDateTime.now());
         delivery.setDeliveryVehicle(null);
         deliveryVehicle.getDeliveries().remove(delivery);
@@ -82,6 +85,6 @@ class DeliveryServiceImpl implements IDeliveryService {
 
     @Override
     public List<Delivery> findUnassignedDeliveries() {
-        return repository.findAllByDeliveryVehicleNullAndDeliveredIsFalse();
+        return repository.findAllByDeliveryVehicleNullAndDeliveryTimeIsNull();
     }
 }

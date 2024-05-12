@@ -27,6 +27,8 @@ public interface IDeliveryVehicleService {
 
     boolean isAssociatedWithDeliveryMan(int id, String deliveryManUsername);
 
+    void enterVehicle(int id);
+
     void leaveVehicle(int id);
 
 }

@@ -65,10 +65,17 @@ public class VehicleController {
     }
 
     @GetMapping("{vehicleId}/leave")
-    @PreAuthorize("hasRole('GREEN_WAY_ADMIN') || @deliveryVehicleServiceImpl.isAssociatedWithDeliveryMan(#vehicleId, authentication.principal.claims['preferred_username'])")
+    @PreAuthorize("@deliveryVehicleServiceImpl.isAssociatedWithDeliveryMan(#vehicleId, authentication.principal.claims['preferred_username'])")
     public ResponseEntity<ResponseDTO> leaveVehicle(@PathVariable int vehicleId) {
         vehicleService.leaveVehicle(vehicleId);
         return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK.value(), HttpStatus.OK, "Vehicle cleared"));
+    }
+
+    @GetMapping("{vehicleId}/enter")
+    @PreAuthorize("@deliveryVehicleServiceImpl.isAssociatedWithDeliveryMan(#vehicleId, authentication.principal.claims['preferred_username'])")
+    public ResponseEntity<ResponseDTO> enterVehicle(@PathVariable int vehicleId) {
+        vehicleService.enterVehicle(vehicleId);
+        return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK.value(), HttpStatus.OK, "OK"));
     }
 
 }

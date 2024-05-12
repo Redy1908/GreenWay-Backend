@@ -32,16 +32,16 @@ public class Delivery extends BaseEntity {
     @Column(columnDefinition = "geography")
     private Point receiverCoordinates;
 
-    @Column(nullable = true)
+    @Column
     private LocalDateTime estimatedDeliveryTime;
 
     @Column(nullable = false)
     private int weightKg;
 
     @Column(nullable = false)
-    private boolean delivered = false;
+    private boolean inTransit = false;
 
-    @Column(nullable = true)
+    @Column
     private LocalDateTime deliveryTime;
 
     @ManyToOne

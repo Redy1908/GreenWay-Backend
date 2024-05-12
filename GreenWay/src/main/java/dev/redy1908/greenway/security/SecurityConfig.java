@@ -37,6 +37,10 @@ public class SecurityConfig {
     private static final String[] GET_ADMIN_DELIVERY_MAN_LIST_URL = {
             "/api/v1/vehicles/deliveryman/*",
             "/api/v1/vehicles/*/route",
+    };
+
+    private static final String[] GET_DELIVERY_MAN_LIST_URL = {
+            "/api/v1/vehicles/*/enter",
             "/api/v1/vehicles/*/leave",
             "/api/v1/deliveries/*/complete"
     };
@@ -52,8 +56,9 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, GET_ADMIN_LIST_URL).hasRole(ADMIN_ROLE)
                         .requestMatchers(HttpMethod.POST, POST_ADMIN_LIST_URL).hasRole(ADMIN_ROLE)
                         .requestMatchers(HttpMethod.PUT, PUT_ADMIN_LIST_URL).hasRole(ADMIN_ROLE)
-                        .requestMatchers(HttpMethod.GET, GET_ADMIN_DELIVERY_MAN_LIST_URL).hasAnyRole(ADMIN_ROLE, DELIVERY_MAN_ROLE)
+                        .requestMatchers(HttpMethod.GET, GET_DELIVERY_MAN_LIST_URL).hasRole(DELIVERY_MAN_ROLE)
                         .requestMatchers(HttpMethod.POST, POST_DELIVERY_MAN_LIST_URL).hasRole(DELIVERY_MAN_ROLE)
+                        .requestMatchers(HttpMethod.GET, GET_ADMIN_DELIVERY_MAN_LIST_URL).hasAnyRole(ADMIN_ROLE, DELIVERY_MAN_ROLE)
                         .requestMatchers("/error").authenticated()
                         .anyRequest().denyAll())
                 .cors(AbstractHttpConfigurer::disable)
