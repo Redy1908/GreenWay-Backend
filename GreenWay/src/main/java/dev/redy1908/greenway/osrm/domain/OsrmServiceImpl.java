@@ -59,8 +59,9 @@ class OsrmServiceImpl implements IOsrmService {
         Map<String, Object> osrmResponse = getOsrmResponse(osrmUrl);
         String polyline = extractPolylineFromOsrmResponse(osrmResponse);
         LineString lineString = polylineToLineString(polyline);
-        Map<String, Object> elevations = demRepository.findValuesForLineString(lineString.toString());
-        return addElevation(osrmResponse, elevations);
+        List<Double> elevations = demRepository.findValuesForLineString(lineString.toString());
+        osrmResponse.put("elevations", elevations);
+        return osrmResponse;
     }
 
     private Map<String, Object> getOsrmResponse(String url) {
@@ -179,12 +180,6 @@ class OsrmServiceImpl implements IOsrmService {
         return geometryFactory.createLineString(coordinates.toArray(new Coordinate[0]));
     }
 
-    private Map<String, Object> addElevation(Map<String, Object> osrmResponse, Map<String, Object> elevations){
-
-        osrmResponse.put("elevations", elevations);
-
-        return osrmResponse;
-    }
 }
 
 
