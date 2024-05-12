@@ -1,5 +1,6 @@
 package dev.redy1908.greenway.osrm.domain;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.maps.internal.PolylineEncoding;
 import com.google.maps.model.LatLng;
 import dev.redy1908.greenway.delivery.domain.Delivery;
@@ -7,6 +8,7 @@ import dev.redy1908.greenway.dem.domain.DemRepository;
 import dev.redy1908.greenway.osrm.domain.exceptions.models.CantConnectToOsrmException;
 import dev.redy1908.greenway.osrm.domain.exceptions.models.InvalidOsrmResponseException;
 import dev.redy1908.greenway.osrm.domain.exceptions.models.PointOutOfBoundsException;
+import dev.redy1908.greenway.vehicle_deposit.domain.IVehicleDepositService;
 import dev.redy1908.greenway.vehicle_deposit.domain.VehicleDeposit;
 import lombok.RequiredArgsConstructor;
 import org.json.JSONArray;
@@ -19,6 +21,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.util.Pair;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
@@ -35,6 +39,7 @@ class OsrmServiceImpl implements IOsrmService {
 
     private final RestTemplate restTemplate;
     private final DemRepository demRepository;
+    private final IVehicleDepositService vehicleDepositService;
     @Value("${osrm.route-standard-url}")
     private String OSRM_ROUTE_STANDARD_URL;
     @Value("${osrm.route-elevation-url}")
@@ -51,13 +56,15 @@ class OsrmServiceImpl implements IOsrmService {
     private double latMax;
 
     @Override
-    public Map<String, Object> getNavigationData(Point startingPoint, List<Point> wayPoints, NavigationType navigationType) {
-        String osrmUrl = buildOsrmUrl(startingPoint, wayPoints, navigationType);
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public String getNavigationData(List<Point> wayPoints, NavigationType navigationType) {
+        String osrmUrl = buildOsrmUrl(wayPoints, navigationType);
         Map<String, Object> osrmResponse = getOsrmResponse(osrmUrl);
         String polyline = extractPolylineFromOsrmResponse(osrmResponse);
         LineString lineString = polylineToLineString(polyline);
-        Map<String, Object> elevations = demRepository.findValuesForLineString(lineString.toString());
-        return addElevation(osrmResponse, elevations);
+        List<Double> elevations = demRepository.findValuesForLineString(lineString.toString());
+        return polyline;
+
     }
 
     private Map<String, Object> getOsrmResponse(String url) {
@@ -132,7 +139,7 @@ class OsrmServiceImpl implements IOsrmService {
         return urlBuilder.toString();
     }
 
-    private String buildOsrmUrl(Point startingPoint, List<Point> wayPoints, NavigationType navigationType) {
+    private String buildOsrmUrl(List<Point> wayPoints, NavigationType navigationType) {
 
         String baseUrl;
 
@@ -142,11 +149,13 @@ class OsrmServiceImpl implements IOsrmService {
             baseUrl = OSRM_ROUTE_ELEVATION_URL;
         }
 
+        Point startingPoint = vehicleDepositService.getVehicleDeposit().getDepositCoordinates();
+
         String wayPointsString = wayPoints.stream().map(
                         point -> String.format(Locale.US, "%f,%f", point.getX(), point.getY()))
                 .collect(Collectors.joining(";"));
 
-        return String.format(Locale.US, "%s%f,%f;%s?steps=true&overview=full", baseUrl, startingPoint.getX(), startingPoint.getY(), wayPointsString);
+        return String.format(Locale.US, "%s%f,%f;%s;%f,%f?steps=true&overview=full", baseUrl, startingPoint.getX(), startingPoint.getY(), wayPointsString, startingPoint.getX(), startingPoint.getY());
     }
 
     private String extractPolylineFromOsrmResponse(Map<String, Object> osrmResponse) {

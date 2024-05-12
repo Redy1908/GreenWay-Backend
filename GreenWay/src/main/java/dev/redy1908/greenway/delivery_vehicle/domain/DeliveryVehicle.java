@@ -3,10 +3,7 @@ package dev.redy1908.greenway.delivery_vehicle.domain;
 import dev.redy1908.greenway.base_entity.domain.BaseEntity;
 import dev.redy1908.greenway.delivery_man.domain.DeliveryMan;
 import dev.redy1908.greenway.trip.Trip;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
@@ -33,7 +30,7 @@ public class DeliveryVehicle extends BaseEntity {
     @OneToOne(mappedBy = "deliveryVehicle")
     private DeliveryMan deliveryMan;
 
-    @OneToOne(mappedBy = "deliveryVehicle")
+    @OneToOne(mappedBy = "deliveryVehicle", fetch = FetchType.EAGER)
     private Trip trip;
 
 }

@@ -20,6 +20,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -88,7 +89,9 @@ public class DeliveryVehicleServiceImpl implements IDeliveryVehicleService {
 
         List<Point> wayPoints = extractWaypoints(startingPoint, deliveryVehicle.getTrip().getDeliveries(), id);
 
-        return osrmService.getNavigationData(startingPoint, wayPoints, navigationType);
+        //TODO
+        //return osrmService.getNavigationData(startingPoint, wayPoints, navigationType);
+        return null;
     }
 
     @Override
@@ -113,12 +116,21 @@ public class DeliveryVehicleServiceImpl implements IDeliveryVehicleService {
         Trip trip = deliveryVehicle.getTrip();
         trip.setDeliveryVehicle(null);
 
+        List<Delivery> deliveriesToRemove = new ArrayList<>();
+
         for (Delivery delivery : trip.getDeliveries()) {
-            delivery.setEstimatedDeliveryTime(null);
+            //delivery.setEstimatedDeliveryTime(null);
             delivery.setScheduled(false);
+
+            if (delivery.getDeliveryTime() == null) {
+                deliveriesToRemove.add(delivery);
+                delivery.setTrip(null);
+            }
         }
 
+        trip.getDeliveries().removeAll(deliveriesToRemove);
         deliveryVehicle.setTrip(null);
+        deliveryVehicle.setCurrentLoadKg(0);
 
         deliveryVehicleRepository.save(deliveryVehicle);
     }

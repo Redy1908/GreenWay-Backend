@@ -31,12 +31,14 @@ import dev.redy1908.greenway.jsprit.domain.exceptions.models.NoDeliveryManToOrga
 import dev.redy1908.greenway.jsprit.domain.exceptions.models.NoDeliveryToOrganizeException;
 import dev.redy1908.greenway.jsprit.domain.exceptions.models.NoDeliveryVehicleToOrganizeException;
 import dev.redy1908.greenway.osrm.domain.IOsrmService;
+import dev.redy1908.greenway.osrm.domain.NavigationType;
 import dev.redy1908.greenway.trip.ITripService;
 import dev.redy1908.greenway.trip.Trip;
 import dev.redy1908.greenway.vehicle_deposit.domain.IVehicleDepositService;
 import dev.redy1908.greenway.vehicle_deposit.domain.VehicleDeposit;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.locationtech.jts.geom.Point;
 import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 
@@ -46,6 +48,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -260,9 +263,25 @@ public class JspritServiceImpl implements IJspritService {
                 }
             }
             deliveryManIndex++;
+
+            List<Point> wayPoints = extractWaypoints(trip.getDeliveries());
+            String polylineStandard = osrmService.getNavigationData(wayPoints, NavigationType.STANDARD);
+            String polylineElevation = osrmService.getNavigationData(wayPoints, NavigationType.ELEVATION_OPTIMIZED);
+
+            trip.setPolylineStandard(polylineStandard);
+            trip.setPolylineElevation(polylineElevation);
             tripService.save(trip);
+
             deliveryVehicleService.save(deliveryVehicle);
         }
+    }
+
+
+    private List<Point> extractWaypoints(List<Delivery> deliveryList) {
+
+        return deliveryList.stream()
+                .map(Delivery::getReceiverCoordinates)
+                .collect(Collectors.toList());
     }
 
 }

@@ -6,11 +6,10 @@ import org.locationtech.jts.geom.Point;
 import org.springframework.data.util.Pair;
 
 import java.util.List;
-import java.util.Map;
 
 public interface IOsrmService {
 
-    Map<String, Object> getNavigationData(Point startingPoint, List<Point> wayPoints, NavigationType navigationType);
+   String getNavigationData(List<Point> wayPoints, NavigationType navigationType);
 
     void checkPointInBounds(Point point);
 
