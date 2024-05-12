@@ -252,10 +252,10 @@ public class JspritServiceImpl implements IJspritService {
 
                     deliveryMan.setDeliveryVehicle(deliveryVehicle);
 
+                    deliveryVehicleService.save(deliveryVehicle);
                 }
             }
             deliveryManIndex++;
-            deliveryVehicleService.save(deliveryVehicle);
         }
     }
 
