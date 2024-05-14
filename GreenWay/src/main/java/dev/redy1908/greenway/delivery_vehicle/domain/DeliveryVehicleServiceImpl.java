@@ -119,6 +119,7 @@ public class DeliveryVehicleServiceImpl implements IDeliveryVehicleService {
 
         deliveryVehicle.getDeliveries().forEach(delivery -> {
             delivery.setDeliveryVehicle(null);
+            delivery.setInTransit(false);
             deliveryVehicle.setCurrentLoadKg(deliveryVehicle.getCurrentLoadKg() - delivery.getWeightKg());
         });
 

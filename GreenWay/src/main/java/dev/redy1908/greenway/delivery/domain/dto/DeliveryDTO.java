@@ -1,5 +1,6 @@
 package dev.redy1908.greenway.delivery.domain.dto;
 
+import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import org.locationtech.jts.geom.Point;
@@ -30,6 +31,12 @@ public record DeliveryDTO(
         LocalDateTime estimatedDeliveryTime,
 
         @NotNull
-        Double weightKg
+        Double weightKg,
+
+        @Nullable
+        Boolean inTransit,
+
+        @Nullable
+        LocalDateTime deliveryTime
 ) {
 }
