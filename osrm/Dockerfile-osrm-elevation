@@ -1,6 +1,6 @@
 FROM ghcr.io/project-osrm/osrm-backend:v5.27.1
 
-COPY data /data
+COPY ./data /data
 COPY profiles/car-elevation.lua /opt
 
 ENV OSRM_RASTER_SOURCE="../data/green-way.asc"
