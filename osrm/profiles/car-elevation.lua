@@ -351,24 +351,21 @@ function process_segment (profile, segment)
   local sourceData = raster:interpolate(profile.raster_source, segment.source.lon, segment.source.lat)
   local targetData = raster:interpolate(profile.raster_source, segment.target.lon, segment.target.lat)
   local invalid = sourceData.invalid_data()
+  local scaled_weight = segment.weight
+  local scaled_duration = segment.duration
 
   if sourceData.datum ~= invalid and targetData.datum ~= invalid then
-
-    local delta_elevation = targetData.datum - sourceData.datum
-    local squared_delta_elevation = delta_elevation * delta_elevation
-    local squared_distance = segment.distance * segment.distance
-
-    local hypotenuse = math.sqrt(squared_delta_elevation + squared_distance)
-    local squared_hypotenuse = hypotenuse * hypotenuse
-
-    local angle_radiant = math.acos((squared_hypotenuse + squared_distance - squared_delta_elevation) / (2 * hypotenuse * segment.distance))
-    local angle_deg = angle_radiant * (180 / math.pi)
-
-    if delta_elevation > 0 then
-      segment.weight = segment.weight * (1 + angle_deg)
-    end
+    local slope_gradient = (targetData.datum - sourceData.datum) / segment.distance
+    scaled_weight = scaled_weight / (1.0 - (slope_gradient * 5.0))
+    scaled_duration = scaled_duration / (1.0 - (slope_gradient * 5.0))
   end
+
+  segment.weight = scaled_weight
+  segment.duration = scaled_duration
 end
+
+
+
 
 function process_node(profile, node, result, relations)
   -- parse access and barrier tags
