@@ -3,6 +3,7 @@ package dev.redy1908.greenway.delivery.domain.exceptions;
 import dev.redy1908.greenway.app.web.models.ErrorResponseDTO;
 import dev.redy1908.greenway.delivery.domain.exceptions.model.DeliveryAlreadyCompletedException;
 import dev.redy1908.greenway.delivery.domain.exceptions.model.DeliveryNotFoundException;
+import dev.redy1908.greenway.delivery.domain.exceptions.model.DeliveryNotInTransitException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -38,5 +39,18 @@ public class DeliveryExceptionsHandler extends ResponseEntityExceptionHandler {
                 exception.getMessage(),
                 LocalDateTime.now());
         return new ResponseEntity<>(errorResponseDTO, HttpStatus.ALREADY_REPORTED);
+    }
+
+
+    @ExceptionHandler(DeliveryNotInTransitException.class)
+    public ResponseEntity<ErrorResponseDTO> handleDeliveryNotInTransitException(DeliveryAlreadyCompletedException exception,
+                                                                                    WebRequest webRequest) {
+        ErrorResponseDTO errorResponseDTO = new ErrorResponseDTO(
+                webRequest.getDescription(false),
+                HttpStatus.BAD_REQUEST.value(),
+                HttpStatus.BAD_REQUEST,
+                exception.getMessage(),
+                LocalDateTime.now());
+        return new ResponseEntity<>(errorResponseDTO, HttpStatus.BAD_REQUEST);
     }
 }
