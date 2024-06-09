@@ -2,6 +2,7 @@ package dev.redy1908.greenway.delivery_vehicle.domain;
 
 import dev.redy1908.greenway.app.web.models.PageResponseDTO;
 import dev.redy1908.greenway.delivery.domain.Delivery;
+import dev.redy1908.greenway.delivery.domain.DeliveryRepository;
 import dev.redy1908.greenway.delivery_man.domain.DeliveryMan;
 import dev.redy1908.greenway.delivery_vehicle.domain.dto.DeliveryVehicleCreationDTO;
 import dev.redy1908.greenway.delivery_vehicle.domain.dto.DeliveryVehicleDTO;
@@ -30,6 +31,7 @@ public class DeliveryVehicleServiceImpl implements IDeliveryVehicleService {
 
     private final DeliveryVehicleRepository deliveryVehicleRepository;
     private final DeliveryVehicleMapper deliveryVehicleMapper;
+    private final DeliveryRepository deliveryRepository;
     private final IOsrmService osrmService;
     private final IVehicleDepositService vehicleDepositService;
 
@@ -101,6 +103,8 @@ public class DeliveryVehicleServiceImpl implements IDeliveryVehicleService {
                 () -> new DeliveryVehicleNotFoundException(id));
 
         deliveryVehicle.getDeliveries().forEach(delivery -> delivery.setInTransit(true));
+
+        deliveryRepository.saveAll(deliveryVehicle.getDeliveries());
     }
 
     @Override

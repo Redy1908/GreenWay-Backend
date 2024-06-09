@@ -5,6 +5,7 @@ import dev.redy1908.greenway.delivery.domain.dto.DeliveryCreationDTO;
 import dev.redy1908.greenway.delivery.domain.dto.DeliveryDTO;
 import dev.redy1908.greenway.delivery.domain.exceptions.model.DeliveryAlreadyCompletedException;
 import dev.redy1908.greenway.delivery.domain.exceptions.model.DeliveryNotFoundException;
+import dev.redy1908.greenway.delivery.domain.exceptions.model.DeliveryNotInTransitException;
 import dev.redy1908.greenway.delivery_vehicle.domain.DeliveryVehicle;
 import dev.redy1908.greenway.delivery_vehicle.domain.IDeliveryVehicleService;
 import dev.redy1908.greenway.osrm.domain.IOsrmService;
@@ -69,13 +70,14 @@ class DeliveryServiceImpl implements IDeliveryService {
         }
 
         if(!delivery.isInTransit()){
-            //TODO force the call to "enterVehicle"
+            throw new DeliveryNotInTransitException(id);
         }
 
         DeliveryVehicle deliveryVehicle = deliveryVehicleService.findById(delivery.getDeliveryVehicle().getId());
 
         delivery.setDeliveryTime(LocalDateTime.now());
         delivery.setDeliveryVehicle(null);
+        delivery.setInTransit(false);
         deliveryVehicle.getDeliveries().remove(delivery);
         deliveryVehicle.setCurrentLoadKg(deliveryVehicle.getCurrentLoadKg() - delivery.getWeightKg());
 
