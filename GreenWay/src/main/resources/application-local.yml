@@ -24,10 +24,10 @@ spring:
           lob:
             non_contextual_creation: true
 osrm:
-  lon-min: 13.7  # <- CHANGE
-  lon-max: 15.00 # <- CHANGE
-  lat-min: 40.5  # <- CHANGE
-  lat-max: 41.5  # <- CHANGE
+  lon-min: 12.9945  # <- CHANGE
+  lon-max: 18.8281 # <- CHANGE
+  lat-min: 38.3821  # <- CHANGE
+  lat-max: 42.9229  # <- CHANGE
   route-standard-url: http://localhost:5000/route/v1/driving/
   route-elevation-url: http://localhost:5001/route/v1/driving/
   table-elevation-url: http://localhost:5001/table/v1/driving/
