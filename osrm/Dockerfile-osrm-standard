@@ -3,7 +3,7 @@ FROM ghcr.io/project-osrm/osrm-backend:v5.27.1
 COPY data /data
 COPY profiles/car-standard.lua /opt
 
-RUN osrm-extract -p /opt/car-standard.lua /data/green-way.osm.pbf && \
+RUN osrm-extract -p /opt/car-standard.lua /data/sud-italy.osm.pbf && \
         osrm-partition /data/green-way.osrm && \
         osrm-customize /data/green-way.osrm;
 
