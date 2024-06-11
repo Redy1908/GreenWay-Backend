@@ -14,6 +14,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 
 @RestController
+@CrossOrigin
 @RequiredArgsConstructor
 @RequestMapping("api/v1/deposit")
 public class VehicleDepositController {

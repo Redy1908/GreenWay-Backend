@@ -20,6 +20,7 @@ import java.net.URI;
 import java.util.Map;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/api/v1/vehicles")
 @RequiredArgsConstructor
 public class VehicleController {
