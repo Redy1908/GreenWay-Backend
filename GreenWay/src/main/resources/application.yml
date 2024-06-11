@@ -24,10 +24,10 @@ spring:
           lob:
             non_contextual_creation: true
 osrm:
-  lon-min: 12.9945  # <- CHANGE
-  lon-max: 18.8281 # <- CHANGE
-  lat-min: 38.3821  # <- CHANGE
-  lat-max: 42.9229  # <- CHANGE
+  lon-min: 12  # <- CHANGE
+  lon-max: 18 # <- CHANGE
+  lat-min: 39  # <- CHANGE
+  lat-max: 42  # <- CHANGE
   route-standard-url: http://green-way-osrm-standard:5000/route/v1/driving/
   route-elevation-url: http://green-way-osrm-elevation:5000/route/v1/driving/
   table-elevation-url: http://green-way-osrm-elevation:5000/table/v1/driving/

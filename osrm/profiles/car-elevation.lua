@@ -1,12 +1,12 @@
 -- Car profile
 
-local RASTER_PATH = os.getenv('OSRM_RASTER_SOURCE') or "../data/green-way.asc"
-local LON_MIN = tonumber(os.getenv("LON_MIN")) or 10
-local LON_MAX = tonumber(os.getenv("LON_MAX")) or 15
-local LAT_MIN = tonumber(os.getenv("LAT_MIN")) or 40
-local LAT_MAX = tonumber(os.getenv("LAT_MAX")) or 45
-local N_ROWS  = tonumber(os.getenv("NROWS")) or 6000
-local N_COLS  = tonumber(os.getenv("NCOLS")) or 6000
+local RASTER_PATH = os.getenv('OSRM_RASTER_SOURCE') or "/sud-italy.asc"
+local LON_MIN = tonumber(os.getenv("LON_MIN")) or 12
+local LON_MAX = tonumber(os.getenv("LON_MAX")) or 18
+local LAT_MIN = tonumber(os.getenv("LAT_MIN")) or 39
+local LAT_MAX = tonumber(os.getenv("LAT_MAX")) or 42
+local N_ROWS  = tonumber(os.getenv("NROWS")) or 6630
+local N_COLS  = tonumber(os.getenv("NCOLS")) or 6008
 
 api_version = 4
 
@@ -363,9 +363,6 @@ function process_segment (profile, segment)
   segment.weight = scaled_weight
   segment.duration = scaled_duration
 end
-
-
-
 
 function process_node(profile, node, result, relations)
   -- parse access and barrier tags
