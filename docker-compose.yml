@@ -1,5 +1,16 @@
 version: '3.1'
 services:
+  green-way-web-frontend:
+    image: luigivess/green-way-web-frontend:v1
+    ports:
+      - "8081:80"
+    networks:
+      - greenway
+    depends_on:
+      - green-way-backend
+
+  # <---------->
+
   green-way-backend:
     image: redy1908/green-way-backend:v1
     ports:
@@ -12,6 +23,9 @@ services:
       - keycloak-db
       - green-way-osrm-standard
       - green-way-osrm-elevation
+
+  # <---------->
+
   keycloak:
     image: quay.io/keycloak/keycloak:23.0.7
     command: start-dev --import-realm
@@ -33,6 +47,9 @@ services:
         condition: service_healthy
     networks:
       - greenway
+
+  # <---------->
+
   keycloak-db:
     image: postgres:16.2
     environment:
@@ -47,6 +64,9 @@ services:
       - greenway
     volumes:
       - keycloak_data:/var/lib/postgresql/keycloak/data
+
+  # <---------->
+
   green-way-postgis:
     image: redy1908/green-way-postgis:v1
     environment:
@@ -64,18 +84,27 @@ services:
       interval: 15s
       timeout: 5s
       retries: 10
+
+  # <---------->
+
   green-way-osrm-standard:
     image: redy1908/green-way-osrm-standard:v1
     ports:
       - "5000:5000"
     networks:
       - greenway
+
+  # <---------->
+
   green-way-osrm-elevation:
     image: redy1908/green-way-osrm-elevation:v1
     ports:
       - "5001:5000"
     networks:
       - greenway
+
+  # <---------->
+
 volumes:
   postgis_data:
   keycloak_data:
