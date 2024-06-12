@@ -23,7 +23,8 @@ public class VehicleDepositController {
 
     @GetMapping
     public ResponseEntity<VehicleDepositDTO> getDeposit(){
-        return ResponseEntity.ok().body(depositService.getVehicleDeposit());
+        VehicleDeposit vehicleDeposit = depositService.getVehicleDeposit();
+        return ResponseEntity.ok().body(new VehicleDepositDTO(vehicleDeposit.getDepositAddress(), vehicleDeposit.getDepositCoordinates()));
     }
 
     @PostMapping
