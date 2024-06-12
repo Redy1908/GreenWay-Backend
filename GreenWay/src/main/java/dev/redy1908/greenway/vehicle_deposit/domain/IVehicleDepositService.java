@@ -6,7 +6,7 @@ public interface IVehicleDepositService {
 
     VehicleDeposit saveVehicleDeposit(VehicleDepositDTO vehicleDepositDTO);
 
-    VehicleDeposit getVehicleDeposit();
+    VehicleDepositDTO getVehicleDeposit();
 
     void updateVehicleDeposit(VehicleDepositDTO vehicleDepositDTO);
 }

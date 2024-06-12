@@ -21,6 +21,11 @@ public class VehicleDepositController {
 
     private final IVehicleDepositService depositService;
 
+    @GetMapping
+    public ResponseEntity<VehicleDepositDTO> getDeposit(){
+        return ResponseEntity.ok().body(depositService.getVehicleDeposit());
+    }
+
     @PostMapping
     public ResponseEntity<ResponseDTO> saveVehicleDeposit(@RequestBody @Valid VehicleDepositDTO vehicleDepositDTO){
         VehicleDeposit savedVehicleDeposit = depositService.saveVehicleDeposit(vehicleDepositDTO);

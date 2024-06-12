@@ -28,14 +28,15 @@ public class VehicleDepositServiceImpl implements IVehicleDepositService {
     }
 
     @Override
-    public VehicleDeposit getVehicleDeposit() {
+    public VehicleDepositDTO getVehicleDeposit() {
         List<VehicleDeposit> vehicleDepositList = repository.findAll();
 
         if(vehicleDepositList.isEmpty()){
             throw new VehicleDepositNotFoundException();
         }
 
-        return vehicleDepositList.getFirst();
+        VehicleDeposit vehicleDeposit = vehicleDepositList.getFirst();
+        return new VehicleDepositDTO(vehicleDeposit.getDepositAddress(), vehicleDeposit.getDepositCoordinates());
     }
 
     @Override
