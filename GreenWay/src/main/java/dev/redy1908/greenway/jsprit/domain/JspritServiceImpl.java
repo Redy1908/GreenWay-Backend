@@ -8,6 +8,7 @@ import com.graphhopper.jsprit.core.problem.Location;
 import com.graphhopper.jsprit.core.problem.VehicleRoutingProblem;
 import com.graphhopper.jsprit.core.problem.constraint.ConstraintManager;
 import com.graphhopper.jsprit.core.problem.constraint.HardActivityConstraint;
+import com.graphhopper.jsprit.core.problem.constraint.ShipmentPickupsFirstConstraint;
 import com.graphhopper.jsprit.core.problem.cost.VehicleRoutingTransportCosts;
 import com.graphhopper.jsprit.core.problem.job.Shipment;
 import com.graphhopper.jsprit.core.problem.solution.VehicleRoutingProblemSolution;
@@ -140,6 +141,7 @@ public class JspritServiceImpl implements IJspritService {
             VehicleType type = VehicleTypeImpl.Builder.newInstance(id)
                     .addCapacityDimension(AUTONOMY_IN_METER_INDEX, deliveryVehicle.getMaxAutonomyKm() * 1000)
                     .addCapacityDimension(WEIGHT_IN_KG_INDEX, deliveryVehicle.getMaxCapacityKg() - deliveryVehicle.getCurrentLoadKg())
+                    .addCapacityDimension(2, 4)
                     .build();
 
             VehicleImpl vehicle = VehicleImpl.Builder.newInstance(id)
@@ -165,6 +167,7 @@ public class JspritServiceImpl implements IJspritService {
                     .setDeliveryLocation(Location.newInstance(pos))
                     .setDeliveryServiceTime(EST_CLIENT_RETRIEVE_TIME_SECONDS)
                     .addSizeDimension(WEIGHT_IN_KG_INDEX, delivery.getWeightKg())
+                    .addSizeDimension(2, 1)
                     .build();
 
             vrpBuilder.addJob(service);
@@ -225,6 +228,8 @@ public class JspritServiceImpl implements IJspritService {
 
             return HardActivityConstraint.ConstraintsStatus.FULFILLED;
         }, ConstraintManager.Priority.CRITICAL);
+
+        constraintManager.addConstraint(new ShipmentPickupsFirstConstraint(), ConstraintManager.Priority.CRITICAL);
     }
 
     private void organize(VehicleRoutingProblemSolution solution) {
