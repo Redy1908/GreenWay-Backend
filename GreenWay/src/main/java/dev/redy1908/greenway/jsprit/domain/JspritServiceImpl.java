@@ -141,7 +141,6 @@ public class JspritServiceImpl implements IJspritService {
             VehicleType type = VehicleTypeImpl.Builder.newInstance(id)
                     .addCapacityDimension(AUTONOMY_IN_METER_INDEX, deliveryVehicle.getMaxAutonomyKm() * 1000)
                     .addCapacityDimension(WEIGHT_IN_KG_INDEX, deliveryVehicle.getMaxCapacityKg() - deliveryVehicle.getCurrentLoadKg())
-                    .addCapacityDimension(2, 4)
                     .build();
 
             VehicleImpl vehicle = VehicleImpl.Builder.newInstance(id)
@@ -167,7 +166,6 @@ public class JspritServiceImpl implements IJspritService {
                     .setDeliveryLocation(Location.newInstance(pos))
                     .setDeliveryServiceTime(EST_CLIENT_RETRIEVE_TIME_SECONDS)
                     .addSizeDimension(WEIGHT_IN_KG_INDEX, delivery.getWeightKg())
-                    .addSizeDimension(2, 1)
                     .build();
 
             vrpBuilder.addJob(service);
