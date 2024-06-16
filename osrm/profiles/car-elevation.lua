@@ -351,17 +351,12 @@ function process_segment (profile, segment)
   local sourceData = raster:interpolate(profile.raster_source, segment.source.lon, segment.source.lat)
   local targetData = raster:interpolate(profile.raster_source, segment.target.lon, segment.target.lat)
   local invalid = sourceData.invalid_data()
-  local scaled_weight = segment.weight
-  local scaled_duration = segment.duration
 
   if sourceData.datum ~= invalid and targetData.datum ~= invalid then
     local slope_gradient = (targetData.datum - sourceData.datum) / segment.distance
-    scaled_weight = scaled_weight / (1.0 - (slope_gradient * 5))
-    scaled_duration = scaled_duration / (1.0 - (slope_gradient * 5))
+    segment.weight = segment.weight / (1.0 - (slope_gradient * 5))
+    segment.duration = segment.duration / (1.0 - (slope_gradient * 5))
   end
-
-  segment.weight = scaled_weight
-  segment.duration = scaled_duration
 end
 
 function process_node(profile, node, result, relations)
