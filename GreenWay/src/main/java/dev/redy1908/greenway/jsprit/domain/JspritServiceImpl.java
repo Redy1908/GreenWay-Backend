@@ -81,7 +81,7 @@ public class JspritServiceImpl implements IJspritService {
         VehicleRoutingProblem.Builder vrpBuilder = VehicleRoutingProblem.Builder.newInstance();
         vrpBuilder.setFleetSize(VehicleRoutingProblem.FleetSize.FINITE);
 
-        addVehicles(vrpBuilder, vehicleList);
+        addVehicles(vrpBuilder, vehicleList, deliveryManList);
         addDeliveries(vrpBuilder, deliveryList);
         setRoutingCosts(vrpBuilder, costMatrices);
 
@@ -132,10 +132,16 @@ public class JspritServiceImpl implements IJspritService {
         costMatrices = osrmService.getMatrixDistances(vehicleDeposit, deliveryList);
     }
 
-    private void addVehicles(VehicleRoutingProblem.Builder vrpBuilder, List<DeliveryVehicle> deliveryVehicleList) {
+    private void addVehicles(VehicleRoutingProblem.Builder vrpBuilder, List<DeliveryVehicle> deliveryVehicleList, List<DeliveryMan> deliveryManList) {
 
+        int vehicleIndex = 0;
 
-        for (DeliveryVehicle deliveryVehicle : deliveryVehicleList) {
+        for (DeliveryMan deliveryMan : deliveryManList) {
+            if (vehicleIndex >= deliveryVehicleList.size()) {
+                break;
+            }
+
+            DeliveryVehicle deliveryVehicle = deliveryVehicleList.get(vehicleIndex);
             String id = deliveryVehicle.getId().toString();
 
             VehicleType type = VehicleTypeImpl.Builder.newInstance(id)
@@ -152,8 +158,10 @@ public class JspritServiceImpl implements IJspritService {
                     .build();
 
             vrpBuilder.addVehicle(vehicle);
+            vehicleIndex++;
         }
     }
+
 
     private void addDeliveries(VehicleRoutingProblem.Builder vrpBuilder, List<Delivery> deliveryList) {
 
