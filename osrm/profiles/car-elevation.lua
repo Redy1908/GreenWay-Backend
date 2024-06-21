@@ -354,12 +354,15 @@ function process_segment(profile, segment)
 
     if sourceData.datum ~= invalid and targetData.datum ~= invalid then
         local slope_gradient = (targetData.datum - sourceData.datum) / segment.distance
-        if slope_gradient > 0 then
-            if slope_gradient < 1 then
-                segment.weight = segment.weight / slope_gradient
-            else
-                segment.weight = segment.weight * slope_gradient
-            end
+        local slope_gradient_percent = slope_gradient * 100
+        if slope_gradient < 0 then
+          segment.weight = segment.weight / math.abs(slope_gradient_percent)
+        else
+          if slope_gradient < 1 then
+            segment.weight = segment.weight / slope_gradient_percent
+          else
+            segment.weight = segment.weight * slope_gradient_percent
+          end
         end
     end
 end
