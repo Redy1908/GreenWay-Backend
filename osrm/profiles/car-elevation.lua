@@ -353,15 +353,11 @@ function process_segment(profile, segment)
     local invalid = sourceData.invalid_data()
 
     if sourceData.datum ~= invalid and targetData.datum ~= invalid then
-        local slope_gradient = (targetData.datum - sourceData.datum) / segment.distance
-
-        if slope_gradient < 0 then
-          segment.weight = segment.weight / math.abs(slope_gradient)
-        elseif slope_gradient > 0 then
-            segment.weight = segment.weight * 5 * (1 + slope_gradient)
-        end
+      local slope_gradient = (targetData.datum - sourceData.datum) / segment.distance
+      segment.weight = segment.weight * (1.0 + (slope_gradient * 5.0))
     end
 end
+
 
 function process_node(profile, node, result, relations)
   -- parse access and barrier tags
